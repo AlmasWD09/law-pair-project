@@ -39,7 +39,7 @@ const Banner = () => {
         },
     ]
     return (
-        <div className="bg-[#F5F5F7] container mx-auto px-4">
+        <div className="bg-[#F5F5F7] container mx-auto px-4 pb-[64px]">
             <div className="text-center pt-[193px] pb-[297px]">
                 <h1 className="text-[96px] font-crimson font-semibold text-primary ">LawPair</h1>
                 <p className="max-w-[600px] mx-auto h-[73px] text-[#41414D] pt-[48px] pb-[104px]">No hassle. No fees. We've streamlined the attorney search process so that you can focus on what matters most.</p>

@@ -11,6 +11,7 @@ export default {
       },
       fontFamily: {
         'roboto': ["Roboto", "serif"],
+        'crimson': ["Crimson Pro", "serif"],
       },
     },
   },
