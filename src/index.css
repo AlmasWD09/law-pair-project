@@ -1,0 +1,15 @@
+/* google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* navbar active link style */
+#sidebar a.active {
+    text-decoration: underline !important;
+    text-decoration-color: red !important;
+    color: #1b69ad;
+    font-weight: 600;
+}
