@@ -126,7 +126,7 @@ const Header = () => {
                         {/* navbar signup and login button */}
                         <div className="lg:flex lg:justify-end hidden ">
                             <div className="flex items-center gap-4">
-                                <Link to='/login'>
+                                <Link to='/create-account'>
                                     <button className="bg-primary py-[12px] px-[48px] rounded-[4px] text-[16px]
                                         text-[#FFFFFF] font-bold flex items-center gap-1">
                                         <h2>Create an Account</h2>

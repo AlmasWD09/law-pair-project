@@ -22,7 +22,7 @@ const Footer = () => {
         </div>
         <hr className="border-[#B6B6BA]"/>
         <div className="pt-[12px]">
-          <p className="max-w-[1610px] mx-auto px-4 font-roboto text-center text-[12px] text-[#B6B6BA] leading-[32px]"> Copyright © 2025, LawPair, LLC. The information provided on this website is not and should not be considered legal advice. No attorney-client relationship is formed by or  through use of this website. The attorney listings on this site may constitute attorney advertising. Use of this website constitutes acceptance of the LawPair Terms of Use.</p>
+          <p className="max-w-[1610px] mx-auto text-wrap px-4 font-roboto text-center text-[12px] text-[#B6B6BA] leading-[32px]"> Copyright © 2025, LawPair, LLC. The information provided on this website is not and should not be considered legal advice. No attorney-client relationship is formed by or  through use of this website. The attorney listings on this site may constitute attorney advertising. Use of this website constitutes acceptance of the LawPair Terms of Use.</p>
         </div>
       </div>
     </div>
