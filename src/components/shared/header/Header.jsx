@@ -28,11 +28,9 @@ const Header = () => {
         setMenuOpen(!menuOpen)
     }
 
-
-    
     return (
         <>
-            <header id="sidebar" className={navbar ? ' bg-primaryGray sticky top-0 left-0 z-[99999] shadow-md w-full   py-4 lg:py-6  overflow-visible' : 'sticky top-0 left-0 z-[99999] shadow-md w-full py-4 lg:py-6  overflow-visible '}>
+            <header id="sidebar" className={navbar ? ' bg-gray-300 sticky top-0 left-0 z-[99999] shadow-md w-full   py-4 lg:py-6  overflow-visible' : 'sticky top-0 left-0 z-[99999] shadow-md w-full py-4 lg:py-6  overflow-visible '}>
                 <div className="container mx-auto px-4 flex items-center">
                     <nav className="relative container flex justify-between items-center">
                         {/* navbar website name and logo */}
@@ -126,7 +124,7 @@ const Header = () => {
                             </div>
                         </div>
                         {/* navbar signup and login button */}
-                        <div className="  border lg:flex lg:justify-end hidden ">
+                        <div className="lg:flex lg:justify-end hidden ">
                             <div className="flex items-center gap-4">
                                 <Link to='/login'>
                                     <button className="bg-primary py-[12px] px-[48px] rounded-[4px] text-[16px]

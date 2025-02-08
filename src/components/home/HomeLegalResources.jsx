@@ -1,6 +1,7 @@
 
 const HomeLegalResources = () => {
     const resurcesData = [
+
         {
             image: "/legalImage/legal1.png",
             name: "Your Legal Compass",
@@ -16,6 +17,7 @@ const HomeLegalResources = () => {
             name: "Your Legal Compass",
             description: "Navigate complex legal matters with clarity and confidence."
         },
+
         {
             image: "/legalImage/legal4.png",
             name: "Your Legal Compass",
@@ -31,9 +33,10 @@ const HomeLegalResources = () => {
             name: "Your Legal Compass",
             description: "Navigate complex legal matters with clarity and confidence."
         },
+
     ]
     return (
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 pb-[48px]">
             <h1 className="font-roboto font-bold text-[32px] text-[#121221] text-center py-[32px]">Free legal resources</h1>
 
             {/* Free legal resources cards */}
@@ -44,11 +47,16 @@ const HomeLegalResources = () => {
                             return (
                                 <div key={index} className="relative w-[329px] h-[306px] rounded">
                                     {/* Image */}
-                                    <img
-                                        src={item.image}
-                                        alt="Your Legal Compass"
-                                        className="w-[329px] h-[306px] object-cover"
-                                    />
+
+                                    <div className="border w-[329px] h-[306px]">
+                                        <img
+                                            src={item.image}
+                                            alt="Your Legal Compass"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                    {/* Gradient Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70"></div>
 
                                     {/* Overlay */}
                                     <div className="absolute bottom-2 left-0 p-[24px] w-full text-white">
