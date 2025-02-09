@@ -1,7 +1,7 @@
 
 const HomeLegalResources = () => {
-    const resurcesData = [
 
+    const resurcesData = [
         {
             image: "/legalImage/legal1.png",
             name: "Your Legal Compass",
@@ -36,19 +36,19 @@ const HomeLegalResources = () => {
 
     ]
     return (
-        <div className="container mx-auto px-4 pb-[48px]">
-            <h1 className="font-roboto font-bold text-[32px] text-[#121221] text-center py-[32px]">Free legal resources</h1>
+        <div className="container mx-auto md:px-4 pb-[24px] lg:pb-[48px]">
+            <h1 className="font-roboto font-bold text-[24px] md:text-[32px] text-[#121221] text-center py-[32px]">Free legal resources</h1>
 
             {/* Free legal resources cards */}
             <div className="flex justify-center">
-                <div className="grid grid-cols-3 gap-3 place-items-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center">
                     {
                         resurcesData.map((item, index) => {
                             return (
-                                <div key={index} className="relative w-[329px] h-[306px] rounded">
+                                <div key={index} className="relative w-full h-full lg:w-[329px] lg:h-[306px] rounded">
                                     {/* Image */}
 
-                                    <div className="border w-[329px] h-[306px]">
+                                    <div className="w-full h-full lg:w-[329px] lg:h-[306px]">
                                         <img
                                             src={item.image}
                                             alt="Your Legal Compass"

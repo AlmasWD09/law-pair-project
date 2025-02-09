@@ -40,7 +40,7 @@ const Header = () => {
                                 className="flex items-center cursor-pointer">
                                 <img className="w-[161px] h-[50px]" src="/logo.png" alt="nav logo" />
                             </div>
-                            <div className="relative mt-4 md:mt-0">
+                            <div className="relative mt-4 md:mt-0 hidden md:block">
                                 <input
                                     type="text"
                                     maxLength={18}

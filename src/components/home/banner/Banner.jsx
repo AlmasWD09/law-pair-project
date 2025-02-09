@@ -97,10 +97,10 @@ console.log(selectedOptions)
         },
     ]
     return (
-        <div className="bg-[#F5F5F7] container mx-auto px-4 pb-[64px]">
-            <div className="text-center pt-[193px] pb-[297px]">
-                <h1 className="text-[96px] font-crimson font-semibold text-primary ">LawPair</h1>
-                <p className="max-w-[600px] mx-auto h-[73px] text-[#41414D] pt-[48px] pb-[104px]">No hassle. No fees. We've streamlined the attorney search process so that you can focus on what matters most.</p>
+        <div className="bg-[#F5F5F7] container mx-auto px-4 pb-6 md:pb-[36px] lg:pb-[64px]">
+            <div className="text-center pt-[60px] lg:pt-[193px] pb-[60px] lg:pb-[297px]">
+                <h1 className="text-[48px] md:text-[76px] lg:text-[96px] font-crimson font-semibold text-primary ">LawPair</h1>
+                <p className="max-w-[600px] mx-auto h-[73px] text-[#41414D] md:pt-[48px] pb-[104px]">No hassle. No fees. We've streamlined the attorney search process so that you can focus on what matters most.</p>
                 {/* <button className="bg-primary py-[20px] px-[40px] text-[#FFFFFF] text-[20px] font-bold rounded">Find your lawyer</button> */}
 
 
@@ -141,8 +141,9 @@ console.log(selectedOptions)
                                         onClick={() => handleSelect(option)}
                                         style={{
                                             borderRadius: 20,
+
                                             backgroundColor: selectedOptions.includes(option) ? "#1b69ad" : "#FFFFFF",
-                                            color: selectedOptions.includes(option) ? "#fffff" : "#1b69ad",
+                                            color: selectedOptions.includes(option) ? "#FFFFFF" : "#1b69ad",
                                             border: "1px solid #B6B6BA",
                                             fontWeight:"bold",
                                             fontSize:"16px",
@@ -162,22 +163,21 @@ console.log(selectedOptions)
 
 
             </div>
-
             <div>
                 <div className="max-w-[695px] mx-auto text-center text-wrap pb-[36px]">
-                    <h1 className="font-roboto font-bold text-[32px]">Find the Legal Help You Need</h1>
-                    <p className="text-[#60606A] font-roboto font-normal text-[24px] pt-[12px]">Finding the right legal support has never been easier. Select up to 3 practice areas to find your LawPair Suggested (TM) attorney today</p>
+                    <h1 className="font-roboto font-bold text-[24px] md:text-[32px]">Find the Legal Help You Need</h1>
+                    <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px]">Finding the right legal support has never been easier. Select up to 3 practice areas to find your LawPair Suggested (TM) attorney today</p>
                 </div>
 
                 {/* banner curd */}
                 <div className="flex justify-center">
-                    <div className="grid grid-cols-3 place-items-center gap-3">
+                    <div className="grid grid-cols-2 md:grid-cols-3 place-items-center gap-3">
                         {
                             bannerImage?.map((item, index) => {
                                 return (
-                                    <div key={index} className="bg-[#FFFFFF] w-[240px] h-[136px] flex flex-col justify-center items-center ">
+                                    <div key={index} className="bg-[#FFFFFF] w-full h-full lg:w-[240px] lg:h-[136px] flex flex-col justify-center items-center p-3">
                                         <img src={item.image} alt="banner image" className="pb-[8px]" />
-                                        <h4 className="text-[18px] font-normal font-roboto">{item.name}</h4>
+                                        <h4 className="text-[18px] font-normal font-roboto text-center">{item.name}</h4>
                                     </div>
                                 )
                             })
