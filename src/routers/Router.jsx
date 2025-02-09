@@ -12,6 +12,11 @@ import OtpCode from "../pages/otpCode/OtpCode";
 import { CreateNewPassword } from "../pages/createNewPassword/CreateNewPassword";
 import PasswordSuccessfull from "../pages/passwordSuccessfull/PasswordSuccessfull";
 import AttorneyTm from "../pages/attorneyTm/AttorneyTm";
+import DashboardLayout from "../layout/DashboardLayout";
+import CommonLayout from "../pages/dashboard/commonLayout/CommonLayout";
+import AddCategories from "../pages/dashboard/addCategories/AddCategories";
+import ManageUser from "../pages/dashboard/manageUser/ManageUser";
+import Seetings from "../pages/dashboard/settings/Seetings";
 
 const router = createBrowserRouter([
   {
@@ -41,31 +46,55 @@ const router = createBrowserRouter([
       },
     ],
   },
-    // footer hidden page
-    {
-      path: "/create-account",
-      element:<CreateAccount />
-    },
-    {
-      path: "/login",
-      element:<Login />
-    },
-    {
-      path: "/forget-password",
-      element:<ForgetPassword />
-    },
-    {
-      path: "/otp-code",
-      element:<OtpCode />
-    },
-    {
-      path: "/create-new-password",
-      element:<CreateNewPassword />
-    },
-    {
-      path: "/password-successfull",
-      element:<PasswordSuccessfull />
-    },
+  // footer hidden page
+  {
+    path: "/create-account",
+    element: <CreateAccount />
+  },
+  {
+    path: "/login",
+    element: <Login />
+  },
+  {
+    path: "/forget-password",
+    element: <ForgetPassword />
+  },
+  {
+    path: "/otp-code",
+    element: <OtpCode />
+  },
+  {
+    path: "/create-new-password",
+    element: <CreateNewPassword />
+  },
+  {
+    path: "/password-successfull",
+    element: <PasswordSuccessfull />
+  },
+
+  // dashboard layout
+  {
+    path: '/dashboard',
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: '/dashboard',
+        element: <CommonLayout />
+      },
+      {
+        path: '/dashboard/add-categories',
+        element: <AddCategories />
+      },
+      {
+        path: '/dashboard/manage-user',
+        element: <ManageUser />
+      },
+      {
+        path: '/dashboard/setting',
+        element: <Seetings />
+      },
+    ],
+  },
 ]);
 
 export default router;
