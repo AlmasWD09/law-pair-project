@@ -1,17 +1,19 @@
+
 import { Form, Input, Button } from "antd";
-import AccountCreate from "../../layout/AccountCreate";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Tabs } from 'antd';
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import AccountCreate from "../../layout/AccountCreate";
 
-const CreateAccount = () => {
+
+const Login = () => {
     const [form] = Form.useForm(); // Form instance
     const [isModalOpen, setIsModalOpen] = useState(false);
+
     const onChange = (key) => {
         console.log(key);
     };
-
 
     const onFinish = (values) => {
         console.log("Form Data:", values);
@@ -19,37 +21,13 @@ const CreateAccount = () => {
         setIsModalOpen(false);
     };
 
+
     const items = [
         {
             key: '1',
-            label: 'Client, Looking for an Attorney',
+            label: 'I’m a client',
             children: (
                 <Form form={form} layout="vertical" onFinish={onFinish}>
-                    <div>
-                        <p>First name</p>
-                        <Form.Item
-                            name="first-name"
-                            rules={[
-                                { required: true, message: "Please enter your first name" },
-                            ]}
-                        >
-                            <Input type="text" placeholder="Enter your first name" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-                        </Form.Item>
-                    </div>
-
-
-                    <div>
-                        <p>Last name</p>
-                        <Form.Item
-                            name="last-name"
-                            rules={[
-                                { required: true, message: "Please enter your last name" },
-                            ]}
-                        >
-                            <Input type="text" placeholder="Enter your last name" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-                        </Form.Item>
-                    </div>
-
                     <div>
                         <p>Email</p>
                         <Form.Item
@@ -64,9 +42,8 @@ const CreateAccount = () => {
                         </Form.Item>
                     </div>
 
-
                     <div>
-                        <p>Create password</p>
+                        <p>password</p>
                         <Form.Item
                             name="password"
                             rules={[
@@ -80,25 +57,14 @@ const CreateAccount = () => {
                         </Form.Item>
                     </div>
 
-                    <div>
-                        <p>Confirm password</p>
-                        <Form.Item
-                            name="confirm-password"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your Confirm password!',
-                                },
-                            ]}
-                        >
-                            <Input.Password type="password" placeholder="Confirm your password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-                        </Form.Item>
+                    <div className="flex justify-end pb-2 pr-1">
+                        <h1 className="text-primary font-bold">Forgot password?</h1>
                     </div>
 
                     {/* Submit Button */}
                     <Form.Item>
-                        <Button  htmlType="submit" className="w-full md:w-[995px] " style={{backgroundColor:"#1b69ad",color:"white",fontFamily:"Roboto",fontWeight:"bold", fontSize:"16px", padding:"24px"}}>
-                            Create Account
+                        <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
+                            Log in
                         </Button>
                     </Form.Item>
                 </Form>
@@ -106,29 +72,69 @@ const CreateAccount = () => {
         },
         {
             key: '2',
-            label: 'Create Attorney Profile',
-            children: 'Content of Tab Pane 2',
-        },
-        {
-            key: '3',
-            label: 'Create In-House Counsel/HR Business Partner/Business Owner',
-            children: 'Content of Tab Pane 3',
+            label: 'I’m an attorney',
+            children: (
+                <Form form={form} layout="vertical" onFinish={onFinish}>
+                    <div>
+                        <p>Email</p>
+                        <Form.Item
+
+                            name="email"
+                            rules={[
+                                { required: true, message: "Please enter your email!" },
+                                { type: "email", message: "Invalid email address!" },
+                            ]}
+                        >
+                            <Input type="email" placeholder="Enter your email address" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+                        </Form.Item>
+                    </div>
+
+                    <div>
+                        <p>password</p>
+                        <Form.Item
+                            name="password"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your password!',
+                                },
+                            ]}
+                        >
+                            <Input.Password type="password" placeholder="Create your password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+                        </Form.Item>
+                    </div>
+
+                    <div className="flex justify-end pb-2 pr-1">
+                        <h1 className="text-primary font-bold">Forgot password?</h1>
+                    </div>
+
+                    {/* Submit Button */}
+                    <Form.Item>
+                        <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
+                            Log in
+                        </Button>
+                    </Form.Item>
+                </Form>
+            ),
         },
     ];
 
     return (
         <AccountCreate>
             <div className="flex flex-col justify-center items-center h-screen bg-[#f5f5f7]">
-                <div className="min-w-[995px] min-h-[700px] bg-[#FFFFFF] p-6 rounded-lg shadow-lg">
-                    <h2 className="text-2xl font-bold text-center mb-4">Create Your Account</h2>
-                    <Tabs defaultActiveKey="1" items={items} onChange={onChange} className="custom-tabs"/>
+                <div className="min-w-[578px] min-h-[532px] bg-[#FFFFFF] p-6 rounded-lg shadow-lg">
+                    <h2 className="text-[26px] font-bold font-roboto text-[#10101E]  mb-0">Log In</h2>
+                    <Tabs defaultActiveKey="1" items={items} onChange={onChange} className="custom-tabs" />
                 </div>
+
+
+                
                 <div className="text-center pt-8">
-                    <p className="text-[14px] font-roboto">Already have an account? <Link to={'/login'} className="text-primary font-bold">Log In</Link></p>
+                    <p className="text-[14px] font-roboto">Don’t have an account? <Link to={'/create-account'} className="text-primary font-bold">Create account</Link></p>
                 </div>
             </div>
         </AccountCreate>
-    );
-};
+    )
+}
 
-export default CreateAccount;
+export default Login

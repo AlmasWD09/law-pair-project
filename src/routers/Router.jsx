@@ -6,6 +6,7 @@ import About from "../pages/about/About";
 import Disclaimer from "../pages/disclaimer/Disclaimer";
 import LegalResources from "../pages/legalResources/LegalResources";
 import CreateAccount from "../pages/createAccount/CreateAccount";
+import Login from "../pages/login/Login";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
     {
       path: "/create-account",
       element:<CreateAccount />
+    },
+    {
+      path: "/login",
+      element:<Login />
     },
 ]);
 

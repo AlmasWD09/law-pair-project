@@ -14,3 +14,26 @@
     color: #1b69ad;
     font-weight: 600;
 }
+
+
+/* Default tab text color */
+.custom-tabs .ant-tabs-tab {
+    color: #4E5D6B;
+    font-weight: 500;
+}
+
+/* Active tab text color */
+.custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #1b69ad !important; /* Ensure the active tab text color changes */
+    font-weight: bold;
+}
+
+/* Active tab bottom border */
+.custom-tabs .ant-tabs-ink-bar {
+    background-color: #1b69ad !important; /* Active tab bottom border color */
+}
+
+/* Hover tab text color */
+.custom-tabs .ant-tabs-tab:hover .ant-tabs-tab-btn {
+    color: #1b69ad !important; /* Change tab text color on hover */
+}
