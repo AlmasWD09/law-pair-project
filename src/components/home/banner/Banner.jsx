@@ -1,5 +1,63 @@
 
+import { useState } from 'react';
+import { Button, Typography, Space, Modal } from "antd";
+
+const { Title } = Typography;
+
 const Banner = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+
+const handleOk = async () => {
+    if (selectedOptions.length === 0) {
+        console.log("No options selected.");
+        return;
+    }
+console.log(selectedOptions)
+    // try {
+    //     const response = await axios.post('url', {
+    //         selectedOptions: selectedOptions,
+    //     });
+
+    //     console.log("Server Response:", response.data);
+    //     setIsModalOpen(false);
+    // } catch (error) {
+    //     console.error("Error sending data to the server:", error);
+    // }
+};
+ 
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+
+    const options = [
+        "Immigration",
+        "Wills & trusts",
+        "Family and Matrimonial",
+        "Trademarks",
+        "Advanced Care Planning",
+        "Criminal Defense",
+        "Residential Real Estate",
+        "Business Formation",
+        "Commercial Real Estate",
+    ];
+
+    const handleSelect = (option) => {
+        setSelectedOptions((prev) =>
+            prev.includes(option)
+                ? prev.filter((item) => item !== option)
+                : [...prev, option]
+        );
+    };
+
     const bannerImage = [
         {
             image: "/bannerCard/card1.png",
@@ -43,7 +101,66 @@ const Banner = () => {
             <div className="text-center pt-[193px] pb-[297px]">
                 <h1 className="text-[96px] font-crimson font-semibold text-primary ">LawPair</h1>
                 <p className="max-w-[600px] mx-auto h-[73px] text-[#41414D] pt-[48px] pb-[104px]">No hassle. No fees. We've streamlined the attorney search process so that you can focus on what matters most.</p>
-                <button className="bg-primary py-[20px] px-[40px] text-[#FFFFFF] text-[20px] font-bold rounded">Find your lawyer</button>
+                {/* <button className="bg-primary py-[20px] px-[40px] text-[#FFFFFF] text-[20px] font-bold rounded">Find your lawyer</button> */}
+
+
+
+                <Button onClick={showModal} style={{ width: "228px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFFF", fontFamily: "Roboto", fontSize: "20px", fontWeight: "bold" }}>
+                    Find your lawyer
+                </Button>
+
+                <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+                    width={600}
+                    okText="Continue"
+                    okButtonProps={{
+                        style: { width:"161px",height:"64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize:"16px", fontWeight:"bold" }, // OK button style
+                    }}
+                    cancelButtonProps={{
+                        style: { width:"161px",height:"64px",  color: "#1b69ad", borderRadius: "5px",fontSize:"16px", fontWeight:"bold", },
+                    }}
+                >
+
+
+                    <div>
+                        <div style={{ maxWidth: "100%", margin: "auto", textAlign: "center" }} >
+                            {/* Progress Bar (Placeholder) */}
+                            <div style={{ width: "100%", height: 5, background: "#e0e0e0", borderRadius: 10, marginBottom: 20 }}>
+
+                                <div style={{ width: "10%", height: "100%", background: "#0047ab", borderRadius: 10 }} />
+                            </div>
+
+                            <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                                Select the legal help you need
+                            </Title>
+
+
+                            <Space wrap>
+                                {options.map((option) => (
+                                    <Button
+                                        key={option}
+                                        onClick={() => handleSelect(option)}
+                                        style={{
+                                            borderRadius: 20,
+                                            backgroundColor: selectedOptions.includes(option) ? "#1b69ad" : "#FFFFFF",
+                                            color: selectedOptions.includes(option) ? "#fffff" : "#1b69ad",
+                                            border: "1px solid #B6B6BA",
+                                            fontWeight:"bold",
+                                            fontSize:"16px",
+                                            fontFamily:"Roboto",
+                                            padding:"20px"
+                                        }}
+                                    >
+                                        {option}
+                                    </Button>
+                                ))}
+                            </Space>
+
+                        </div>
+                    </div>
+                </Modal>
+
+
+
             </div>
 
             <div>
