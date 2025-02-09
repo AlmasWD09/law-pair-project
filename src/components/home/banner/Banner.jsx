@@ -1,37 +1,45 @@
 
 import { useState } from 'react';
-import { Button, Typography, Space, Modal } from "antd";
+import { Button, Typography, Space, Modal, Select } from "antd";
 
 const { Title } = Typography;
 
 const Banner = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpenTow, setIsModalOpenTwo] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [selectedLocation, setSelectedLocation] = useState(null);
+    const [selectedCity, setSelectedCity] = useState(null);
 
 
     const showModal = () => {
         setIsModalOpen(true);
     };
+    const handleOk = async () => {
+        if (selectedOptions.length === 0) {
+            console.log("No options selected.");
+            return;
+        }
+        console.log(selectedOptions)
 
 
-const handleOk = async () => {
-    if (selectedOptions.length === 0) {
-        console.log("No options selected.");
-        return;
-    }
-console.log(selectedOptions)
-    // try {
-    //     const response = await axios.post('url', {
-    //         selectedOptions: selectedOptions,
-    //     });
+        setIsModalOpen(false)
+        setSelectedOptions("")
+        setIsModalOpenTwo(true)
 
-    //     console.log("Server Response:", response.data);
-    //     setIsModalOpen(false);
-    // } catch (error) {
-    //     console.error("Error sending data to the server:", error);
-    // }
-};
- 
+
+        // try {
+        //     const response = await axios.post('url', {
+        //         selectedOptions: selectedOptions,
+        //     });
+
+        //     console.log("Server Response:", response.data);
+        //     setIsModalOpen(false);
+        // } catch (error) {
+        //     console.error("Error sending data to the server:", error);
+        // }
+    };
+
 
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -57,6 +65,51 @@ console.log(selectedOptions)
                 : [...prev, option]
         );
     };
+
+
+
+
+
+    // ===== modal two start ===============
+
+    // Location er options
+    const locationOptions = [
+        { value: '1', label: 'A ' },
+        { value: '2', label: 'B ' },
+        { value: '3', label: 'C' },
+    ];
+
+    // City er options
+    const cityOptions = [
+        { value: '4', label: 'E' },
+        { value: '5', label: 'F' },
+        { value: '6', label: 'G ' },
+    ];
+
+    // Select Value Change Function
+    const handleLocationChange = (value, option) => {
+        setSelectedLocation(option.label); // Set label in state
+    };
+
+    const handleCityChange = (value, option) => {
+        setSelectedCity(option.label); // Set label in state
+    };
+
+    const handleOkTwo = async () => {
+        console.log(selectedCity)
+        console.log(selectedLocation)
+        setIsModalOpenTwo(false)
+
+    };
+
+
+    const handleCancelTwo = () => {
+        setIsModalOpenTwo(false);
+    };
+    // ===== modal two end =====================
+
+
+
 
     const bannerImage = [
         {
@@ -96,6 +149,10 @@ console.log(selectedOptions)
             name: "Commercial Real Estate",
         },
     ]
+
+
+
+
     return (
         <div className="bg-[#F5F5F7] container mx-auto px-4 pb-6 md:pb-[36px] lg:pb-[64px]">
             <div className="text-center pt-[60px] lg:pt-[193px] pb-[60px] lg:pb-[297px]">
@@ -109,20 +166,20 @@ console.log(selectedOptions)
                     Find your lawyer
                 </Button>
 
-                <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+                <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                     width={600}
                     okText="Continue"
                     okButtonProps={{
-                        style: { width:"161px",height:"64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize:"16px", fontWeight:"bold" }, // OK button style
+                        style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
                     }}
                     cancelButtonProps={{
-                        style: { width:"161px",height:"64px",  color: "#1b69ad", borderRadius: "5px",fontSize:"16px", fontWeight:"bold", },
+                        style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
                     }}
                 >
 
 
                     <div>
-                        <div style={{ maxWidth: "100%", margin: "auto", textAlign: "center" }} >
+                        <div style={{ maxWidth: "90%", margin: "auto", textAlign: "center" }} >
                             {/* Progress Bar (Placeholder) */}
                             <div style={{ width: "100%", height: 5, background: "#e0e0e0", borderRadius: 10, marginBottom: 20 }}>
 
@@ -145,10 +202,10 @@ console.log(selectedOptions)
                                             backgroundColor: selectedOptions.includes(option) ? "#1b69ad" : "#FFFFFF",
                                             color: selectedOptions.includes(option) ? "#FFFFFF" : "#1b69ad",
                                             border: "1px solid #B6B6BA",
-                                            fontWeight:"bold",
-                                            fontSize:"16px",
-                                            fontFamily:"Roboto",
-                                            padding:"20px"
+                                            fontWeight: "bold",
+                                            fontSize: "16px",
+                                            fontFamily: "Roboto",
+                                            padding: "20px"
                                         }}
                                     >
                                         {option}
@@ -160,6 +217,61 @@ console.log(selectedOptions)
                     </div>
                 </Modal>
 
+
+
+
+
+
+
+
+
+
+
+
+                <Modal open={isModalOpenTow} onOk={handleOkTwo} onCancel={handleCancelTwo}
+                    width={600}
+                    okText="Continue"
+                    cancelText="Back"
+                    okButtonProps={{
+                        style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
+                    }}
+                    cancelButtonProps={{
+                        style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
+                    }}>
+
+
+                    <div>
+                        <div>
+                            <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                                Location
+                            </Title>
+                        </div>
+
+
+                        <div className='pb-4'>
+                            <p>Select your location</p>
+                            <Select
+                                showSearch
+                                placeholder="Select..."
+                                style={{ width: '100%', height: '40px' }}
+                                onChange={handleLocationChange}
+                                options={locationOptions}
+                            />
+                        </div>
+
+                        <div>
+                            <p>City</p>
+                            <Select
+                                showSearch
+                                placeholder="Select..."
+                                style={{ width: '100%', height: '40px' }}
+                                onChange={handleCityChange}
+                                options={cityOptions}
+                            />
+                        </div>
+                    </div>
+
+                </Modal>
 
 
             </div>
