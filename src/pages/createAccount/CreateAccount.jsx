@@ -97,7 +97,7 @@ const CreateAccount = () => {
 
                     {/* Submit Button */}
                     <Form.Item>
-                        <Button  htmlType="submit" className="w-full md:w-[995px] " style={{backgroundColor:"#1b69ad",color:"white",fontFamily:"Roboto",fontWeight:"bold", fontSize:"16px", padding:"24px"}}>
+                        <Button  htmlType="submit" className="w-full md:min-w-[995px] " style={{backgroundColor:"#1b69ad",color:"white",fontFamily:"Roboto",fontWeight:"bold", fontSize:"16px", padding:"24px"}}>
                             Create Account
                         </Button>
                     </Form.Item>
@@ -120,8 +120,8 @@ const CreateAccount = () => {
         <AccountCreate>
             <div className="flex flex-col justify-center items-center h-screen bg-[#f5f5f7]">
                 <div className="min-w-[995px] min-h-[700px] bg-[#FFFFFF] p-6 rounded-lg shadow-lg">
-                    <h2 className="text-2xl font-bold text-center mb-4">Create Your Account</h2>
-                    <Tabs defaultActiveKey="1" items={items} onChange={onChange} className="custom-tabs"/>
+                    <h2 className="text-[26px] font-bold font-roboto text-[#10101E]  mb-0 pl-3">Create Your Account</h2>
+                    <Tabs defaultActiveKey="1" items={items} onChange={onChange} className="custom-tabs px-4"/>
                 </div>
                 <div className="text-center pt-8">
                     <p className="text-[14px] font-roboto">Already have an account? <Link to={'/login'} className="text-primary font-bold">Log In</Link></p>
