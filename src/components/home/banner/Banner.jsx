@@ -1,8 +1,12 @@
 
 import { useState } from 'react';
 import { Button, Typography, Space, Modal, Select } from "antd";
-
 const { Title } = Typography;
+
+import { Steps } from "antd";
+import { CheckCircleOutlined } from "@ant-design/icons";
+import { useNavigate } from 'react-router-dom';
+const { Step } = Steps;
 
 const Banner = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,7 +14,7 @@ const Banner = () => {
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [selectedCity, setSelectedCity] = useState(null);
-
+    const navigate = useNavigate()
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -24,7 +28,7 @@ const Banner = () => {
 
 
         setIsModalOpen(false)
-        setSelectedOptions("")
+        // setSelectedOptions("")
         setIsModalOpenTwo(true)
 
 
@@ -43,6 +47,7 @@ const Banner = () => {
 
     const handleCancel = () => {
         setIsModalOpen(false);
+        setSelectedOptions("")
     };
 
 
@@ -88,7 +93,7 @@ const Banner = () => {
 
     // Select Value Change Function
     const handleLocationChange = (value, option) => {
-        setSelectedLocation(option.label); // Set label in state
+        setSelectedLocation(option.label); // Set label in stat
     };
 
     const handleCityChange = (value, option) => {
@@ -100,11 +105,13 @@ const Banner = () => {
         console.log(selectedLocation)
         setIsModalOpenTwo(false)
 
+        navigate('/attorney-tm')
     };
 
 
     const handleCancelTwo = () => {
         setIsModalOpenTwo(false);
+        setIsModalOpen(true)
     };
     // ===== modal two end =====================
 
@@ -241,6 +248,10 @@ const Banner = () => {
 
 
                     <div>
+                        <Steps current={1}>
+                            <Step status="finish" icon={<CheckCircleOutlined />} />
+                            <Step status="process" />
+                        </Steps>
                         <div>
                             <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
                                 Location

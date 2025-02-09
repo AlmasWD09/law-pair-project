@@ -11,6 +11,7 @@ import ForgetPassword from "../pages/forgetPassword/ForgetPassword";
 import OtpCode from "../pages/otpCode/OtpCode";
 import { CreateNewPassword } from "../pages/createNewPassword/CreateNewPassword";
 import PasswordSuccessfull from "../pages/passwordSuccessfull/PasswordSuccessfull";
+import AttorneyTm from "../pages/attorneyTm/AttorneyTm";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/legal-resources",
         element: <LegalResources />,
+      },
+      {
+        path: "/attorney-tm",
+        element: <AttorneyTm />,
       },
     ],
   },
