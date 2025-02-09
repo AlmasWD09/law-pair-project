@@ -39,8 +39,16 @@ const Sidebar = () => {
                 </div>
             </div>
 
-            <div className="pb-4">
-                <a className="bg-[#b9d4eb] hover:text-white  py-[10px] rounded-md flex items-center gap-2 px-2" href="#"><AiFillHome /></a>
+            <div className="flex items-center justify-between bg-[#b9d4eb] rounded-md py-2 px-2 mb-3">
+                <div className="flex items-center gap-2">
+                <img src="/legalImage/legal1.png" alt="" className="w-[30px] h-[30px] rounded-full object-cover"/>
+                <h1 className="text-xl font-roboto font-bold ">
+                Papatundee
+                </h1>
+                </div>
+                <div>
+                    <img src="/logo/login.png" alt="login image" className="w-[30px] h-[30px]"/>
+                </div>
             </div>
         </div>
     )
