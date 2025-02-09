@@ -29,7 +29,7 @@ const Login = () => {
             children: (
                 <Form form={form} layout="vertical" onFinish={onFinish}>
                     <div>
-                        <p>Email</p>
+                        <p className="font-roboto text-[16px]">Email</p>
                         <Form.Item
 
                             name="email"
@@ -43,7 +43,7 @@ const Login = () => {
                     </div>
 
                     <div>
-                        <p>password</p>
+                        <p className="font-roboto text-[16px]">password</p>
                         <Form.Item
                             name="password"
                             rules={[
@@ -58,7 +58,9 @@ const Login = () => {
                     </div>
 
                     <div className="flex justify-end pb-2 pr-1">
-                        <h1 className="text-primary font-bold">Forgot password?</h1>
+                        <Link to={'/forget-password'}>
+                        <h1 className="text-primary font-bold font-roboto">Forgot password?</h1>
+                        </Link>
                     </div>
 
                     {/* Submit Button */}
@@ -76,7 +78,7 @@ const Login = () => {
             children: (
                 <Form form={form} layout="vertical" onFinish={onFinish}>
                     <div>
-                        <p>Email</p>
+                        <p className="font-roboto text-[16px]">Email</p>
                         <Form.Item
 
                             name="email"
@@ -90,7 +92,7 @@ const Login = () => {
                     </div>
 
                     <div>
-                        <p>password</p>
+                        <p className="font-roboto text-[16px]">password</p>
                         <Form.Item
                             name="password"
                             rules={[
@@ -105,7 +107,9 @@ const Login = () => {
                     </div>
 
                     <div className="flex justify-end pb-2 pr-1">
-                        <h1 className="text-primary font-bold">Forgot password?</h1>
+                        <Link to={'/forget-password'}>
+                        <h1 className="text-primary font-bold font-roboto">Forgot password?</h1>
+                        </Link>
                     </div>
 
                     {/* Submit Button */}
@@ -128,9 +132,9 @@ const Login = () => {
                 </div>
 
 
-                
+
                 <div className="text-center pt-8">
-                    <p className="text-[14px] font-roboto">Don’t have an account? <Link to={'/create-account'} className="text-primary font-bold">Create account</Link></p>
+                    <p className="text-[14px] font-roboto">Don’t have an account? <Link to={'/create-account'} className="text-primary font-bold font-roboto">Create account</Link></p>
                 </div>
             </div>
         </AccountCreate>

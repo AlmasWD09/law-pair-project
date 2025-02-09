@@ -7,6 +7,7 @@ import Disclaimer from "../pages/disclaimer/Disclaimer";
 import LegalResources from "../pages/legalResources/LegalResources";
 import CreateAccount from "../pages/createAccount/CreateAccount";
 import Login from "../pages/login/Login";
+import ForgetPassword from "../pages/forgetPassword/ForgetPassword";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
     {
       path: "/login",
       element:<Login />
+    },
+    {
+      path: "/forget-password",
+      element:<ForgetPassword />
     },
 ]);
 
