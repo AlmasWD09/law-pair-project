@@ -15,7 +15,7 @@ const CreateAccount = () => {
 
     const onFinish = (values) => {
         console.log("Form Data:", values);
-        // form.resetFields();
+        form.resetFields();
         setIsModalOpen(false);
     };
 

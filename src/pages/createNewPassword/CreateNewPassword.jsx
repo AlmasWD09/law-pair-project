@@ -14,8 +14,8 @@ export const CreateNewPassword = () => {
         form.resetFields();
         setIsModalOpen(false);
     };
-  return (
-    <AccountCreate>
+    return (
+        <AccountCreate>
             <div className="flex flex-col justify-center items-center h-screen bg-[#f5f5f7]">
                 <div className="min-w-[478px] min-h-[292px] bg-[#FFFFFF] p-6 rounded-lg shadow-lg">
                     <h2 className="text-[26px] font-bold font-roboto text-[#10101E]  mb-0 pb-[32px]">Create a new password</h2>
@@ -51,8 +51,11 @@ export const CreateNewPassword = () => {
                             </Form.Item>
                         </div>
 
-                 
+
                         <Form.Item>
+                            {/* <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
+                                Save password
+                            </Button> */}
                             <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                            <Link to={'/password-successfull'}> Save password</Link>
                             </Button>
@@ -61,5 +64,5 @@ export const CreateNewPassword = () => {
                 </div>
             </div>
         </AccountCreate>
-  )
+    )
 }

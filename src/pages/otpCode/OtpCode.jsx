@@ -10,7 +10,8 @@ const OtpCode = () => {
 
 
     const onFinish = (values) => {
-        console.log("Form Data:", values);
+        console.log("OTP Value:", values.otp); // ✅ Logs the OTP value
+        console.log('click ')
         form.resetFields();
         setIsModalOpen(false);
     };
@@ -27,13 +28,17 @@ const OtpCode = () => {
                             <p className="font-roboto">OTP code</p>
                             <Form.Item
 
-                                name="email"
+                                name="otp"
                                 rules={[
                                     { required: true, message: "Please Enter your OTP!" },
-                                    { type: "email", message: "Invalid Enter your OTP!" },
+                                    { pattern: /^[0-9]{4,6}$/, message: "Invalid OTP format!" }, // ✅ Ensures 4-6 digit number
+                                   
                                 ]}
                             >
-                                <Input type="email" placeholder="Enter your OTP" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+                                <Input
+                                   type="text" // ✅ Use "text" instead of "number" to avoid auto-correction issues
+                                   maxLength={6} // ✅ Limits OTP to 6 digits
+                                placeholder="Enter your OTP" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
                             </Form.Item>
                         </div>
 
