@@ -8,6 +8,9 @@ import LegalResources from "../pages/legalResources/LegalResources";
 import CreateAccount from "../pages/createAccount/CreateAccount";
 import Login from "../pages/login/Login";
 import ForgetPassword from "../pages/forgetPassword/ForgetPassword";
+import OtpCode from "../pages/otpCode/OtpCode";
+import { CreateNewPassword } from "../pages/createNewPassword/CreateNewPassword";
+import PasswordSuccessfull from "../pages/passwordSuccessfull/PasswordSuccessfull";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +48,18 @@ const router = createBrowserRouter([
     {
       path: "/forget-password",
       element:<ForgetPassword />
+    },
+    {
+      path: "/otp-code",
+      element:<OtpCode />
+    },
+    {
+      path: "/create-new-password",
+      element:<CreateNewPassword />
+    },
+    {
+      path: "/password-successfull",
+      element:<PasswordSuccessfull />
     },
 ]);
 

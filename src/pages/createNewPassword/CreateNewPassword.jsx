@@ -3,7 +3,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
 
-const ForgetPassword = () => {
+
+export const CreateNewPassword = () => {
     const [form] = Form.useForm(); // Form instance
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -13,14 +14,13 @@ const ForgetPassword = () => {
         form.resetFields();
         setIsModalOpen(false);
     };
-
-    return (
-        <AccountCreate>
+  return (
+    <AccountCreate>
             <div className="flex flex-col justify-center items-center h-screen bg-[#f5f5f7]">
                 <div className="min-w-[478px] min-h-[292px] bg-[#FFFFFF] p-6 rounded-lg shadow-lg">
-                    <h2 className="text-[26px] font-bold font-roboto text-[#10101E]  mb-0">Forgot password?</h2>
-                    <p className="font-roboto text-[#121221] text-[16px] pb-[32px]">No worries, we’re here help you to recover your password.</p>
-                    {/* <Form form={form} layout="vertical" onFinish={onFinish}>
+                    <h2 className="text-[26px] font-bold font-roboto text-[#10101E]  mb-0 pb-[32px]">Create a new password</h2>
+
+                    <Form form={form} layout="vertical" onFinish={onFinish}>
                         <div>
                             <p className="font-roboto">Enter your new password</p>
                             <Form.Item
@@ -54,37 +54,12 @@ const ForgetPassword = () => {
                  
                         <Form.Item>
                             <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
-                            Save password
-                            </Button>
-                        </Form.Item>
-                    </Form> */}
-
-                    <Form form={form} layout="vertical" onFinish={onFinish}>
-                        <div>
-                            <p className="font-roboto">Submit your email address</p>
-                            <Form.Item
-
-                                name="email"
-                                rules={[
-                                    { required: true, message: "Please enter your email!" },
-                                    { type: "email", message: "Invalid email address!" },
-                                ]}
-                            >
-                                <Input type="email" placeholder="Enter your email address" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-                            </Form.Item>
-                        </div>
-
-                        {/* submit button */}
-                        <Form.Item>
-                            <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
-                            <Link to={'/otp-code'}>Get OTP</Link>
+                           <Link to={'/password-successfull'}> Save password</Link>
                             </Button>
                         </Form.Item>
                     </Form>
                 </div>
             </div>
         </AccountCreate>
-    )
+  )
 }
-
-export default ForgetPassword

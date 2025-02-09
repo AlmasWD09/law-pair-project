@@ -15,7 +15,7 @@ const CreateAccount = () => {
 
     const onFinish = (values) => {
         console.log("Form Data:", values);
-        form.resetFields();
+        // form.resetFields();
         setIsModalOpen(false);
     };
 
@@ -107,7 +107,86 @@ const CreateAccount = () => {
         {
             key: '2',
             label: 'Create Attorney Profile',
-            children: 'Content of Tab Pane 2',
+            children:  (
+                <Form form={form} layout="vertical" onFinish={onFinish}>
+                    <div>
+                        <p className="font-roboto">First name</p>
+                        <Form.Item
+                            name="first-name"
+                            rules={[
+                                { required: true, message: "Please enter your first name" },
+                            ]}
+                        >
+                            <Input type="text" placeholder="Enter your first name" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+                        </Form.Item>
+                    </div>
+
+
+                    <div>
+                        <p className="font-roboto">Last name</p>
+                        <Form.Item
+                            name="last-name"
+                            rules={[
+                                { required: true, message: "Please enter your last name" },
+                            ]}
+                        >
+                            <Input type="text" placeholder="Enter your last name" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+                        </Form.Item>
+                    </div>
+
+                    <div>
+                        <p className="font-roboto">Email</p>
+                        <Form.Item
+
+                            name="email"
+                            rules={[
+                                { required: true, message: "Please enter your email!" },
+                                { type: "email", message: "Invalid email address!" },
+                            ]}
+                        >
+                            <Input type="email" placeholder="Enter your email address" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+                        </Form.Item>
+                    </div>
+
+
+                    <div>
+                        <p className="font-roboto">Create password</p>
+                        <Form.Item
+                            name="password"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your password!',
+                                },
+                            ]}
+                        >
+                            <Input.Password type="password" placeholder="Create your password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+                        </Form.Item>
+                    </div>
+
+                    <div>
+                        <p className="font-roboto">Confirm password</p>
+                        <Form.Item
+                            name="confirm-password"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your Confirm password!',
+                                },
+                            ]}
+                        >
+                            <Input.Password type="password" placeholder="Confirm your password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+                        </Form.Item>
+                    </div>
+
+                    {/* Submit Button */}
+                    <Form.Item>
+                        <Button htmlType="submit" className="w-full md:min-w-[995px] " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
+                            Create Account
+                        </Button>
+                    </Form.Item>
+                </Form>
+            ),
         },
         {
             key: '3',
