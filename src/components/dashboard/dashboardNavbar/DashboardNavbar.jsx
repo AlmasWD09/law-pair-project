@@ -24,33 +24,33 @@ const DashboardNavbar = ({showDrawer,setShowDrawer}) => {
       </div>
 
       {/* search */}
-      <div className="hidden md:flex items-center gap-2">
+      {/* <div className="hidden md:flex items-center gap-2">
         <FiSearch className="text-2xl text-gray-400" />
         <input type="search" name="" id="" placeholder="Type to search.." className="py-2 px-2 bg-transparent outline-none" />
-      </div>
+      </div> */}
 
       {/* notification/message/profile */}
       <div className=" flex items-center justify-end space-x-6 py-1 ">
         {/* =========== notification animation start =========== */}
-        <div className="relative">
+        {/* <div className="relative">
         <RiNotificationLine className="text-3xl text-gray-400 border border-gray-300 bg-gray-200 p-2 rounded-full" />
         <div className="absolute animate-ping top-0 right-0 w-[10px] h-[10px] rounded-full bg-red-600"></div>
         <div className="absolute flex justify-center items-center top-0 right-0 w-[10px] h-[10px] rounded-full bg-red-600"></div>
-        </div>
+        </div> */}
          {/* =========== notification animation end =========== */}
 
 
         {/* =========== message animation start =========== */}
-        <div className="relative">
+        {/* <div className="relative">
         <TbMessageDots className="text-3xl text-gray-400 border border-gray-300 bg-gray-200 p-2 rounded-full" />
         <div className="absolute animate-ping top-0 right-0 w-[10px] h-[10px] rounded-full bg-red-600"></div>
         <div className="absolute flex justify-center items-center top-0 right-0 w-[10px] h-[10px] rounded-full bg-red-600"></div>
-        </div>
+        </div> */}
          {/* =========== message animation end =========== */}
 
-        <div className="w-[45px] h-[45px] bg-gray-200 rounded-full flex justify-center items-center">
+        {/* <div className="w-[45px] h-[45px] bg-gray-200 rounded-full flex justify-center items-center">
           <img src="/almas.jpg" alt="logo" className="w-[40px] h-[40px] rounded-full object-contain" />
-        </div>
+        </div> */}
       </div>
 
     </div>

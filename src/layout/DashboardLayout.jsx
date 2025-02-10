@@ -16,11 +16,11 @@ const DashboardLayout = () => {
 
             {/* ============= mobile & tablet sidebar start ========== */}
             {
-                showDrawer && <div className="lg:hidden absolute w-[56%] md:w-[40%] h-screen bg-red-200 z-50">
-                    <div className="flex items-center justify-between px-3 py-[18px] bg-gray-50 shadow-2xl border-b">
+                showDrawer && <div className="lg:hidden absolute w-[86%] md:w-[40%] h-screen bg-red-200 z-50">
+                    <div className="flex items-center justify-between px-3 py-[18px]">
                         <div className="flex items-center gap-2">
                             <img src="/logo.png" alt="logo" />
-                            <h1 className="text-xl font-semibold">AdminLayout</h1>
+                            {/* <h1 className="text-xl font-semibold">AdminLayout</h1> */}
                         </div>
                         <FaArrowLeft
                         onClick={()=>setShowDrawer(!showDrawer)}

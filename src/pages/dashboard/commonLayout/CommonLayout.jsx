@@ -6,6 +6,11 @@ import Chart from "../charts/Chart";
 const CommonLayout = () => {
     return (
         <div>
+            <div className="flex items-center gap-2 pb-[20px]">
+                <h1 className="font-roboto text-[40px] font-bold text-[#10101E]">Hello, Papatundee</h1>
+                <img src="/logo/hand.png" alt="" />
+
+            </div>
             <div className="bg-[#FFFFFF] p-4 rounded-lg">
                 <div className="pb-[24px]">
                     <h2 className="font-roboto text-[16px] text-[#41414D]">Overview</h2>
