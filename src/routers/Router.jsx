@@ -17,6 +17,7 @@ import CommonLayout from "../pages/dashboard/commonLayout/CommonLayout";
 import AddCategories from "../pages/dashboard/addCategories/AddCategories";
 import ManageUser from "../pages/dashboard/manageUser/ManageUser";
 import Seetings from "../pages/dashboard/settings/Seetings";
+import AttorneyDetails from "../pages/attorneyTm/AttorneyDetails";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "/attorney-tm",
         element: <AttorneyTm />,
+      },
+      {
+        path: "/attorney-tm-details/:id",
+        element: <AttorneyDetails />,
       },
     ],
   },
