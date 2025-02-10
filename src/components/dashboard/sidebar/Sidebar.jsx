@@ -6,7 +6,8 @@ const Sidebar = () => {
     const menus = [
         {
             path: '/dashboard',
-            title: 'Dashboard'
+            title: 'Dashboard',
+            icon:""
         },
         {
             path: '/dashboard/add-categories',
@@ -32,7 +33,7 @@ const Sidebar = () => {
                     {
                         menus.map((item, index) => {
                             return (
-                                <a className="bg-red-300 hover:bg-red-600 hover:text-white  py-1 rounded-md flex items-center gap-2 px-2" href={item.path} key={index}><AiFillHome /> {item.title}</a>
+                                <a className=" hover:text-white  py-1 rounded-md flex items-center gap-2 px-2" href={item.path} key={index}><AiFillHome /> {item.title}</a>
                             )
                         })
                     }

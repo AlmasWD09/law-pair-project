@@ -326,7 +326,7 @@ const Banner = () => {
 
 
                     <div>
-                        <svg width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
                             <circle cx="20" cy="20" r="5" fill="#1B69AD" />
                             <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
@@ -388,7 +388,7 @@ const Banner = () => {
 
 
                     <div>
-                        <svg width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="20" cy="20" r="16" fill="#1B69AD" />
                             <path d="M14.167 20.834L17.5003 24.1673L25.8337 15.834" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
@@ -472,7 +472,7 @@ const Banner = () => {
                         {
                             bannerImage?.map((item, index) => {
                                 return (
-                                    <div key={index} className="bg-[#FFFFFF] w-full h-full lg:w-[240px] lg:h-[136px] flex flex-col justify-center items-center p-3">
+                                    <div key={index} className="bg-[#FFFFFF] w-full h-full lg:w-[240px] lg:h-[136px] flex flex-col justify-center items-center p-3 hover:bg-primary hover:text-white">
                                         <img src={item.image} alt="banner image" className="pb-[8px]" />
                                         <h4 className="text-[18px] font-normal font-roboto text-center">{item.name}</h4>
                                     </div>
