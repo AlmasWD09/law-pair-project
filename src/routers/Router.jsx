@@ -18,6 +18,7 @@ import AddCategories from "../pages/dashboard/addCategories/AddCategories";
 import ManageUser from "../pages/dashboard/manageUser/ManageUser";
 import Seetings from "../pages/dashboard/settings/Seetings";
 import AttorneyDetails from "../pages/attorneyTm/AttorneyDetails";
+import UserProfile from "../pages/profile/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
   {
     path: "/password-successfull",
     element: <PasswordSuccessfull />
+  },
+  {
+    path: "/user-profile",
+    element: <UserProfile />
   },
 
   // dashboard layout

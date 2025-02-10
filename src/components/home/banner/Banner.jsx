@@ -1,21 +1,46 @@
 
 import { useState } from 'react';
-import { Button, Typography, Space, Modal, Select } from "antd";
+import { Button, Typography, Space, Modal, Select, TimePicker, DatePicker } from "antd";
 const { Title } = Typography;
 
-import { Steps } from "antd";
+
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
-const { Step } = Steps;
+import axios from 'axios';
+import { key } from 'localforage';
+
+
 
 const Banner = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenTow, setIsModalOpenTwo] = useState(false);
+    const [isModalOpenAttonemy, setIsModalOpenAttonemy] = useState(false);
+
     const [selectedOptions, setSelectedOptions] = useState([]);
-    const [selectedLocation, setSelectedLocation] = useState(null);
-    const [selectedCity, setSelectedCity] = useState(null);
+    const [secondSelectValue, setSecondSelecteValue] = useState({
+        location: null,
+        city: null,
+    })
+    // const [selectedLocation, setSelectedLocation] = useState(null);
+    // const [selectedCity, setSelectedCity] = useState(null);
+    const [formData, setFormData] = useState({
+        lawyerExperience: null,
+        location: null,
+        languages: null,
+        date: null,
+        time: null
+    });
+
     const navigate = useNavigate()
 
+
+
+
+
+
+
+
+    //====================== first modal start ==============
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -71,7 +96,7 @@ const Banner = () => {
         );
     };
 
-
+    //====================== first modal end =================
 
 
 
@@ -92,20 +117,18 @@ const Banner = () => {
     ];
 
     // Select Value Change Function
-    const handleLocationChange = (value, option) => {
-        setSelectedLocation(option.label); // Set label in stat
-    };
-
-    const handleCityChange = (value, option) => {
-        setSelectedCity(option.label); // Set label in state
-    };
+    const handleSelectModalTwoValue = (key, value) => {
+        setSecondSelecteValue(prev => ({
+            ...prev,
+            [key]: value
+        }))
+    }
 
     const handleOkTwo = async () => {
-        console.log(selectedCity)
-        console.log(selectedLocation)
-        setIsModalOpenTwo(false)
+        // console.log(secondSelectValue)
 
-        navigate('/attorney-tm')
+        setIsModalOpenAttonemy(true)
+        setIsModalOpenTwo(false)
     };
 
 
@@ -116,6 +139,66 @@ const Banner = () => {
     // ===== modal two end =====================
 
 
+
+
+
+
+
+    // ====== modal three start ===============
+    const handleSelectChange = (key, value) => {
+        setFormData(prev => ({
+            ...prev,
+            [key]: value
+        }));
+    };
+
+    const handleDateChange = (date, dateString) => {
+        setFormData(prev => ({
+            ...prev,
+            date: dateString
+        }));
+    };
+
+    const handleTimeChange = (time, timeString) => {
+        setFormData(prev => ({
+            ...prev,
+            time: timeString
+        }));
+    };
+
+
+    // const handleDone = () => {
+    //     console.log("Selected values:", formData);
+    //     handleOkAttonemy();
+    // };
+
+    const handleOkAttonemy = async () => {
+        console.log("Selected values----------:", formData);
+
+        // try {
+        //     const response = await axios.post("url", formData, {
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //     });
+
+        //     console.log("Server Response:", response.data);
+        // } catch (error) {
+        //     console.error("Error sending data:", error);
+        // }
+
+
+
+        setIsModalOpenAttonemy(false)
+        navigate('/attorney-tm')
+    };
+
+
+    const handleCancelAttonemy = () => {
+        setIsModalOpenAttonemy(false);
+        setIsModalOpenTwo(true)
+    };
+    // ====== modal three end =================
 
 
     const bannerImage = [
@@ -186,12 +269,15 @@ const Banner = () => {
 
 
                     <div>
-                        <div style={{ maxWidth: "90%", margin: "auto", textAlign: "center" }} >
-                            {/* Progress Bar (Placeholder) */}
-                            <div style={{ width: "100%", height: 5, background: "#e0e0e0", borderRadius: 10, marginBottom: 20 }}>
+                        <div style={{ maxWidth: "90%", margin: "auto", textAlign: "center" }}>
+                            
+                            <svg width="100%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                                <circle cx="20" cy="20" r="5" fill="#1B69AD" />
+                                <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
+                                <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
+                            </svg>
 
-                                <div style={{ width: "10%", height: "100%", background: "#0047ab", borderRadius: 10 }} />
-                            </div>
 
                             <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
                                 Select the legal help you need
@@ -225,15 +311,7 @@ const Banner = () => {
                 </Modal>
 
 
-
-
-
-
-
-
-
-
-
+                {/* modal two */}
 
                 <Modal open={isModalOpenTow} onOk={handleOkTwo} onCancel={handleCancelTwo}
                     width={600}
@@ -248,10 +326,13 @@ const Banner = () => {
 
 
                     <div>
-                        <Steps current={1}>
-                            <Step status="finish" icon={<CheckCircleOutlined />} />
-                            <Step status="process" />
-                        </Steps>
+                        <svg width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                            <circle cx="20" cy="20" r="5" fill="#1B69AD" />
+                            <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
+                            <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
+                        </svg>
+
                         <div>
                             <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
                                 Location
@@ -265,8 +346,12 @@ const Banner = () => {
                                 showSearch
                                 placeholder="Select..."
                                 style={{ width: '100%', height: '40px' }}
-                                onChange={handleLocationChange}
-                                options={locationOptions}
+                                onChange={value => handleSelectModalTwoValue("location", value)}
+                                options={[
+                                    { label: "A", value: "a" },
+                                    { label: "B", value: "b" },
+                                    { label: "C", value: "c" }
+                                ]}
                             />
                         </div>
 
@@ -276,14 +361,103 @@ const Banner = () => {
                                 showSearch
                                 placeholder="Select..."
                                 style={{ width: '100%', height: '40px' }}
-                                onChange={handleCityChange}
-                                options={cityOptions}
+                                onChange={value => handleSelectModalTwoValue("city", value)}
+                                options={[
+                                    { label: "E", value: "e" },
+                                    { label: "F", value: "f" },
+                                    { label: "G", value: "g" }
+                                ]}
                             />
                         </div>
                     </div>
 
                 </Modal>
 
+
+                {/* modal three */}
+                <Modal open={isModalOpenAttonemy} onOk={handleOkAttonemy} onCancel={handleCancelAttonemy}
+                    width={600}
+                    okText="Done"
+                    cancelText="Back"
+                    okButtonProps={{
+                        style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
+                    }}
+                    cancelButtonProps={{
+                        style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
+                    }}>
+
+
+                    <div>
+                        <svg width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                            <path d="M14.167 20.834L17.5003 24.1673L25.8337 15.834" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
+                            <circle cx="508" cy="20" r="15" stroke="#1B69AD" stroke-width="2" />
+                            <circle cx="508" cy="20" r="5" fill="#1B69AD" />
+                        </svg>
+
+
+                        <div>
+                            <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                                Find the exact Attorny by filter
+                            </Title>
+                        </div>
+
+
+                        <div className='pb-4'>
+                            <p>Lawyer experience</p>
+                            <Select
+                                showSearch
+                                placeholder="Select..."
+                                style={{ width: '100%', height: '40px' }}
+                                onChange={value => handleSelectChange("lawyerExperience", value)}
+                                options={[
+                                    { label: "1-3 Years", value: "1-3" },
+                                    { label: "4-7 Years", value: "4-7" },
+                                    { label: "8+ Years", value: "8+" }
+                                ]}
+                            />
+                        </div>
+
+                        <div className='pb-4'>
+                            <p>Location</p>
+                            <Select
+                                showSearch
+                                placeholder="Select..."
+                                style={{ width: '100%', height: '40px' }}
+                                onChange={value => handleSelectChange("location", value)}
+                                options={cityOptions}
+                            />
+                        </div>
+
+                        <div className='pb-4'>
+                            <p>Languages</p>
+                            <Select
+                                showSearch
+                                placeholder="Select..."
+                                style={{ width: '100%', height: '40px' }}
+                                onChange={value => handleSelectChange("languages", value)}
+                                options={[
+                                    { label: "New York", value: "new-york" },
+                                    { label: "Los Angeles", value: "los-angeles" },
+                                    { label: "Chicago", value: "chicago" }
+                                ]}
+                            />
+                        </div>
+
+                        <div className='pb-4'>
+                            <p>Availability</p>
+                            <div className='flex justify-between items-center gap-6'>
+                                <DatePicker style={{ width: "50%", height: '40px' }} onChange={handleDateChange} />
+
+
+                                {/* date picker component*/}
+                                <TimePicker style={{ width: "50%", height: '40px' }} onChange={handleTimeChange} />
+                            </div>
+                        </div>
+                    </div>
+
+                </Modal>
 
             </div>
             <div>
