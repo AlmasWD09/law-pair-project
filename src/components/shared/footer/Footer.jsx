@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="">
         <h1 className="text-[#FFFFFF] font-crimson text-center pt-[45px] pb-[33px] text-[36px] font-bold">LawPair</h1>
 
-        <div className="md:space-x-[30px] font-roboto text-[#FFFFFF] grid grid-cols-1 md:grid-cols-4 place-items-center pb-[27px] text-center">
+        <div className="font-roboto text-[#FFFFFF] flex flex-col md:flex-row items-center justify-center pb-[27px] text-center space-y-3 md:space-x-[30px]">
           <a href="/">Home</a>
           <a href="/about">About Us</a>
           <a href="/disclaimer">Disclaimer</a>
@@ -23,6 +23,7 @@ const Footer = () => {
           <a href=""><FaLinkedin className=" text-[20px] md:text-[36px]"/></a>
           <a href=""><FaXTwitter className=" text-[20px] md:text-[36px]"/></a>
         </div>
+
         <hr className="border-[#B6B6BA]"/>
 
 
