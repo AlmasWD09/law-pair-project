@@ -1,99 +1,236 @@
+// import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+// import { Button, Form, Input, Table } from "antd"
+// import { key } from "localforage";
+// import { useState } from "react";
+
+// const AddCategories = () => {
+//   const [form] = Form.useForm(); // Form instance
+
+//   const [dataSource, setDataSource] = useState([
+//     {
+//       id: 1,
+//       name: 'John',
+//       address: "Dhaka"
+//     },
+//     {
+//       id: 2,
+//       name: 'Kamal',
+//       address: "Fulbaria"
+//     },
+//     {
+//       id: 3,
+//       name: 'Monir',
+//       address: "Asim"
+//     },
+//   ])
+//   const columns = [
+//     {
+//       key: "1",
+//       title: "ID",
+//       dataIndex: "id"
+//     },
+//     {
+//       key: "2",
+//       title: "Name",
+//       dataIndex: "name"
+//     },
+//     {
+//       key: "3",
+//       title: "Address",
+//       dataIndex: "address"
+//     },
+//     {
+//       key: "4",
+//       title: "Action",
+//       render: (record) => {
+//         return <>
+//           <EditOutlined />
+//           <DeleteOutlined
+//             onClick={() => handleDeleteCategorie(record)}
+//             style={{ color: "red", margin: "12px" }} />
+//         </>
+//       }
+//     },
+//   ]
+
+//   const handleDeleteCategorie = (record) => {
+//     setDataSource(prev=>{
+//       return prev.filter(categorie => categorie.id !== record.id)
+//     })
+//   }
+//   return (
+//     <div className="bg-[#FFFFFF] p-4 rounded-lg">
+//       <div>
+//         <h1 className="font-roboto text-[40px] font-bold text-[#10101E]">Add categories</h1>
+//         <p className="fontro text-[#B6B6BA] text-[12px]">Admin can add categories</p>
+//       </div>
+
+
+//       <div>
+
+//         <Form>
+
+
+//           <div>
+//             <p className="font-roboto text-[#41414D] texy-[14px]">Categories name</p>
+//             <Form.Item
+//               name="name"
+//               rules={[
+//                 { required: true, message: "Please enter your categorie name" },
+//               ]}
+//             >
+//               <Input type="text" placeholder="Enter title" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+//             </Form.Item>
+//           </div>
+
+//           <Button htmlType="submit" block style={{ backgroundColor: "#1E73BE", color: "white", fontFamily: "Roboto", padding: "24px", fontSize: "16px", fontWeight: "bold" }}>Add</Button>
+//         </Form>
+//       </div>
+
+//       <div>
+//         <h1 className="font-roboto text-[32px] font-bold text-[#10101E] pt-[40px]">Preview update content:</h1>
+
+//         <Table columns={columns} dataSource={dataSource} />
+//       </div>
+//     </div>
+//   )
+// }
+
+// export default AddCategories
+
+
+
+
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Table } from "antd"
-import { key } from "localforage";
+import { Button, Form, Input, Table, Modal } from "antd";
+import Upload from "antd/es/upload/Upload";
 import { useState } from "react";
 
 const AddCategories = () => {
-  const [form] = Form.useForm(); // Form instance
-
+  const [form] = Form.useForm();
   const [dataSource, setDataSource] = useState([
-    {
-      id: 1,
-      name: 'John',
-      address: "Dhaka"
-    },
-    {
-      id: 2,
-      name: 'Kamal',
-      address: "Fulbaria"
-    },
-    {
-      id: 3,
-      name: 'Monir',
-      address: "Asim"
-    },
-  ])
+    { id: 1, name: "John", address: "Dhaka" },
+    { id: 2, name: "Kamal", address: "Fulbaria" },
+    { id: 3, name: "Monir", address: "Asim" },
+  ]);
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState(null);
+
+  const showDeleteModal = (record) => {
+    setSelectedRecord(record);
+    setIsModalVisible(true);
+  };
+
+  const handleDeleteCategorie = () => {
+    setDataSource((prev) => prev.filter((categorie) => categorie.id !== selectedRecord.id));
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   const columns = [
-    {
-      key: "1",
-      title: "ID",
-      dataIndex: "id"
-    },
-    {
-      key: "2",
-      title: "Name",
-      dataIndex: "name"
-    },
-    {
-      key: "3",
-      title: "Address",
-      dataIndex: "address"
-    },
+    { key: "1", title: "Image", dataIndex: "image", responsive: ["xs", "sm", "md", "lg", "xl"] },
+    { key: "2", title: "Name", dataIndex: "name", responsive: ["xs", "sm", "md", "lg", "xl"] },
+
     {
       key: "4",
       title: "Action",
-      render: (record) => {
-        return <>
-          <EditOutlined />
+      responsive: ["xs", "sm", "md", "lg", "xl"], // Mobile & Tablet Responsive
+      render: (record) => (
+        <div className="flex gap-2 items-center">
+          {/* <EditOutlined className="text-blue-500 cursor-pointer text-lg" /> */}
           <DeleteOutlined
-            onClick={() => handleDeleteCategorie(record)}
-            style={{ color: "red", margin: "12px" }} />
-        </>
-      }
+            onClick={() => showDeleteModal(record)}
+            className="text-red-500 cursor-pointer text-lg"
+          />
+        </div>
+      ),
     },
-  ]
+  ];
 
-  const handleDeleteCategorie = (record) => {
-    setDataSource(prev=>{
-      return prev.filter(categorie => categorie.id !== record.id)
-    })
-  }
   return (
-    <div className="bg-[#FFFFFF] p-4 rounded-lg">
+    <div className="bg-white p-4 rounded-lg max-w-full">
       <div>
-        <h1 className="font-roboto text-[40px] font-bold text-[#10101E]">Add categories</h1>
-        <p className="fontro text-[#B6B6BA] text-[12px]">Admin can add categories</p>
+        <h1 className="font-roboto text-[20px] md:text-[40px] font-bold text-[#10101E]">Add categories</h1>
+        <p className="fontro text-[#B6B6BA] text-[12px] pb-3">Admin can add categories</p>
       </div>
 
+      {/* Form */}
+      <div className="">
+        <Form form={form}>
 
-      <div>
-
-        <Form>
-
-
-          <div>
-            <p className="font-roboto text-[#41414D] texy-[14px]">Categories name</p>
+          {/* Image Upload Field */}
+          <div className=" mb-2 w-full">
+            <p className="font-roboto text-[#41414D] text-[14px]">Upload</p>
             <Form.Item
-              name="name"
+            
+              name="image"
+              valuePropName="fileList"
+              getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
               rules={[
-                { required: true, message: "Please enter your categorie name" },
+                { required: true, message: "Please upload an image!" },
+                { validator: (_, value) => (value?.[0]?.type?.startsWith("image/") ? Promise.resolve() : Promise.reject("File must be an image")) },
               ]}
             >
-              <Input type="text" placeholder="Enter title" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+              <Upload beforeUpload={() => false} listType="picture">
+                <Button style={{ width: '1050px',padding:"20px", }}>Upload Image</Button>
+              </Upload>
             </Form.Item>
           </div>
 
-          <Button htmlType="submit" block style={{ backgroundColor: "#1E73BE", color: "white", fontFamily: "Roboto", padding: "24px", fontSize: "16px", fontWeight: "bold" }}>Add</Button>
+          <p className="font-roboto text-[#41414D] text-[14px]">Categories name</p>
+          <Form.Item
+            name="name"
+            rules={[{ required: true, message: "Please enter your category name" }]}
+          >
+            <Input
+              type="text"
+              placeholder="Enter title"
+              className="border border-[#b6b6ba83] px-3 py-2 w-full"
+            />
+          </Form.Item>
+
+          <Button
+            htmlType="submit"
+            block
+            style={{ backgroundColor: "#1E73BE", color: "white", fontFamily: "Roboto", padding: "24px", fontSize: "16px", fontWeight: "bold" }}
+          >
+            Add
+          </Button>
         </Form>
       </div>
 
-      <div>
-        <h1 className="font-roboto text-[32px] font-bold text-[#10101E] pt-[40px]">Preview update content:</h1>
+      {/* Preview Section */}
+      <h1 className="font-roboto text-[20px] md:text-3xl font-bold text-[#10101E] pt-6 ">
+        Preview update content:
+      </h1>
 
-        <Table columns={columns} dataSource={dataSource} />
+      <div className="overflow-x-auto pt-3">
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          pagination={{ pageSize: 5 }}
+          className="w-full"
+        />
       </div>
-    </div>
-  )
-}
 
-export default AddCategories
+      {/* Delete Confirmation Modal */}
+      <Modal
+        title="Confirm Delete"
+        open={isModalVisible}
+        onOk={handleDeleteCategorie}
+        onCancel={handleCancel}
+        okText="Delete"
+        cancelText="Cancel"
+      >
+        <p className="text-lg text-gray-800">Are you sure you want to delete this category?</p>
+      </Modal>
+    </div>
+  );
+};
+
+export default AddCategories;
+

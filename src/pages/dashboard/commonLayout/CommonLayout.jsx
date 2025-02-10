@@ -7,7 +7,7 @@ const CommonLayout = () => {
     return (
         <div>
             <div className="flex items-center gap-2 pb-[20px]">
-                <h1 className="font-roboto text-[40px] font-bold text-[#10101E]">Hello, Papatundee</h1>
+                <h1 className="font-roboto text-[20px] md:text-[40px] font-bold text-[#10101E]">Hello, Papatundee</h1>
                 <img src="/logo/hand.png" alt="" />
 
             </div>
