@@ -1,10 +1,13 @@
-import React, { useState, useRef, useMemo } from 'react';
-import JoditEditor from 'jodit-react';
 
+import React, { useState, useRef } from 'react';
+import JoditEditor from 'jodit-react';
+import { Button } from 'antd';
 
 const DashboardAbout = () => {
   const [content, setContent] = useState('');
-  const editor = useRef(null);
+  const editor = useRef(null); // Correctly initialize ref
+
+
 
   return (
     <div className="bg-white p-4 rounded-lg max-w-full">
@@ -12,28 +15,37 @@ const DashboardAbout = () => {
         <h1 className="font-roboto text-[20px] md:text-[40px] font-bold text-[#10101E]">About us</h1>
         <p className="fontro text-[#B6B6BA] text-[12px] pb-3">Admin can edit personal information</p>
 
-
-
-        <div className="w-full mt-6 ">
+        <div className="w-full mt-6">
           <JoditEditor
             ref={editor}
             value={content}
-            tabIndex={1}
             onChange={(newContent) => {
+              console.log("Editor Content:", newContent);
               setContent(newContent);
-              setValue('content', newContent);
             }}
           />
         </div>
 
-        {/* create content show in add form */}
+        <Button
+          htmlType="submit"
+          block
+          style={{ backgroundColor: "#1E73BE", color: "white", fontFamily: "Roboto", padding: "24px", fontSize: "16px", fontWeight: "bold", margin: "10px 0px" }}
+        >
+          Update
+        </Button>
+
+        {/* Preview updated content */}
         <div className="mt-4">
-          <h2>Content Preview</h2>
+          <h1 className="font-roboto text-[20px] md:text-[40px] font-bold text-[#10101E]">Preview update content:</h1>
+          <p className="fontro text-[#B6B6BA] text-[12px] pb-3">Admin writes about us</p>
           <div dangerouslySetInnerHTML={{ __html: content }} />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardAbout
+export default DashboardAbout;
+
+
+

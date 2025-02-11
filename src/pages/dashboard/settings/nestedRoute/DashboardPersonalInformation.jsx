@@ -50,6 +50,10 @@ const DashboardPersonalInformation = () => {
       console.log(`${key}:`, value);
     })
 
+
+
+    form.resetFields();
+      setFileList([]);
     // This function is called when the update password form is submitted
     console.log("Updated  Values: ", values);
     // try {
@@ -57,6 +61,7 @@ const DashboardPersonalInformation = () => {
 
     //   if (response.status === 200) {
     //     console.log('Password updated successfully:', response.data);
+
     //   } else {
     //     console.log('Error updating password:', response.data);
     //   }
@@ -131,7 +136,7 @@ const DashboardPersonalInformation = () => {
               {fileList.length >= 1 ? null : (
                 <div style={{ textAlign: "center"}}>
                   <UploadOutlined style={{ fontSize: 24,}} />
-                  <div>Upload your photo</div>
+                  <div>Upload photo</div>
                 </div>
               )}
 

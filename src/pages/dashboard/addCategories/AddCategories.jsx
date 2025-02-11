@@ -37,7 +37,7 @@ const AddCategories = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
-  const [fileList, setFileList] = useState(null)
+  const [fileList, setFileList] = useState([])
 
   const showDeleteModal = (record) => {
     setSelectedRecord(record);
@@ -54,8 +54,12 @@ const AddCategories = () => {
   };
 
 
-  const handleUpload = (info) => {
-    setFileList([...info.fileList || []]);
+  const handleUpload = ({ fileList }) => {
+    if (fileList.length > 1) {
+      message.error("You can only upload one image!");
+      return;
+    }
+    setFileList(fileList);
   }
 
 
@@ -72,7 +76,7 @@ const AddCategories = () => {
 
 
 
-    
+
     formData.forEach((value, key) => {
       console.log(`${key}:`, value);
     })
@@ -107,12 +111,11 @@ const AddCategories = () => {
         <Form form={form} onFinish={handleCategorie}>
 
           {/* upload image */}
-          <div>
-            <p className="font-roboto text-[#41414D] text-[14px]">Upload</p>
+          <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 p-4">
             <Form.Item
               name="upload"
               valuePropName="fileList"
-              getValueFromEvent={(e) => e?.fileList || []} 
+              getValueFromEvent={(e) => e?.fileList || []}
               rules={[
                 {
                   required: true,
@@ -120,14 +123,24 @@ const AddCategories = () => {
                 },
               ]}
             >
-              <Upload 
-              beforeUpload={() => false} onChange={handleUpload} fileList={fileList}>
-                <Button size="large" icon={<UploadOutlined />}>Upload Categorie Image</Button>
+              <Upload
+                listType="picture-card"
+                beforeUpload={() => false}
+                onChange={handleUpload}
+                fileList={fileList}>
+
+                {fileList.length >= 1 ? null : (
+                  <div style={{ textAlign: "center" }}>
+                    <UploadOutlined style={{ fontSize: 24, }} />
+                    <div>Upload photo</div>
+                  </div>
+                )}
+
               </Upload>
             </Form.Item>
           </div>
 
-          <div>
+          <div className="pt-4">
             <p className="font-roboto text-[#41414D] text-[14px]">Categories name</p>
             <Form.Item
               name="name"
