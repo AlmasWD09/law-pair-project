@@ -19,6 +19,11 @@ import ManageUser from "../pages/dashboard/manageUser/ManageUser";
 import Seetings from "../pages/dashboard/settings/Seetings";
 import AttorneyDetails from "../pages/attorneyTm/AttorneyDetails";
 import UserProfile from "../pages/profile/UserProfile";
+import DashboardAbout from "../pages/dashboard/settings/nestedRoute/DashboardAbout";
+import DashboardDisclaimer from "../pages/dashboard/settings/nestedRoute/DashboardDisclaimer";
+import DashboardLegalResources from "../pages/dashboard/settings/nestedRoute/DashboardLegalResources";
+import DashboardPersonalInformation from "../pages/dashboard/settings/nestedRoute/DashboardPersonalInformation";
+
 
 const router = createBrowserRouter([
   {
@@ -99,9 +104,28 @@ const router = createBrowserRouter([
         path: '/dashboard/manage-user',
         element: <ManageUser />
       },
+
       {
         path: '/dashboard/setting',
-        element: <Seetings />
+        element: <Seetings />,
+        children: [
+          {
+            path:"personal-in-formation",
+            element:<DashboardPersonalInformation />
+          },
+          {
+            path:"about-us",
+            element:<DashboardAbout />
+          },
+          {
+            path:"disclai-mer",
+            element:<DashboardDisclaimer />
+          },
+          {
+            path:"legal-re-sources",
+            element:<DashboardLegalResources />
+          },
+        ],
       },
     ],
   },

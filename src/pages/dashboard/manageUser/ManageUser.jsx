@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Table, Input, Button, Modal } from "antd";
+import { Table, Input, Button, Modal, Tag } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
 const ManageUser = () => {
@@ -30,7 +30,7 @@ const ManageUser = () => {
     { key: "19", name: "Jahid Hasan", email: "jahid@example.com", role: "Lawyer" },
     { key: "20", name: "Ruma Akter", email: "ruma@example.com", role: "Client" },
   ]);
-  
+
 
 
   const filteredData = data.filter(
@@ -75,6 +75,19 @@ const ManageUser = () => {
       title: "Role",
       dataIndex: "role",
       key: "role",
+      render: (role) => (
+        <Tag
+          style={{
+            borderRadius: "999px", // rounded-full effect
+            padding: "3px 15px",
+            fontSize: "14px",
+            fontWeight: "400",
+            color: "white",
+            backgroundColor: role === "Lawyer" ? "#96DDCA" : "#EBD298",
+            border: "none",
+          }}
+        >{role}</Tag>
+      ),
       responsive: ["xs", "sm", "md", "lg", "xl"],
     },
     {
@@ -104,7 +117,10 @@ const ManageUser = () => {
           onChange={(e) => setSearchText(e.target.value)}
           style={{ marginBottom: 16, width: 300 }}
         />
-        <Table columns={columns} dataSource={filteredData} pagination={{ pageSize: 8 }} />
+
+        <div className="overflow-x-auto pt-3">
+          <Table columns={columns} dataSource={filteredData} pagination={{ pageSize: 8 }} />
+        </div>
       </div>
 
       {/* Delete Confirmation Modal */}
