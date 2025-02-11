@@ -15,6 +15,20 @@
     font-weight: 600;
 }
 
+/*================================= upload image container width ================ */
+/* .upload-container, .ant-upload, .ant-btn {
+    width: 100% !important;
+  } */
+
+
+
+
+
+
+
+
+
+
 
 /* Default tab text color */
 /* .custom-tabs .ant-tabs-tab {
@@ -39,7 +53,3 @@
 } */
 
 
-
-/* .upload-container, .ant-upload, .ant-btn {
-    width: 100% !important;
-  } */

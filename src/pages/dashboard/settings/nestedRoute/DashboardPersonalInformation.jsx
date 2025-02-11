@@ -1,5 +1,5 @@
-import { EnvironmentOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal, } from "antd";
+import { EnvironmentOutlined, PhoneOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Modal, Upload, } from "antd";
 import axios from "axios";
 import { useState } from "react";
 
@@ -7,7 +7,7 @@ const DashboardPersonalInformation = () => {
   const [form] = Form.useForm();
   const [passwordForm] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [fileList, setFileList] = useState([]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -20,19 +20,40 @@ const DashboardPersonalInformation = () => {
     setIsModalOpen(false);
   };
 
+  const handleUpload = ({ fileList }) => {
+    if (fileList.length > 1) {
+      message.error("You can only upload one image!");
+      return;
+    }
+    setFileList(fileList);
+  };
+
 
   const handleSaveChange = async (values) => {
-    const saveChangeInfo = {
-      firstName: values['first-name'],
-      lastName: values['last-name'],
-      contactNumber: values['contact-number'],
-      location: values['location'],
-    };
+    const formData = new FormData();
+
+    // Append image file
+    if (fileList && fileList.length > 0) {
+      formData.append("image", fileList[0].originFileObj);
+    }
+
+    formData.append("first-name", values["first-name"]);
+    formData.append("last-name", values["last-name"]);
+    formData.append("contact", values["contact-number"]);
+    formData.append("location", values["location"]);
+
+
+
+
+    
+    formData.forEach((value, key) => {
+      console.log(`${key}:`, value);
+    })
 
     // This function is called when the update password form is submitted
     console.log("Updated  Values: ", values);
     // try {
-    //   const response = await axios.post('/url', saveChangeInfo);
+    //   const response = await axios.post('/url', formData);
 
     //   if (response.status === 200) {
     //     console.log('Password updated successfully:', response.data);
@@ -78,9 +99,6 @@ const DashboardPersonalInformation = () => {
   };
 
 
-
-
-
   return (
     <div className="bg-white p-4 rounded-lg max-w-full">
       <div>
@@ -91,10 +109,35 @@ const DashboardPersonalInformation = () => {
       <Form form={form} onFinish={handleSaveChange}>
 
 
-        {/* upload */}
-        <div className="py-10">
-     <h1 className="text-2xl ">Upload image fiele here...</h1>
-    </div>
+        {/* upload image */}
+        <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 p-4">
+          <Form.Item
+            name="upload"
+            valuePropName="fileList"
+            getValueFromEvent={(e) => e?.fileList || []}
+            rules={[
+              {
+                required: true,
+                message: "Please upload an image!",
+              },
+            ]}
+          >
+            <Upload
+              listType="picture-card"
+              beforeUpload={() => false}
+              onChange={handleUpload}
+              fileList={fileList}>
+
+              {fileList.length >= 1 ? null : (
+                <div style={{ textAlign: "center"}}>
+                  <UploadOutlined style={{ fontSize: 24,}} />
+                  <div>Upload your photo</div>
+                </div>
+              )}
+
+            </Upload>
+          </Form.Item>
+        </div>
 
 
         {/* first name & last name */}

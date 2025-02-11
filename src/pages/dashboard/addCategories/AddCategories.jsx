@@ -120,7 +120,8 @@ const AddCategories = () => {
                 },
               ]}
             >
-              <Upload beforeUpload={() => false} onChange={handleUpload} fileList={fileList}>
+              <Upload 
+              beforeUpload={() => false} onChange={handleUpload} fileList={fileList}>
                 <Button size="large" icon={<UploadOutlined />}>Upload Categorie Image</Button>
               </Upload>
             </Form.Item>
