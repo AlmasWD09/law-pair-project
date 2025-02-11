@@ -8,7 +8,9 @@ const MainLayout = () => {
         {/* Header component */}
         <Header />
 
+      <div className="min-h-[340px]">
       <Outlet />
+      </div>
       {/* Footer component */}
       <Footer />
     </div>

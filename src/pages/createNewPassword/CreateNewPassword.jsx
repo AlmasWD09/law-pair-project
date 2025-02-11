@@ -16,8 +16,8 @@ export const CreateNewPassword = () => {
     };
     return (
         <AccountCreate>
-            <div className="flex flex-col justify-center items-center h-screen bg-[#f5f5f7]">
-                <div className="min-w-[478px] min-h-[292px] bg-[#FFFFFF] p-6 rounded-lg shadow-lg">
+            <div className="flex flex-col justify-center items-center h-[calc(100vh-122px)] bg-[#f5f5f7] container mx-auto px-4">
+                <div className="w-full md:w-[478px] min-h-[292px] bg-[#FFFFFF] p-6 rounded-lg shadow-lg">
                     <h2 className="text-[26px] font-bold font-roboto text-[#10101E]  mb-0 pb-[32px]">Create a new password</h2>
 
                     <Form form={form} layout="vertical" onFinish={onFinish}>

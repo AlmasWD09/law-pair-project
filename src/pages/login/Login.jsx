@@ -125,15 +125,15 @@ const Login = () => {
 
     return (
         <AccountCreate>
-            <div className="flex flex-col justify-center items-center h-screen bg-[#f5f5f7]">
-                <div className="min-w-[578px] min-h-[532px] bg-[#FFFFFF] p-6 rounded-lg shadow-lg">
+            <div className="flex flex-col justify-center items-center h-[calc(100vh-122px)] bg-[#f5f5f7] container mx-auto px-4 ">
+                <div className="w-full md:w-[578px]  bg-[#FFFFFF] p-6 rounded-lg shadow-lg">
                     <h2 className="text-[26px] font-bold font-roboto text-[#10101E]  mb-0">Log In</h2>
                     <Tabs defaultActiveKey="1" items={items} onChange={onChange} className="custom-tabs" />
                 </div>
 
 
 
-                <div className="text-center pt-8">
+                <div className="text-center py-2">
                     <p className="text-[14px] font-roboto">Don’t have an account? <Link to={'/create-account'} className="text-primary font-bold font-roboto">Create account</Link></p>
                 </div>
             </div>

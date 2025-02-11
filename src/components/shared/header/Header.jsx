@@ -73,9 +73,9 @@ const Header = () => {
                         {/* mobile menu */}
                         <div
                             className={`${isOpen ? "-right-full" : "right-0"
-                                }  w-2/3 h-screen p-4 fixed  top-[70px] md:top-[65px] z-[999999] bg-primaryGray  shadow-md flex flex-col space-y-4 my-transition`}
+                                }  w-2/3 h-screen p-4 fixed  top-[82px] md:top-[65px] z-[999999] bg-primaryGray  shadow-md flex flex-col space-y-4 my-transition bg-gray-100`}
                         >
-                            <div className="flex flex-col lg:hidden space-y-4 ">
+                            <div className="flex flex-col lg:hidden space-y-4">
                                 <NavLink to='/' >
                                     <Button text={" Home"} />
                                 </NavLink>
@@ -94,10 +94,15 @@ const Header = () => {
 
                                 {/* navbar Sign Up and login button */}
                                 <div className=" bg-secondery/50 rounded-md py-3">
-                                    <div className="flex flex-col items-center gap-4">
-                                        <Link to='/login'>
-                                            <button className="text-lg  font-semibold font-lato">Login</button>
+                                    <div className="flex items-center gap-4">
+                                        <Link to='/create-account'>
+                                            <button className="bg-primary  rounded-[4px] text-[16px]
+                                        text-[#FFFFFF] px-2 py-2 font-bold flex items-center gap-1">
+                                                <h2>Create an Account</h2>
+                                                <img src="/createAccount.png" alt="createAccount image" />
+                                            </button>
                                         </Link>
+
                                     </div>
                                 </div>
                             </div>
