@@ -8,7 +8,22 @@ const DashboardAbout = () => {
   const editor = useRef(null); // Correctly initialize ref
 
 
+  const handleUpdate = async () => {
+    console.log(content)
+    // try {
 
+    //   const response = await axios.post('url', { content });
+    //   console.log('Server Response:', response.data);
+    //   alert('Content updated successfully!');
+
+    // } catch (error) {
+    //   console.error('Error updating content:', error);
+    //   alert('Failed to update content');
+    // }
+  };
+
+
+  
   return (
     <div className="bg-white p-4 rounded-lg max-w-full">
       <div>
@@ -19,6 +34,9 @@ const DashboardAbout = () => {
           <JoditEditor
             ref={editor}
             value={content}
+            // config={{
+            //   height: "400px", // Set your desired height
+            // }}
             onChange={(newContent) => {
               console.log("Editor Content:", newContent);
               setContent(newContent);
@@ -30,6 +48,7 @@ const DashboardAbout = () => {
           htmlType="submit"
           block
           style={{ backgroundColor: "#1E73BE", color: "white", fontFamily: "Roboto", padding: "24px", fontSize: "16px", fontWeight: "bold", margin: "10px 0px" }}
+          onClick={handleUpdate}
         >
           Update
         </Button>
