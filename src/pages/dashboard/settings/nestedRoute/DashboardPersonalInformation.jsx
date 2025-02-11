@@ -2,40 +2,11 @@ import { EnvironmentOutlined, PhoneOutlined, UserOutlined } from "@ant-design/ic
 import { Button, Form, Input, Modal, } from "antd";
 import axios from "axios";
 import { useState } from "react";
-import { Upload } from 'antd';
-import ImgCrop from 'antd-img-crop';
 
 const DashboardPersonalInformation = () => {
   const [form] = Form.useForm();
   const [passwordForm] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [fileList, setFileList] = useState([
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-  ]);
-  const onChange = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
-  };
-  const onPreview = async (file) => {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
-  };
-
 
 
   const showModal = () => {
@@ -121,17 +92,9 @@ const DashboardPersonalInformation = () => {
 
 
         {/* upload */}
-        <ImgCrop rotationSlider>
-          <Upload
-            action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-            listType="picture-card"
-            fileList={fileList}
-            onChange={onChange}
-            onPreview={onPreview}
-          >
-            {fileList.length < 5 && '+ Upload'}
-          </Upload>
-        </ImgCrop>
+        <div className="py-10">
+     <h1 className="text-2xl ">Upload image fiele here...</h1>
+    </div>
 
 
         {/* first name & last name */}
