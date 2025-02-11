@@ -111,7 +111,7 @@ const AddCategories = () => {
         <Form form={form} onFinish={handleCategorie}>
 
           {/* upload image */}
-          <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 p-4">
+          <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 pt-5">
             <Form.Item
               name="upload"
               valuePropName="fileList"
