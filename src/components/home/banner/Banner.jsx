@@ -258,19 +258,35 @@ const Banner = () => {
 
                 <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                     width={600}
-                    okText="Continue"
-                    okButtonProps={{
-                        style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
-                    }}
-                    cancelButtonProps={{
-                        style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
-                    }}
+                    footer={
+                        <div className="font-roboto flex justify-center md:justify-between items-center gap-x-4 md:px-7">
+                            <button
+                                className="w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                onClick={handleCancel}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                onClick={handleOk}
+                            >
+                                Continue
+                            </button>
+                        </div>
+                    }
+                // okText="Continue"
+                // okButtonProps={{
+                //     className:"w-[50%] h-[50px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                //   }}
+                //   cancelButtonProps={{
+                //     className:"w-[50%] h-[50px] md:w-[161px] md:h-[64px] border  text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                //   }}
                 >
 
 
                     <div>
                         <div style={{ maxWidth: "90%", margin: "auto", textAlign: "center" }}>
-                            
+
                             <svg width="100%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
                                 <circle cx="20" cy="20" r="5" fill="#1B69AD" />
@@ -315,14 +331,31 @@ const Banner = () => {
 
                 <Modal open={isModalOpenTow} onOk={handleOkTwo} onCancel={handleCancelTwo}
                     width={600}
-                    okText="Continue"
-                    cancelText="Back"
-                    okButtonProps={{
-                        style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
-                    }}
-                    cancelButtonProps={{
-                        style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
-                    }}>
+                    footer={
+                        <div className="flex justify-between items-center gap-x-4 ">
+                            <button
+                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                onClick={handleCancelTwo}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                onClick={handleOkTwo}
+                            >
+                                Continue
+                            </button>
+                        </div>
+                    }
+                // okText="Continue"
+                // cancelText="Back"
+                // okButtonProps={{
+                //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
+                // }}
+                // cancelButtonProps={{
+                //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
+                // }}
+                >
 
 
                     <div>
@@ -377,14 +410,31 @@ const Banner = () => {
                 {/* modal three */}
                 <Modal open={isModalOpenAttonemy} onOk={handleOkAttonemy} onCancel={handleCancelAttonemy}
                     width={600}
-                    okText="Done"
-                    cancelText="Back"
-                    okButtonProps={{
-                        style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
-                    }}
-                    cancelButtonProps={{
-                        style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
-                    }}>
+                    footer={
+                        <div className="flex justify-between items-center gap-x-4 ">
+                            <button
+                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                onClick={handleCancelAttonemy}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                onClick={handleOkAttonemy}
+                            >
+                                Continue
+                            </button>
+                        </div>
+                    }
+                // okText="Done"
+                // cancelText="Back"
+                // okButtonProps={{
+                //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
+                // }}
+                // cancelButtonProps={{
+                //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
+                // }}
+                >
 
 
                     <div>
