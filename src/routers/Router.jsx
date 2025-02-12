@@ -24,6 +24,10 @@ import DashboardAbout from "../pages/dashboard/settings/nestedRoute/DashboardAbo
 import DashboardDisclaimer from "../pages/dashboard/settings/nestedRoute/DashboardDisclaimer";
 import DashboardLegalResources from "../pages/dashboard/settings/nestedRoute/DashboardLegalResources";
 import DashboardLogin from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardLogin";
+import DashboardForgetPassword from "../pages/dashboard/dashboardAuthentication/DashboardForgetPassword";
+import DashboardCreateNewPassword from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardCreateNewPassword";
+import DashboardCongratulation from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardCongratulation";
+import DashboardOtpVerification from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardOtpVerification";
 
 
 const router = createBrowserRouter([
@@ -134,6 +138,23 @@ const router = createBrowserRouter([
   path:'/admin/dashboard/login',
   element:<DashboardLogin />
 },
+{
+  path:'/admin/dashboard/forget-password',
+  element:<DashboardForgetPassword />
+},
+{
+  path:'/admin/dashboard/otp-verification',
+  element:<DashboardOtpVerification />
+},
+{
+  path:'/admin/dashboard/create-new-password',
+  element:<DashboardCreateNewPassword />
+},
+{
+  path:'/admin/dashboard/congratulation',
+  element:<DashboardCongratulation />
+},
+
 ]);
 
 export default router;

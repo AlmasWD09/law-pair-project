@@ -1,7 +1,7 @@
 import { icons } from "antd/es/image/PreviewGroup";
 import { useState } from "react";
 import { AiFillHome } from "react-icons/ai";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 
@@ -185,9 +185,11 @@ const Sidebar = () => {
                             Papatundee
                         </h1>
                     </div>
-                    <div>
-                        <img src="/logo/login.png" alt="login image" className="w-[30px] h-[30px]" />
-                    </div>
+                    <Link to={'/admin/dashboard/login'}>
+                        <div>
+                            <img src="/logo/login.png" alt="login image" className="w-[30px] h-[30px]" />
+                        </div>
+                    </Link>
                 </div>
             </div>
 
