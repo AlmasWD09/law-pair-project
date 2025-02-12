@@ -86,7 +86,6 @@ const router = createBrowserRouter([
     path: "/user-profile",
     element: <UserProfile />
   },
-
   // dashboard layout
   {
     path: '/dashboard',

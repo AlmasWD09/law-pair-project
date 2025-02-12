@@ -49,7 +49,7 @@ const Banner = () => {
             console.log("No options selected.");
             return;
         }
-        // console.log(selectedOptions)
+   
 
 
         setIsModalOpen(false)
