@@ -8,7 +8,7 @@ import { IoIosArrowUp } from "react-icons/io";
 
 const Sidebar = () => {
     const [openDropdown, setOpenDropdown] = useState(null);
-    const[settingIconColor, setSettingIconColor] = useState(false)
+    const [settingIconColor, setSettingIconColor] = useState(false)
 
     const toggleDropdown = (index) => {
         setOpenDropdown(openDropdown === index ? null : index);
@@ -122,11 +122,11 @@ const Sidebar = () => {
                                         onClick={() => toggleDropdown(index)}
                                         className="flex justify-between items-center w-full px-4 py-2 hover:text-primary font-roboto"
                                     >
-                                        <span className="flex items-center gap-2 font-roboto">
+                                        <span className={`flex items-center gap-2 font-roboto ${settingIconColor ? "text-primary font-bold" : ""}`}>
                                             {
                                                 settingIconColor ? menu.icon2 : menu.icon1
                                             }
-                                             {menu.title}</span>
+                                            {menu.title}</span>
                                         <span>
                                             {openDropdown === index ? <IoIosArrowDown /> : <IoIosArrowUp />}
                                         </span>
@@ -158,7 +158,7 @@ const Sidebar = () => {
                                 >
                                     {({ isActive }) => (
                                         <>
-                                            {isActive ? menu.icon2  : menu.icon1}
+                                            {isActive ? menu.icon2 : menu.icon1}
                                             <span>{menu.title}</span>
                                         </>
                                     )}
