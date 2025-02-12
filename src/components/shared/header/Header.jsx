@@ -73,7 +73,7 @@ const Header = () => {
                         {/* mobile menu */}
                         <div
                             className={`${isOpen ? "-right-full" : "right-0"
-                                }  w-2/3 h-screen p-4 fixed  top-[82px] md:top-[65px] z-[999999] bg-primaryGray  shadow-md flex flex-col space-y-4 my-transition bg-gray-100`}
+                                }  w-2/3 h-screen p-4 fixed  top-[82px] md:top-[82px] z-[999999] bg-primaryGray  shadow-md flex flex-col space-y-4 my-transition bg-gray-100`}
                         >
                             <div className="flex flex-col lg:hidden space-y-4">
                                 <NavLink to='/' >

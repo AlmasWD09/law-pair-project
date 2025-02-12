@@ -66,11 +66,11 @@ const Chart = () => {
     useEffect(() => {
       const handleResize = () => {
         if (window.innerWidth < 640) {
-          setChartHeight(350);
+          setChartHeight(300);
         } else if (window.innerWidth < 1024) {
           setChartHeight(450);
         } else {
-          setChartHeight(550);
+          setChartHeight(440);
         }
       };
     
