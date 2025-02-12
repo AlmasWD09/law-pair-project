@@ -1,7 +1,7 @@
 import { icons } from "antd/es/image/PreviewGroup";
 import { useState } from "react";
 import { AiFillHome } from "react-icons/ai";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 
@@ -9,6 +9,14 @@ import { IoIosArrowUp } from "react-icons/io";
 const Sidebar = () => {
     const [openDropdown, setOpenDropdown] = useState(null);
     const [settingIconColor, setSettingIconColor] = useState(false)
+    const navigate = useNavigate()
+
+
+
+    // navigate founction
+    const handleClick = () => {
+        navigate("/")
+    }
 
     const toggleDropdown = (index) => {
         setOpenDropdown(openDropdown === index ? null : index);
@@ -110,9 +118,9 @@ const Sidebar = () => {
 
     return (
         <>
-            <div className="h-full hidden md:flex flex-col justify-between  mx-4">
+            <div className="h-full hidden lg:flex flex-col justify-between  mx-4">
                 <div>
-                    <img src="/logo.png" alt="logo" className="w-full object-contain pt-6 " />
+                    <img onClick={handleClick} src="/logo.png" alt="logo" className="w-full object-contain pt-6 cursor-pointer" />
                     {/* sidebar menu */}
                     <ul className="h-full flex flex-col gap-4 pt-8 py-2">
                         {menus.map((menu, index) => (
@@ -187,7 +195,7 @@ const Sidebar = () => {
 
 
             {/*============== mobile device ============ */}
-            <div className="md:hidden">
+            <div className="lg:hidden">
                 <div>
                     {/* sidebar menu */}
                     <ul className="h-full flex flex-col gap-4 pt-8 py-2">

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import Sidebar from "../components/dashboard/sidebar/Sidebar";
@@ -6,7 +6,12 @@ import DashboardNavbar from "../components/dashboard/dashboardNavbar/DashboardNa
 
 const DashboardLayout = () => {
     const [showDrawer, setShowDrawer] = useState(false);
+    const navigate = useNavigate()
 
+    // navigate founction
+    const handleClick = () => {
+        navigate("/")
+    }
     return (
         <div className="relative flex h-screen">
             {/* Sidebar component */}
@@ -14,13 +19,13 @@ const DashboardLayout = () => {
                 <Sidebar />
             </div>
 
-
+            {/* bg-[#f5f5f7] */}
             {/* ============= mobile & tablet sidebar start ========== */}
             {
                 showDrawer && <div className="lg:hidden absolute w-[85%] md:w-[40%] h-screen bg-[#f5f5f7] z-50">
                     <div className="flex flex-col items-start justify-between px-3 py-[18px]">
                         <div className="w-full flex justify-between items-center">
-                            <img src="/logo.png" alt="logo" className="w-[80%] object-contain" />
+                            <img onClick={handleClick} src="/logo.png" alt="logo" className="w-[80%] object-contain cursor-pointer" />
                             <FaArrowLeft
                                 onClick={() => setShowDrawer(!showDrawer)}
                                 className="text-4xl text-primary" />
@@ -38,7 +43,7 @@ const DashboardLayout = () => {
 
 
             {/* Main content area */}
-            <div className="md:ml-[290px] w-full flex flex-col">
+            <div className="lg:ml-[290px] w-full flex flex-col">
                 <div className="order-1">
                     <DashboardNavbar showDrawer={showDrawer} setShowDrawer={setShowDrawer} />
                 </div>

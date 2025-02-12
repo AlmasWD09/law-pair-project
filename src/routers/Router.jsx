@@ -23,6 +23,7 @@ import DashboardPersonalInformation from "../pages/dashboard/settings/nestedRout
 import DashboardAbout from "../pages/dashboard/settings/nestedRoute/DashboardAbout";
 import DashboardDisclaimer from "../pages/dashboard/settings/nestedRoute/DashboardDisclaimer";
 import DashboardLegalResources from "../pages/dashboard/settings/nestedRoute/DashboardLegalResources";
+import DashboardLogin from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardLogin";
 
 
 const router = createBrowserRouter([
@@ -128,6 +129,11 @@ const router = createBrowserRouter([
       },
     ],
   },
+  //=================== Dashboard Authentication ================
+{
+  path:'/admin/dashboard/login',
+  element:<DashboardLogin />
+},
 ]);
 
 export default router;

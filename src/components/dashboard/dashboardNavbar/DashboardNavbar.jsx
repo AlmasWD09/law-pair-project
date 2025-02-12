@@ -2,12 +2,18 @@ import { FiMenu } from "react-icons/fi";
 import { FiSearch } from "react-icons/fi";
 import { RiNotificationLine } from "react-icons/ri";
 import { TbMessageDots } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 
 
 const DashboardNavbar = ({showDrawer,setShowDrawer}) => {
+  const navigate = useNavigate()
 
-  const handleClick = () =>{
+     // navigate founction
+     const handleClick = () => {
+      navigate("/")
+  }
+  const handleMenu = () =>{
    setShowDrawer(!showDrawer)
   }
   return (
@@ -15,11 +21,11 @@ const DashboardNavbar = ({showDrawer,setShowDrawer}) => {
       <div className="flex items-center gap-5 lg:hidden">
         <div>
           <FiMenu 
-          onClick={handleClick}
+          onClick={handleMenu}
           className="text-4xl border border-gray-200 p-1 cursor-pointer" />
         </div>
         <div>
-          <img src="/logo.png" alt="" />
+          <img onClick={handleClick} src="/logo.png" alt="" className="cursor-pointer"/>
         </div>
       </div>
 
