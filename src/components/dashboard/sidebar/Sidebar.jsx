@@ -1,5 +1,6 @@
 import { icons } from "antd/es/image/PreviewGroup";
 import { AiFillHome } from "react-icons/ai";
+import { NavLink } from "react-router-dom";
 
 
 
@@ -51,15 +52,20 @@ const Sidebar = () => {
 
 
     return (
-        <div className="h-full flex flex-col justify-between  mx-4 ">
+        <div className="h-full flex flex-col justify-between  mx-4">
             <div>
-                <img src="/logo.png" alt="logo" className="w-full object-cover" />
+                <img src="/logo.png" alt="logo" className="w-full object-contain pt-6 " />
                 {/* sidebar menu */}
-                <div className="h-full flex flex-col gap-4 py-2 ">
+                <div className="h-full flex flex-col gap-4 pt-8 py-2 ">
                     {
                         menus.map((item, index) => {
                             return (
-                                <a className=" hover:text-white  py-1 rounded-md flex items-center gap-2 px-2 border-2 border-red-800" href={item.path} key={index}>{item.icon} {item.title}</a>
+                                <NavLink to={item.path} key={index} end={item.path === "/dashboard"}
+                                    className={({ isActive }) =>
+                                        isActive
+                                            ? "flex items-center gap-2 font-roboto text-primary font-bold px-2 py-2 bg-[#e9f1f9] rounded-lg"
+                                            : "flex items-center gap-2 font-roboto px-2 py-2 hover:bg-[#e9f1f9] rounded-lg"
+                                    }>{item.icon} {item.title}</NavLink>
                             )
                         })
                     }

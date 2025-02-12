@@ -65,7 +65,7 @@ const Chart = () => {
     return (
         <div>
             <div id="chart" className="bg-[#FFFF] my-6 p-4 rounded-lg">
-                <ReactApexChart options={state.options} series={state.series} type="area" height={350} />
+                <ReactApexChart options={state.options} series={state.series} type="area" height={440} />
             </div>
         </div>
     );

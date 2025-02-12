@@ -10,7 +10,7 @@ const DashboardLayout = () => {
     return (
         <div className="relative flex h-screen">
             {/* Sidebar component */}
-            <div className="hidden lg:block w-[270px] bg-gray-200 h-full fixed border-2 border-red-600">
+            <div className="hidden lg:block w-[270px] bg-[#FFFF] h-full fixed">
                 <Sidebar />
             </div>
 
@@ -38,7 +38,7 @@ const DashboardLayout = () => {
                     <DashboardNavbar showDrawer={showDrawer} setShowDrawer={setShowDrawer} />
                 </div>
 
-                <div className="order-2 flex-1 overflow-y-auto p-6 bg-red-400 rounded-md">
+                <div className="order-2 flex-1 overflow-y-auto p-6 bg-[#f5f5f7] rounded-md">
                     <Outlet />
                 </div>
             </div>
