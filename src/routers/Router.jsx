@@ -109,7 +109,7 @@ const router = createBrowserRouter([
         element: <Seetings />,
         children: [
           {
-            path:"personal-in-formation",
+            path:"personal-information",
             element:<DashboardPersonalInformation />
           },
           {
