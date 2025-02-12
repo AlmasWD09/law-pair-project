@@ -17,7 +17,7 @@ const Sidebar = () => {
 
     const menus = [
         {
-            path: '/dashboard',
+            path: '/admin/dashboard',
             title: 'Dashboard',
             icon1: (
                 <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +31,7 @@ const Sidebar = () => {
             )
         },
         {
-            path: '/dashboard/add-categories',
+            path: '/admin/dashboard/add-categories',
             title: 'Add categories',
             icon1: (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,7 +57,7 @@ const Sidebar = () => {
             )
         },
         {
-            path: '/dashboard/manage-user',
+            path: '/admin/dashboard/manage-user',
             title: 'Manage users',
             icon1: (
                 <svg width="24" height="24" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -88,19 +88,19 @@ const Sidebar = () => {
             hasDropdown: true,
             dropdownItems: [
                 {
-                    path: "/dashboard/setting/personal-information",
+                    path: "/admin/dashboard/setting/personal-information",
                     title: "Personal Information"
                 },
                 {
-                    path: "/dashboard/setting/about-us",
+                    path: "/admin/dashboard/setting/about-us",
                     title: "About Us"
                 },
                 {
-                    path: "/dashboard/setting/disclai-mer",
+                    path: "/admin/dashboard/setting/disclai-mer",
                     title: "Disclaimer"
                 },
                 {
-                    path: "/dashboard/setting/legal-re-sources",
+                    path: "/admin/dashboard/setting/legal-re-sources",
                     title: "Legal Resources"
                 },
             ],
@@ -152,7 +152,7 @@ const Sidebar = () => {
                                 ) : (
                                     <NavLink
                                         to={menu.path}
-                                        end={menu.path === "/dashboard"}
+                                        end={menu.path === "/admin/dashboard"}
                                         className={({ isActive }) =>
                                             `block px-4 py-2 rounded ${isActive ? "bg-[#e9f1f9] text-primary font-bold flex items-center gap-2" : "  hover:bg-[#e9f1f9] flex items-center gap-2"}`
                                         }
@@ -228,7 +228,7 @@ const Sidebar = () => {
                                 ) : (
                                     <NavLink
                                         to={menu.path}
-                                        end={menu.path === "/dashboard"}
+                                        end={menu.path === "/admin/dashboard"}
                                         className={({ isActive }) =>
                                             `block px-4 py-2 rounded ${isActive ? "bg-[#e9f1f9] text-primary font-bold flex items-center gap-2" : "  hover:bg-[#e9f1f9] flex items-center gap-2"}`
                                         }

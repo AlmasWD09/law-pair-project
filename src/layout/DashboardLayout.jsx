@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "../components/dashboard/sidebar/Sidebar";
-import DashboardNavbar from "../components/dashboard/dashboardNavbar/DashboardNavbar";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
+import Sidebar from "../components/dashboard/sidebar/Sidebar";
+import DashboardNavbar from "../components/dashboard/dashboardNavbar/DashboardNavbar";
 
 const DashboardLayout = () => {
     const [showDrawer, setShowDrawer] = useState(false);
@@ -23,7 +23,7 @@ const DashboardLayout = () => {
                             <img src="/logo.png" alt="logo" className="w-[80%] object-contain" />
                             <FaArrowLeft
                                 onClick={() => setShowDrawer(!showDrawer)}
-                                className="text-4xl hover:text-primary" />
+                                className="text-4xl text-primary" />
                         </div>
 
                         {/* sidebar component mobile device */}
