@@ -17,15 +17,20 @@ const DashboardLayout = () => {
 
             {/* ============= mobile & tablet sidebar start ========== */}
             {
-                showDrawer && <div className="lg:hidden absolute w-[86%] md:w-[40%] h-screen bg-[#FFFF] z-50">
-                    <div className="flex items-center justify-between px-3 py-[18px]">
-                        <div className="flex items-center gap-2">
-                            <img src="/logo.png" alt="logo" />
-                            {/* <h1 className="text-xl font-semibold">AdminLayout</h1> */}
+                showDrawer && <div className="lg:hidden absolute w-[85%] md:w-[40%] h-screen bg-[#f5f5f7] z-50">
+                    <div className="flex flex-col items-start justify-between px-3 py-[18px]">
+                        <div className="w-full flex justify-between items-center">
+                            <img src="/logo.png" alt="logo" className="w-[80%] object-contain" />
+                            <FaArrowLeft
+                                onClick={() => setShowDrawer(!showDrawer)}
+                                className="text-4xl hover:text-primary" />
                         </div>
-                        <FaArrowLeft
-                            onClick={() => setShowDrawer(!showDrawer)}
-                            className="text-2xl" />
+
+                        {/* sidebar component mobile device */}
+                        <div className=" w-full">
+                            <Sidebar />
+                        </div>
+
                     </div>
                 </div>
             }
@@ -33,7 +38,7 @@ const DashboardLayout = () => {
 
 
             {/* Main content area */}
-            <div className="ml-[290px] w-full flex flex-col">
+            <div className="md:ml-[290px] w-full flex flex-col">
                 <div className="order-1">
                     <DashboardNavbar showDrawer={showDrawer} setShowDrawer={setShowDrawer} />
                 </div>
@@ -42,21 +47,6 @@ const DashboardLayout = () => {
                     <Outlet />
                 </div>
             </div>
-
-
-            {/* {
-                showDrawer && <div className="lg:hidden absolute w-[86%] md:w-[40%] h-screen bg-[#FFFF] z-50">
-                    <div className="flex items-center justify-between px-3 py-[18px]">
-                        <div className="flex items-center gap-2">
-                            <img src="/logo.png" alt="logo" />
-                        </div>
-                        <FaArrowLeft
-                            onClick={() => setShowDrawer(!showDrawer)}
-                            className="text-2xl" />
-                    </div>
-                </div>
-            } */}
-
         </div>
     );
 };

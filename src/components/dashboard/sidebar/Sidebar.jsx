@@ -109,78 +109,157 @@ const Sidebar = () => {
 
 
     return (
-        <div className="h-full flex flex-col justify-between  mx-4">
-            <div>
-                <img src="/logo.png" alt="logo" className="w-full object-contain pt-6 " />
-                {/* sidebar menu */}
-                <ul className="h-full flex flex-col gap-4 pt-8 py-2">
-                    {menus.map((menu, index) => (
-                        <li key={index} className="mb-2">
-                            {menu.hasDropdown ? (
-                                <>
-                                    <NavLink
-                                        onClick={() => toggleDropdown(index)}
-                                        className="flex justify-between items-center w-full px-4 py-2 hover:text-primary font-roboto"
-                                    >
-                                        <span className={`flex items-center gap-2 font-roboto ${settingIconColor ? "text-primary font-bold" : ""}`}>
-                                            {
-                                                settingIconColor ? menu.icon2 : menu.icon1
-                                            }
-                                            {menu.title}</span>
-                                        <span>
-                                            {openDropdown === index ? <IoIosArrowDown /> : <IoIosArrowUp />}
-                                        </span>
-                                    </NavLink>
-
-                                    {openDropdown === index && (
-                                        <ul className="mt-2 rounded">
-                                            {menu.dropdownItems.map((item, idx) => (
-                                                <li key={idx} className="px-6 py-2 ">
-                                                    <NavLink to={item.path}
-                                                        className={({ isActive }) =>
-                                                            `block px-4 py-2 rounded ${isActive ? "bg-[#e9f1f9] text-primary text-[14px] font-bold" : "  hover:bg-[#e9f1f9]"}`
-                                                        }
-                                                    >
-                                                        {item.title}
-                                                    </NavLink>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    )}
-                                </>
-                            ) : (
-                                <NavLink
-                                    to={menu.path}
-                                    end={menu.path === "/dashboard"}
-                                    className={({ isActive }) =>
-                                        `block px-4 py-2 rounded ${isActive ? "bg-[#e9f1f9] text-primary font-bold flex items-center gap-2" : "  hover:bg-[#e9f1f9] flex items-center gap-2"}`
-                                    }
-                                >
-                                    {({ isActive }) => (
-                                        <>
-                                            {isActive ? menu.icon2 : menu.icon1}
-                                            <span>{menu.title}</span>
-                                        </>
-                                    )}
-                                </NavLink>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            <div className="flex items-center justify-between bg-[#b9d4eb] rounded-md py-2 px-2 mb-3">
-                <div className="flex items-center gap-2">
-                    <img src="/legalImage/legal1.png" alt="" className="w-[30px] h-[30px] rounded-full object-cover" />
-                    <h1 className="text-xl font-roboto font-bold ">
-                        Papatundee
-                    </h1>
-                </div>
+        <>
+            <div className="h-full hidden md:flex flex-col justify-between  mx-4">
                 <div>
-                    <img src="/logo/login.png" alt="login image" className="w-[30px] h-[30px]" />
+                    <img src="/logo.png" alt="logo" className="w-full object-contain pt-6 " />
+                    {/* sidebar menu */}
+                    <ul className="h-full flex flex-col gap-4 pt-8 py-2">
+                        {menus.map((menu, index) => (
+                            <li key={index} className="mb-2">
+                                {menu.hasDropdown ? (
+                                    <>
+                                        <NavLink
+                                            onClick={() => toggleDropdown(index)}
+                                            className="flex justify-between items-center w-full px-4 py-2 hover:text-primary font-roboto"
+                                        >
+                                            <span className={`flex items-center gap-2 font-roboto ${settingIconColor ? "text-primary font-bold" : ""}`}>
+                                                {
+                                                    settingIconColor ? menu.icon2 : menu.icon1
+                                                }
+                                                {menu.title}</span>
+                                            <span>
+                                                {openDropdown === index ? <IoIosArrowDown /> : <IoIosArrowUp />}
+                                            </span>
+                                        </NavLink>
+
+                                        {openDropdown === index && (
+                                            <ul className="mt-2 rounded">
+                                                {menu.dropdownItems.map((item, idx) => (
+                                                    <li key={idx} className="px-6 py-2 ">
+                                                        <NavLink to={item.path}
+                                                            className={({ isActive }) =>
+                                                                `block px-4 py-2 rounded ${isActive ? "bg-[#e9f1f9] text-primary text-[14px] font-bold" : "  hover:bg-[#e9f1f9]"}`
+                                                            }
+                                                        >
+                                                            {item.title}
+                                                        </NavLink>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </>
+                                ) : (
+                                    <NavLink
+                                        to={menu.path}
+                                        end={menu.path === "/dashboard"}
+                                        className={({ isActive }) =>
+                                            `block px-4 py-2 rounded ${isActive ? "bg-[#e9f1f9] text-primary font-bold flex items-center gap-2" : "  hover:bg-[#e9f1f9] flex items-center gap-2"}`
+                                        }
+                                    >
+                                        {({ isActive }) => (
+                                            <>
+                                                {isActive ? menu.icon2 : menu.icon1}
+                                                <span>{menu.title}</span>
+                                            </>
+                                        )}
+                                    </NavLink>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="flex items-center justify-between bg-[#b9d4eb] rounded-md py-2 px-2 mb-3">
+                    <div className="flex items-center gap-2">
+                        <img src="/legalImage/legal1.png" alt="" className="w-[30px] h-[30px] rounded-full object-cover" />
+                        <h1 className="text-xl font-roboto font-bold ">
+                            Papatundee
+                        </h1>
+                    </div>
+                    <div>
+                        <img src="/logo/login.png" alt="login image" className="w-[30px] h-[30px]" />
+                    </div>
                 </div>
             </div>
-        </div>
+
+
+
+
+            {/*============== mobile device ============ */}
+            <div className="md:hidden">
+                <div>
+                    {/* sidebar menu */}
+                    <ul className="h-full flex flex-col gap-4 pt-8 py-2">
+                        {menus.map((menu, index) => (
+                            <li key={index} className="mb-2">
+                                {menu.hasDropdown ? (
+                                    <>
+                                        <NavLink
+                                            onClick={() => toggleDropdown(index)}
+                                            className="flex justify-between items-center w-full px-4 py-2 hover:text-primary font-roboto"
+                                        >
+                                            <span className={`flex items-center gap-2 font-roboto ${settingIconColor ? "text-primary font-bold" : ""}`}>
+                                                {
+                                                    settingIconColor ? menu.icon2 : menu.icon1
+                                                }
+                                                {menu.title}</span>
+                                            <span>
+                                                {openDropdown === index ? <IoIosArrowDown /> : <IoIosArrowUp />}
+                                            </span>
+                                        </NavLink>
+
+                                        {openDropdown === index && (
+                                            <ul className="mt-2 rounded">
+                                                {menu.dropdownItems.map((item, idx) => (
+                                                    <li key={idx} className="px-6 py-2 ">
+                                                        <NavLink to={item.path}
+                                                            className={({ isActive }) =>
+                                                                `block px-4 py-2 rounded ${isActive ? "bg-[#e9f1f9] text-primary text-[14px] font-bold" : "  hover:bg-[#e9f1f9]"}`
+                                                            }
+                                                        >
+                                                            {item.title}
+                                                        </NavLink>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </>
+                                ) : (
+                                    <NavLink
+                                        to={menu.path}
+                                        end={menu.path === "/dashboard"}
+                                        className={({ isActive }) =>
+                                            `block px-4 py-2 rounded ${isActive ? "bg-[#e9f1f9] text-primary font-bold flex items-center gap-2" : "  hover:bg-[#e9f1f9] flex items-center gap-2"}`
+                                        }
+                                    >
+                                        {({ isActive }) => (
+                                            <>
+                                                {isActive ? menu.icon2 : menu.icon1}
+                                                <span>{menu.title}</span>
+                                            </>
+                                        )}
+                                    </NavLink>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+
+                <div className="flex items-center justify-between bg-[#b9d4eb] rounded-md py-2 px-2 mx-2 mb-3">
+                    <div className="flex items-center gap-2">
+                        <img src="/legalImage/legal1.png" alt="" className="w-[30px] h-[30px] rounded-full object-cover" />
+                        <h1 className="text-[16px] font-roboto font-bold ">
+                            Papatundee
+                        </h1>
+                    </div>
+                    <div>
+                        <img src="/logo/login.png" alt="login image" className="w-[20px] h-[20px]" />
+                    </div>
+                </div>
+            </div>
+        </>
     )
 }
 
