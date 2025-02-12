@@ -49,7 +49,7 @@ const Banner = () => {
             console.log("No options selected.");
             return;
         }
-        console.log(selectedOptions)
+        // console.log(selectedOptions)
 
 
         setIsModalOpen(false)
@@ -125,7 +125,7 @@ const Banner = () => {
     }
 
     const handleOkTwo = async () => {
-        // console.log(secondSelectValue)
+        console.log(secondSelectValue)
 
         setIsModalOpenAttonemy(true)
         setIsModalOpenTwo(false)
