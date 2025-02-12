@@ -48,7 +48,7 @@ const handleNavigate = () =>{
 }
 
     return (
-        <div className="container mx-auto px-4 py-20">
+        <div className="container mx-auto px-4 py-8 md:py-20">
             <div className="max-w-[1037px] mx-auto">
                 <span><FaArrowLeft onClick={handleNavigate} className="text-[20px] text-[#60606A] cursor-pointer" /></span>
                 <div className="flex items-center justify-center gap-3 pt-10">

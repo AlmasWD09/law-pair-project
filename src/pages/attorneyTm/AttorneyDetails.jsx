@@ -1,6 +1,6 @@
 import { FaArrowLeft, FaHome } from "react-icons/fa"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { MdCall } from "react-icons/md";
+
 
 const AttorneyDetails = () => {
     const { id } = useParams()
@@ -51,11 +51,11 @@ const AttorneyDetails = () => {
         navigate(-1)
     }
     return (
-        <div className="container mx-auto px-4 py-20">
+        <div className="container mx-auto px-4 py-8 md:py-20">
             <div className="max-w-[1037px] mx-auto">
 
                 <span><FaArrowLeft onClick={handleNavigate} className="text-[20px] text-[#60606A] cursor-pointer" /></span>
-                <div className="flex items-center justify-center gap-3 pt-10 pb-[64px] ">
+                <div className="flex flex-wrap items-center justify-center gap-3 pt-10 pb-[64px] ">
                     <Link to={'/'}>
                         <span className="flex items-center gap-1 font-roboto text-[14px] text-[#60606A]">
 
@@ -161,7 +161,7 @@ const AttorneyDetails = () => {
                     <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">Availability</h2>
 
 
-                    <div className="flex flex-col lg:flex-row items-center gap-3 pt-3">
+                    <div className="flex flex-wrap lg:flex-row items-center gap-3 pt-3">
                         <button className="border px-4 py-1 rounded-full font-roboto text-primary text-[16px]">Monday</button>
                         <button className="border px-4 py-1 rounded-full font-roboto text-primary text-[16px]">Tuesday</button>
                         <button className="border px-4 py-1 rounded-full font-roboto text-primary text-[16px]">Wednesday</button>
