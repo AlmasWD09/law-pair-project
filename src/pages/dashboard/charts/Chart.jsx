@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const Chart = () => {
@@ -61,11 +61,29 @@ const Chart = () => {
             },
         },
     });
+    const [chartHeight, setChartHeight] = useState(440);
+
+    useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth < 640) {
+          setChartHeight(350);
+        } else if (window.innerWidth < 1024) {
+          setChartHeight(450);
+        } else {
+          setChartHeight(550);
+        }
+      };
+    
+      window.addEventListener("resize", handleResize);
+      handleResize();
+    
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     return (
         <div>
             <div id="chart" className="bg-[#FFFF] my-6 p-4 rounded-lg">
-                <ReactApexChart options={state.options} series={state.series} type="area" height={440} />
+                <ReactApexChart options={state.options} series={state.series} type="area" height={chartHeight} />
             </div>
         </div>
     );
