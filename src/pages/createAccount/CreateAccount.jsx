@@ -216,12 +216,14 @@
 import { Form, Input, Button, Tabs } from "antd";
 import AccountCreate from "../../layout/AccountCreate";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const CreateAccount = () => {
     const axiosPublic = useAxiosPublic()
     const [form] = Form.useForm();
+    const navigate = useNavigate();
+
     const onChange = (key) => {
         console.log(key);
     };
@@ -241,9 +243,12 @@ const CreateAccount = () => {
 
         try {
             const { data } = await axiosPublic.post('/register', createAccountInfo);
-            alert(data.message);
-            // form.resetFields()
-            console.log(data)
+
+            if (data.success) {
+                alert(data.message);
+                navigate('/otp-code', { state: { email: values.email } })
+                // form.resetFields()
+            }
 
         } catch ({ response }) {
             console.log(response)
@@ -319,9 +324,6 @@ const CreateAccount = () => {
                                     { required: true, message: "Please input your confirm password!" },
                                     ({ getFieldValue }) => ({
                                         validator(_, value) {
-                                            if (!value) {
-                                                return Promise.reject(new Error("Please confirm your password!"));
-                                            }
                                             if (value.length < 8) {
                                                 return Promise.reject(new Error("Password must be at least 8 characters!"));
                                             }
