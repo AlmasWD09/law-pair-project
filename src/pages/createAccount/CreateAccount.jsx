@@ -301,7 +301,10 @@ const CreateAccount = () => {
 
                         <div>
                             <p>Create Password</p>
-                            <Form.Item name="password" rules={[{ required: true, message: "Please input your password!" }]}
+                            <Form.Item name="password" rules={[
+                                { required: true, message: "Please input your password!" },
+                                { min: 8, message: "Password must be at least 8 characters!" }
+                            ]}
                                 hasFeedback
                             >
                                 <Input.Password placeholder="Create your password" className="w-full border border-gray-400 p-2 rounded-md" />
@@ -316,10 +319,16 @@ const CreateAccount = () => {
                                     { required: true, message: "Please input your confirm password!" },
                                     ({ getFieldValue }) => ({
                                         validator(_, value) {
-                                            if (!value || getFieldValue("password") === value) {
-                                                return Promise.resolve();
+                                            if (!value) {
+                                                return Promise.reject(new Error("Please confirm your password!"));
                                             }
-                                            return Promise.reject(new Error("Password does not match"));
+                                            if (value.length < 8) {
+                                                return Promise.reject(new Error("Password must be at least 8 characters!"));
+                                            }
+                                            if (getFieldValue("password") !== value) {
+                                                return Promise.reject(new Error("Password does not match"));
+                                            }
+                                            return Promise.resolve();
                                         },
                                     }),
                                 ]}
