@@ -243,7 +243,7 @@ const CreateAccount = () => {
 
         try {
             const { data } = await axiosPublic.post('/register', createAccountInfo);
-
+            console.log(data, 'data----------')
             if (data.success) {
                 alert(data.message);
                 navigate('/otp-code', { state: { email: values.email } })
