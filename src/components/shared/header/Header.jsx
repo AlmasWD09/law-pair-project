@@ -140,7 +140,7 @@ const Header = () => {
                             
                             <div className="flex items-center gap-4">
                                 <Link to='/create-account'>
-                                    <button className=" bg-primary w-[205px] h-[48px] flex justify-center items-center gap-1 rounded-[4px] text-[16px] text-[#FFFFFF] font-bold">
+                                    <button className=" bg-primary w-[204px] h-[48px] flex justify-center items-center gap-1 rounded-[4px] text-[16px] text-[#FFFFFF] font-bold">
                                         <h2 className="font-roboto font-bold pt-2">Create an Account</h2>
                                         <span className="h-[20px]">
                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
