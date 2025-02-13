@@ -217,17 +217,51 @@ import { Form, Input, Button, Tabs } from "antd";
 import AccountCreate from "../../layout/AccountCreate";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const CreateAccount = () => {
+    const axiosPublic = useAxiosPublic()
     const [form] = Form.useForm();
     const onChange = (key) => {
         console.log(key);
     };
 
-    const onFinish = (values) => {
-        console.log("Form Data:", values);
-        form.resetFields();
+    const onFinish = async (values) => {
+
+        const createAccountInfo = {
+            role: "lawyer",
+            first_name: values.first_name,
+            last_name: values.last_name,
+            location: values.location,
+            email: values.email,
+            password: values.password,
+            password_confirmation: values.password_confirmation
+        }
+
+
+        try {
+            const { data } = await axiosPublic.post('/register', createAccountInfo);
+            alert(data.message);
+            // form.resetFields()
+            console.log(data)
+
+        } catch ({ response }) {
+            console.log(response)
+            if (response?.errors) {
+                // If validation errors are returned from Laravel
+                if (response.data.errors.email) {
+                    alert(response.data.errors.email[0]);  // Show first email error
+                } else if (response.data.errors.password) {
+                    alert(response.data.errors.password[0]);  // Show first password error
+                } else {
+                    alert("There was an error with your registration.");
+                }
+            } else {
+                alert(response?.data?.message || "Something went wrong.");
+            }
+        }
     };
+
 
     const items = [
         {
@@ -238,7 +272,7 @@ const CreateAccount = () => {
                     <Form form={form} layout="vertical" onFinish={onFinish} className="space-y-4">
                         <div>
                             <p>First Name</p>
-                            <Form.Item name="first-name" rules={[{ required: true, message: "Please enter your first name" }]}>
+                            <Form.Item name="first_name" rules={[{ required: true, message: "Please enter your first name" }]}>
                                 <Input placeholder="Enter your first name" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
@@ -246,11 +280,10 @@ const CreateAccount = () => {
 
                         <div>
                             <p>Last Name</p>
-                            <Form.Item name="last-name" rules={[{ required: true, message: "Please enter your last name" }]}>
+                            <Form.Item name="last_name" rules={[{ required: true, message: "Please enter your last name" }]}>
                                 <Input placeholder="Enter your last name" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
-
 
                         <div>
                             <p>Email</p>
@@ -260,15 +293,38 @@ const CreateAccount = () => {
                         </div>
 
                         <div>
+                            <p>Location</p>
+                            <Form.Item name="location" rules={[{ required: true, message: "Please enter your location" }]}>
+                                <Input placeholder="Enter your location" className="w-full border border-gray-400 p-2 rounded-md" />
+                            </Form.Item>
+                        </div>
+
+                        <div>
                             <p>Create Password</p>
-                            <Form.Item name="password" rules={[{ required: true, message: "Please input your password!" }]}>
+                            <Form.Item name="password" rules={[{ required: true, message: "Please input your password!" }]}
+                                hasFeedback
+                            >
                                 <Input.Password placeholder="Create your password" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
 
                         <div>
                             <p>Confirm Password</p>
-                            <Form.Item name="confirm-password" rules={[{ required: true, message: "Please input your confirm password!" }]}>
+                            <Form.Item name="password_confirmation"
+                                dependencies={["password"]}
+                                rules={[
+                                    { required: true, message: "Please input your confirm password!" },
+                                    ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                            if (!value || getFieldValue("password") === value) {
+                                                return Promise.resolve();
+                                            }
+                                            return Promise.reject(new Error("Password does not match"));
+                                        },
+                                    }),
+                                ]}
+                                hasFeedback
+                            >
                                 <Input.Password placeholder="Confirm your password" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
