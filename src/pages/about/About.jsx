@@ -1,5 +1,6 @@
 
 const About = () => {
+  console.log(import.meta.env.VITE_API_URL)
     return (
       <div className="flex justify-center items-center h-[calc(100vh-154px)]  md:h-[calc(100vh-454px)]">
         <div className="text-center">
