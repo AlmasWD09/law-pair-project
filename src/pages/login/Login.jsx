@@ -3,20 +3,47 @@ import { Form, Input, Button } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Tabs } from 'antd';
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
 const Login = () => {
+    const axiosPublic = useAxiosPublic();
     const [form] = Form.useForm(); // Form instance
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const location = useLocation();
+    const role = location.state.role;
+    console.log(role)
 
     const onChange = (key) => {
         console.log(key);
     };
 
-    const onFinish = (values) => {
+    const onFinishClient = async (values) => {
         console.log("Form Data: 1111", values);
+        form.resetFields();
+        setIsModalOpen(false);
+    };
+
+    const onFinishAttorney = async (values) => {
+        console.log("Form Data: 1111 attorney", values);
+
+const attorneyInfo  = {
+    email: values.email,
+    password: values.password
+}
+
+
+
+        try {
+            const response = await axiosPublic.post("/login", attorneyInfo);
+            console.log(response.data)
+        }
+        catch (error) {
+            alert("Login Error. plz try again!");
+        }
+
         form.resetFields();
         setIsModalOpen(false);
     };
@@ -27,7 +54,7 @@ const Login = () => {
             key: '1',
             label: 'I’m a client',
             children: (
-                <Form form={form} layout="vertical" onFinish={onFinish}>
+                <Form form={form} layout="vertical" onFinish={onFinishClient}>
                     <div>
                         <p className="font-roboto text-[16px]">Email</p>
                         <Form.Item
@@ -59,7 +86,7 @@ const Login = () => {
 
                     <div className="flex justify-end pb-2 pr-1">
                         <Link to={'/forget-password'}>
-                        <h1 className="text-primary font-bold font-roboto">Forgot password?</h1>
+                            <h1 className="text-primary font-bold font-roboto">Forgot password?</h1>
                         </Link>
                     </div>
 
@@ -76,7 +103,7 @@ const Login = () => {
             key: '2',
             label: 'I’m an attorney',
             children: (
-                <Form form={form} layout="vertical" onFinish={onFinish}>
+                <Form form={form} layout="vertical" onFinish={onFinishAttorney}>
                     <div>
                         <p className="font-roboto text-[16px]">Email</p>
                         <Form.Item
@@ -108,7 +135,7 @@ const Login = () => {
 
                     <div className="flex justify-end pb-2 pr-1">
                         <Link to={'/forget-password'}>
-                        <h1 className="text-primary font-bold font-roboto">Forgot password?</h1>
+                            <h1 className="text-primary font-bold font-roboto">Forgot password?</h1>
                         </Link>
                     </div>
 
