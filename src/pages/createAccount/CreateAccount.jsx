@@ -223,6 +223,7 @@ const CreateAccount = () => {
     const axiosPublic = useAxiosPublic()
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    const [roleValue, setRoleValue] = useState(null)
 
     const onChange = (key) => {
         console.log(key);
@@ -245,9 +246,11 @@ const CreateAccount = () => {
             const { data } = await axiosPublic.post('/register', createAccountInfo);
             console.log(data, 'data----------')
             if (data.success) {
+                // setRoleValue(data.success.role)
                 alert(data.message);
                 navigate('/otp-code', { state: { email: values.email } })
                 // form.resetFields()
+             
             }
 
         } catch ({ response }) {
@@ -266,7 +269,6 @@ const CreateAccount = () => {
             }
         }
     };
-
 
     const items = [
         {
@@ -404,16 +406,20 @@ const CreateAccount = () => {
         },
     ];
 
+
+    const handleLogin = () =>{
+        navigate('/login', {state:{role:"user-s"}})
+    }
     return (
         <AccountCreate>
-            <div className="flex flex-col justify-center items-center  bg-gray-100 px-4 pb-4">
+            <div className="flex flex-col justify-center items-center  bg-gray-100 px-4 py-4">
                 <div className="w-full md:max-w-4xl bg-white p-6 rounded-lg shadow-lg">
                     <h2 className="text-2xl font-bold text-gray-900 mb-4">Create Your Account</h2>
                     <Tabs defaultActiveKey="1" items={items} onChange={onChange} className="custom-tabs px-2 overflow-x-auto" />
                 </div>
                 <div className="text-center pt-6">
                     <p className="text-sm text-gray-600">
-                        Already have an account? <Link to={'/login'} className="text-blue-600 font-bold">Log In</Link>
+                        Already have an account? <span onClick={handleLogin} className="text-blue-600 font-bold">Log In</span>
                     </p>
                 </div>
             </div>

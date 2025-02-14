@@ -3,7 +3,7 @@ import { Form, Input, Button } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Tabs } from 'antd';
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
@@ -12,6 +12,9 @@ const Login = () => {
     const axiosPublic = useAxiosPublic();
     const [form] = Form.useForm(); // Form instance
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const location = useLocation();
+    const role = location.state.role;
+    console.log(role)
 
     const onChange = (key) => {
         console.log(key);
