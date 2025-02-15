@@ -2,8 +2,16 @@ import { FaRegEye, FaUserGroup } from "react-icons/fa6";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import { FaBalanceScale } from "react-icons/fa";
 import Chart from "../charts/Chart";
+import useAdminDashboard from "../../../hooks/useAdminDashboard";
 
 const CommonLayout = () => {
+    const [adminAllInfo, refetch] = useAdminDashboard()
+    console.log(adminAllInfo)
+
+
+
+
+
     const dashboardAllData = [
         {
             icon1: (

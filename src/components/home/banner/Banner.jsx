@@ -518,13 +518,13 @@ const Banner = () => {
 
                 {/* banner curd */}
                 <div className="flex justify-center">
-                    <div className="grid grid-cols-2 md:grid-cols-3 place-items-center gap-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-3">
                         {
                             bannerImage?.map((item, index) => {
                                 return (
-                                    <div key={index} className="bg-[#FFFFFF] w-full h-full lg:w-[240px] lg:h-[136px] flex flex-col justify-center items-center p-3 hover:bg-primary hover:text-white">
+                                    <div key={index} className="bg-[#FFFFFF] w-full h-full lg:w-[510px] lg:h-[204px] flex flex-col justify-center items-center p-3 rounded-[24px] hover:bg-primary hover:text-white">
                                         <img src={item.image} alt="banner image" className="pb-[8px]" />
-                                        <h4 className="text-[18px] font-normal font-roboto text-center">{item.name}</h4>
+                                        <h4 className="text-[18px] font-semibold md:font-bold font-roboto text-center">{item.name}</h4>
                                     </div>
                                 )
                             })

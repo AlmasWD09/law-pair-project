@@ -36,8 +36,8 @@ const HomeLegalResources = () => {
 
     ]
     return (
-        <div className="container mx-auto md:px-4 pb-[24px] lg:pb-[48px]">
-            <h1 className="font-roboto font-bold text-[24px] md:text-[32px] text-[#121221] text-center py-[32px]">Free legal resources</h1>
+        <div className="container mx-auto md:px-4 pb-[24px] lg:pb-[48px] md:pt-[30px] lg:pt-[96px]">
+            <h1 className="font-roboto font-bold text-[24px] md:text-[32px] text-center py-[32px] text-primary">Free legal resources</h1>
 
             {/* Free legal resources cards */}
             <div className="flex justify-center">

@@ -13,8 +13,9 @@ const Login = () => {
     const [form] = Form.useForm(); // Form instance
     const [isModalOpen, setIsModalOpen] = useState(false);
     const location = useLocation();
-    const role = location.state.role;
-    console.log(role)
+    // const role = location.state.role;
+    const role = 'admin';
+
 
     const onChange = (key) => {
         console.log(key);
@@ -22,17 +23,36 @@ const Login = () => {
 
     const onFinishClient = async (values) => {
         console.log("Form Data: 1111", values);
-        form.resetFields();
-        setIsModalOpen(false);
+        const clientInfo = {
+            role: 'user',
+            email: values.email,
+            password: values.password
+        }
+
+        console.log(clientInfo)
+
+        // try {
+        //     const response = await axiosPublic.post("/login", attorneyInfo);
+        //     console.log(response.data)
+        // }
+        // catch (error) {
+        //     alert("Login Error. plz try again!");
+        // }
+
+        // form.resetFields();
+        // setIsModalOpen(false);
     };
+
+
 
     const onFinishAttorney = async (values) => {
         console.log("Form Data: 1111 attorney", values);
 
-const attorneyInfo  = {
-    email: values.email,
-    password: values.password
-}
+        const attorneyInfo = {
+            role: "lawyer",
+            email: values.email,
+            password: values.password
+        }
 
 
 
@@ -160,7 +180,7 @@ const attorneyInfo  = {
 
 
 
-                <div className="text-center py-2">
+                <div className="text-center pt-6">
                     <p className="text-[14px] font-roboto">Don’t have an account? <Link to={'/create-account'} className="text-primary font-bold font-roboto">Create account</Link></p>
                 </div>
             </div>
