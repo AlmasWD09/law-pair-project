@@ -10,43 +10,47 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Login = () => {
     const axiosPublic = useAxiosPublic();
-    const [form] = Form.useForm(); // Form instance
+    const [clientForm] = Form.useForm(); // Form instance
+    const [attorneyForm] = Form.useForm(); // Form instance
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const location = useLocation();
-    // const role = location.state.role;
-    const role = 'admin';
+
 
 
     const onChange = (key) => {
-        console.log(key);
+        clientForm.resetFields();  // Client form reset
+        attorneyForm.resetFields(); // Attorney form reset
     };
 
     const onFinishClient = async (values) => {
-        console.log("Form Data: 1111", values);
+
         const clientInfo = {
             role: 'user',
             email: values.email,
             password: values.password
         }
 
-        console.log(clientInfo)
+        try {
+            const response = await axiosPublic.post("/login", clientInfo);
+            console.log('response--------', response.data)
 
-        // try {
-        //     const response = await axiosPublic.post("/login", attorneyInfo);
-        //     console.log(response.data)
-        // }
-        // catch (error) {
-        //     alert("Login Error. plz try again!");
-        // }
+            if (response.data.success) {
+                alert("login success")
+            }
+            else {
+                alert(response.data.message)
+            }
+        }
+        catch (error) {
+            alert("Login Error. plz try again!");
+        }
 
-        // form.resetFields();
-        // setIsModalOpen(false);
+        clientForm.resetFields();
+        setIsModalOpen(false);
     };
 
 
 
     const onFinishAttorney = async (values) => {
-        console.log("Form Data: 1111 attorney", values);
 
         const attorneyInfo = {
             role: "lawyer",
@@ -55,16 +59,21 @@ const Login = () => {
         }
 
 
-
         try {
             const response = await axiosPublic.post("/login", attorneyInfo);
             console.log(response.data)
+            if (response.data.success) {
+                alert("login success")
+            }
+            else {
+                alert('login failedddd')
+            }
         }
         catch (error) {
             alert("Login Error. plz try again!");
         }
 
-        form.resetFields();
+        attorneyForm.resetFields();
         setIsModalOpen(false);
     };
 
@@ -74,7 +83,7 @@ const Login = () => {
             key: '1',
             label: 'I’m a client',
             children: (
-                <Form form={form} layout="vertical" onFinish={onFinishClient}>
+                <Form form={clientForm} layout="vertical" onFinish={onFinishClient}>
                     <div>
                         <p className="font-roboto text-[16px]">Email</p>
                         <Form.Item
@@ -119,11 +128,12 @@ const Login = () => {
                 </Form>
             ),
         },
+
         {
             key: '2',
             label: 'I’m an attorney',
             children: (
-                <Form form={form} layout="vertical" onFinish={onFinishAttorney}>
+                <Form form={attorneyForm} layout="vertical" onFinish={onFinishAttorney}>
                     <div>
                         <p className="font-roboto text-[16px]">Email</p>
                         <Form.Item
