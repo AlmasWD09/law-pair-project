@@ -15,8 +15,8 @@ const FindAttorney = () => {
 
                         <p className="">Available on</p>
                         <div className="flex flex-col md:flex-row gap-2 md:gap-5">
-                            <img src="/FindAttonery/photo02.png" alt="attorney stor" className="w-[120px] md:w-[200px] lg:w-full"/>
-                            <img src="/FindAttonery/photo01.png" alt="attorney stor" className="w-[120px] md:w-[200px] lg:w-full"/>
+                            <img src="/FindAttonery/photo02.png" alt="attorney stor" className="w-[120px] md:w-[200px] lg:w-full object-contain"/>
+                            <img src="/FindAttonery/photo01.png" alt="attorney stor" className="w-[120px] md:w-[200px] lg:w-full object-contain"/>
                         </div>
                     </div>
 

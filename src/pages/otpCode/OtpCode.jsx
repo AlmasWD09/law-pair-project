@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import Cookies from "js-cookie";
 
 
 const OtpCode = () => {
@@ -14,7 +15,8 @@ const OtpCode = () => {
     const email = location?.state?.email
     const navigate = useNavigate();
 
-
+console.log(email)
+console.log(" email ni")
 
     const onFinish = async (values) => {
         console.log("OTP Value:", values.otp); // ✅ Logs the OTP value
@@ -24,10 +26,13 @@ const OtpCode = () => {
 
         try {
             const response = await axiosPublic.post("/verify-email", otpCode);
-
+            console.log('check token---', response.data)
             if ((response.data.success) && (response.data.access_token)) {
+
+                Cookies.set("otpToken", response?.data?.access_token, { expires: 7, secure: true, sameSite: "Strict" });
+
                 alert("OTP send successfully.");
-                navigate('/')
+                navigate('/create-new-password')
                 form.resetFields();
             } else {
                 alert("Failed to send OTP. Try again.");
@@ -37,7 +42,7 @@ const OtpCode = () => {
             alert("Error sending OTP. Please try again.");
         }
 
-        // form.resetFields();
+        form.resetFields();
         setIsModalOpen(false);
     };
 
@@ -93,9 +98,6 @@ const OtpCode = () => {
                             <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                                 Submit OTP
                             </Button>
-                            {/* <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
-                                <Link to={'/create-new-password'}>Submit OTP</Link>
-                            </Button> */}
                         </Form.Item>
                     </Form>
                 </div>

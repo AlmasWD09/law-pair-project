@@ -409,7 +409,7 @@ const CreateAccount = () => {
 
 
     const handleLogin = () =>{
-        navigate('/login', {state:{role:"user-s"}})
+        navigate('/login',)
     }
     return (
         <AccountCreate>
