@@ -1,16 +1,52 @@
 import { Form, Input, Button } from "antd";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
+import Cookies from "js-cookie";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
 export const CreateNewPassword = () => {
     const [form] = Form.useForm(); // Form instance
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const axiosPublic = useAxiosPublic();
+    const navigate = useNavigate();
+
+    const token = Cookies.get("otpToken");
+
+    const onFinish = async (values) => {
+        const CreateNewPasswordInfo = {
+            password: values.password,
+            password_confirmation: values.password_confirmation
+        }
 
 
-    const onFinish = (values) => {
-        console.log("Form Data:", values);
+        try {
+            const response = await axiosPublic.post("/reset-password", CreateNewPasswordInfo, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Accept": "application/json"
+                    // ✅ Send token in Authorization header
+                }
+
+            }
+            );
+
+            console.log('response----->', response.data)
+
+            if (response.data.success) {
+                alert(response.data.message);
+
+                navigate('/password-successfull')
+                form.resetFields();
+            } else {
+                alert("Failed-----");
+            }
+        }
+        catch (error) {
+            alert("Something went wrong!. Please try again.");
+        }
+
         form.resetFields();
         setIsModalOpen(false);
     };
@@ -26,11 +62,10 @@ export const CreateNewPassword = () => {
                             <Form.Item
                                 name="password"
                                 rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input your password!',
-                                    },
+                                    { required: true, message: "Please input your password!" },
+                                    { min: 8, message: "Password must be at least 8 characters!" }
                                 ]}
+                                hasFeedback
                             >
                                 <Input.Password type="password" placeholder="Create your new password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
                             </Form.Item>
@@ -39,13 +74,22 @@ export const CreateNewPassword = () => {
                         <div>
                             <p className="font-roboto">Re-enter new password</p>
                             <Form.Item
-                                name="re-enter-password"
+                                name="password_confirmation"
                                 rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input your password!',
-                                    },
+                                    { required: true, message: "Please input your confirm password!" },
+                                    ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                            if (value.length < 8) {
+                                                return Promise.reject(new Error("Password must be at least 8 characters!"));
+                                            }
+                                            if (getFieldValue("password") !== value) {
+                                                return Promise.reject(new Error("Password does not match"));
+                                            }
+                                            return Promise.resolve();
+                                        },
+                                    }),
                                 ]}
+                                hasFeedback
                             >
                                 <Input.Password type="password" placeholder="Re-enter your new password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
                             </Form.Item>
@@ -53,11 +97,8 @@ export const CreateNewPassword = () => {
 
 
                         <Form.Item>
-                            {/* <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
-                                Save password
-                            </Button> */}
                             <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
-                           <Link to={'/password-successfull'}> Save password</Link>
+                                Save password
                             </Button>
                         </Form.Item>
                     </Form>

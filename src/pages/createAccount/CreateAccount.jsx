@@ -243,11 +243,12 @@ const CreateAccount = () => {
 
 
         try {
-            const { data } = await axiosPublic.post('/register', createAccountInfo);
-            console.log(data, 'data----------')
-            if (data.success) {
-                // setRoleValue(data.success.role)
-                alert(data.message);
+            const res = await axiosPublic.post('/register', createAccountInfo);
+            console.log(res, 'data----------')
+
+            if (res.data.success) {
+                // setRoleValue(res.data.success.role)
+                alert(res.data.message);
                 navigate('/otp-code', { state: { email: values.email } })
                 // form.resetFields()
              
@@ -408,7 +409,7 @@ const CreateAccount = () => {
 
 
     const handleLogin = () =>{
-        navigate('/login', {state:{role:"user-s"}})
+        navigate('/login',)
     }
     return (
         <AccountCreate>
@@ -419,7 +420,7 @@ const CreateAccount = () => {
                 </div>
                 <div className="text-center pt-6">
                     <p className="text-sm text-gray-600">
-                        Already have an account? <span onClick={handleLogin} className="text-blue-600 font-bold">Log In</span>
+                        Already have an account? <span onClick={handleLogin} className="text-blue-600 font-bold cursor-pointer">Log In</span>
                     </p>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 import { Button } from "antd"
+import { Link } from "react-router-dom"
 
 
 const DashboardCongratulation = () => {
@@ -13,9 +14,11 @@ const DashboardCongratulation = () => {
                         <p className="font-roboto text-[18px] text-[#929299] ">Your password has been updated, please change your password regularly to avoid this happening.</p>
                     </div>
                 </div>
+                <Link  to={'/admin/dashboard'}>
                 <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                    Done
                 </Button>
+                </Link>
             </div>
         </div>
     )

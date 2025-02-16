@@ -1,15 +1,38 @@
 import { Form, Input, Button } from "antd";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const ForgetPassword = () => {
+    const axiosPublic = useAxiosPublic();
     const [form] = Form.useForm(); // Form instance
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
 
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         console.log("Form Data:", values);
+        const forgetInfo = {
+            email: values.email,
+        }
+
+        try {
+            const response = await axiosPublic.post('/resent-otp', forgetInfo)
+
+            if (response.data.success) {
+                navigate('/otp-code',{state:{email:forgetInfo.email}})
+
+                alert(response.data.message)
+            } else {
+                alert(response.data.message)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+
+
         form.resetFields();
         setIsModalOpen(false);
     };
@@ -77,7 +100,7 @@ const ForgetPassword = () => {
                         {/* submit button */}
                         <Form.Item>
                             <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
-                            <Link to={'/otp-code'}>Get OTP</Link>
+                                Get OTP
                             </Button>
                         </Form.Item>
                     </Form>

@@ -92,6 +92,18 @@ const Header = () => {
 
                                 </NavLink>
 
+                                {/* <div className="relative mt-4 md:mt-0 max-w-[175px]">
+                                    <input
+                                        type="text"
+                                        maxLength={18}
+                                        className="max-w-[175px] h-[40px] py-2 px-4 pl-3 pr-4 text-gray-700 bg-transparent border rounded  outline-none"
+                                        placeholder="Search attorney..."
+                                    />
+                                    <span className="absolute inset-y-0 right-0 flex items-center pl-3 ">
+                                        <RiSearchLine className="w-8 h-8 pr-3 text-primary" />
+                                    </span>
+                                </div> */}
+
                                 {/* navbar Sign Up and login button */}
                                 <div className=" bg-secondery/50 rounded-md py-3">
                                     <div className="flex items-center gap-4">
@@ -137,7 +149,7 @@ const Header = () => {
                         </div>
                         {/* navbar signup and login button */}
                         <div className="lg:flex lg:justify-end hidden ">
-                            
+
                             <div className="flex items-center gap-4">
                                 <Link to='/create-account'>
                                     <button className=" bg-primary w-[204px] h-[48px] flex justify-center items-center gap-1 rounded-[4px] text-[16px] text-[#FFFFFF] font-bold">

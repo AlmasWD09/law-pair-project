@@ -28,6 +28,7 @@ import DashboardForgetPassword from "../pages/dashboard/dashboardAuthentication/
 import DashboardCreateNewPassword from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardCreateNewPassword";
 import DashboardCongratulation from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardCongratulation";
 import DashboardOtpVerification from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardOtpVerification";
+import LawyerProfile from "../pages/profile/LawyerProfile";
 
 
 const router = createBrowserRouter([
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
   {
     path: "/user-profile",
     element: <UserProfile />
+  },
+  {
+    path: "/lawyer-profile",
+    element: <LawyerProfile />
   },
   // dashboard layout
   {
