@@ -111,11 +111,18 @@ const ManageUser = () => {
         Admins can manage users by promoting, demoting, or removing them.
       </p>
 
-      <div style={{ padding: "20px" }}>
+      <div style={{ padding: "20px" }} className="">
         <Input.Search
           placeholder="Search by name or email"
           onChange={(e) => setSearchText(e.target.value)}
-          style={{ marginBottom: 16, width: 300 }}
+          style={{ marginBottom: 16, width:"100%",}}
+           size="large"
+           inputStyle={{
+            padding: "40px",
+            outline: "none",
+            border: "none", // Removes border
+            boxShadow: "none", // Removes Ant Design's default focus effect
+          }}
         />
 
         <div className="overflow-x-auto pt-3">

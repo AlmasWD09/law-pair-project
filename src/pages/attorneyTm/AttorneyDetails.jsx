@@ -51,7 +51,7 @@ const AttorneyDetails = () => {
         navigate(-1)
     }
 
-    const role = lawyer
+    const role = "lawyer"
 
     return (
         <div className="container mx-auto px-4 py-8 md:py-20">

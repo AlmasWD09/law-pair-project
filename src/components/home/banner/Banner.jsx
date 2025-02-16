@@ -1,10 +1,10 @@
 
 import { useState } from 'react';
-import { Button, Typography, Space, Modal, Select, TimePicker, DatePicker } from "antd";
+import { Button, Typography, Space, Modal, Select, TimePicker, DatePicker, Input, Upload } from "antd";
 const { Title } = Typography;
 
 
-import { CheckCircleOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { key } from 'localforage';
@@ -15,8 +15,7 @@ import useAxiosPublic from '../../../hooks/useAxiosPublic';
 const Banner = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenTow, setIsModalOpenTwo] = useState(false);
-    const [isModalOpenAttonemy, setIsModalOpenAttonemy] = useState(false);
-
+    const [isModalOpenThree, setIsModalOpenThree] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [secondSelectValue, setSecondSelecteValue] = useState({
         location: null,
@@ -33,12 +32,27 @@ const Banner = () => {
     });
     const navigate = useNavigate()
     const axiosPublic = useAxiosPublic();
+    const [fileList, setFileList] = useState([])
+
+
+    const [lawyerModalOpenTwo, setLawyerModalOpenTwo] = useState(false)
+    const [lawyerModalOpenThree, setLawyerModalOpenThree] = useState(false)
+    const [selectedLowyerOptions, setSelectedLowyerOptions] = useState([]);
+    const lowyerOptions = ["Monday", "Tuesday", "Wednesday", "Thursday"];
 
 
 
 
 
 
+    const handleChange = ({ fileList }) => setFileList(fileList);
+
+
+    const handleSelectLowyer = (option) => {
+        setSelectedLowyerOptions((prev) =>
+            prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
+        );
+    };
 
 
     //====================== first modal start ==============
@@ -53,9 +67,16 @@ const Banner = () => {
 
         console.log('selectedOptions-------->', selectedOptions)
 
-        setIsModalOpen(false)
-        setSelectedOptions("")
-        setIsModalOpenTwo(true)
+        if (role === "user") {
+            setIsModalOpen(false)
+            setSelectedOptions("")
+            setIsModalOpenTwo(true)
+        }
+        else {
+            setIsModalOpen(false)
+            setSelectedOptions("")
+            setLawyerModalOpenTwo(true)
+        }
 
 
         // try {
@@ -108,7 +129,14 @@ const Banner = () => {
 
 
 
-    // ===== modal two start ===============
+
+
+
+
+
+
+
+    // ===== user modal two start ===============
 
     // Location er options
     const locationOptions = [
@@ -135,14 +163,14 @@ const Banner = () => {
     const handleOkTwo = async () => {
         console.log(secondSelectValue)
 
-            try {
+        try {
             const response = await axios.post('url', {
                 selectedOptions: selectedOptions,
             });
 
             console.log("Server Response:", response.data);
             if (response.data.success) {
-                setIsModalOpenAttonemy(true)
+                setIsModalOpenThree(true)
                 setIsModalOpenTwo(false)
             }
             else {
@@ -152,7 +180,7 @@ const Banner = () => {
             console.error("Error sending data to the server:", error);
         }
 
-        setIsModalOpenAttonemy(true)
+        setIsModalOpenThree(true)
         setIsModalOpenTwo(false)
     };
 
@@ -169,7 +197,7 @@ const Banner = () => {
 
 
 
-    // ====== modal three start ===============
+    // ====== user modal three start ===============
     const handleSelectChange = (key, value) => {
         setFormData(prev => ({
             ...prev,
@@ -210,16 +238,85 @@ const Banner = () => {
 
 
 
-        setIsModalOpenAttonemy(false)
+        setIsModalOpenThree(false)
         navigate('/attorney-tm')
     };
 
 
     const handleCancelAttonemy = () => {
-        setIsModalOpenAttonemy(false);
+        setIsModalOpenThree(false);
         setIsModalOpenTwo(true)
     };
-    // ====== modal three end =================
+    // ====== user modal three end =================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //================= lowyer modal two start ==============
+    const handleOkLowyerTwo = () => {
+        console.log('click')
+        setLawyerModalOpenTwo(false)
+        setLawyerModalOpenTwo('')
+        setLawyerModalOpenThree(true)
+    }
+
+
+    const handleCancelLowyerTwo = () => {
+        setLawyerModalOpenTwo(false)
+        setIsModalOpen(true)
+    }
+    //================= lowyer modal two end ================
+
+
+
+
+    //================= lowyer modal three start ==============
+    const handleDateChangeLowyerModal = (date, dateString) => {
+        setFormData(prev => ({
+            ...prev,
+            date: dateString
+        }));
+    };
+
+    const handleTimeChangeLowyerModal = (time, timeString) => {
+        setFormData(prev => ({
+            ...prev,
+            time: timeString
+        }));
+    };
+
+
+    const handleOkLowyerThree = () => {
+        console.log('click')
+        navigate('/lawyer-profile')
+    }
+
+    const handleCancelLowyerThree = () => {
+        setLawyerModalOpenThree(false)
+        setLawyerModalOpenTwo(true)
+    }
+    //================= lowyer modal three start ================
+
+
 
 
     const bannerImage = [
@@ -262,6 +359,7 @@ const Banner = () => {
     ]
 
 
+    const role = "lawyer"
 
 
     return (
@@ -270,263 +368,483 @@ const Banner = () => {
                 <h1 className="text-[48px] md:text-[76px] lg:text-[96px] font-crimson font-semibold text-primary ">LawPair</h1>
                 <p className="max-w-[600px] mx-auto font-roboto font-normal h-[73px] text-[#41414D] md:pt-[48px] pb-[104px] leading-[28px]">No hassle. No fees. We've streamlined the attorney search process so that <br /> you can focus on what matters most.</p>
 
-                <Button onClick={showModal} style={{ width: "228px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFFF", fontFamily: "Roboto", fontSize: "20px", fontWeight: "bold" }}>
-                    Find your lawyer
-                </Button>
+                    <Button onClick={showModal} style={{ width: "228px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFFF", fontFamily: "Roboto", fontSize: "20px", fontWeight: "bold",}}>
+                        Find your lawyer
+                    </Button>
 
-                {/* modal one */}
-                <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
-                    width={600}
-                    footer={
-                        <div className="font-roboto flex justify-center md:justify-between items-center gap-x-4 md:px-7">
-                            <button
-                                className="w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                                onClick={handleCancel}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                                onClick={handleOk}
-                            >
-                                Continue
-                            </button>
-                        </div>
-                    }
-                // okText="Continue"
-                // okButtonProps={{
-                //     className:"w-[50%] h-[50px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                //   }}
-                //   cancelButtonProps={{
-                //     className:"w-[50%] h-[50px] md:w-[161px] md:h-[64px] border  text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                //   }}
-                >
-
-
-                    <div>
-                        <div style={{ maxWidth: "90%", margin: "auto", textAlign: "center" }}>
-
-                            <svg width="100%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                                <circle cx="20" cy="20" r="5" fill="#1B69AD" />
-                                <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
-                                <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
-                            </svg>
-
-
-                            <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
-                                Select the legal help you need
-                            </Title>
-
-
-                            <Space wrap>
-                                {options.map((option) => (
-                                    <Button
-                                        key={option}
-                                        onClick={() => handleSelect(option)}
-                                        style={{
-                                            borderRadius: 20,
-
-                                            backgroundColor: selectedOptions.includes(option) ? "#1b69ad" : "#FFFFFF",
-                                            color: selectedOptions.includes(option) ? "#FFFFFF" : "#1b69ad",
-                                            border: "1px solid #B6B6BA",
-                                            fontWeight: "bold",
-                                            fontSize: "16px",
-                                            fontFamily: "Roboto",
-                                            padding: "20px"
-                                        }}
-                                    >
-                                        {option}
-                                    </Button>
-                                ))}
-                            </Space>
-
-                        </div>
-                    </div>
-                </Modal>
-
-
-                {/* modal two */}
-
-                <Modal open={isModalOpenTow} onOk={handleOkTwo} onCancel={handleCancelTwo}
-                    width={600}
-                    footer={
-                        <div className="flex justify-between items-center gap-x-4 ">
-                            <button
-                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                                onClick={handleCancelTwo}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                                onClick={handleOkTwo}
-                            >
-                                Continue
-                            </button>
-                        </div>
-                    }
-                // okText="Continue"
-                // cancelText="Back"
-                // okButtonProps={{
-                //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
-                // }}
-                // cancelButtonProps={{
-                //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
-                // }}
-                >
-
-
-                    <div>
-                        <svg width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                            <circle cx="20" cy="20" r="5" fill="#1B69AD" />
-                            <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
-                            <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
-                        </svg>
-
-                        <div>
-                            <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
-                                Location
-                            </Title>
-                        </div>
-
-
-                        <div className='pb-4'>
-                            <p>Select your location</p>
-                            <Select
-                                showSearch
-                                placeholder="Select..."
-                                style={{ width: '100%', height: '40px' }}
-                                onChange={value => handleSelectModalTwoValue("location", value)}
-                                options={[
-                                    { label: "A", value: "a" },
-                                    { label: "B", value: "b" },
-                                    { label: "C", value: "c" }
-                                ]}
-                            />
-                        </div>
-
-                        <div>
-                            <p>City</p>
-                            <Select
-                                showSearch
-                                placeholder="Select..."
-                                style={{ width: '100%', height: '40px' }}
-                                onChange={value => handleSelectModalTwoValue("city", value)}
-                                options={[
-                                    { label: "E", value: "e" },
-                                    { label: "F", value: "f" },
-                                    { label: "G", value: "g" }
-                                ]}
-                            />
-                        </div>
-                    </div>
-
-                </Modal>
-
-
-                {/* modal three */}
-                <Modal open={isModalOpenAttonemy} onOk={handleOkAttonemy} onCancel={handleCancelAttonemy}
-                    width={600}
-                    footer={
-                        <div className="flex justify-between items-center gap-x-4 ">
-                            <button
-                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                                onClick={handleCancelAttonemy}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                                onClick={handleOkAttonemy}
-                            >
-                                Continue
-                            </button>
-                        </div>
-                    }
-                // okText="Done"
-                // cancelText="Back"
-                // okButtonProps={{
-                //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
-                // }}
-                // cancelButtonProps={{
-                //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
-                // }}
-                >
-
-
-                    <div>
-                        <svg width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                            <path d="M14.167 20.834L17.5003 24.1673L25.8337 15.834" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
-                            <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                            <circle cx="508" cy="20" r="5" fill="#1B69AD" />
-                        </svg>
+                    {/* modal one */}
+                    <Modal centered open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+                        width={600}
+                        footer={
+                            <div className="font-roboto flex justify-center md:justify-between items-center gap-x-4 md:px-7 pt-[24px]">
+                                <button
+                                    className="w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                    onClick={handleCancel}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                    onClick={handleOk}
+                                >
+                                    Continue
+                                </button>
+                            </div>
+                        }
+                    // okText="Continue"
+                    // okButtonProps={{
+                    //     className:"w-[50%] h-[50px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                    //   }}
+                    //   cancelButtonProps={{
+                    //     className:"w-[50%] h-[50px] md:w-[161px] md:h-[64px] border  text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                    //   }}
+                    >
 
 
                         <div>
-                            <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
-                                Find the exact Attorny by filter
-                            </Title>
-                        </div>
+                            <div style={{ maxWidth: "90%", margin: "auto", textAlign: "center" }}>
+
+                                <svg width="100%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                                    <circle cx="20" cy="20" r="5" fill="#1B69AD" />
+                                    <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
+                                    <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
+                                </svg>
 
 
-                        <div className='pb-4'>
-                            <p>Lawyer experience</p>
-                            <Select
-                                showSearch
-                                placeholder="Select..."
-                                style={{ width: '100%', height: '40px' }}
-                                onChange={value => handleSelectChange("lawyerExperience", value)}
-                                options={[
-                                    { label: "1-3 Years", value: "1-3" },
-                                    { label: "4-7 Years", value: "4-7" },
-                                    { label: "8+ Years", value: "8+" }
-                                ]}
-                            />
-                        </div>
-
-                        <div className='pb-4'>
-                            <p>Location</p>
-                            <Select
-                                showSearch
-                                placeholder="Select..."
-                                style={{ width: '100%', height: '40px' }}
-                                onChange={value => handleSelectChange("location", value)}
-                                options={cityOptions}
-                            />
-                        </div>
-
-                        <div className='pb-4'>
-                            <p>Languages</p>
-                            <Select
-                                showSearch
-                                placeholder="Select..."
-                                style={{ width: '100%', height: '40px' }}
-                                onChange={value => handleSelectChange("languages", value)}
-                                options={[
-                                    { label: "New York", value: "new-york" },
-                                    { label: "Los Angeles", value: "los-angeles" },
-                                    { label: "Chicago", value: "chicago" }
-                                ]}
-                            />
-                        </div>
-
-                        <div className='pb-4'>
-                            <p>Availability</p>
-                            <div className='flex justify-between items-center gap-6'>
-                                <DatePicker style={{ width: "50%", height: '40px' }} onChange={handleDateChange} />
+                                <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                                    Select the legal help you need
+                                </Title>
 
 
-                                {/* date picker component*/}
-                                <TimePicker style={{ width: "50%", height: '40px' }} onChange={handleTimeChange} />
+                                <Space wrap>
+                                    {options.map((option) => (
+                                        <Button
+                                            key={option}
+                                            onClick={() => handleSelect(option)}
+                                            style={{
+                                                borderRadius: 20,
+
+                                                backgroundColor: selectedOptions.includes(option) ? "#1b69ad" : "#FFFFFF",
+                                                color: selectedOptions.includes(option) ? "#FFFFFF" : "#1b69ad",
+                                                border: "1px solid #B6B6BA",
+                                                fontWeight: "bold",
+                                                fontSize: "16px",
+                                                fontFamily: "Roboto",
+                                                padding: "20px"
+                                            }}
+                                        >
+                                            {option}
+                                        </Button>
+                                    ))}
+                                </Space>
+
                             </div>
                         </div>
-                    </div>
+                    </Modal>
 
-                </Modal>
+
+
+                    {/* modal two */}
+                    {
+                        role === 'user' ? <Modal centered open={isModalOpenTow} onOk={handleOkTwo} onCancel={handleCancelTwo}
+                            width={600}
+                            footer={
+                                <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                                    <button
+                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                        onClick={handleCancelTwo}
+                                    >
+                                        Back
+                                    </button>
+                                    <button
+                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                        onClick={handleOkTwo}
+                                    >
+                                        Continue
+                                    </button>
+                                </div>
+                            }
+                        // okText="Continue"
+                        // cancelText="Back"
+                        // okButtonProps={{
+                        //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
+                        // }}
+                        // cancelButtonProps={{
+                        //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
+                        // }}
+                        >
+
+
+                            <div>
+                                <svg className='mb-4' width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                                    <circle cx="20" cy="20" r="5" fill="#1B69AD" />
+                                    <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
+                                    <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
+                                </svg>
+
+                                <hr />
+
+                                <div className='pt-4'>
+                                    <Title level={4} className='text-[14px] font-roboto font-bold text-[#001018]'>
+                                        Location
+                                    </Title>
+                                </div>
+
+
+                                <div className='pb-4'>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Select your location</p>
+                                    <Select
+                                        showSearch
+                                        placeholder="Select..."
+                                        style={{ width: '100%', height: '40px' }}
+                                        onChange={value => handleSelectModalTwoValue("location", value)}
+                                        options={[
+                                            { label: "A", value: "a" },
+                                            { label: "B", value: "b" },
+                                            { label: "C", value: "c" }
+                                        ]}
+                                    />
+                                </div>
+
+                                <div>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>City</p>
+                                    <Select
+                                        showSearch
+                                        placeholder="Select..."
+                                        style={{ width: '100%', height: '40px' }}
+                                        onChange={value => handleSelectModalTwoValue("city", value)}
+                                        options={[
+                                            { label: "E", value: "e" },
+                                            { label: "F", value: "f" },
+                                            { label: "G", value: "g" }
+                                        ]}
+                                    />
+                                </div>
+                            </div>
+
+                        </Modal>
+                            :
+                            <Modal centered open={lawyerModalOpenTwo} onOk={handleOkLowyerTwo} onCancel={handleCancelLowyerTwo}
+                                width={600}
+                                footer={
+                                    <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                                        <button
+                                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                            onClick={handleCancelLowyerTwo}
+                                        >
+                                            Back
+                                        </button>
+                                        <button
+                                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                            onClick={handleOkLowyerTwo}
+                                        >
+                                            Continue
+                                        </button>
+                                    </div>
+                                }
+                            >
+
+
+                                <div>
+                                    <svg className='mb-4' width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                                        <path d="M14.167 20.8335L17.5003 24.1668L25.8337 15.8335" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
+                                        <circle cx="264" cy="20" r="15" stroke="#1B69AD" stroke-width="2" />
+                                        <circle cx="264" cy="20" r="5" fill="#1B69AD" />
+                                        <rect x="280" y="19" width="212" height="2" fill="#B6B6BA" />
+                                        <circle cx="508" cy="20" r="15" stroke="#B6B6BA" stroke-width="2" />
+                                    </svg>
+
+
+                                    <hr />
+
+                                    <div className='pt-4'>
+                                        <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                                            Add your professional details
+                                        </Title>
+                                    </div>
+                                    <div className='pb-4'>
+                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Where do you practice</p>
+                                        <Input name='practice' placeholder='e.g.: New Jersey, New York, EOIR (Immigration Court)' style={{ width: '100%', height: '40px' }} />
+                                    </div>
+
+
+                                    <div className='pb-4'>
+                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Experience</p>
+                                        <Select
+                                            showSearch
+                                            placeholder="Select..."
+                                            style={{ width: '100%', height: '40px' }}
+                                            onChange={value => handleSelectModalAttornyTwoValue("location", value)}
+                                            options={[
+                                                { label: "A", value: "a" },
+                                                { label: "B", value: "b" },
+                                                { label: "C", value: "c" }
+                                            ]}
+                                        />
+                                    </div>
+
+                                    <div className='pb-4'>
+                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Select your language(s)</p>
+                                        <Select
+                                            showSearch
+                                            placeholder="Select..."
+                                            style={{ width: '100%', height: '40px' }}
+                                            onChange={value => handleSelectChangeLanguage("languages", value)}
+                                            options={[
+                                                { label: "New York", value: "new-york" },
+                                                { label: "Los Angeles", value: "los-angeles" },
+                                                { label: "Chicago", value: "chicago" }
+                                            ]}
+                                        />
+                                    </div>
+
+                                    <div className='pb-4'>
+                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
+                                        <Input name='address' placeholder='address' style={{ width: '100%', height: '40px' }} />
+                                    </div>
+
+
+                                    <div className='flex justify-between gap-2'>
+                                        <div className='pb-4 w-full'>
+                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>State</p>
+                                            <Input name='state' style={{ width: '100%', height: '40px' }} />
+                                        </div>
+
+                                        <div className='pb-4 w-full'>
+                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Zip code</p>
+                                            <Input name='zipCode' style={{ width: '100%', height: '40px' }} />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </Modal>
+                    }
+
+
+                    {
+                        role === "user" ? <Modal centered open={isModalOpenThree} onOk={handleOkAttonemy} onCancel={handleCancelAttonemy}
+                            width={600}
+                            footer={
+                                <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                                    <button
+                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                        onClick={handleCancelAttonemy}
+                                    >
+                                        Back
+                                    </button>
+                                    <button
+                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                        onClick={handleOkAttonemy}
+                                    >
+                                        Continue
+                                    </button>
+                                </div>
+                            }
+                        // okText="Done"
+                        // cancelText="Back"
+                        // okButtonProps={{
+                        //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
+                        // }}
+                        // cancelButtonProps={{
+                        //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
+                        // }}
+                        >
+
+
+                            <div>
+                                <svg className='mb-4' width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                                    <path d="M14.167 20.834L17.5003 24.1673L25.8337 15.834" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
+                                    <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                                    <circle cx="508" cy="20" r="5" fill="#1B69AD" />
+                                </svg>
+
+                                <hr />
+                                <div className='pt-4'>
+                                    <Title level={4} className='text-[14px] font-roboto font-bold text-[#001018]'>
+                                        Find the exact Attorny by filter
+                                    </Title>
+                                </div>
+
+
+                                <div className='pb-4'>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Lawyer experience</p>
+                                    <Select
+                                        showSearch
+                                        placeholder="Select..."
+                                        style={{ width: '100%', height: '40px' }}
+                                        onChange={value => handleSelectChange("lawyerExperience", value)}
+                                        options={[
+                                            { label: "1-3 Years", value: "1-3" },
+                                            { label: "4-7 Years", value: "4-7" },
+                                            { label: "8+ Years", value: "8+" }
+                                        ]}
+                                    />
+                                </div>
+
+                                <div className='pb-4'>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Location</p>
+                                    <Select
+                                        showSearch
+                                        placeholder="Select..."
+                                        style={{ width: '100%', height: '40px' }}
+                                        onChange={value => handleSelectChange("location", value)}
+                                        options={cityOptions}
+                                    />
+                                </div>
+
+                                <div className='pb-4'>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Languages</p>
+                                    <Select
+                                        showSearch
+                                        placeholder="Select..."
+                                        style={{ width: '100%', height: '40px' }}
+                                        onChange={value => handleSelectChange("languages", value)}
+                                        options={[
+                                            { label: "New York", value: "new-york" },
+                                            { label: "Los Angeles", value: "los-angeles" },
+                                            { label: "Chicago", value: "chicago" }
+                                        ]}
+                                    />
+                                </div>
+
+                                <div className='pb-4'>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability</p>
+                                    <div className='flex justify-between items-center gap-6'>
+                                        <DatePicker style={{ width: "50%", height: '40px' }} onChange={handleDateChange} />
+
+
+                                        {/* date picker component*/}
+                                        <TimePicker style={{ width: "50%", height: '40px' }} onChange={handleTimeChange} />
+                                    </div>
+                                </div>
+                            </div>
+                        </Modal>
+
+                            :
+                            <Modal centered open={lawyerModalOpenThree} onOk={handleOkLowyerThree} onCancel={handleCancelLowyerThree}
+                                width={600}
+                                footer={
+                                    <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                                        <button
+                                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                            onClick={handleCancelLowyerThree}
+                                        >
+                                            Back
+                                        </button>
+                                        <button
+                                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                            onClick={handleOkLowyerThree}
+                                        >
+                                            Continue
+                                        </button>
+                                    </div>
+                                }
+                            >
+
+
+                                <div>
+                                    <svg className='mb-4' width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                                        <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
+                                        <circle cx="264" cy="20" r="16" fill="#1B69AD" />
+                                        <path d="M258.167 20.8335L261.5 24.1668L269.833 15.8335" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <rect x="280" y="19" width="212" height="2" fill="#1B69AD" />
+                                        <circle cx="508" cy="20" r="15" stroke="#1B69AD" stroke-width="2" />
+                                        <circle cx="508" cy="20" r="5" fill="#1B69AD" />
+                                    </svg>
+
+
+
+                                    <hr />
+
+                                    <div className='pt-4'>
+                                        <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                                            Add your profile photo and availability
+                                        </Title>
+                                    </div>
+                                    <div className='pb-4' style={{ width: "100%" }}>
+                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Upload profile photo</p>
+                                        <Upload
+                                            fileList={fileList}
+                                            onChange={handleChange}
+                                            beforeUpload={() => false} // Prevent auto-upload
+                                            style={{ display: "block" }} // Ensure it behaves as a block element
+                                        >
+                                            {fileList.length >= 1 ? null : (
+                                                <Button icon={<UploadOutlined />} style={{ width: "100%" }}>
+                                                    Upload Image
+                                                </Button>
+                                            )}
+                                        </Upload>
+                                    </div>
+
+
+
+                                    <div className='pb-4'>
+                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
+                                        <Input name='webLink' placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
+                                    </div>
+
+
+                                    <div className='pb-4'>
+                                        <div className='flex justify-between items-center gap-6 pb-4'>
+                                            <div className='w-full'>
+                                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
+                                                <DatePicker style={{ width: "100%", height: '40px' }} onChange={handleDateChangeLowyerModal} />
+                                            </div>
+
+
+                                            <div className='w-full'>
+                                                {/* date picker component*/}
+                                                <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
+                                                <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeLowyerModal} />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div className='pb-4'>
+                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Preview</p>
+                                        <Space wrap>
+                                            {lowyerOptions.map((option) => (
+                                                <Button
+                                                    key={option}
+                                                    onClick={() => handleSelectLowyer(option)}
+                                                    style={{
+                                                        borderRadius: 20,
+
+                                                        backgroundColor: selectedOptions.includes(option) ? "#1b69ad" : "#FFFFFF",
+                                                        color: selectedOptions.includes(option) ? "#FFFFFF" : "#1b69ad",
+                                                        border: "1px solid #B6B6BA",
+                                                        fontWeight: "bold",
+                                                        fontSize: "16px",
+                                                        fontFamily: "Roboto",
+                                                        padding: "20px"
+                                                    }}
+                                                >
+                                                    {option}
+                                                </Button>
+                                            ))}
+                                        </Space>
+                                    </div>
+                                    <div className='flex flex-col md:flex-row gap-[12px]'>
+                                        <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
+                                        <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
+                                        <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
+                                    </div>
+                                </div>
+
+                            </Modal>
+                    }
+
+          
 
             </div>
             <div>

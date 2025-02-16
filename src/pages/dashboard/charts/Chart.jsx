@@ -1,95 +1,95 @@
-// import { useEffect, useState } from "react";
-// import ReactApexChart from "react-apexcharts";
+import { useEffect, useState } from "react";
+import ReactApexChart from "react-apexcharts";
 
-// const Chart = () => {
-//     const seriesData = {
-//         monthDataSeries1: {
-//             prices: [8100, 8120, 8135, 8105, 8140, 8125, 8150, 8170, 8190, 8210],
-//             dates: [
-//                 "2024-02-01",
-//                 "2024-02-02",
-//                 "2024-02-03",
-//                 "2024-02-04",
-//                 "2024-02-05",
-//                 "2024-02-06",
-//                 "2024-02-07",
-//                 "2024-02-08",
-//                 "2024-02-09",
-//                 "2024-02-10",
-//             ],
-//         },
-//     };
+const Chart = () => {
+    const seriesData = {
+        monthDataSeries1: {
+            prices: [8100, 8120, 8135, 8105, 8140, 8125, 8150, 8170, 8190, 8210],
+            dates: [
+                "2024-02-01",
+                "2024-02-02",
+                "2024-02-03",
+                "2024-02-04",
+                "2024-02-05",
+                "2024-02-06",
+                "2024-02-07",
+                "2024-02-08",
+                "2024-02-09",
+                "2024-02-10",
+            ],
+        },
+    };
 
-//     const [state] = useState({
-//         series: [
-//             {
-//                 name: "STOCK ABC",
-//                 data: seriesData.monthDataSeries1.prices,
-//             },
-//         ],
-//         options: {
-//             chart: {
-//                 type: "area",
-//                 height: 350,
-//                 zoom: {
-//                     enabled: false,
-//                 },
-//             },
-//             dataLabels: {
-//                 enabled: false,
-//             },
-//             stroke: {
-//                 curve: "straight",
-//             },
-//             title: {
-//                 text: "Clients",
-//                 align: "left",
-//             },
-//             subtitle: {
-//                 text: "Static analytics",
-//                 align: "left",
-//             },
-//             labels: seriesData.monthDataSeries1.dates,
-//             xaxis: {
-//                 type: "datetime",
-//             },
-//             yaxis: {
-//                 opposite: true,
-//             },
-//             legend: {
-//                 horizontalAlign: "left",
-//             },
-//         },
-//     });
-//     const [chartHeight, setChartHeight] = useState(440);
+    const [state] = useState({
+        series: [
+            {
+                name: "STOCK ABC",
+                data: seriesData.monthDataSeries1.prices,
+            },
+        ],
+        options: {
+            chart: {
+                type: "area",
+                height: 350,
+                zoom: {
+                    enabled: false,
+                },
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                curve: "straight",
+            },
+            title: {
+                text: "Clients",
+                align: "left",
+            },
+            subtitle: {
+                text: "Static analytics",
+                align: "left",
+            },
+            labels: seriesData.monthDataSeries1.dates,
+            xaxis: {
+                type: "datetime",
+            },
+            yaxis: {
+                opposite: true,
+            },
+            legend: {
+                horizontalAlign: "left",
+            },
+        },
+    });
+    const [chartHeight, setChartHeight] = useState(440);
 
-//     useEffect(() => {
-//       const handleResize = () => {
-//         if (window.innerWidth < 640) {
-//           setChartHeight(300);
-//         } else if (window.innerWidth < 1024) {
-//           setChartHeight(450);
-//         } else {
-//           setChartHeight(440);
-//         }
-//       };
+    useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth < 640) {
+          setChartHeight(300);
+        } else if (window.innerWidth < 1024) {
+          setChartHeight(430);
+        } else {
+          setChartHeight(430);
+        }
+      };
 
-//       window.addEventListener("resize", handleResize);
-//       handleResize();
+      window.addEventListener("resize", handleResize);
+      handleResize();
 
-//       return () => window.removeEventListener("resize", handleResize);
-//     }, []);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
-//     return (
-//         <div>
-//             <div id="chart" className="bg-[#FFFF] my-6 p-4 rounded-lg">
-//                 <ReactApexChart options={state.options} series={state.series} type="area" height={chartHeight} />
-//             </div>
-//         </div>
-//     );
-// };
+    return (
+        <div>
+            <div id="chart" className="bg-[#FFFF] my-6 p-4 rounded-lg">
+                <ReactApexChart options={state.options} series={state.series} type="area" height={chartHeight} />
+            </div>
+        </div>
+    );
+};
 
-// export default Chart;
+export default Chart;
 
 
 // import { useState, useEffect } from "react";
@@ -152,95 +152,95 @@
 
 // export default Chart;
 
-import { useEffect, useState } from "react";
-import ReactApexChart from "react-apexcharts";
-import axios from "axios";
+// import { useEffect, useState } from "react";
+// import ReactApexChart from "react-apexcharts";
+// import axios from "axios";
 
-const Chart = () => {
-    const [chartData, setChartData] = useState({
-        series: [],
-        options: {
-            chart: {
-                type: "area",
-                height: 350,
-                zoom: { enabled: false },
-            },
-            dataLabels: { enabled: false },
-            stroke: { curve: "straight" },
-            title: { text: "User Analytics", align: "left" },
-            labels: [],
-            xaxis: { categories: [], type: "category" },
-            yaxis: { opposite: true },
-            legend: { horizontalAlign: "left" },
-        },
-    });
+// const Chart = () => {
+//     const [chartData, setChartData] = useState({
+//         series: [],
+//         options: {
+//             chart: {
+//                 type: "area",
+//                 height: 350,
+//                 zoom: { enabled: false },
+//             },
+//             dataLabels: { enabled: false },
+//             stroke: { curve: "straight" },
+//             title: { text: "User Analytics", align: "left" },
+//             labels: [],
+//             xaxis: { categories: [], type: "category" },
+//             yaxis: { opposite: true },
+//             legend: { horizontalAlign: "left" },
+//         },
+//     });
 
-    const [chartHeight, setChartHeight] = useState(440);
+//     const [chartHeight, setChartHeight] = useState(440);
 
-    useEffect(() => {
-        // 📌 API Call করে ডাটা নিয়ে আসা
-        const fetchData = async () => {
-            try {
-                const response = await axios.get("http://10.0.80.13:9000/api/admin/dashboard");
-                const apiData = response.data.data;
+//     useEffect(() => {
+   
+//         const fetchData = async () => {
+//             try {
+//                 const response = await axios.get("http://10.0.80.13:9000/api/admin/dashboard");
+//                 const apiData = response.data.data;
 
-                // 📌 Chart এর জন্য ডাটা প্রসেস করা
-                const months = apiData.map((item) => item.month);
-                const totalUsers = apiData.map((item) => item.total_users);
-                const totalClients = apiData.map((item) => item.total_clients);
-                const totalLawyers = apiData.map((item) => item.total_lawyers);
 
-                // 📌 State Update করে Chart Render করা
-                setChartData({
-                    series: [
-                        { name: "Total Users", data: totalUsers },
-                        { name: "Total Clients", data: totalClients },
-                        { name: "Total Lawyers", data: totalLawyers },
-                    ],
-                    options: {
-                        chart: { type: "area", height: 350, zoom: { enabled: false } },
-                        dataLabels: { enabled: false },
-                        stroke: { curve: "smooth" },
-                        title: { text: "User Analytics", align: "left" },
-                        labels: months,
-                        xaxis: { categories: months, type: "category" },
-                        yaxis: { opposite: false },
-                        legend: { horizontalAlign: "left" },
-                    },
-                });
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
+//                 const months = apiData.map((item) => item.month);
+//                 const totalUsers = apiData.map((item) => item.total_users);
+//                 const totalClients = apiData.map((item) => item.total_clients);
+//                 const totalLawyers = apiData.map((item) => item.total_lawyers);
 
-        fetchData();
-    }, []);
+         
+//                 setChartData({
+//                     series: [
+//                         { name: "Total Users", data: totalUsers },
+//                         { name: "Total Clients", data: totalClients },
+//                         { name: "Total Lawyers", data: totalLawyers },
+//                     ],
+//                     options: {
+//                         chart: { type: "area", height: 350, zoom: { enabled: false } },
+//                         dataLabels: { enabled: false },
+//                         stroke: { curve: "smooth" },
+//                         title: { text: "User Analytics", align: "left" },
+//                         labels: months,
+//                         xaxis: { categories: months, type: "category" },
+//                         yaxis: { opposite: false },
+//                         legend: { horizontalAlign: "left" },
+//                     },
+//                 });
+//             } catch (error) {
+//                 console.error("Error fetching data:", error);
+//             }
+//         };
 
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth < 640) {
-                setChartHeight(300);
-            } else if (window.innerWidth < 1024) {
-                setChartHeight(450);
-            } else {
-                setChartHeight(440);
-            }
-        };
+//         fetchData();
+//     }, []);
 
-        window.addEventListener("resize", handleResize);
-        handleResize();
+//     useEffect(() => {
+//         const handleResize = () => {
+//             if (window.innerWidth < 640) {
+//                 setChartHeight(300);
+//             } else if (window.innerWidth < 1024) {
+//                 setChartHeight(450);
+//             } else {
+//                 setChartHeight(440);
+//             }
+//         };
 
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
+//         window.addEventListener("resize", handleResize);
+//         handleResize();
 
-    return (
-        <div>
-            <div id="chart" className="bg-[#FFFF] my-6 p-4 rounded-lg">
-                <ReactApexChart options={chartData.options} series={chartData.series} type="area" height={chartHeight} />
-            </div>
-        </div>
-    );
-};
+//         return () => window.removeEventListener("resize", handleResize);
+//     }, []);
 
-export default Chart;
+//     return (
+//         <div>
+//             <div id="chart" className="bg-[#FFFF] my-6 p-4 rounded-lg">
+//                 <ReactApexChart options={chartData.options} series={chartData.series} type="area" height={chartHeight} />
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default Chart;
 
