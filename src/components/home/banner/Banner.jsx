@@ -8,6 +8,7 @@ import { CheckCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { key } from 'localforage';
+import useAxiosPublic from '../../../hooks/useAxiosPublic';
 
 
 
@@ -30,8 +31,8 @@ const Banner = () => {
         date: null,
         time: null
     });
-
     const navigate = useNavigate()
+    const axiosPublic = useAxiosPublic();
 
 
 
@@ -49,11 +50,11 @@ const Banner = () => {
             console.log("No options selected.");
             return;
         }
-   
 
+        console.log('selectedOptions-------->', selectedOptions)
 
         setIsModalOpen(false)
-        // setSelectedOptions("")
+        setSelectedOptions("")
         setIsModalOpenTwo(true)
 
 
@@ -63,7 +64,14 @@ const Banner = () => {
         //     });
 
         //     console.log("Server Response:", response.data);
-        //     setIsModalOpen(false);
+        //     if (response.data.success) {
+        //         // setIsModalOpen(false)
+        //         // setSelectedOptions("")
+        //         // setIsModalOpenTwo(true)
+        //     }
+        //     else {
+        //         alert('please try again! and selected data MODAL ONE')
+        //     }
         // } catch (error) {
         //     console.error("Error sending data to the server:", error);
         // }
@@ -127,6 +135,23 @@ const Banner = () => {
     const handleOkTwo = async () => {
         console.log(secondSelectValue)
 
+            try {
+            const response = await axios.post('url', {
+                selectedOptions: selectedOptions,
+            });
+
+            console.log("Server Response:", response.data);
+            if (response.data.success) {
+                setIsModalOpenAttonemy(true)
+                setIsModalOpenTwo(false)
+            }
+            else {
+                alert('please try again! and selected data MODAL TWO')
+            }
+        } catch (error) {
+            console.error("Error sending data to the server:", error);
+        }
+
         setIsModalOpenAttonemy(true)
         setIsModalOpenTwo(false)
     };
@@ -176,11 +201,7 @@ const Banner = () => {
         console.log("Selected values----------:", formData);
 
         // try {
-        //     const response = await axios.post("url", formData, {
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //     });
+        //     const response = await axiosPublic.post("url", formData);
 
         //     console.log("Server Response:", response.data);
         // } catch (error) {
@@ -247,15 +268,13 @@ const Banner = () => {
         <div className="bg-[#F5F5F7] container mx-auto px-4 pb-6 md:pb-[36px] lg:pb-[64px]">
             <div className="text-center pt-[60px] lg:pt-[193px] pb-[60px] lg:pb-[297px]">
                 <h1 className="text-[48px] md:text-[76px] lg:text-[96px] font-crimson font-semibold text-primary ">LawPair</h1>
-                <p className="max-w-[600px] mx-auto h-[73px] text-[#41414D] md:pt-[48px] pb-[104px]">No hassle. No fees. We've streamlined the attorney search process so that you can focus on what matters most.</p>
-                {/* <button className="bg-primary py-[20px] px-[40px] text-[#FFFFFF] text-[20px] font-bold rounded">Find your lawyer</button> */}
-
-
+                <p className="max-w-[600px] mx-auto font-roboto font-normal h-[73px] text-[#41414D] md:pt-[48px] pb-[104px] leading-[28px]">No hassle. No fees. We've streamlined the attorney search process so that <br /> you can focus on what matters most.</p>
 
                 <Button onClick={showModal} style={{ width: "228px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFFF", fontFamily: "Roboto", fontSize: "20px", fontWeight: "bold" }}>
                     Find your lawyer
                 </Button>
 
+                {/* modal one */}
                 <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                     width={600}
                     footer={
@@ -442,7 +461,7 @@ const Banner = () => {
                             <circle cx="20" cy="20" r="16" fill="#1B69AD" />
                             <path d="M14.167 20.834L17.5003 24.1673L25.8337 15.834" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
-                            <circle cx="508" cy="20" r="15" stroke="#1B69AD" stroke-width="2" />
+                            <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
                             <circle cx="508" cy="20" r="5" fill="#1B69AD" />
                         </svg>
 
@@ -512,7 +531,7 @@ const Banner = () => {
             </div>
             <div>
                 <div className="max-w-[695px] mx-auto text-center text-wrap pb-[36px]">
-                    <h1 className="font-roboto font-bold text-[24px] md:text-[32px]">Find the Legal Help You Need</h1>
+                    <h1 className="font-roboto font-bold text-[24px] md:text-[32px] textpri">Find the Legal Help You Need</h1>
                     <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px]">Finding the right legal support has never been easier. Select up to 3 practice areas to find your LawPair Suggested (TM) attorney today</p>
                 </div>
 
