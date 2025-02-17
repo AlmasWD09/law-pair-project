@@ -99,9 +99,11 @@ const ForgetPassword = () => {
 
                         {/* submit button */}
                         <Form.Item>
+                            <Link to={'/otp-code'}>
                             <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                                 Get OTP
                             </Button>
+                            </Link>
                         </Form.Item>
                     </Form>
                 </div>

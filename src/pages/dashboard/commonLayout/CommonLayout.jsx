@@ -6,10 +6,6 @@ import useAdminDashboard from "../../../hooks/useAdminDashboard";
 
 const CommonLayout = () => {
     const [adminAllInfo, refetch] = useAdminDashboard()
-    console.log(adminAllInfo)
-
-
-
 
 
     const dashboardAllData = [
@@ -46,7 +42,7 @@ const CommonLayout = () => {
 
             ),
             name: "Lawyers",
-            subscribe: "37k",
+            subscribe: "20k",
             title: "0.5 increase in last 7 days",
         },
         {
@@ -64,10 +60,17 @@ const CommonLayout = () => {
 
             ),
             name: "Clients",
-            subscribe: "37k",
+            subscribe: "30k",
             title: "0.5 increase in last 7 days",
         },
     ]
+    const handleClick = (name) => {
+console.log(name)
+
+
+    }
+
+
     return (
         <div>
             <div className="flex items-center gap-2 pb-[20px]">
@@ -86,7 +89,7 @@ const CommonLayout = () => {
                     {
                         dashboardAllData.map((item, index) => {
                             return (
-                                <div key={index} className="h-[151px] p-5 border rounded-lg hover:border-2 hover:border-primary transition-all duration-300 ease-in-out transform hover:scale-105">
+                                <div onClick={() =>handleClick(item)} key={index} className="h-[151px] p-5 border rounded-lg hover:border-2 hover:border-primary transition-all duration-300 ease-in-out transform hover:scale-105">
                                     <div className="flex items-center gap-1 pb-[12px]">
                                         {item.icon1}
                                         <h1 className="font-roboto text-[18px] font-bold">{item.name}</h1>
