@@ -398,8 +398,7 @@ const Banner = () => {
         },
     ]
 
-
-    const role = "attorney"
+    const role = "lawyer"
 
 
     return (
