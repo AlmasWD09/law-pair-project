@@ -18,10 +18,10 @@ const Footer = () => {
 
 
         <div className="space-x-[30px] text-[#FFFFFF] flex justify-center pb-[40px]">
-          <a href=""><FaFacebook className=" text-[20px] md:text-[36px]"/></a>
-          <a href=""><FaInstagram className=" text-[20px] md:text-[36px]"/></a>
-          <a href=""><FaLinkedin className=" text-[20px] md:text-[36px]"/></a>
-          <a href=""><FaXTwitter className=" text-[20px] md:text-[36px]"/></a>
+          <a href="https://www.facebook.com/profile.php?id=61573168173369"><FaFacebook className=" text-[20px] md:text-[36px]"/></a>
+          <a href="@lawpair"><FaInstagram className=" text-[20px] md:text-[36px]"/></a>
+          <a href="https://www.linkedin.com/company/lawpair"><FaLinkedin className=" text-[20px] md:text-[36px]"/></a>
+          <a href="@LawPairApp"><FaXTwitter className=" text-[20px] md:text-[36px]"/></a>
         </div>
 
         <hr className="border-[#B6B6BA]"/>

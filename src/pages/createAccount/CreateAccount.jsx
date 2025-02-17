@@ -242,33 +242,33 @@ const CreateAccount = () => {
         }
 
 
-        try {
-            const res = await axiosPublic.post('/register', createAccountInfo);
-            console.log(res, 'data----------')
+        // try {
+        //     const res = await axiosPublic.post('/register', createAccountInfo);
+        //     console.log(res, 'data----------')
 
-            if (res.data.success) {
-                // setRoleValue(res.data.success.role)
-                alert(res.data.message);
-                navigate('/otp-code', { state: { email: values.email } })
-                // form.resetFields()
+        //     if (res.data.success) {
+        //         // setRoleValue(res.data.success.role)
+        //         alert(res.data.message);
+        //         navigate('/otp-code', { state: { email: values.email } })
+        //         // form.resetFields()
              
-            }
+        //     }
 
-        } catch ({ response }) {
-            console.log(response)
-            if (response?.errors) {
-                // If validation errors are returned from Laravel
-                if (response.data.errors.email) {
-                    alert(response.data.errors.email[0]);  // Show first email error
-                } else if (response.data.errors.password) {
-                    alert(response.data.errors.password[0]);  // Show first password error
-                } else {
-                    alert("There was an error with your registration.");
-                }
-            } else {
-                alert(response?.data?.message || "Something went wrong.");
-            }
-        }
+        // } catch ({ response }) {
+        //     console.log(response)
+        //     if (response?.errors) {
+        //         // If validation errors are returned from Laravel
+        //         if (response.data.errors.email) {
+        //             alert(response.data.errors.email[0]);  // Show first email error
+        //         } else if (response.data.errors.password) {
+        //             alert(response.data.errors.password[0]);  // Show first password error
+        //         } else {
+        //             alert("There was an error with your registration.");
+        //         }
+        //     } else {
+        //         alert(response?.data?.message || "Something went wrong.");
+        //     }
+        // }
     };
 
     const items = [
@@ -344,7 +344,9 @@ const CreateAccount = () => {
                         </div>
 
                         <Form.Item>
-                            <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
+                           <Link to={'/otp-code'}>
+                           <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
+                           </Link>
                         </Form.Item>
                     </Form>
                 </div>

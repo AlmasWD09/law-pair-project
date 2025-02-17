@@ -24,23 +24,23 @@ console.log(" email ni")
             otp: values.otp
         }
 
-        try {
-            const response = await axiosPublic.post("/verify-email", otpCode);
-            console.log('check token---', response.data)
-            if ((response.data.success) && (response.data.access_token)) {
+        // try {
+        //     const response = await axiosPublic.post("/verify-email", otpCode);
+        //     console.log('check token---', response.data)
+        //     if ((response.data.success) && (response.data.access_token)) {
 
-                Cookies.set("otpToken", response?.data?.access_token, { expires: 7, secure: true, sameSite: "Strict" });
+        //         Cookies.set("otpToken", response?.data?.access_token, { expires: 7, secure: true, sameSite: "Strict" });
 
-                alert("OTP send successfully.");
-                navigate('/create-new-password')
-                form.resetFields();
-            } else {
-                alert("Failed to send OTP. Try again.");
-            }
-        }
-        catch (error) {
-            alert("Error sending OTP. Please try again.");
-        }
+        //         alert("OTP send successfully.");
+        //         navigate('/create-new-password')
+        //         form.resetFields();
+        //     } else {
+        //         alert("Failed to send OTP. Try again.");
+        //     }
+        // }
+        // catch (error) {
+        //     alert("Error sending OTP. Please try again.");
+        // }
 
         form.resetFields();
         setIsModalOpen(false);
@@ -95,9 +95,11 @@ console.log(" email ni")
 
                         {/* submit button */}
                         <Form.Item>
-                            <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
+                           <Link to={'/create-new-password'}>
+                           <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                                 Submit OTP
                             </Button>
+                           </Link>
                         </Form.Item>
                     </Form>
                 </div>

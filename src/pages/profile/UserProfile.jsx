@@ -35,10 +35,10 @@ const UserProfile = () => {
             <AccountCreate >
                 <section className="container mx-auto px-4">
                     <div className="flex justify-center">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4  place-items-center">
+                        <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 lg:gap-4  place-items-center">
 
                             {/* sidebar */}
-                            <div className="w-[309px] h-[calc(100vh-122px)] bg-[#FFFFFF] flex flex-col justify-between shadow-lg rounded-lg mt-4">
+                            <div className="md:w-[270px] lg:w-[309px] h-[calc(100vh-122px)] bg-[#FFFFFF] flex flex-col justify-between shadow-lg rounded-lg mt-4 p-4">
                                 <div className="p-4">
                                     <img
                                         className="object-cover w-[124px] h-[124px] rounded-full"
@@ -63,7 +63,7 @@ const UserProfile = () => {
                                     <hr />
 
                                     <div className="pt-[24px]">
-                                        <p className="font-roboto text-[16px] text-[#10101E] flex gap-3">
+                                        <p className="font-roboto text-[16px] text-[#10101E] text-wrap flex gap-3">
                                             <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path fillRule="evenodd" clipRule="evenodd" d="M12 21.668C9.72 21.668 6 12.982 6 9.66797C6 8.07667 6.63214 6.55055 7.75736 5.42533C8.88258 4.30011 10.4087 3.66797 12 3.66797C13.5913 3.66797 15.1174 4.30011 16.2426 5.42533C17.3679 6.55055 18 8.07667 18 9.66797C18 12.982 14.28 21.668 12 21.668ZM12 12.668C12.3824 12.668 12.7611 12.5926 13.1144 12.4463C13.4677 12.3 13.7887 12.0855 14.0591 11.8151C14.3295 11.5447 14.544 11.2236 14.6903 10.8703C14.8367 10.517 14.912 10.1384 14.912 9.75597C14.912 9.37356 14.8367 8.99489 14.6903 8.64159C14.544 8.28829 14.3295 7.96728 14.0591 7.69687C13.7887 7.42647 13.4677 7.21197 13.1144 7.06563C12.7611 6.91929 12.3824 6.84397 12 6.84397C11.2277 6.84397 10.487 7.15077 9.9409 7.69687C9.3948 8.24298 9.088 8.98366 9.088 9.75597C9.088 10.5283 9.3948 11.269 9.9409 11.8151C10.487 12.3612 11.2277 12.668 12 12.668Z" fill="#10101E" />
                                             </svg>
@@ -76,18 +76,17 @@ const UserProfile = () => {
                                 </div>
 
                                 <div className="flex items-center gap-1 p-4">
+                                    <span className="">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9999 3V5H18.9999V19H11.9999V21H19.0059C20.1059 21 20.9999 20.107 20.9999 19.005V4.995C21.0002 4.73302 20.9488 4.47357 20.8487 4.23147C20.7486 3.98937 20.6018 3.76938 20.4166 3.58409C20.2314 3.3988 20.0114 3.25184 19.7694 3.15161C19.5273 3.05139 19.2679 2.99987 19.0059 3H11.9999Z" fill="#EF436B" />
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M3.97694 11C3.71472 11.0034 3.46457 11.1108 3.2814 11.2984C3.09823 11.4861 2.997 11.7388 2.99994 12.001C2.99994 12.552 3.43694 13 3.97694 13H15.0239C15.2858 12.9968 15.5357 12.8898 15.7187 12.7025C15.9017 12.5152 16.0029 12.2629 15.9999 12.001C16.0029 11.7389 15.9018 11.4864 15.7188 11.2988C15.5359 11.1111 15.286 11.0037 15.0239 11H3.97694Z" fill="#EF436B" />
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3029 8.305C12.1089 8.502 12.0001 8.76745 12.0001 9.044C12.0001 9.32055 12.1089 9.586 12.3029 9.783L14.4999 12L12.3029 14.217C12.1087 14.4135 11.9998 14.6787 11.9998 14.955C11.9998 15.2313 12.1087 15.4965 12.3029 15.693C12.7069 16.102 13.3629 16.102 13.7679 15.693L16.6979 12.738C16.8912 12.5408 16.9995 12.2756 16.9995 11.9995C16.9995 11.7234 16.8912 11.4582 16.6979 11.261L13.7679 8.305C13.6719 8.20858 13.5577 8.13207 13.432 8.07987C13.3063 8.02767 13.1715 8.00079 13.0354 8.00079C12.8993 8.00079 12.7646 8.02767 12.6389 8.07987C12.5132 8.13207 12.399 8.20858 12.3029 8.305Z" fill="#EF436B" />
                                     </svg>
+                                    </span>
 
-                                    <h4 className="text-[#EF436B] font-roboto font-semibold">Logout</h4>
+                                    <h4 className="text-[#EF436B] font-roboto font-semibold pt-2">Logout</h4>
                                 </div>
                             </div>
-
-
-
 
 
 
@@ -99,11 +98,11 @@ const UserProfile = () => {
                             <div className="col-span-2">
                                 <h1 className="font-roboto text-[26px] font-bold text-[#000000] pt-8">Your <span className="text-primary">LawPair</span> Suggested TM attorneys</h1>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 place-items-center gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 place-items-center gap-6 md:gap-2 lg:gap-6">
                                     { 
                                         alluserData.map((attorney, index) => {
                                             return (
-                                                    <div key={index} className="h-[378px] p-4 shadow-lg rounded-md ">
+                                                    <div key={index} className="lg:first-letter lg:h-[378px] p-4 shadow-lg rounded-md ">
                                                         <img src={attorney.image} alt="attorney" className="w-full rounded-md" />
                                                         <div className="flex justify-between items-center">
                                                             <h2 className="text-[20px] font-bold font-roboto text-[#001018] pb-2 pt-[16px]">{attorney.name}</h2>

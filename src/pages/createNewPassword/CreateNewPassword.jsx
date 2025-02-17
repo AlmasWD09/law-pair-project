@@ -97,9 +97,11 @@ export const CreateNewPassword = () => {
 
 
                         <Form.Item>
-                            <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
+                           <Link to={'/password-successfull'}>
+                           <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                                 Save password
                             </Button>
+                           </Link>
                         </Form.Item>
                     </Form>
                 </div>

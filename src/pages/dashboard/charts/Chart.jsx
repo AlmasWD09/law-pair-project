@@ -1,7 +1,12 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 const Chart = () => {
+    const axiosPublic = useAxiosPublic();
+    const [chartHeight, setChartHeight] = useState(440);
+
     const seriesData = {
         monthDataSeries1: {
             prices: [8100, 8120, 8135, 8105, 8140, 8125, 8150, 8170, 8190, 8210],
@@ -61,7 +66,14 @@ const Chart = () => {
             },
         },
     });
-    const [chartHeight, setChartHeight] = useState(440);
+
+
+
+    // useEffect(()=>{
+    //     const res = axios.get('http://10.0.80.13:9000/api/admin/users')
+    //     console.log(res.data)
+    // },[])
+
 
     useEffect(() => {
       const handleResize = () => {
