@@ -67,13 +67,7 @@ const CommonLayout = () => {
     const handleClick = (name) => {
 console.log(name)
 
-        // if(name?.name=== 'Lawyers'){
-        //     const lawayer= name.subscribe
-        //     console.log('lowayer',lawayer)
-        // }
-        // if(name?.name=== 'Total Users'){
-        //     const totaluser= name.subscribe
-        // }
+
     }
 
 
