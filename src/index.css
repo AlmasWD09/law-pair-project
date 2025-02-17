@@ -70,5 +70,32 @@ body{
 
 
 
+/* pagination button style */
+.pagination{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 80px;
+    font-size: 19px;
+    gap: 5px;
+}
 
 
+.pagination .page-num{
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: 400;
+}
+
+
+.pagination .page-num:hover{
+    background-color: green;
+    color: white;
+}
+
+.pagination .active{
+    background-color: green;
+    color: white; 
+}
