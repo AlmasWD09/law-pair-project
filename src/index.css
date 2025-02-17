@@ -57,4 +57,18 @@ body{
 
 
 
+/* upload image field style start */
+.upload-component .ant-upload {
+    width: 100% !important;
+}
+.upload-component .ant-btn {
+    width: 100% !important;
+}
+
+/* upload image field style end */
+
+
+
+
+
 
