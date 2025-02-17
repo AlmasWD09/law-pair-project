@@ -51,12 +51,10 @@ const AttorneyDetails = () => {
         navigate(-1)
     }
 
-    const role = "lawyer"
 
     return (
         <div className="container mx-auto px-4 py-8 md:py-20">
-            {
-                role === "lawyer" ? <div>
+          <div>
                 <div className="max-w-[1037px] mx-auto">
                     <span><FaArrowLeft onClick={handleNavigate} className="text-[20px] text-[#60606A] cursor-pointer" /></span>
                     <div className="flex flex-wrap items-center justify-center gap-3 pt-10 pb-[64px] ">
@@ -174,9 +172,6 @@ const AttorneyDetails = () => {
                     </div>
                 </div>
             </div>
-            :
-            'user home page'
-            }
         </div>
     )
 }

@@ -399,7 +399,7 @@ const Banner = () => {
     ]
 
 
-    const role = "attorney"
+    const role = "user"
 
 
     return (
@@ -812,21 +812,31 @@ const Banner = () => {
                                         Add your profile photo and availability
                                     </Title>
                                 </div>
-                                <div className='pb-4' style={{ width: "100%" }}>
-                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Upload profile photo</p>
-                                    <Upload
-                                        fileList={fileList}
-                                        onChange={handleChange}
-                                        beforeUpload={() => false} // Prevent auto-upload
-                                        style={{ display: "block" }} // Ensure it behaves as a block element
-                                    >
-                                        {fileList.length >= 1 ? null : (
-                                            <Button icon={<UploadOutlined />} style={{ width: "100%" }}>
-                                                Upload Image
-                                            </Button>
-                                        )}
-                                    </Upload>
+
+
+                                {/* upload image */}
+                                <div className="pb-4 w-full">
+                                    <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
+                                    <div className="w-full">
+                                        <Upload
+                                            fileList={fileList}
+                                            onChange={handleChange}
+                                            beforeUpload={() => false} // Prevent auto-upload
+                                            style={{ width: '100%', height: '40px' }} // Force the Upload component to take full width
+                                            className="upload-component" // Custom class to apply further styling
+                                        >
+                                            {fileList.length >= 1 ? null : (
+                                                <Button
+                                                    icon={<UploadOutlined />}
+                                                    style={{ width: '100%', height: '40px' }} // Ensure the button takes up full width
+                                                >
+                                                    Upload Image
+                                                </Button>
+                                            )}
+                                        </Upload>
+                                    </div>
                                 </div>
+
 
 
 
