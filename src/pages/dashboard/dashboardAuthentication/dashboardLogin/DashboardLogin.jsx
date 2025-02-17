@@ -1,8 +1,39 @@
 import { Button, Checkbox, Form, Input } from "antd"
-import { Link } from "react-router-dom"
+import { useForm } from "antd/es/form/Form"
+import { Link, useNavigate } from "react-router-dom"
+import useAxiosPublic from "../../../../hooks/useAxiosPublic"
+import toast from "react-hot-toast"
 
 
 const DashboardLogin = () => {
+    const axiosPublic = useAxiosPublic();
+    const navigate = useNavigate();
+    const [form] = useForm();
+
+    const onFinish = async (values) => {
+        const loginInfo = {
+            role: 'super_admin',
+            email: values.email,
+            password: values.password,
+        }
+
+        try {
+            const response = await axiosPublic.post("/login", loginInfo);
+            console.log(response.data)
+            if (response.data.success) {
+                toast.success("login success")
+                // navigate('/admin/dashboard')
+            }
+            else {
+                toast.error('login failedddd')
+            }
+        }
+        catch (error) {
+            toast.error("Login Error. plz try again!");
+        }
+    }
+
+
     return (
         <div className="flex flex-col justify-center items-center h-screen bg-[#faffff]">
             <div className="max-w-[684px] bg-[#FFFFFF] p-10 lg:px-20 py-8">
@@ -15,7 +46,7 @@ const DashboardLogin = () => {
                     </div>
                 </div>
 
-                <Form className="">
+                <Form form={form} onFinish={onFinish} className="">
                     <div>
                         <p className="font-roboto font-bold text-[#121221] text-[16px]">Email</p>
                         <Form.Item name="email" rules={[{ required: true, message: "Please enter your email!" }, { type: "email", message: "Invalid email address!" }]}>
@@ -47,11 +78,11 @@ const DashboardLogin = () => {
 
                     {/* Submit Button */}
                     <Form.Item>
-                        <Link to={'/admin/dashboard'}>
-                            <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
-                                Log in
-                            </Button>
-                        </Link>
+                        {/* <Link to={'/admin/dashboard'}> */}
+                        <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
+                            Log in
+                        </Button>
+                        {/* </Link> */}
                     </Form.Item>
                 </Form>
             </div>

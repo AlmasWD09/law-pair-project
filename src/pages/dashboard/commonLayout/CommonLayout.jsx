@@ -2,10 +2,13 @@ import { FaRegEye, FaUserGroup } from "react-icons/fa6";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import { FaBalanceScale } from "react-icons/fa";
 import Chart from "../charts/Chart";
-import useAdminDashboard from "../../../hooks/useAdminDashboard";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 
 const CommonLayout = () => {
-    const [adminAllInfo, refetch] = useAdminDashboard()
+const [count, setCount] = useState({})
+const [chartValue, setChartValue] = useState([]);
 
 
     const dashboardAllData = [
@@ -24,7 +27,7 @@ const CommonLayout = () => {
 
             ),
             name: "Total Users",
-            subscribe: "37k",
+            subscribe: count.total_users,
             title: "0.5 increase in last 7 days",
         },
         {
@@ -42,7 +45,7 @@ const CommonLayout = () => {
 
             ),
             name: "Lawyers",
-            subscribe: "20k",
+            subscribe: count.total_lawyers ,
             title: "0.5 increase in last 7 days",
         },
         {
@@ -60,21 +63,45 @@ const CommonLayout = () => {
 
             ),
             name: "Clients",
-            subscribe: "30k",
+            subscribe: count.total_clients,
             title: "0.5 increase in last 7 days",
         },
     ]
     const handleClick = (name) => {
-console.log(name)
-
-        // if(name?.name=== 'Lawyers'){
-        //     const lawayer= name.subscribe
-        //     console.log('lowayer',lawayer)
-        // }
-        // if(name?.name=== 'Total Users'){
-        //     const totaluser= name.subscribe
-        // }
+        if(name?.name=== 'Lawyers'){
+            const lawayer= name.subscribe
+            console.log('lowayer',lawayer)
+        }
+        else if(name?.name=== 'Total Users'){
+            const totaluser= name.subscribe
+            console.log('lowayer',totaluser)
+        }
+        else if(name?.name === 'Clients'){
+            const client = name.subscribe
+            console.log('client-----------',client)
+        }
     }
+
+    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTAuMC44MC4xMzo5MDAwL2FwaS92ZXJpZnktZW1haWwiLCJpYXQiOjE3Mzk0NDE0ODcsImV4cCI6MTc0MjAzMzQ4NywibmJmIjoxNzM5NDQxNDg3LCJqdGkiOiI2Y0hoekVIclpDaDRzZ3lLIiwic3ViIjoiNDQiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fuUlg_BUDx6Adxqtk2FWh9EppIT1VWqq41d4AL4LsTg'
+
+    useEffect(() => {
+        axios.get('http://10.0.80.13:9000/api/admin/dashboard', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Accept": "application/json"
+            }
+        })
+        .then(response => {
+            setCount(response.data?.usersCount)
+            setChartValue(response.data?.data)
+        })
+        .catch(error => {
+            console.error('Error fetching dashboard data:', error);
+        });
+    }, [token]);
+
+
+
 
 
     return (
@@ -101,7 +128,7 @@ console.log(name)
                                         <h1 className="font-roboto text-[18px] font-bold">{item.name}</h1>
                                     </div>
                                     <div className="flex items-center gap-2 pb-[4px]">
-                                        <h1 className="font-roboto text-[26px] font-bold">{item.subscribe}</h1>
+                                        <h1 className="font-roboto text-[26px] font-bold">{item.subscribe || 0}K</h1>
                                         {item.icon2}
                                     </div>
                                     <p className="font-roboto text[12px]">{item.title}</p>
@@ -113,7 +140,7 @@ console.log(name)
             </div>
 
             {/* dynamic chart */}
-            <Chart />
+            <Chart chartValue={chartValue}/>
         </div>
     )
 }

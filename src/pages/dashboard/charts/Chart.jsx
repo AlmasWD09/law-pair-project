@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
-const Chart = () => {
+const Chart = ({chartValue}) => {
     const axiosPublic = useAxiosPublic();
     const [chartHeight, setChartHeight] = useState(440);
+
 
     const seriesData = {
         monthDataSeries1: {
