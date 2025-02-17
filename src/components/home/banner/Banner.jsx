@@ -7,7 +7,6 @@ const { Title } = Typography;
 import { CheckCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { key } from 'localforage';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 
 
@@ -39,6 +38,11 @@ const Banner = () => {
     const [lawyerModalOpenThree, setLawyerModalOpenThree] = useState(false)
     const [selectedLowyerOptions, setSelectedLowyerOptions] = useState([]);
     const lowyerOptions = ["Monday", "Tuesday", "Wednesday", "Thursday"];
+    const [hoverIndex, setHoverIndex] = useState(null);
+    const [lowyerSelectValue, setLowyerSelectValue] = useState({
+        experience: null,
+        language: null,
+    })
 
 
 
@@ -140,16 +144,18 @@ const Banner = () => {
 
     // Location er options
     const locationOptions = [
-        { value: '1', label: 'A ' },
-        { value: '2', label: 'B ' },
-        { value: '3', label: 'C' },
+        { value: '1', label: 'New Jersey ' },
+        { value: '2', label: 'New York' },
+        { value: '3', label: 'Pennsylvania' },
+        { value: '3', label: 'Washington, D.C' },
     ];
 
     // City er options
     const cityOptions = [
-        { value: '4', label: 'E' },
-        { value: '5', label: 'F' },
-        { value: '6', label: 'G ' },
+        { label: "English", value: "e" },
+        { label: "Spanish", value: "s" },
+        { label: "German", value: "g" },
+        { label: "Russian", value: "r" }
     ];
 
     // Select Value Change Function
@@ -272,6 +278,31 @@ const Banner = () => {
 
 
     //================= lowyer modal two start ==============
+
+    // Location er options
+    const experience = [
+        { label: "1 to 3 years", value: "1" },
+        { label: "4 to 6 years", value: "2" },
+        { label: "7 to 9 years", value: "3" },
+        { label: "10 to 12 years", value: "" }
+    ];
+
+    // City er options
+    const language = [
+        { label: "English", value: "e" },
+        { label: "Spanish", value: "s" },
+        { label: "German", value: "g" },
+        { label: "Russian", value: "r" }
+    ];
+
+    // Select Value Change Function
+    const handleSelectModalLowyerTwoValue = (key, value) => {
+        setSecondSelecteValue(prev => ({
+            ...prev,
+            [key]: value
+        }))
+    }
+
     const handleOkLowyerTwo = () => {
         console.log('click')
         setLawyerModalOpenTwo(false)
@@ -368,7 +399,7 @@ const Banner = () => {
     ]
 
 
-    const role = "user"
+    const role = "attorney"
 
 
     return (
@@ -510,9 +541,10 @@ const Banner = () => {
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectModalTwoValue("location", value)}
                                     options={[
-                                        { label: "A", value: "a" },
-                                        { label: "B", value: "b" },
-                                        { label: "C", value: "c" }
+                                        { value: '1', label: 'New Jersey ' },
+                                        { value: '2', label: 'New York' },
+                                        { value: '3', label: 'Pennsylvania' },
+                                        { value: '3', label: 'Washington, D.C' },
                                     ]}
                                 />
                             </div>
@@ -525,9 +557,10 @@ const Banner = () => {
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectModalTwoValue("city", value)}
                                     options={[
-                                        { label: "E", value: "e" },
-                                        { label: "F", value: "f" },
-                                        { label: "G", value: "g" }
+                                        { label: "English", value: "e" },
+                                        { label: "Spanish", value: "s" },
+                                        { label: "German", value: "g" },
+                                        { label: "Russian", value: "r" }
                                     ]}
                                 />
                             </div>
@@ -587,11 +620,12 @@ const Banner = () => {
                                         showSearch
                                         placeholder="Select..."
                                         style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSelectModalAttornyTwoValue("location", value)}
+                                        onChange={value => handleSelectModalLowyerTwoValue("location", value)}
                                         options={[
-                                            { label: "A", value: "a" },
-                                            { label: "B", value: "b" },
-                                            { label: "C", value: "c" }
+                                            { label: "1 to 3 years", value: "1" },
+                                            { label: "4 to 6 years", value: "2" },
+                                            { label: "7 to 9 years", value: "3" },
+                                            { label: "10 to 12 years", value: "" }
                                         ]}
                                     />
                                 </div>
@@ -602,7 +636,7 @@ const Banner = () => {
                                         showSearch
                                         placeholder="Select..."
                                         style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSelectChangeLanguage("languages", value)}
+                                        onChange={value => handleSelectModalLowyerTwoValue("languages", value)}
                                         options={[
                                             { label: "New York", value: "new-york" },
                                             { label: "Los Angeles", value: "los-angeles" },
@@ -862,17 +896,25 @@ const Banner = () => {
                     <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px]">Finding the right legal support has never been easier. Select up to 3 practice areas to find your LawPair Suggested (TM) attorney today</p>
                 </div>
 
+
+
+
                 {/* banner curd */}
                 <div className="flex justify-center items-center">
                     <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-3">
                         {bannerImage?.map((item, index) => {
+                            const isHovered = hoverIndex === index;
+
                             return (
                                 <div
                                     key={index}
-                                    className="relative bg-[#FFFFFF] w-full h-full lg:w-[510px] lg:h-[204px] flex flex-col justify-center items-center p-3 rounded-[24px] hover:bg-primary hover:text-white group overflow-hidden"
+                                    className="relative bg-[#FFFFFF] min-w-[280px] md:min-w-[300px] lg:min-w-[510px] min-h-[150px] md:min-h-[180px] lg:min-h-[204px] flex flex-col justify-center items-center p-3 rounded-[24px] hover:bg-primary hover:text-white group overflow-hidden"
+                                    onMouseEnter={() => setHoverIndex(index)} // Desktop hover
+                                    onMouseLeave={() => setHoverIndex(null)}
+                                    onClick={() => setHoverIndex(isHovered ? null : index)} // Mobile click
                                 >
                                     {/* Default Content (Before Hover) */}
-                                    <div className="flex flex-col justify-center items-center group-hover:hidden">
+                                    <div className={`flex flex-col justify-center items-center ${isHovered ? "opacity-0" : "opacity-100"}`}>
                                         <img
                                             src={item.image1}
                                             alt="default image"
@@ -884,11 +926,11 @@ const Banner = () => {
                                     </div>
 
                                     {/* Hover Content (After Hover) */}
-                                    <div className="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 group-hover:flex transition-opacity duration-300 ease-in-out p-2">
-                                        <img
-                                            src={item.image2}
-                                            alt="hover image"
-                                        />
+                                    <div
+                                        className={`absolute left-0 top-0 w-full h-full flex flex-col justify-center items-center transition-opacity duration-300 ease-in-out ${isHovered ? "opacity-100" : "opacity-0"
+                                            }`}
+                                    >
+                                        <img src={item.image2} alt="hover image" />
                                         <h4 className="mt-2 text-[18px] font-semibold md:font-bold font-roboto text-center">
                                             {item.name}
                                         </h4>
