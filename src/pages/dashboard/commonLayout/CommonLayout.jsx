@@ -3,11 +3,12 @@ import { FaArrowTrendUp } from "react-icons/fa6";
 import { FaBalanceScale } from "react-icons/fa";
 import Chart from "../charts/Chart";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Cookies from "js-cookie";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 
 const CommonLayout = () => {
+    const axiosPublic = useAxiosPublic();
     const [count, setCount] = useState({})
     const [chartValue, setChartValue] = useState([]);
     const [userType, setUserType] = useState('total_users')
@@ -90,24 +91,8 @@ const CommonLayout = () => {
 
 
     const token = Cookies.get("adminToken")
-    // useEffect(() => {
-    //     axios.get('http://10.0.80.13:9000/api/admin/dashboard', {
-    //         headers: {
-    //             Authorization: `Bearer ${token}`,
-    //             "Accept": "application/json"
-    //         }
-    //     })
-    //     .then(response => {
-    //         setCount(response.data?.usersCount)
-    //         setChartValue(response.data?.data)
-    //     })
-    //     .catch(error => {
-    //         console.error('Error fetching dashboard data:', error);
-    //     });
-    // }, [token]);
-
     useEffect(() => {
-        axios.get(`http://10.0.80.13:9000/api/admin/dashboard?user_type=${userType}`, {
+        axiosPublic.get(`/admin/dashboard?user_type=${userType}&year=2024`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Accept": "application/json"
