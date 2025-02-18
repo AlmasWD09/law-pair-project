@@ -29,6 +29,7 @@ import DashboardCreateNewPassword from "../pages/dashboard/dashboardAuthenticati
 import DashboardCongratulation from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardCongratulation";
 import DashboardOtpVerification from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardOtpVerification";
 import LawyerProfile from "../pages/profile/LawyerProfile";
+import PrivatRoutes from "./PrivatRoutes";
 
 
 const router = createBrowserRouter([
@@ -103,7 +104,9 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/admin/dashboard',
-        element: <CommonLayout />
+        element: <PrivatRoutes>
+          <CommonLayout />
+        </PrivatRoutes>
       },
       {
         path: '/admin/dashboard/add-categories',

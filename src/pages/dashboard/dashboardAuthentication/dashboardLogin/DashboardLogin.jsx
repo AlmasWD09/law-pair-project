@@ -3,6 +3,7 @@ import { useForm } from "antd/es/form/Form"
 import { Link, useNavigate } from "react-router-dom"
 import useAxiosPublic from "../../../../hooks/useAxiosPublic"
 import toast from "react-hot-toast"
+import Cookies from "js-cookie";
 
 
 const DashboardLogin = () => {
@@ -12,20 +13,22 @@ const DashboardLogin = () => {
 
     const onFinish = async (values) => {
         const loginInfo = {
-            role: 'super_admin',
+            role: 'admin',
             email: values.email,
             password: values.password,
         }
+
 
         try {
             const response = await axiosPublic.post("/login", loginInfo);
             console.log(response.data)
             if (response.data.success) {
+                Cookies.set("adminToken", response?.data?.access_token, { expires: 7, secure: true });
                 toast.success("login success")
-                // navigate('/admin/dashboard')
+                navigate('/admin/dashboard')
             }
             else {
-                toast.error('login failedddd')
+                toast.error('login failed')
             }
         }
         catch (error) {

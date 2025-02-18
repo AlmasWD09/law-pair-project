@@ -30,11 +30,16 @@ const Login = () => {
         }
 
         try {
-            const response = await axiosPublic.post("/login", clientInfo);
+            const response = await axiosPublic.post("/login", clientInfo,{ withCredentials: true });
             console.log('response--------', response.data)
 
             if (response.data.success) {
                 alert("login success")
+                // Cookies.set('adminToken', response?.data?.access_token, {
+                //     expires: 7,  // Token expires in 7 days
+                //     secure: true,  // Ensures HTTPS usage
+                //     sameSite: 'Strict'  // Prevents CSRF attacks
+                // });
             }
             else {
                 alert(response.data.message)
@@ -62,6 +67,7 @@ const Login = () => {
         try {
             const response = await axiosPublic.post("/login", attorneyInfo);
             console.log(response.data)
+
             if (response.data.success) {
                 alert("login success")
             }
