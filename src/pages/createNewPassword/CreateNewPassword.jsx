@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
 import Cookies from "js-cookie";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 
 export const CreateNewPassword = () => {
@@ -21,31 +22,31 @@ export const CreateNewPassword = () => {
         }
 
 
-        try {
-            const response = await axiosPublic.post("/reset-password", CreateNewPasswordInfo, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Accept": "application/json"
-                    // ✅ Send token in Authorization header
-                }
+        // try {
+        //     const response = await axiosPublic.post("/reset-password", CreateNewPasswordInfo, {
+        //         headers: {
+        //             Authorization: `Bearer ${token}`,
+        //             "Accept": "application/json"
+        //             // ✅ Send token in Authorization header
+        //         }
 
-            }
-            );
+        //     }
+        //     );
 
-            console.log('response----->', response.data)
+        //     console.log('response----->', response.data)
 
-            if (response.data.success) {
-                alert(response.data.message);
+        //     if (response.data.success) {
+        //         toast.success(response.data.message);
 
-                navigate('/password-successfull')
-                form.resetFields();
-            } else {
-                alert("Failed-----");
-            }
-        }
-        catch (error) {
-            alert("Something went wrong!. Please try again.");
-        }
+        //         navigate('/password-successfull')
+        //         form.resetFields();
+        //     } else {
+        //         toast.error("Failed-----");
+        //     }
+        // }
+        // catch (error) {
+        //     toast.error("Something went wrong!. Please try again.");
+        // }
 
         form.resetFields();
         setIsModalOpen(false);

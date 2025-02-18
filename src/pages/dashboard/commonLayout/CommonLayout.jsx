@@ -8,8 +8,11 @@ import Cookies from "js-cookie";
 
 
 const CommonLayout = () => {
-const [count, setCount] = useState({})
-const [chartValue, setChartValue] = useState([]);
+    const [count, setCount] = useState({})
+    const [chartValue, setChartValue] = useState([]);
+    const [userType, setUserType] = useState('total_users')
+    const [curdTitle, setCurdTitle] = useState('Total Users')
+
 
 
     const dashboardAllData = [
@@ -46,7 +49,7 @@ const [chartValue, setChartValue] = useState([]);
 
             ),
             name: "Lawyers",
-            subscribe: count.total_lawyers ,
+            subscribe: count.total_lawyers,
             title: "0.5 increase in last 7 days",
         },
         {
@@ -69,38 +72,55 @@ const [chartValue, setChartValue] = useState([]);
         },
     ]
     const handleClick = (name) => {
-        if(name?.name=== 'Lawyers'){
-            const lawayer= name.subscribe
+        let itemValue = {};
+        if (name?.name === 'Lawyers') {
+            itemValue = { category: 'Lawyers' };
+            setCurdTitle(name?.name)
+        } else if (name?.name === 'Total Users') {
+            itemValue = { category: 'total_users' };
+            setCurdTitle(name?.name)
+        } else if (name?.name === 'Clients') {
+            itemValue = { category: 'Clients' };
+            setCurdTitle(name?.name)
         }
-        else if(name?.name=== 'Total Users'){
-            const totaluser= name.subscribe
-        }
-        else if(name?.name === 'Clients'){
-            const client = name.subscribe
-        }
+        setUserType(itemValue.category)
     }
 
-    const token = Cookies.get("adminToken")
 
+
+
+    const token = Cookies.get("adminToken")
+    // useEffect(() => {
+    //     axios.get('http://10.0.80.13:9000/api/admin/dashboard', {
+    //         headers: {
+    //             Authorization: `Bearer ${token}`,
+    //             "Accept": "application/json"
+    //         }
+    //     })
+    //     .then(response => {
+    //         setCount(response.data?.usersCount)
+    //         setChartValue(response.data?.data)
+    //     })
+    //     .catch(error => {
+    //         console.error('Error fetching dashboard data:', error);
+    //     });
+    // }, [token]);
 
     useEffect(() => {
-        axios.get('http://10.0.80.13:9000/api/admin/dashboard', {
+        axios.get(`http://10.0.80.13:9000/api/admin/dashboard?user_type=${userType}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Accept": "application/json"
-            }
+            },
         })
-        .then(response => {
-            setCount(response.data?.usersCount)
-            setChartValue(response.data?.data)
-        })
-        .catch(error => {
-            console.error('Error fetching dashboard data:', error);
-        });
-    }, [token]);
-
-
-
+            .then(response => {
+                setCount(response.data?.usersCount);
+                setChartValue(response.data?.data);
+            })
+            .catch(error => {
+                console.error('Error fetching dashboard data:', error);
+            });
+    }, [token, userType]);
 
 
     return (
@@ -121,13 +141,13 @@ const [chartValue, setChartValue] = useState([]);
                     {
                         dashboardAllData.map((item, index) => {
                             return (
-                                <div onClick={() =>handleClick(item)} key={index} className="h-[151px] p-5 border rounded-lg hover:border-2 hover:border-primary transition-all duration-300 ease-in-out transform hover:scale-105">
+                                <div onClick={() => handleClick(item)} key={index} className="h-[151px] p-5 border rounded-lg hover:border-2 hover:border-primary transition-all duration-300 ease-in-out transform hover:scale-105">
                                     <div className="flex items-center gap-1 pb-[12px]">
                                         {item.icon1}
                                         <h1 className="font-roboto text-[18px] font-bold">{item.name}</h1>
                                     </div>
                                     <div className="flex items-center gap-2 pb-[4px]">
-                                        <h1 className="font-roboto text-[26px] font-bold">{item.subscribe || 0}K</h1>
+                                        <h1 className="font-roboto text-[26px] font-bold">{item.subscribe || 0}</h1>
                                         {item.icon2}
                                     </div>
                                     <p className="font-roboto text[12px]">{item.title}</p>
@@ -139,7 +159,7 @@ const [chartValue, setChartValue] = useState([]);
             </div>
 
             {/* dynamic chart */}
-            <Chart chartValue={chartValue}/>
+            <Chart chartValue={chartValue} curdTitle={curdTitle} />
         </div>
     )
 }

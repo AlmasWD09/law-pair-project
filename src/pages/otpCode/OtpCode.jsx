@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 
 const OtpCode = () => {
@@ -31,15 +32,15 @@ console.log(" email ni")
 
         //         Cookies.set("otpToken", response?.data?.access_token, { expires: 7, secure: true, sameSite: "Strict" });
 
-        //         alert("OTP send successfully.");
+        //         toast.success("OTP send successfully.");
         //         navigate('/create-new-password')
         //         form.resetFields();
         //     } else {
-        //         alert("Failed to send OTP. Try again.");
+        //         toast.error("Failed to send OTP. Try again.");
         //     }
         // }
         // catch (error) {
-        //     alert("Error sending OTP. Please try again.");
+        //     toast.error("Error sending OTP. Please try again.");
         // }
 
         form.resetFields();
@@ -50,18 +51,18 @@ console.log(" email ni")
 
     const handleResendOtp = async () => {
         setLoading(true);
-        try {
-            const response = await axiosPublic.post("/resent-otp", { email });
-            console.log(response.data)
-            if (response.data.success) {
-                alert("OTP has been resent successfully.");
-            } else {
-                alert("Failed to resend OTP. Try again.");
-            }
-        }
-        catch (error) {
-            alert("Error sending OTP. Please try again.");
-        }
+        // try {
+        //     const response = await axiosPublic.post("/resent-otp", { email });
+        //     console.log(response.data)
+        //     if (response.data.success) {
+        //         toast.success("OTP has been resent successfully.");
+        //     } else {
+        //         toast.error("Failed to resend OTP. Try again.");
+        //     }
+        // }
+        // catch (error) {
+        //     toast.error("Error sending OTP. Please try again.");
+        // }
 
         setLoading(false);
     };

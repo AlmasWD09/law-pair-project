@@ -2,6 +2,7 @@
 import React, { useState, useRef } from 'react';
 import JoditEditor from 'jodit-react';
 import { Button } from 'antd';
+import toast from 'react-hot-toast';
 
 const DashboardDisclaimer = () => {
   const [content, setContent] = useState('');
@@ -9,16 +10,16 @@ const DashboardDisclaimer = () => {
 
 
   const handleUpdate = async () => {
-    console.log(content)
+
     // try {
 
     //   const response = await axios.post('url', { content });
     //   console.log('Server Response:', response.data);
-    //   alert('Content updated successfully!');
+    //   toast.success('Content updated successfully!');
 
     // } catch (error) {
     //   console.error('Error updating content:', error);
-    //   alert('Failed to update content');
+    //   toast.error('Failed to update content');
     // }
   };
 

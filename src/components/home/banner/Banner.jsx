@@ -8,6 +8,7 @@ import { CheckCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
+import toast from 'react-hot-toast';
 
 
 
@@ -83,23 +84,23 @@ const Banner = () => {
         }
 
 
-        // try {
-        //     const response = await axios.post('url', {
-        //         selectedOptions: selectedOptions,
-        //     });
+        try {
+            const response = await axios.post('url', {
+                selectedOptions: selectedOptions,
+            });
 
-        //     console.log("Server Response:", response.data);
-        //     if (response.data.success) {
-        //         // setIsModalOpen(false)
-        //         // setSelectedOptions("")
-        //         // setIsModalOpenTwo(true)
-        //     }
-        //     else {
-        //         alert('please try again! and selected data MODAL ONE')
-        //     }
-        // } catch (error) {
-        //     console.error("Error sending data to the server:", error);
-        // }
+            console.log("Server Response:", response.data);
+            if (response.data.success) {
+                // setIsModalOpen(false)
+                // setSelectedOptions("")
+                // setIsModalOpenTwo(true)
+            }
+            else {
+                toast.error('please try again! and selected data MODAL ONE')
+            }
+        } catch (error) {
+            toast.error("Error sending data to the server:", error);
+        }
     };
 
 
@@ -169,22 +170,22 @@ const Banner = () => {
     const handleOkTwo = async () => {
         console.log(secondSelectValue)
 
-        try {
-            const response = await axios.post('url', {
-                selectedOptions: selectedOptions,
-            });
+        // try {
+        //     const response = await axios.post('url', {
+        //         selectedOptions: selectedOptions,
+        //     });
 
-            console.log("Server Response:", response.data);
-            if (response.data.success) {
-                setIsModalOpenThree(true)
-                setIsModalOpenTwo(false)
-            }
-            else {
-                alert('please try again! and selected data MODAL TWO')
-            }
-        } catch (error) {
-            console.error("Error sending data to the server:", error);
-        }
+        //     console.log("Server Response:", response.data);
+        //     if (response.data.success) {
+        //         setIsModalOpenThree(true)
+        //         setIsModalOpenTwo(false)
+        //     }
+        //     else {
+        //         toast.error('please try again! and selected data MODAL TWO')
+        //     }
+        // } catch (error) {
+        //     toast.error("Error sending data to the server:", error);
+        // }
 
         setIsModalOpenThree(true)
         setIsModalOpenTwo(false)

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 const ForgetPassword = () => {
     const axiosPublic = useAxiosPublic();
@@ -17,20 +18,20 @@ const ForgetPassword = () => {
             email: values.email,
         }
 
-        try {
-            const response = await axiosPublic.post('/resent-otp', forgetInfo)
+        // try {
+        //     const response = await axiosPublic.post('/resent-otp', forgetInfo)
 
-            if (response.data.success) {
-                navigate('/otp-code',{state:{email:forgetInfo.email}})
+        //     if (response.data.success) {
+        //         navigate('/otp-code',{state:{email:forgetInfo.email}})
 
-                alert(response.data.message)
-            } else {
-                alert(response.data.message)
-            }
+        //         toast.success(response.data.message)
+        //     } else {
+        //         toast.error(response.data.message)
+        //     }
 
-        } catch (error) {
-            console.log(error)
-        }
+        // } catch (error) {
+        //     toast.error(error)
+        // }
 
 
         form.resetFields();

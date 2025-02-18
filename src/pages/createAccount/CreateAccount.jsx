@@ -218,6 +218,7 @@ import AccountCreate from "../../layout/AccountCreate";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 const CreateAccount = () => {
     const axiosPublic = useAxiosPublic()
@@ -248,7 +249,7 @@ const CreateAccount = () => {
 
         //     if (res.data.success) {
         //         // setRoleValue(res.data.success.role)
-        //         alert(res.data.message);
+        //         toast.success(res.data.message);
         //         navigate('/otp-code', { state: { email: values.email } })
         //         // form.resetFields()
              
@@ -259,14 +260,14 @@ const CreateAccount = () => {
         //     if (response?.errors) {
         //         // If validation errors are returned from Laravel
         //         if (response.data.errors.email) {
-        //             alert(response.data.errors.email[0]);  // Show first email error
+        //             toast.error(response.data.errors.email[0]);  // Show first email error
         //         } else if (response.data.errors.password) {
-        //             alert(response.data.errors.password[0]);  // Show first password error
+        //             toast.error(response.data.errors.password[0]);  // Show first password error
         //         } else {
-        //             alert("There was an error with your registration.");
+        //             toast.error("There was an error with your registration.");
         //         }
         //     } else {
-        //         alert(response?.data?.message || "Something went wrong.");
+        //         toast.error(response?.data?.message || "Something went wrong.");
         //     }
         // }
     };
