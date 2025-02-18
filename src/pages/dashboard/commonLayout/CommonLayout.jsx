@@ -4,6 +4,7 @@ import { FaBalanceScale } from "react-icons/fa";
 import Chart from "../charts/Chart";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 
 const CommonLayout = () => {
@@ -70,19 +71,17 @@ const [chartValue, setChartValue] = useState([]);
     const handleClick = (name) => {
         if(name?.name=== 'Lawyers'){
             const lawayer= name.subscribe
-            console.log('lowayer',lawayer)
         }
         else if(name?.name=== 'Total Users'){
             const totaluser= name.subscribe
-            console.log('lowayer',totaluser)
         }
         else if(name?.name === 'Clients'){
             const client = name.subscribe
-            console.log('client-----------',client)
         }
     }
 
-    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTAuMC44MC4xMzo5MDAwL2FwaS92ZXJpZnktZW1haWwiLCJpYXQiOjE3Mzk0NDE0ODcsImV4cCI6MTc0MjAzMzQ4NywibmJmIjoxNzM5NDQxNDg3LCJqdGkiOiI2Y0hoekVIclpDaDRzZ3lLIiwic3ViIjoiNDQiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fuUlg_BUDx6Adxqtk2FWh9EppIT1VWqq41d4AL4LsTg'
+    const token = Cookies.get("adminToken")
+
 
     useEffect(() => {
         axios.get('http://10.0.80.13:9000/api/admin/dashboard', {

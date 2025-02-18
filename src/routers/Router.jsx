@@ -100,7 +100,9 @@ const router = createBrowserRouter([
   // dashboard layout
   {
     path: '/admin/dashboard',
-    element: <DashboardLayout />,
+    element: <PrivatRoutes>
+      <DashboardLayout />
+    </PrivatRoutes>,
     children: [
       {
         path: '/admin/dashboard',
@@ -110,58 +112,72 @@ const router = createBrowserRouter([
       },
       {
         path: '/admin/dashboard/add-categories',
-        element: <AddCategories />
+        element: <PrivatRoutes>
+          <AddCategories />
+        </PrivatRoutes>
       },
       {
         path: '/admin/dashboard/manage-user',
-        element: <ManageUser />
+        element: <PrivatRoutes>
+          <ManageUser />
+        </PrivatRoutes>
       },
 
       {
         path: '/admin/dashboard/setting',
-        element: <Seetings />,
+        element: <PrivatRoutes>
+          <Seetings />
+        </PrivatRoutes>,
         children: [
           {
-            path:"personal-information",
-            element:<DashboardPersonalInformation />
+            path: "personal-information",
+            element: <PrivatRoutes>
+              <DashboardPersonalInformation />
+            </PrivatRoutes>
           },
           {
-            path:"about-us",
-            element:<DashboardAbout />
+            path: "about-us",
+            element: <PrivatRoutes>
+              <DashboardAbout />
+            </PrivatRoutes>
           },
           {
-            path:"disclai-mer",
-            element:<DashboardDisclaimer />
+            path: "disclai-mer",
+            element: <PrivatRoutes>
+              <DashboardDisclaimer />
+            </PrivatRoutes>
           },
           {
-            path:"legal-re-sources",
-            element:<DashboardLegalResources />
+            path: "legal-re-sources",
+            element: <PrivatRoutes>
+              <DashboardLegalResources />
+            </PrivatRoutes>
           },
         ],
       },
     ],
   },
   //=================== Dashboard Authentication ================
-{
-  path:'/admin/dashboard/login',
-  element:<DashboardLogin />
-},
-{
-  path:'/admin/dashboard/forget-password',
-  element:<DashboardForgetPassword />
-},
-{
-  path:'/admin/dashboard/otp-verification',
-  element:<DashboardOtpVerification />
-},
-{
-  path:'/admin/dashboard/create-new-password',
-  element:<DashboardCreateNewPassword />
-},
-{
-  path:'/admin/dashboard/congratulation',
-  element:<DashboardCongratulation />
-},
+  {
+    path: '/admin/dashboard/login',
+    element: <DashboardLogin />
+  },
+  {
+    path: '/admin/dashboard/forget-password',
+    element: <DashboardForgetPassword />
+  },
+  {
+    path: '/admin/dashboard/otp-verification',
+    element: <DashboardOtpVerification />
+  },
+  {
+    path: '/admin/dashboard/create-new-password',
+    element: <DashboardCreateNewPassword />
+  },
+  {
+    path: '/admin/dashboard/congratulation',
+    element: <DashboardCongratulation />
+  },
 
 ]);
 
