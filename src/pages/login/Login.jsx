@@ -29,20 +29,20 @@ const Login = () => {
             password: values.password
         }
 
-        try {
-            const response = await axiosPublic.post("/login", clientInfo);
-            console.log('response--------', response.data)
+        // try {
+        //     const response = await axiosPublic.post("/login", clientInfo);
+        //     console.log('response--------', response.data)
 
-            if (response.data.success) {
-                alert("login success")
-            }
-            else {
-                alert(response.data.message)
-            }
-        }
-        catch (error) {
-            alert("Login Error. plz try again!");
-        }
+        //     if (response.data.success) {
+        //         alert("login success")
+        //     }
+        //     else {
+        //         alert(response.data.message)
+        //     }
+        // }
+        // catch (error) {
+        //     alert("Login Error. plz try again!");
+        // }
 
         clientForm.resetFields();
         setIsModalOpen(false);
@@ -121,9 +121,11 @@ const Login = () => {
 
                     {/* Submit Button */}
                     <Form.Item>
+                        <Link to={'/'}>
                         <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                             Log in
                         </Button>
+                        </Link>
                     </Form.Item>
                 </Form>
             ),
@@ -171,9 +173,11 @@ const Login = () => {
 
                     {/* Submit Button */}
                     <Form.Item>
+                    <Link to={'/'}>
                         <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                             Log in
                         </Button>
+                        </Link>
                     </Form.Item>
                 </Form>
             ),

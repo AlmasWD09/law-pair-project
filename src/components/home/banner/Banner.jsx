@@ -398,7 +398,7 @@ const Banner = () => {
         },
     ]
 
-    const role = "user"
+    const role = "lawyer"
 
 
     return (
@@ -637,9 +637,10 @@ const Banner = () => {
                                         style={{ width: '100%', height: '40px' }}
                                         onChange={value => handleSelectModalLowyerTwoValue("languages", value)}
                                         options={[
-                                            { label: "New York", value: "new-york" },
-                                            { label: "Los Angeles", value: "los-angeles" },
-                                            { label: "Chicago", value: "chicago" }
+                                            { label: "English", value: "e" },
+                                            { label: "Spanish", value: "s" },
+                                            { label: "German", value: "g" },
+                                            { label: "Russian", value: "r" }
                                         ]}
                                     />
                                 </div>
@@ -667,6 +668,8 @@ const Banner = () => {
                 }
 
 
+
+                {/* modal three */}
                 {
                     role === "user" ? <Modal centered open={isModalOpenThree} onOk={handleOkAttonemy} onCancel={handleCancelAttonemy}
                         width={600}
@@ -736,7 +739,12 @@ const Banner = () => {
                                     placeholder="Select..."
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectChange("location", value)}
-                                    options={cityOptions}
+                                    options={[
+                                        { label: "New York", value: "new-york" },
+                                        { label: "Los Angeles", value: "los-angeles" },
+                                        { label: "Chicago", value: "chicago" }
+                                    ]}
+
                                 />
                             </div>
 
@@ -747,11 +755,12 @@ const Banner = () => {
                                     placeholder="Select..."
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectChange("languages", value)}
-                                    options={[
-                                        { label: "New York", value: "new-york" },
-                                        { label: "Los Angeles", value: "los-angeles" },
-                                        { label: "Chicago", value: "chicago" }
-                                    ]}
+                                    options={cityOptions}
+                                // options={[
+                                //     { label: "New York", value: "new-york" },
+                                //     { label: "Los Angeles", value: "los-angeles" },
+                                //     { label: "Chicago", value: "chicago" }
+                                // ]}
                                 />
                             </div>
 

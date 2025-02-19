@@ -58,9 +58,11 @@ const DashboardCreateNewPassword = () => {
 
 
           <Form.Item>
+          <Link to={'/admin/dashboard/congratulation'}>
             <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
-              <Link to={'/admin/dashboard/congratulation'}>Done</Link>
+              Done
             </Button>
+            </Link>
           </Form.Item>
         </Form>
       </div>
