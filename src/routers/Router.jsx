@@ -30,6 +30,7 @@ import DashboardCongratulation from "../pages/dashboard/dashboardAuthentication/
 import DashboardOtpVerification from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardOtpVerification";
 import LawyerProfile from "../pages/profile/LawyerProfile";
 import PrivatRoutes from "./PrivatRoutes";
+import LegalResurcesDetails from "../pages/details/LegalResurcesDetails";
 
 
 const router = createBrowserRouter([
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/legal-resources",
         element: <LegalResources />,
+      },
+      {
+        path: "/legal-resources-details/:id",
+        element: <LegalResurcesDetails />,
       },
       {
         path: "/attorney-tm",
