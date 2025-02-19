@@ -16,8 +16,6 @@ const OtpCode = () => {
     const email = location?.state?.email
     const navigate = useNavigate();
 
-console.log(email)
-console.log(" email ni")
 
     const onFinish = async (values) => {
         console.log("OTP Value:", values.otp); // ✅ Logs the OTP value
@@ -25,23 +23,23 @@ console.log(" email ni")
             otp: values.otp
         }
 
-        // try {
-        //     const response = await axiosPublic.post("/verify-email", otpCode);
-        //     console.log('check token---', response.data)
-        //     if ((response.data.success) && (response.data.access_token)) {
+        try {
+            const response = await axiosPublic.post("/verify-email", otpCode);
+            console.log('check token---', response.data)
+            if ((response.data.success) && (response.data.access_token)) {
 
-        //         Cookies.set("otpToken", response?.data?.access_token, { expires: 7, secure: true, sameSite: "Strict" });
+                Cookies.set("otpToken", response?.data?.access_token, { expires: 7, secure: true, sameSite: "Strict" });
 
-        //         toast.success("OTP send successfully.");
-        //         navigate('/create-new-password')
-        //         form.resetFields();
-        //     } else {
-        //         toast.error("Failed to send OTP. Try again.");
-        //     }
-        // }
-        // catch (error) {
-        //     toast.error("Error sending OTP. Please try again.");
-        // }
+                toast.success("OTP send successfully.");
+                navigate('/')
+                form.resetFields();
+            } else {
+                toast.error("Failed to send OTP. Try again.");
+            }
+        }
+        catch (error) {
+            toast.error("Error sending OTP. Please try again.");
+        }
 
         form.resetFields();
         setIsModalOpen(false);
@@ -51,18 +49,18 @@ console.log(" email ni")
 
     const handleResendOtp = async () => {
         setLoading(true);
-        // try {
-        //     const response = await axiosPublic.post("/resent-otp", { email });
-        //     console.log(response.data)
-        //     if (response.data.success) {
-        //         toast.success("OTP has been resent successfully.");
-        //     } else {
-        //         toast.error("Failed to resend OTP. Try again.");
-        //     }
-        // }
-        // catch (error) {
-        //     toast.error("Error sending OTP. Please try again.");
-        // }
+        try {
+            const response = await axiosPublic.post("/resent-otp", { email });
+            console.log(response.data)
+            if (response.data.success) {
+                toast.success("OTP has been resent successfully.");
+            } else {
+                toast.error("Failed to resend OTP. Try again.");
+            }
+        }
+        catch (error) {
+            toast.error("Error sending OTP. Please try again.");
+        }
 
         setLoading(false);
     };
@@ -96,11 +94,9 @@ console.log(" email ni")
 
                         {/* submit button */}
                         <Form.Item>
-                           <Link to={'/create-new-password'}>
                            <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                                 Submit OTP
                             </Button>
-                           </Link>
                         </Form.Item>
                     </Form>
                 </div>

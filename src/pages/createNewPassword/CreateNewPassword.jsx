@@ -22,31 +22,31 @@ export const CreateNewPassword = () => {
         }
 
 
-        // try {
-        //     const response = await axiosPublic.post("/reset-password", CreateNewPasswordInfo, {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`,
-        //             "Accept": "application/json"
-        //             // ✅ Send token in Authorization header
-        //         }
+        try {
+            const response = await axiosPublic.post("/reset-password", CreateNewPasswordInfo, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Accept": "application/json"
+                    // ✅ Send token in Authorization header
+                }
 
-        //     }
-        //     );
+            }
+            );
 
-        //     console.log('response----->', response.data)
+            console.log('response----->', response.data)
 
-        //     if (response.data.success) {
-        //         toast.success(response.data.message);
+            if (response.data.success) {
+                toast.success(response.data.message);
 
-        //         navigate('/password-successfull')
-        //         form.resetFields();
-        //     } else {
-        //         toast.error("Failed-----");
-        //     }
-        // }
-        // catch (error) {
-        //     toast.error("Something went wrong!. Please try again.");
-        // }
+                navigate('/password-successfull')
+                form.resetFields();
+            } else {
+                toast.error("Failed-----");
+            }
+        }
+        catch (error) {
+            toast.error("Something went wrong!. Please try again.");
+        }
 
         form.resetFields();
         setIsModalOpen(false);
@@ -98,11 +98,9 @@ export const CreateNewPassword = () => {
 
 
                         <Form.Item>
-                           <Link to={'/password-successfull'}>
                            <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                                 Save password
                             </Button>
-                           </Link>
                         </Form.Item>
                     </Form>
                 </div>

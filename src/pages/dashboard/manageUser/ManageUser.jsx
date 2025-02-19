@@ -14,16 +14,21 @@ const ManageUser = () => {
 
   const [data, setData] = useState([]);
 
-console.log(data)
+
+
+
   const token = Cookies.get("adminToken")
+
+
   useEffect(() => {
-    axiosPublic.get('/admin/users', {
+    axiosPublic.get('/admin/users?per_page=10', {
       headers: {
         Authorization: `Bearer ${token}`,
         "Accept": "application/json"
       },
     })
       .then(response => {
+        console.log(response.data)
         setData(response.data.users.data)
       })
       .catch(error => {
@@ -31,16 +36,11 @@ console.log(data)
       });
   }, [token,]);
 
-  // const filteredData = data.filter(
-  //   (item) =>
-  //     item.name.toLowerCase().includes(searchText.toLowerCase()) ||
-  //     item.email.toLowerCase().includes(searchText.toLowerCase())
-  // );
-
   const filteredData = data.filter(
     (item) =>
-      (item.name && item.name.toLowerCase().includes(searchText.toLowerCase())) ||
-      (item.email && item.email.toLowerCase().includes(searchText.toLowerCase()))
+      (item.first_name && item.first_name.toLowerCase().includes(searchText.toLowerCase())) ||
+      (item.email && item.email.toLowerCase().includes(searchText.toLowerCase())) ||
+      (item.role && item.role.toLowerCase().includes(searchText.toLowerCase()))
   );
 
   const showDeleteModal = (record) => {
@@ -50,7 +50,7 @@ console.log(data)
 
   const handleDeleteUser = () => {
     if (selectedRecord) {
-      setData((prev) => prev.filter((item) => item.key !== selectedRecord.key));
+      setData((prev) => prev.filter((item) => item.id !== selectedRecord.id));
       setIsModalVisible(false);
       setSelectedRecord(null);
     }
@@ -129,7 +129,7 @@ console.log(data)
         />
 
         <div className="overflow-x-auto pt-3">
-          <Table columns={columns} dataSource={filteredData} pagination={{ pageSize: 8 }} />
+          <Table columns={columns} dataSource={filteredData}  />
         </div>
       </div>
 

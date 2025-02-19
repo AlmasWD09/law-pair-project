@@ -1,217 +1,3 @@
-// import { Form, Input, Button } from "antd";
-// import AccountCreate from "../../layout/AccountCreate";
-// import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-// import { Tabs } from 'antd';
-// import { useState } from "react";
-// import { Link } from "react-router-dom";
-
-// const CreateAccount = () => {
-//     const [form] = Form.useForm(); // Form instance
-//     const [isModalOpen, setIsModalOpen] = useState(false);
-//     const onChange = (key) => {
-//         console.log(key);
-//     };
-
-
-//     const onFinish = (values) => {
-//         console.log("Form Data:", values);
-//         form.resetFields();
-//         setIsModalOpen(false);
-//     };
-
-//     const items = [
-//         {
-//             key: '1',
-//             label: 'Client, Looking for an Attorney',
-//             children: (
-//                 <Form form={form} layout="vertical" onFinish={onFinish}>
-//                     <div>
-//                         <p className="font-roboto">First name</p>
-//                         <Form.Item
-//                             name="first-name"
-//                             rules={[
-//                                 { required: true, message: "Please enter your first name" },
-//                             ]}
-//                         >
-//                             <Input type="text" placeholder="Enter your first name" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-//                         </Form.Item>
-//                     </div>
-
-
-//                     <div>
-//                         <p className="font-roboto">Last name</p>
-//                         <Form.Item
-//                             name="last-name"
-//                             rules={[
-//                                 { required: true, message: "Please enter your last name" },
-//                             ]}
-//                         >
-//                             <Input type="text" placeholder="Enter your last name" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-//                         </Form.Item>
-//                     </div>
-
-//                     <div>
-//                         <p className="font-roboto">Email</p>
-//                         <Form.Item
-
-//                             name="email"
-//                             rules={[
-//                                 { required: true, message: "Please enter your email!" },
-//                                 { type: "email", message: "Invalid email address!" },
-//                             ]}
-//                         >
-//                             <Input type="email" placeholder="Enter your email address" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-//                         </Form.Item>
-//                     </div>
-
-
-//                     <div>
-//                         <p className="font-roboto">Create password</p>
-//                         <Form.Item
-//                             name="password"
-//                             rules={[
-//                                 {
-//                                     required: true,
-//                                     message: 'Please input your password!',
-//                                 },
-//                             ]}
-//                         >
-//                             <Input.Password type="password" placeholder="Create your password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-//                         </Form.Item>
-//                     </div>
-
-//                     <div>
-//                         <p className="font-roboto">Confirm password</p>
-//                         <Form.Item
-//                             name="confirm-password"
-//                             rules={[
-//                                 {
-//                                     required: true,
-//                                     message: 'Please input your Confirm password!',
-//                                 },
-//                             ]}
-//                         >
-//                             <Input.Password type="password" placeholder="Confirm your password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-//                         </Form.Item>
-//                     </div>
-
-//                     {/* Submit Button */}
-//                     <Form.Item>
-//                         <Button htmlType="submit" className="w-full md:min-w-[995px] " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
-//                             Create Account
-//                         </Button>
-//                     </Form.Item>
-//                 </Form>
-//             ),
-//         },
-//         {
-//             key: '2',
-//             label: 'Create Attorney Profile',
-//             children:  (
-//                 <Form form={form} layout="vertical" onFinish={onFinish}>
-//                     <div>
-//                         <p className="font-roboto">First name</p>
-//                         <Form.Item
-//                             name="first-name"
-//                             rules={[
-//                                 { required: true, message: "Please enter your first name" },
-//                             ]}
-//                         >
-//                             <Input type="text" placeholder="Enter your first name" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-//                         </Form.Item>
-//                     </div>
-
-
-//                     <div>
-//                         <p className="font-roboto">Last name</p>
-//                         <Form.Item
-//                             name="last-name"
-//                             rules={[
-//                                 { required: true, message: "Please enter your last name" },
-//                             ]}
-//                         >
-//                             <Input type="text" placeholder="Enter your last name" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-//                         </Form.Item>
-//                     </div>
-
-//                     <div>
-//                         <p className="font-roboto">Email</p>
-//                         <Form.Item
-
-//                             name="email"
-//                             rules={[
-//                                 { required: true, message: "Please enter your email!" },
-//                                 { type: "email", message: "Invalid email address!" },
-//                             ]}
-//                         >
-//                             <Input type="email" placeholder="Enter your email address" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-//                         </Form.Item>
-//                     </div>
-
-
-//                     <div>
-//                         <p className="font-roboto">Create password</p>
-//                         <Form.Item
-//                             name="password"
-//                             rules={[
-//                                 {
-//                                     required: true,
-//                                     message: 'Please input your password!',
-//                                 },
-//                             ]}
-//                         >
-//                             <Input.Password type="password" placeholder="Create your password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-//                         </Form.Item>
-//                     </div>
-
-//                     <div>
-//                         <p className="font-roboto">Confirm password</p>
-//                         <Form.Item
-//                             name="confirm-password"
-//                             rules={[
-//                                 {
-//                                     required: true,
-//                                     message: 'Please input your Confirm password!',
-//                                 },
-//                             ]}
-//                         >
-//                             <Input.Password type="password" placeholder="Confirm your password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-//                         </Form.Item>
-//                     </div>
-
-//                     {/* Submit Button */}
-//                     <Form.Item>
-//                         <Button htmlType="submit" className="w-full md:min-w-[995px] " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
-//                             Create Account
-//                         </Button>
-//                     </Form.Item>
-//                 </Form>
-//             ),
-//         },
-//         {
-//             key: '3',
-//             label: 'Create In-House Counsel/HR Business Partner/Business Owner',
-//             children: 'Data Not Found',
-//         },
-//     ];
-
-//     return (
-//         <AccountCreate>
-//             <div className="flex flex-col justify-center items-center h-screen bg-[#f5f5f7]">
-//                 <div className="min-w-[995px] min-h-[700px] bg-[#FFFFFF] p-6 rounded-lg shadow-lg">
-//                     <h2 className="text-[26px] font-bold font-roboto text-[#10101E]  mb-0 pl-3">Create Your Account</h2>
-//                     <Tabs defaultActiveKey="1" items={items} onChange={onChange} className="custom-tabs px-4" />
-//                 </div>
-//                 <div className="text-center pt-8">
-//                     <p className="text-[14px] font-roboto">Already have an account? <Link to={'/login'} className="text-primary font-bold font-roboto">Log In</Link></p>
-//                 </div>
-//             </div>
-//         </AccountCreate>
-//     );
-// };
-
-// export default CreateAccount;
-
 
 import { Form, Input, Button, Tabs } from "antd";
 import AccountCreate from "../../layout/AccountCreate";
@@ -222,7 +8,8 @@ import toast from "react-hot-toast";
 
 const CreateAccount = () => {
     const axiosPublic = useAxiosPublic()
-    const [form] = Form.useForm();
+    const [formOne] = Form.useForm();
+    const [formTwo] = Form.useForm();
     const navigate = useNavigate();
     const [roleValue, setRoleValue] = useState(null)
 
@@ -230,10 +17,10 @@ const CreateAccount = () => {
         console.log(key);
     };
 
-    const onFinish = async (values) => {
+    const onFinishOne = async (values) => {
 
         const createAccountInfo = {
-            role: "lawyer",
+            role: "user",
             first_name: values.first_name,
             last_name: values.last_name,
             location: values.location,
@@ -243,34 +30,75 @@ const CreateAccount = () => {
         }
 
 
-        // try {
-        //     const res = await axiosPublic.post('/register', createAccountInfo);
-        //     console.log(res, 'data----------')
+        try {
+            const res = await axiosPublic.post('/register', createAccountInfo);
+            console.log(res, 'data----------')
 
-        //     if (res.data.success) {
-        //         // setRoleValue(res.data.success.role)
-        //         toast.success(res.data.message);
-        //         navigate('/otp-code', { state: { email: values.email } })
-        //         // form.resetFields()
-             
-        //     }
+            if (res.data.success) {
+                setRoleValue(res.data.success.role)
+                toast.success(res.data.message);
+                navigate('/otp-code', { state: { email: values.email } })
+                formOne.resetFields()
 
-        // } catch ({ response }) {
-        //     console.log(response)
-        //     if (response?.errors) {
-        //         // If validation errors are returned from Laravel
-        //         if (response.data.errors.email) {
-        //             toast.error(response.data.errors.email[0]);  // Show first email error
-        //         } else if (response.data.errors.password) {
-        //             toast.error(response.data.errors.password[0]);  // Show first password error
-        //         } else {
-        //             toast.error("There was an error with your registration.");
-        //         }
-        //     } else {
-        //         toast.error(response?.data?.message || "Something went wrong.");
-        //     }
-        // }
+            }
+
+        } catch ({ response }) {
+            console.log(response)
+            if (response?.errors) {
+                // If validation errors are returned from Laravel
+                if (response.data.errors.email) {
+                    toast.error(response.data.errors.email[0]);  // Show first email error
+                } else if (response.data.errors.password) {
+                    toast.error(response.data.errors.password[0]);  // Show first password error
+                } else {
+                    toast.error("There was an error with your registration.");
+                }
+            } else {
+                toast.error(response?.data?.message || "Something went wrong.");
+            }
+        }
     };
+
+
+    const onFinishTwo = async (values) => {
+
+        const createAttorneyInfo = {
+            role: "lawyer",
+            first_name: values.first_name,
+            last_name: values.last_name,
+            email: values.email,
+            password: values.password,
+            password_confirmation: values.password_confirmation
+        }
+
+
+        try {
+            const res = await axiosPublic.post('/register', createAttorneyInfo);
+            console.log(res.data, 'data 2222222----------')
+
+            if (res.data.success) {
+                setRoleValue(res.data.success.role)
+                toast.success(res.data.message);
+                navigate('/otp-code', { state: { email: values.email } })
+                formTwo.resetFields()
+
+            }
+
+        } catch ({ response }) {
+            if (response?.errors) {
+                // If validation errors are returned from Laravel
+                if (response.data.errors.email) {
+                    toast.error(response.data.errors.email[0]);  // Show first email error
+                } else if (response.data.errors.password) {
+                    toast.error(response.data.errors.password[0]);  // Show first password error
+                } else {
+                    toast.error("There was an error with your registration.");
+                }
+            } else {
+                toast.error(response?.data?.message || "Something went wrong.");
+            }
+        }
+    }
 
     const items = [
         {
@@ -278,7 +106,7 @@ const CreateAccount = () => {
             label: 'Client, Looking for an Attorney',
             children: (
                 <div className="min-h-[500px]">
-                    <Form form={form} layout="vertical" onFinish={onFinish} className="space-y-4">
+                    <Form form={formOne} layout="vertical" onFinish={onFinishOne} className="space-y-4">
                         <div>
                             <p>First Name</p>
                             <Form.Item name="first_name" rules={[{ required: true, message: "Please enter your first name" }]}>
@@ -345,9 +173,8 @@ const CreateAccount = () => {
                         </div>
 
                         <Form.Item>
-                           <Link to={'/otp-code'}>
-                           <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
-                           </Link>
+                            <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
+
                         </Form.Item>
                     </Form>
                 </div>
@@ -358,10 +185,10 @@ const CreateAccount = () => {
             label: 'Create Attorney Profile',
             children: (
                 <div className="min-h-[500px]">
-                    <Form form={form} layout="vertical" onFinish={onFinish} className="space-y-4">
+                    <Form form={formTwo} layout="vertical" onFinish={onFinishTwo} className="space-y-4">
                         <div>
                             <p>First Name</p>
-                            <Form.Item name="first-name" rules={[{ required: true, message: "Please enter your first name" }]}>
+                            <Form.Item name="first_name" rules={[{ required: true, message: "Please enter your first name" }]}>
                                 <Input placeholder="Enter your first name" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
@@ -369,7 +196,7 @@ const CreateAccount = () => {
 
                         <div>
                             <p>Last Name</p>
-                            <Form.Item name="last-name" rules={[{ required: true, message: "Please enter your last name" }]}>
+                            <Form.Item name="last_name" rules={[{ required: true, message: "Please enter your last name" }]}>
                                 <Input placeholder="Enter your last name" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
@@ -384,14 +211,33 @@ const CreateAccount = () => {
 
                         <div>
                             <p>Create Password</p>
-                            <Form.Item name="password" rules={[{ required: true, message: "Please input your password!" }]}>
+                            <Form.Item name="password" rules={[{ required: true, message: "Please input your password!" },
+                            { min: 8, message: "Password must be at least 8 characters!" }
+                            ]}
+                                hasFeedback
+                            >
                                 <Input.Password placeholder="Create your password" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
 
                         <div>
                             <p>Confirm Password</p>
-                            <Form.Item name="confirm-password" rules={[{ required: true, message: "Please input your confirm password!" }]}>
+                            <Form.Item name="password_confirmation" dependencies={["password"]}
+                                rules={[
+                                    { required: true, message: "Please input your confirm password!" },
+                                    ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                            if (value.length < 8) {
+                                                return Promise.reject(new Error("Password must be at least 8 characters!"));
+                                            }
+                                            if (getFieldValue("password") !== value) {
+                                                return Promise.reject(new Error("Password does not match"));
+                                            }
+                                            return Promise.resolve();
+                                        },
+                                    }),
+                                ]}
+                                hasFeedback>
                                 <Input.Password placeholder="Confirm your password" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
@@ -411,7 +257,7 @@ const CreateAccount = () => {
     ];
 
 
-    const handleLogin = () =>{
+    const handleLogin = () => {
         navigate('/login',)
     }
     return (
