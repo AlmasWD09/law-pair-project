@@ -257,26 +257,6 @@ const Banner = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //================= lowyer modal two start ==============
 
     // Location er options
