@@ -29,7 +29,6 @@ import DashboardCreateNewPassword from "../pages/dashboard/dashboardAuthenticati
 import DashboardCongratulation from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardCongratulation";
 import DashboardOtpVerification from "../pages/dashboard/dashboardAuthentication/dashboardLogin/DashboardOtpVerification";
 import LawyerProfile from "../pages/profile/LawyerProfile";
-import Extra from "../pages/Extra";
 
 
 const router = createBrowserRouter([
@@ -41,10 +40,6 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-      },
-      {
-        path: "/extra",
-        element: <Extra/>,
       },
       {
         path: "/about",
