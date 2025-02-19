@@ -178,9 +178,9 @@ const Sidebar = () => {
                     </ul>
                 </div>
 
-                <div className="flex items-center justify-between bg-[#b9d4eb] rounded-md py-2 px-2 mb-3">
-                    <div className="flex items-center gap-2">
-                        <img src="/legalImage/legal1.png" alt="" className="w-[30px] h-[30px] rounded-full object-cover" />
+                {/* <div className="flex items-center justify-between bg-[#b9d4eb] rounded-md py-2 px-2 mb-3">
+                    <div className="flex  gap-2">
+                        <img src="/legalImage/edit1.png" alt="" className="w-[30px] h-[30px] rounded-full object-cover" />
                         <h1 className="text-xl font-roboto font-bold ">
                             Papatundee
                         </h1>
@@ -190,14 +190,29 @@ const Sidebar = () => {
                             <img src="/logo/login.png" alt="login image" className="w-[30px] h-[30px]" />
                         </div>
                     </Link>
+                </div> */}
+                <div className="flex items-center justify-between bg-[#b9d4eb] rounded-md px-2 mb-3">
+                    <div className="flex items-center gap-2 h-full">
+                        <div>
+                            <img src="/legalImage/edit1.png" alt="" className="w-[30px] h-[30px] rounded-full object-cover" />
+                        </div>
+                        <h1 className="text-xl font-roboto font-bold pt-2">
+                            Papatundee
+                        </h1>
+                    </div>
+                    <span>
+                        <svg  className="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.58L17 17L22 12M4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z" fill="#EF436B" />
+                        </svg>
+                    </span>
                 </div>
-            </div>
+            </div >
 
 
 
 
             {/*============== mobile device ============ */}
-            <div className="lg:hidden">
+            < div className="lg:hidden" >
                 <div>
                     {/* sidebar menu */}
                     <ul className="h-full flex flex-col gap-4 pt-8 py-2">
@@ -268,7 +283,7 @@ const Sidebar = () => {
                         <img src="/logo/login.png" alt="login image" className="w-[20px] h-[20px]" />
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
