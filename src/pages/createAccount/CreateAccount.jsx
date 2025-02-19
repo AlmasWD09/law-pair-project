@@ -396,7 +396,9 @@ const CreateAccount = () => {
                         </div>
 
                         <Form.Item>
-                            <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
+                        <Link to={'/otp-code'}>
+                           <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
+                           </Link>
                         </Form.Item>
                     </Form>
                 </div>
