@@ -19,7 +19,7 @@ const AttorneyTm = () => {
         },
         {
             "id": 3,
-            "image": "/attorney2.png",
+            "image": "/attorney1.png",
             "name": "Alice Johnson",
             "title": "UI/UX Designer"
         },
@@ -31,13 +31,13 @@ const AttorneyTm = () => {
         },
         {
             "id": 5,
-            "image": "/attorney2.png",
+            "image": "/attorney3.png",
             "name": "Emily Davis",
             "title": "Marketing Specialist"
         },
         {
             "id": 6,
-            "image": "/attorney3.png",
+            "image": "/attorney1.png",
             "name": "David Wilson",
             "title": "Cybersecurity Analyst"
         }
