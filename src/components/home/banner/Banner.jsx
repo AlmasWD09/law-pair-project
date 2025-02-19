@@ -398,7 +398,7 @@ const Banner = () => {
         },
     ]
 
-    const role = "lawyer"
+    const role = "user"
 
 
     return (
@@ -556,10 +556,10 @@ const Banner = () => {
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectModalTwoValue("city", value)}
                                     options={[
-                                        { label: "English", value: "e" },
-                                        { label: "Spanish", value: "s" },
-                                        { label: "German", value: "g" },
-                                        { label: "Russian", value: "r" }
+                                        { label: "Paterson", value: "e" },
+                                        { label: "Rochester", value: "s" },
+                                        { label: "Pittsburgh", value: "g" },
+                                        { label: "Washington", value: "r" }
                                     ]}
                                 />
                             </div>
