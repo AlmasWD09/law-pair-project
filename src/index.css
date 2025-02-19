@@ -6,8 +6,8 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    background-color:#F5F5F7;
+body {
+    background-color: #F5F5F7;
 }
 
 /* navbar active link style */
@@ -41,18 +41,18 @@ body{
 
 /* Active tab text color */
 .custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: #1b69ad !important; 
+    color: #1b69ad !important;
     font-weight: bold;
 }
 
 /* Active tab bottom border */
 .custom-tabs .ant-tabs-ink-bar {
-    background-color: #1b69ad !important; 
+    background-color: #1b69ad !important;
 }
 
 /* Hover tab text color */
 .custom-tabs .ant-tabs-tab:hover .ant-tabs-tab-btn {
-    color: #1b69ad !important; 
+    color: #1b69ad !important;
 }
 
 
@@ -61,6 +61,7 @@ body{
 .upload-component .ant-upload {
     width: 100% !important;
 }
+
 .upload-component .ant-btn {
     width: 100% !important;
 }
@@ -71,7 +72,7 @@ body{
 
 
 /* pagination button style */
-.pagination{
+.pagination {
     list-style: none;
     display: flex;
     justify-content: center;
@@ -82,7 +83,7 @@ body{
 }
 
 
-.pagination .page-num{
+.pagination .page-num {
     padding: 8px 15px;
     cursor: pointer;
     border-radius: 3px;
@@ -90,12 +91,27 @@ body{
 }
 
 
-.pagination .page-num:hover{
+.pagination .page-num:hover {
     background-color: green;
     color: white;
 }
 
-.pagination .active{
+.pagination .active {
     background-color: green;
-    color: white; 
+    color: white;
+}
+
+
+
+
+
+
+/* pagination active colr in attorney-tm component */
+.ant-pagination-item-active {
+    background-color: #1b69ad !important;
+    border-color: #1b69ad !important;
+}
+
+.ant-pagination-item-active a {
+    color: #ffff !important;
 }
