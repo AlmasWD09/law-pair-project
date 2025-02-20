@@ -2,8 +2,15 @@ import { EnvironmentOutlined, PhoneOutlined, UploadOutlined, UserOutlined } from
 import { Button, Form, Input, Modal, Upload, } from "antd";
 import axios from "axios";
 import { useState } from "react";
+import useAxiosPublic from "../../../../hooks/useAxiosPublic";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
+
+
+
 
 const DashboardPersonalInformation = () => {
+  const axiosPublic = useAxiosPublic();
   const [form] = Form.useForm();
   const [passwordForm] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,55 +35,62 @@ const DashboardPersonalInformation = () => {
     setFileList(fileList);
   };
 
+  const token = Cookies.get("adminToken");
 
   const handleSaveChange = async (values) => {
     const formData = new FormData();
 
     // Append image file
     if (fileList && fileList.length > 0) {
-      formData.append("image", fileList[0].originFileObj);
+      formData.append("avatar", fileList[0].originFileObj);
     }
 
-    formData.append("first-name", values["first-name"]);
-    formData.append("last-name", values["last-name"]);
-    formData.append("contact", values["contact-number"]);
-    formData.append("location", values["location"]);
+    formData.append("first_name", values["first_name"]);
+    formData.append("last_name", values["last_nam"]);
+    formData.append("phone", values["phone"]);
+    formData.append("address", values["address"]);
 
 
 
 
-    
+
     formData.forEach((value, key) => {
       console.log(`${key}:`, value);
     })
 
 
+    try {
+      const response = await axiosPublic.post('/update-profile', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+      console.log(response.data)
 
-    form.resetFields();
-      setFileList([]);
-    // This function is called when the update password form is submitted
-    console.log("Updated  Values: ", values);
-    // try {
-    //   const response = await axios.post('/url', formData);
+      if (response.data.success) {
+        toast.success('Profile updated successfully!')
+        form.resetFields();
+        setFileList([]);
 
-    //   if (response.status === 200) {
-    //     console.log('Password updated successfully:', response.data);
+      } else {
+        toast.error('Failed! please try again');
+      }
 
-    //   } else {
-    //     console.log('Error updating password:', response.data);
-    //   }
-    //   setIsModalOpen(false);
-    // } catch (error) {
-    //   console.error('Error during password update:', error);
-    //   setIsModalOpen(false);
-    // }
-
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error during password update:', error);
+      setIsModalOpen(false);
+    }
     setIsModalOpen(false);
   };
 
 
 
+  
+
   const handleUpdatePassword = async (values) => {
+
     const passwordData = {
       currentPassword: values['current-password'],
       newPassword: values['new-password'],
@@ -86,19 +100,19 @@ const DashboardPersonalInformation = () => {
     // This function is called when the update password form is submitted
     console.log("Updated Password Values: ", values);
 
-    // try {
-    //   const response = await axios.post('/url', passwordData);
+    try {
+      const response = await axios.post('/url', passwordData);
 
-    //   if (response.status === 200) {
-    //     console.log('Password updated successfully:', response.data);
-    //   } else {
-    //     console.log('Error updating password:', response.data);
-    //   }
-    //   setIsModalOpen(false);
-    // } catch (error) {
-    //   console.error('Error during password update:', error);
-    //   setIsModalOpen(false);
-    // }
+      if (response.status === 200) {
+        console.log('Password updated successfully:', response.data);
+      } else {
+        console.log('Error updating password:', response.data);
+      }
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error during password update:', error);
+      setIsModalOpen(false);
+    }
 
     setIsModalOpen(false);
   };
@@ -117,7 +131,7 @@ const DashboardPersonalInformation = () => {
         {/* upload image */}
         <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 pt-5">
           <Form.Item
-            name="upload"
+            name="avatar"
             valuePropName="fileList"
             getValueFromEvent={(e) => e?.fileList || []}
             rules={[
@@ -134,8 +148,8 @@ const DashboardPersonalInformation = () => {
               fileList={fileList}>
 
               {fileList.length >= 1 ? null : (
-                <div style={{ textAlign: "center"}}>
-                  <UploadOutlined style={{ fontSize: 24,}} />
+                <div style={{ textAlign: "center" }}>
+                  <UploadOutlined style={{ fontSize: 24, }} />
                   <div>Upload photo</div>
                 </div>
               )}
@@ -148,7 +162,7 @@ const DashboardPersonalInformation = () => {
         {/* first name & last name */}
         <div className="flex justify-between gap-3">
           <Form.Item
-            name="first-name"
+            name="first_name"
             rules={[{ required: true, message: "Please enter your First name" }]}
             style={{ width: "50%" }}
           >
@@ -162,7 +176,7 @@ const DashboardPersonalInformation = () => {
           </Form.Item>
 
           <Form.Item
-            name="last-name"
+            name="last_name"
             rules={[{ required: true, message: "Please enter your Last name" }]}
             style={{ width: "50%" }}
           >
@@ -178,7 +192,7 @@ const DashboardPersonalInformation = () => {
         {/* contact number */}
         <div>
           <Form.Item
-            name="contact-number"
+            name="phone"
             rules={[{ required: true, message: "Please enter your contact number" }]}
           // style={{ width: "50%" }}
           >
@@ -194,7 +208,7 @@ const DashboardPersonalInformation = () => {
         {/* location */}
         <div>
           <Form.Item
-            name="location"
+            name="address"
             rules={[{ required: true, message: "Please enter your Location" }]}
           // style={{ width: "50%" }}
           >

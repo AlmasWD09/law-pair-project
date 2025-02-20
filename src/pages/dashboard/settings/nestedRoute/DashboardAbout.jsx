@@ -11,6 +11,7 @@ const DashboardAbout = () => {
 
   const handleUpdate = async () => {
 
+    console.log(content)
     // try {
 
     //   const response = await axios.post('url', { content });
