@@ -66,7 +66,6 @@ const DashboardPersonalInformation = () => {
           Accept: "application/json",
         },
       });
-      console.log(response.data)
 
       if (response.data.success) {
         toast.success('Profile updated successfully!')
@@ -87,30 +86,35 @@ const DashboardPersonalInformation = () => {
 
 
 
-  
+
 
   const handleUpdatePassword = async (values) => {
 
     const passwordData = {
-      currentPassword: values['current-password'],
-      newPassword: values['new-password'],
-      confirmPassword: values['confirm-password'],
+      old_password: values['old_password'],
+      password: values['password'],
+      password_confirmation: values['password_confirmation'],
     };
 
-    // This function is called when the update password form is submitted
-    console.log("Updated Password Values: ", values);
-
     try {
-      const response = await axios.post('/url', passwordData);
+      const response = await axiosPublic.post('/update-password', passwordData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
 
-      if (response.status === 200) {
-        console.log('Password updated successfully:', response.data);
+
+      if (response.data.success) {
+        toast.success('Password updated successfully')
+        passwordForm.resetFields()
       } else {
-        console.log('Error updating password:', response.data);
+        toast.error('Failled! please try again')
       }
+
       setIsModalOpen(false);
     } catch (error) {
-      console.error('Error during password update:', error);
+      console.error('Error during password update');
       setIsModalOpen(false);
     }
 
@@ -264,7 +268,7 @@ const DashboardPersonalInformation = () => {
           <div>
             <p className="font-roboto">Current password</p>
             <Form.Item
-              name="current-password"
+              name="old_password"
               rules={[
                 {
                   required: true,
@@ -280,7 +284,7 @@ const DashboardPersonalInformation = () => {
           <div>
             <p className="font-roboto">new password</p>
             <Form.Item
-              name="new-password"
+              name="password"
               rules={[
                 {
                   required: true,
@@ -296,7 +300,7 @@ const DashboardPersonalInformation = () => {
           <div>
             <p className="font-roboto">confirm password</p>
             <Form.Item
-              name="confirm-password"
+              name="password_confirmation"
               rules={[
                 {
                   required: true,
