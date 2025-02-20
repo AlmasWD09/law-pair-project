@@ -1,32 +1,32 @@
-
 import { DeleteOutlined, EditOutlined, UploadOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Table, Modal } from "antd";
+import { Button, Form, Input, Table, Modal, Pagination, message } from "antd";
 import Upload from "antd/es/upload/Upload";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 const AddCategories = () => {
+  const axiosPublic = useAxiosPublic();
   const [form] = Form.useForm();
-  const [dataSource, setDataSource] = useState([
-    { id: 1, name: "John", image: "/legalImage/legal1.png" },
-    { id: 2, name: "Kamal", image: "/legalImage/legal2.png" },
-    { id: 3, name: "Monir", image: "/legalImage/legal3.png" },
-    { id: 4, name: "John", image: "/legalImage/legal1.png" },
-    { id: 5, name: "Kamal", image: "/legalImage/legal2.png" },
-    { id: 6, name: "Monir", image: "/legalImage/legal3.png" },
-  ]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState(null);
+  const [fileList, setFileList] = useState([]);
+  const [categorieData, setCategorieData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCategories, setTotalCategories] = useState(0);
+  const perPage = 4;
+  const token = Cookies.get("adminToken");
 
   const columns = [
-    { key: "1", title: "Image", dataIndex: "image", responsive: ["xs", "sm", "md", "lg", "xl"], render: (image) => <img src={image} alt="User" className="w-12 h-12 object-cover rounded-md" /> },
-
+    { key: "1", title: "Image", dataIndex: "image_icon", responsive: ["xs", "sm", "md", "lg", "xl"], render: (image) => <img src={image} alt="Category" className="w-12 h-12 object-cover rounded-md max-w-full max-h-full" /> },
     { key: "2", title: "Name", dataIndex: "name", responsive: ["xs", "sm", "md", "lg", "xl"] },
-
     {
       key: "4",
       title: "Action",
-      responsive: ["xs", "sm", "md", "lg", "xl"], // Mobile & Tablet Responsive
+      responsive: ["xs", "sm", "md", "lg", "xl"],
       render: (record) => (
         <div className="flex gap-2 items-center">
-          {/* <EditOutlined className="text-blue-500 cursor-pointer text-lg" /> */}
           <Button type="primary" danger onClick={() => showDeleteModal(record)}>
             <DeleteOutlined />
           </Button>
@@ -35,24 +35,40 @@ const AddCategories = () => {
     },
   ];
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedRecord, setSelectedRecord] = useState(null);
-  const [fileList, setFileList] = useState([])
-
   const showDeleteModal = (record) => {
     setSelectedRecord(record);
     setIsModalVisible(true);
   };
 
-  const handleDeleteCategorie = () => {
-    setDataSource((prev) => prev.filter((categorie) => categorie.id !== selectedRecord.id));
-    setIsModalVisible(false);
+  const handleDeleteCategorie = async () => {
+    if (selectedRecord) {
+      try {
+        const response = await axiosPublic.delete(`/admin/delete-category/${selectedRecord.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        });
+
+        if (response.data.success) {
+          toast.success('Category deleted successfully!');
+          setCategorieData((prev) => prev.filter((item) => item.id !== selectedRecord.id));
+          setTotalCategories((prev) => prev - 1);
+        } else {
+          toast.error("Failed to delete category.");
+        }
+      } catch (error) {
+        toast.error('Error deleting category. Please try again.');
+      }
+
+      setIsModalVisible(false);
+      setSelectedRecord(null);
+    }
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
 
   const handleUpload = ({ fileList }) => {
     if (fileList.length > 1) {
@@ -60,97 +76,108 @@ const AddCategories = () => {
       return;
     }
     setFileList(fileList);
-  }
-
+  };
 
   const handleCategorie = async (values) => {
     const formData = new FormData();
 
-    // Append image file
     if (fileList && fileList.length > 0) {
-      formData.append("image", fileList[0].originFileObj);
+      formData.append("image_icon", fileList[0].originFileObj);
     }
 
     formData.append("name", values.name);
 
+    try {
+      const response = await axiosPublic.post("/admin/store-category", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
 
-
-
-
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
-    })
-
-    // try {
-    //   const response = await axios.post("url", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   });
-
-    //   console.log("Success:", response.data);
-
-    //   form.resetFields();
-    //   setFileList([]);
-
-    // } catch (error) {
-    //   console.error("Error:", error.response ? error.response.data : error.message);
-    // }
+      if (response.data.success) {
+        toast.success(response.data.message);
+        // Update the categorieData directly
+        setCategorieData((prevData) => [
+          ...prevData,
+          {
+            id: response.data.category.id,
+            image_icon: response.data.category.image_icon,
+            name: response.data.category.name,
+          },
+        ]);
+        setTotalCategories((prev) => prev + 1);
+        form.resetFields();
+        setFileList([]);
+      } else {
+        toast.error('Category upload failed.');
+      }
+    } catch (error) {
+      toast.error('Error uploading category. Please try again.');
+    }
   };
 
+  // Fetch categories
+  useEffect(() => {
+    axiosPublic
+      .get(`/admin/categories?per_page=${perPage}&page=${currentPage}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      })
+      .then((response) => {
+        setCategorieData(response.data.categories.data);
+        setTotalCategories(response.data.categories.total);
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  }, [token, currentPage]);
 
   return (
     <div className="bg-white p-4 rounded-lg max-w-full">
       <div>
-        <h1 className="font-roboto text-[20px] md:text-[40px] font-bold text-[#10101E]">Add categories</h1>
+        <h1 className="font-roboto text-[20px] md:text-[40px] font-bold text-[#10101E]">Add Categories</h1>
         <p className="fontro text-[#B6B6BA] text-[12px] pb-3">Admin can add categories</p>
       </div>
 
       {/* Form */}
       <div className="pt-3">
         <Form form={form} onFinish={handleCategorie}>
-
-          {/* upload image */}
+          {/* Upload Image */}
           <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 pt-5">
             <Form.Item
               name="upload"
               valuePropName="fileList"
               getValueFromEvent={(e) => e?.fileList || []}
-              rules={[
-                {
-                  required: true,
-                  message: "Please upload an image!",
-                },
-              ]}
+              rules={[{ required: true, message: "Please upload an image!" }]}
             >
               <Upload
                 listType="picture-card"
                 beforeUpload={() => false}
                 onChange={handleUpload}
-                fileList={fileList}>
-
+                fileList={fileList}
+              >
                 {fileList.length >= 1 ? null : (
                   <div style={{ textAlign: "center" }}>
-                    <UploadOutlined style={{ fontSize: 24, }} />
+                    <UploadOutlined style={{ fontSize: 24 }} />
                     <div>Upload photo</div>
                   </div>
                 )}
-
               </Upload>
             </Form.Item>
           </div>
 
+          {/* Category Name */}
           <div className="pt-4">
-            <p className="font-roboto text-[#41414D] text-[14px]">Categories name</p>
+            <p className="font-roboto text-[#41414D] text-[14px]">Category Name</p>
             <Form.Item
               name="name"
               rules={[{ required: true, message: "Please enter your category name" }]}
             >
-              <Input
-                type="text"
-                placeholder="Enter title"
-                className="border border-[#b6b6ba83] px-3 py-2 w-full"
-              />
+              <Input type="text" placeholder="Enter title" className="border border-[#b6b6ba83] px-3 py-2 w-full" />
             </Form.Item>
           </div>
 
@@ -165,16 +192,22 @@ const AddCategories = () => {
       </div>
 
       {/* Preview Section */}
-      <h1 className="font-roboto text-[20px] md:text-3xl font-bold text-[#10101E] pt-6 ">
-        Preview update content:
-      </h1>
+      <h1 className="font-roboto text-[20px] md:text-3xl font-bold text-[#10101E] pt-6">Preview Update Content: {totalCategories || 0}</h1>
 
       <div className="overflow-x-auto pt-3">
         <Table
           columns={columns}
-          dataSource={dataSource}
-          pagination={{ pageSize: 4 }}
+          dataSource={categorieData}
+          pagination={false}
           className="w-full"
+        />
+        <Pagination
+          current={currentPage}
+          pageSize={perPage}
+          total={totalCategories}
+          onChange={(page) => setCurrentPage(page)}
+          align="end"
+          className="mt-4"
         />
       </div>
 

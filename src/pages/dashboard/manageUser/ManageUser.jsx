@@ -50,10 +50,7 @@ const ManageUser = () => {
 
   const handleDeleteUser = async () => {
     if (selectedRecord) {
-      console.log(selectedRecord.id)
-
-
-
+    
       try {
         const response = await axiosPublic.delete(`/admin/user/${selectedRecord.id}`, {
           headers: {
@@ -131,7 +128,7 @@ const ManageUser = () => {
   return (
     <div className="bg-white p-4 rounded-lg max-w-full">
       <h1 className="font-roboto text-[20px] md:text-[40px] font-bold text-[#10101E]">
-        Manage Users <span className="text-red-400">({totalUsers})</span>
+        Manage Users
       </h1>
       <p className="fontro text-[#B6B6BA] text-[12px] pb-3">
         Admins can manage users by promoting, demoting, or removing them.
