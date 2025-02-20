@@ -1,25 +1,24 @@
-import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Table, Upload } from "antd";
-import { useState } from "react";
+import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Modal, Pagination, Table, Tag, Upload } from "antd";
+import { useEffect, useState } from "react";
+import useAxiosPublic from "../../../../hooks/useAxiosPublic";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
+
+
+
 
 const DashboardLegalResources = () => {
+  const axiosPublic = useAxiosPublic();
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([])
 
-
-  const [dataSource, setDataSource] = useState([
-    { id: 1, image: "/legalImage/legal1.png", title: "Dhaka",   name: "John", },
-    { id: 2, image: "/legalImage/legal2.png",  title: "Fulbaria",  name: "Kamal", },
-    { id: 3, image: "/legalImage/legal3.png",  title: "Asim",  name: "Monir", },
-  ]);
-
-  const columns = [
-    { key: "1", title: "Image", dataIndex: "image", responsive: ["xs", "sm", "md", "lg", "xl"],render: (image) => <img src={image} alt="User" className="w-12 h-12 object-cover rounded-md" />
-  },
-    { key: "2", title: "Title", dataIndex: "title", responsive: ["xs", "sm", "md", "lg", "xl"] },
-    { key: "3", title: "Name", dataIndex: "name", responsive: ["xs", "sm", "md", "lg", "xl"] },
-
-  ];
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState(null);
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalLegalResurces, setTotalLegalResurces] = useState(0);
+  const perPage = 2;
 
   const handleUpload = ({ fileList }) => {
     if (fileList.length > 1) {
@@ -28,7 +27,7 @@ const DashboardLegalResources = () => {
     }
     setFileList(fileList);
   }
-
+  const token = Cookies.get("adminToken");
 
   const handleLegalResurce = async (values) => {
     const formData = new FormData();
@@ -45,26 +44,136 @@ const DashboardLegalResources = () => {
 
 
 
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
-    })
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}:`, value);
+    // })
 
-    // try {
-    //   const response = await axios.post("url", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   });
+    try {
+      const response = await axiosPublic.post("/admin/store-legal-resource", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
 
-    //   console.log("Success:", response.data);
+      if (response.data.success) {
+        toast.success('Legal resource created successfully!')
+        setData((prev) => [
+          ...prev,
+          {
+            id: response?.data?.legal_resource?.id,
+            image: response?.data?.legal_resource?.image,
+            title: response?.data?.legal_resource?.title,
+          }
+        ])
 
-    //   form.resetFields();
-    //   setFileList([]);
+        setFileList([]);
+        form.resetFields();
+      }
+      else {
+        toast.error('Failed! please try again')
+      }
 
-    // } catch (error) {
-    //   console.error("Error:", error.response ? error.response.data : error.message);
-    // }
+
+    } catch (error) {
+      console.error("Error:", error.response ? error.response.data : error.message);
+    }
   };
+
+
+
+  // get request 
+  useEffect(() => {
+    axiosPublic
+      .get(`/admin/legal-resources/?per_page=${perPage}&page=${currentPage}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(response.data)
+        setData(response.data.legal_resources.data);
+        setTotalLegalResurces(response.data.legal_resources.total);
+      })
+      .catch((error) => {
+        console.error("Error fetching dashboard users:", error);
+      });
+  }, [token, currentPage,data]);
+
+
+  const showDeleteModal = (record) => {
+    setSelectedRecord(record);
+    setIsModalVisible(true);
+  };
+
+
+
+  // delete request
+  const handleDeleteLegalResurces = async () => {
+    if (selectedRecord) {
+
+      try {
+        const response = await axiosPublic.delete(`/admin/delete-legal-resource/${selectedRecord.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        })
+
+        if (response.data.success) {
+          toast.success('User deleted successfully!')
+        }
+        else {
+          toast.error("Deleted Failed")
+        }
+
+      } catch (error) {
+        toast.error('Deleted Failed! please try again')
+      }
+
+
+      setData((prev) => prev.filter((item) => item.id !== selectedRecord.id));
+      setTotalLegalResurces((prev) => prev - 1)
+
+      setIsModalVisible(false);
+      setSelectedRecord(null);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+
+  const columns = [
+    {
+      title: "Image",
+      dataIndex: "image",
+      render: (image) => <img src={image} alt="Legal Resource" style={{ width: "50px", height: "50px", objectFit: "cover" }} />,
+      key: "image",
+    },
+    {
+      title: "title",
+      dataIndex: "title",
+      key: "title",
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Button type="primary" danger onClick={() => showDeleteModal(record)}>
+          <DeleteOutlined />
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <div className="bg-white p-4 rounded-lg max-w-full">
@@ -78,33 +187,33 @@ const DashboardLegalResources = () => {
       <Form form={form} onFinish={handleLegalResurce}>
         {/* upload image */}
         <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-4 pt-5">
-            <Form.Item
-              name="upload"
-              valuePropName="fileList"
-              getValueFromEvent={(e) => e?.fileList || []}
-              rules={[
-                {
-                  required: true,
-                  message: "Please upload an image!",
-                },
-              ]}
-            >
-              <Upload
-                listType="picture-card"
-                beforeUpload={() => false}
-                onChange={handleUpload}
-                fileList={fileList}>
+          <Form.Item
+            name="upload"
+            valuePropName="fileList"
+            getValueFromEvent={(e) => e?.fileList || []}
+            rules={[
+              {
+                required: true,
+                message: "Please upload an image!",
+              },
+            ]}
+          >
+            <Upload
+              listType="picture-card"
+              beforeUpload={() => false}
+              onChange={handleUpload}
+              fileList={fileList}>
 
-                {fileList.length >= 1 ? null : (
-                  <div style={{ textAlign: "center" }}>
-                    <UploadOutlined style={{ fontSize: 24, }} />
-                    <div>Upload photo</div>
-                  </div>
-                )}
+              {fileList.length >= 1 ? null : (
+                <div style={{ textAlign: "center" }}>
+                  <UploadOutlined style={{ fontSize: 24, }} />
+                  <div>Upload photo</div>
+                </div>
+              )}
 
-              </Upload>
-            </Form.Item>
-          </div>
+            </Upload>
+          </Form.Item>
+        </div>
 
 
         {/* title */}
@@ -153,14 +262,29 @@ const DashboardLegalResources = () => {
       </div>
 
       {/* table components */}
-      <div className="overflow-x-auto">
-        <Table
-          columns={columns}
-          dataSource={dataSource}
-          pagination={{ pageSize:4 }}
-          className="w-full"
-        />
+      <div className="overflow-x-auto pt-3">
+        <Table columns={columns} dataSource={data} pagination={false} rowKey="id" />
       </div>
+
+      {/* pagination component */}
+      <Pagination
+        current={currentPage}
+        pageSize={perPage}
+        total={totalLegalResurces}
+        onChange={(page) => setCurrentPage(page)}
+        className="mt-4"
+        align="end"
+      />
+      <Modal
+        title="Confirm Delete"
+        open={isModalVisible}
+        onOk={handleDeleteLegalResurces}
+        onCancel={handleCancel}
+        okText="Delete"
+        cancelText="Cancel"
+      >
+        <p className="text-lg text-gray-800">Are you sure you want to delete this legeal resurce?</p>
+      </Modal>
     </div>
   )
 }

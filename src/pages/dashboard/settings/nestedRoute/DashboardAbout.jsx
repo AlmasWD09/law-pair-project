@@ -14,7 +14,14 @@ const DashboardAbout = () => {
   const editor = useRef(null);
 
 
-
+  // const config = {
+  //   minHeight: 500, // Ensures minimum space
+  //   maxHeight: 500, // Expands but within limit
+  //   width: "100%",
+  //   autofocus: true, 
+  //   autoGrow: true, // Allows multiple text inputs
+  //   overflow: "scroll",
+  // };
 
   const token = Cookies.get("adminToken");
   const handleUpdate = async () => {
@@ -56,9 +63,7 @@ const DashboardAbout = () => {
           <JoditEditor
             ref={editor}
             value={content}
-            // config={{
-            //   height: "400px", // Set your desired height
-            // }}
+            // config={config}
             onChange={(newContent) => {
               setContent(newContent);
             }}

@@ -19,7 +19,7 @@ const AddCategories = () => {
   const token = Cookies.get("adminToken");
 
   const columns = [
-    { key: "1", title: "Image", dataIndex: "image_icon", responsive: ["xs", "sm", "md", "lg", "xl"], render: (image) => <img src={image} alt="Category" className="w-12 h-12 object-cover rounded-md max-w-full max-h-full" /> },
+    { key: "1", title: "Image", dataIndex: "image_icon", responsive: ["xs", "sm", "md", "lg", "xl"], render: (image_icon) => <img src={image_icon} alt="Category" className="w-12 h-12 object-cover rounded-md max-w-full max-h-full" /> },
     { key: "2", title: "Name", dataIndex: "name", responsive: ["xs", "sm", "md", "lg", "xl"] },
     {
       key: "4",
@@ -40,6 +40,7 @@ const AddCategories = () => {
     setIsModalVisible(true);
   };
 
+  // delete request
   const handleDeleteCategorie = async () => {
     if (selectedRecord) {
       try {
@@ -78,6 +79,9 @@ const AddCategories = () => {
     setFileList(fileList);
   };
 
+
+
+  // post request
   const handleCategorie = async (values) => {
     const formData = new FormData();
 
@@ -118,7 +122,7 @@ const AddCategories = () => {
     }
   };
 
-  // Fetch categories
+  // get request
   useEffect(() => {
     axiosPublic
       .get(`/admin/categories?per_page=${perPage}&page=${currentPage}`, {
@@ -134,7 +138,7 @@ const AddCategories = () => {
       .catch((error) => {
         console.error("Error fetching categories:", error);
       });
-  }, [token, currentPage]);
+  }, [token, currentPage,categorieData]);
 
   return (
     <div className="bg-white p-4 rounded-lg max-w-full">
