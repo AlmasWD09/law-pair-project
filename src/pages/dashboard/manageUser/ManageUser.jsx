@@ -34,12 +34,13 @@ const ManageUser = () => {
       .catch((error) => {
         console.error("Error fetching dashboard users:", error);
       });
-  }, [token, currentPage]);
+  }, [token, currentPage,searchText]);
 
   const filteredData = data.filter(
     (item) =>
-      (item.name && item.name.toLowerCase().includes(searchText.toLowerCase())) ||
-      (item.email && item.email.toLowerCase().includes(searchText.toLowerCase()))
+      (item.first_name && item.first_name.toLowerCase().includes(searchText.toLowerCase())) ||
+      (item.email && item.email.toLowerCase().includes(searchText.toLowerCase())) ||
+      (item.role && item.role.toLowerCase().includes(searchText.toLowerCase()))
   );
 
   const showDeleteModal = (record) => {
