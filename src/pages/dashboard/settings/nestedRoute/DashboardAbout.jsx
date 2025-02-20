@@ -3,29 +3,49 @@ import React, { useState, useRef } from 'react';
 import JoditEditor from 'jodit-react';
 import { Button } from 'antd';
 import toast from 'react-hot-toast';
+import useAxiosPublic from '../../../../hooks/useAxiosPublic';
+import Cookies from "js-cookie";
+
+
 
 const DashboardAbout = () => {
+  const axiosPublic = useAxiosPublic();
   const [content, setContent] = useState('');
-  const editor = useRef(null); // Correctly initialize ref
+  const editor = useRef(null);
 
 
+
+
+  const token = Cookies.get("adminToken");
   const handleUpdate = async () => {
 
-    console.log(content)
-    // try {
+    const aboutInfo = {
+      about: content
+    }
 
-    //   const response = await axios.post('url', { content });
-    //   console.log('Server Response:', response.data);
-    //   toast.success('Content updated successfully!');
+    try {
 
-    // } catch (error) {
-    //   console.error('Error updating content:', error);
-    //   toast.error('Failed to update content');
-    // }
+      const response = await axiosPublic.post('/admin/update-about', aboutInfo, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      if (response.data.success) {
+        toast.success('Content updated successfully!');
+      }
+      else {
+        toast.error("Failed! please try again")
+      }
+
+    } catch (error) {
+      toast.error('Failed to update content');
+    }
   };
 
 
-  
+
   return (
     <div className="bg-white p-4 rounded-lg max-w-full">
       <div>
@@ -40,7 +60,6 @@ const DashboardAbout = () => {
             //   height: "400px", // Set your desired height
             // }}
             onChange={(newContent) => {
-              console.log("Editor Content:", newContent);
               setContent(newContent);
             }}
           />
