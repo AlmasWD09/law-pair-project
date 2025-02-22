@@ -1,9 +1,14 @@
 import { FaArrowLeft, FaHome } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { FaRegCheckCircle } from "react-icons/fa";
+import { Pagination } from "antd";
+import { useState } from "react";
 
 const AttorneyTm = () => {
     const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 6; 
+
     const attorneyData = [
         {
             "id": 1,
@@ -43,9 +48,22 @@ const AttorneyTm = () => {
         }
     ];
 
-const handleNavigate = () =>{
-    navigate(-1)
-}
+    const handleNavigate = () => {
+        navigate(-1)
+    }
+
+
+    // Handle page change
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    // Slice data based on current page
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedData = attorneyData.slice(startIndex, endIndex);
+
+
 
     return (
         <div className="container mx-auto px-4 py-8 md:py-20">
@@ -55,7 +73,7 @@ const handleNavigate = () =>{
                     <Link to={'/'}>
                         <span className="flex items-center gap-1 font-roboto text-[14px] text-[#60606A]">
                             <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.16669 13.7643C3.16669 14.1325 3.46516 14.4309 3.83335 14.4309H13.1667C13.5349 14.4309 13.8334 14.1325 13.8334 13.7643V7.76427H15.8334L8.94869 1.5056C8.69434 1.27417 8.3057 1.27417 8.05135 1.5056L1.16669 7.76427H3.16669V13.7643ZM12.5 6.53562V13.0976H4.50002V6.53562L8.50002 2.89962L12.5 6.53562Z" fill="#60606A" />
+                                <path fillRule="evenodd" clipRule="evenodd" d="M3.16669 13.7643C3.16669 14.1325 3.46516 14.4309 3.83335 14.4309H13.1667C13.5349 14.4309 13.8334 14.1325 13.8334 13.7643V7.76427H15.8334L8.94869 1.5056C8.69434 1.27417 8.3057 1.27417 8.05135 1.5056L1.16669 7.76427H3.16669V13.7643ZM12.5 6.53562V13.0976H4.50002V6.53562L8.50002 2.89962L12.5 6.53562Z" fill="#60606A" />
                             </svg>
                             Home</span>
                     </Link>
@@ -70,7 +88,7 @@ const handleNavigate = () =>{
             <div className="flex justify-center">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-6">
                     {
-                        attorneyData.map((attorney, index) => {
+                        paginatedData.map((attorney, index) => {
                             return (
                                 <Link to={`/attorney-tm-details/${attorney.id}`} key={index}>
                                     <div className="w-[300px] h-[378px] p-4 shadow-lg rounded-md">
@@ -86,7 +104,19 @@ const handleNavigate = () =>{
                             )
                         })
                     }
+
+
                 </div>
+            </div>
+
+            <div className="py-8">
+                <Pagination
+                    current={currentPage}
+                    total={attorneyData.length}
+                    pageSize={itemsPerPage}
+                    onChange={handlePageChange}
+                    align="center"
+                />
             </div>
         </div>
     )
