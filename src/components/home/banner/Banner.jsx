@@ -6,7 +6,6 @@ const { Title } = Typography;
 
 import { CheckCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import toast from 'react-hot-toast';
 
@@ -35,17 +34,27 @@ const Banner = () => {
     const [fileList, setFileList] = useState([])
 
 
+
+
+
+
+
+
     const [lawyerModalOpenTwo, setLawyerModalOpenTwo] = useState(false)
     const [lawyerModalOpenThree, setLawyerModalOpenThree] = useState(false)
-    const [selectedLowyerOptions, setSelectedLowyerOptions] = useState([]);
+    const [selectedLowyerOptions, setSelectedLowyerOptions] = useState();
     const lowyerOptions = ["Monday", "Tuesday", "Wednesday", "Thursday"];
     const [hoverIndex, setHoverIndex] = useState(null);
+
     const [lowyerSelectValue, setLowyerSelectValue] = useState({
         experience: null,
         language: null,
     })
-
-
+    const [lowyerformData, setLowyerFormData] = useState({
+        date: null,
+        time: null,
+    });
+    const [websiteLink, setWebsiteLink] = useState("");
 
 
 
@@ -84,23 +93,23 @@ const Banner = () => {
         }
 
 
-        try {
-            const response = await axios.post('url', {
-                selectedOptions: selectedOptions,
-            });
+        // try {
+        //     const response = await axios.post('url', {
+        //         selectedOptions: selectedOptions,
+        //     });
 
-            console.log("Server Response:", response.data);
-            if (response.data.success) {
-                // setIsModalOpen(false)
-                // setSelectedOptions("")
-                // setIsModalOpenTwo(true)
-            }
-            else {
-                toast.error('please try again! and selected data MODAL ONE')
-            }
-        } catch (error) {
-            toast.error("Error sending data to the server:", error);
-        }
+        //     console.log("Server Response:", response.data);
+        //     if (response.data.success) {
+        //         setIsModalOpen(false)
+        //         setSelectedOptions("")
+        //         setIsModalOpenTwo(true)
+        //     }
+        //     else {
+        //         toast.error('please try again! and selected data MODAL ONE')
+        //     }
+        // } catch (error) {
+        //     toast.error("Error sending data to the server:", error);
+        // }
     };
 
 
@@ -138,26 +147,7 @@ const Banner = () => {
 
 
 
-
-
-
     // ===== user modal two start ===============
-
-    // Location er options
-    const locationOptions = [
-        { value: '1', label: 'New Jersey ' },
-        { value: '2', label: 'New York' },
-        { value: '3', label: 'Pennsylvania' },
-        { value: '3', label: 'Washington, D.C' },
-    ];
-
-    // City er options
-    const cityOptions = [
-        { label: "English", value: "e" },
-        { label: "Spanish", value: "s" },
-        { label: "German", value: "g" },
-        { label: "Russian", value: "r" }
-    ];
 
     // Select Value Change Function
     const handleSelectModalTwoValue = (key, value) => {
@@ -168,7 +158,7 @@ const Banner = () => {
     }
 
     const handleOkTwo = async () => {
-        console.log(secondSelectValue)
+        // console.log(secondSelectValue)
 
         // try {
         //     const response = await axios.post('url', {
@@ -226,14 +216,8 @@ const Banner = () => {
         }));
     };
 
-
-    // const handleDone = () => {
-    //     console.log("Selected values:", formData);
-    //     handleOkAttonemy();
-    // };
-
     const handleOkAttonemy = async () => {
-        console.log("Selected values----------:", formData);
+        // console.log("Selected values----------:", formData);
 
         // try {
         //     const response = await axiosPublic.post("url", formData);
@@ -246,7 +230,7 @@ const Banner = () => {
 
 
         setIsModalOpenThree(false)
-        navigate('/attorney-tm')
+        // navigate('/attorney-tm')
     };
 
 
@@ -280,32 +264,40 @@ const Banner = () => {
 
     //================= lowyer modal two start ==============
 
-    // Location er options
-    const experience = [
-        { label: "1 to 3 years", value: "1" },
-        { label: "4 to 6 years", value: "2" },
-        { label: "7 to 9 years", value: "3" },
-        { label: "10 to 12 years", value: "" }
-    ];
-
-    // City er options
-    const language = [
-        { label: "English", value: "e" },
-        { label: "Spanish", value: "s" },
-        { label: "German", value: "g" },
-        { label: "Russian", value: "r" }
-    ];
-
     // Select Value Change Function
     const handleSelectModalLowyerTwoValue = (key, value) => {
-        setSecondSelecteValue(prev => ({
+        setLowyerSelectValue(prev => ({
             ...prev,
             [key]: value
         }))
     }
 
-    const handleOkLowyerTwo = () => {
-        console.log('click')
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        handleSelectModalLowyerTwoValue(name, value);
+    };
+
+    const handleOkLowyerTwo = async () => {
+
+        console.log(typeof lowyerSelectValue)
+
+
+        // try {
+        //     const response = await axios.post('url',lowyerSelectValue);
+
+        //     console.log("Server Response:", response.data);
+        //     if (response.data.success) {
+        //         setLawyerModalOpenTwo(false)
+        //         setLawyerModalOpenTwo('')
+        //         setLawyerModalOpenThree(true)
+        //     }
+        //     else {
+        //         toast.error('please try again! and selected data MODAL TWO')
+        //     }
+        // } catch (error) {
+        //     toast.error("Error sending data to the server:", error);
+        // }
+
         setLawyerModalOpenTwo(false)
         setLawyerModalOpenTwo('')
         setLawyerModalOpenThree(true)
@@ -323,23 +315,39 @@ const Banner = () => {
 
     //================= lowyer modal three start ==============
     const handleDateChangeLowyerModal = (date, dateString) => {
-        setFormData(prev => ({
+        setLowyerFormData(prev => ({
             ...prev,
             date: dateString
         }));
     };
 
+
     const handleTimeChangeLowyerModal = (time, timeString) => {
-        setFormData(prev => ({
+        setLowyerFormData(prev => ({
             ...prev,
             time: timeString
         }));
     };
 
 
+    const handleWebsiteLinkChange = (e) => {
+        setWebsiteLink(e.target.value);
+    };
+
     const handleOkLowyerThree = () => {
-        console.log('click')
-        navigate('/lawyer-profile')
+        const formData = new FormData();
+
+        if (fileList && fileList.length > 0) {
+            formData.append("image", fileList[0].originFileObj);
+        }
+        formData.append('date', lowyerformData.date)
+        formData.append('time', lowyerformData.time)
+        formData.append('websiteLink', websiteLink);
+
+        formData.forEach((value, key) => {
+            console.log(key, value);
+        });
+        // navigate('/lawyer-profile')
     }
 
     const handleCancelLowyerThree = () => {
@@ -399,7 +407,7 @@ const Banner = () => {
         },
     ]
 
-    const role = "user"
+    const role = "lowyer"
 
 
     return (
@@ -541,10 +549,10 @@ const Banner = () => {
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectModalTwoValue("location", value)}
                                     options={[
-                                        { value: '1', label: 'New Jersey ' },
-                                        { value: '2', label: 'New York' },
-                                        { value: '3', label: 'Pennsylvania' },
-                                        { value: '3', label: 'Washington, D.C' },
+                                        { value: 'New Jersey', label: 'New Jersey' },
+                                        { value: 'New York', label: 'New York' },
+                                        { value: 'Pennsylvania', label: 'Pennsylvania' },
+                                        { value: 'Washington, D.C', label: 'Washington, D.C' },
                                     ]}
                                 />
                             </div>
@@ -557,10 +565,10 @@ const Banner = () => {
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectModalTwoValue("city", value)}
                                     options={[
-                                        { label: "English", value: "e" },
-                                        { label: "Spanish", value: "s" },
-                                        { label: "German", value: "g" },
-                                        { label: "Russian", value: "r" }
+                                        { label: "English", value: "English" },
+                                        { label: "Spanish", value: "Spanish" },
+                                        { label: "German", value: "German" },
+                                        { label: "Russian", value: "Russian" }
                                     ]}
                                 />
                             </div>
@@ -592,12 +600,12 @@ const Banner = () => {
                             <div>
                                 <svg className='mb-4' width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                                    <path d="M14.167 20.8335L17.5003 24.1668L25.8337 15.8335" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14.167 20.8335L17.5003 24.1668L25.8337 15.8335" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
-                                    <circle cx="264" cy="20" r="15" stroke="#1B69AD" stroke-width="2" />
+                                    <circle cx="264" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
                                     <circle cx="264" cy="20" r="5" fill="#1B69AD" />
                                     <rect x="280" y="19" width="212" height="2" fill="#B6B6BA" />
-                                    <circle cx="508" cy="20" r="15" stroke="#B6B6BA" stroke-width="2" />
+                                    <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
                                 </svg>
 
 
@@ -610,7 +618,7 @@ const Banner = () => {
                                 </div>
                                 <div className='pb-4'>
                                     <p className='text-[14px] font-roboto font-bold text-[#001018]'>Where do you practice</p>
-                                    <Input name='practice' placeholder='e.g.: New Jersey, New York, EOIR (Immigration Court)' style={{ width: '100%', height: '40px' }} />
+                                    <Input name='practice' onChange={handleInputChange} placeholder='e.g.: New Jersey, New York, EOIR (Immigration Court)' style={{ width: '100%', height: '40px' }} />
                                 </div>
 
 
@@ -620,12 +628,11 @@ const Banner = () => {
                                         showSearch
                                         placeholder="Select..."
                                         style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSelectModalLowyerTwoValue("location", value)}
+                                        onChange={value => handleSelectModalLowyerTwoValue("experience", value)}
                                         options={[
-                                            { label: "1 to 3 years", value: "1" },
-                                            { label: "4 to 6 years", value: "2" },
-                                            { label: "7 to 9 years", value: "3" },
-                                            { label: "10 to 12 years", value: "" }
+                                            { label: "1-3 Years", value: "1-3 Years" },
+                                            { label: "4-7 Years", value: "4-7 Years" },
+                                            { label: "8+ Years", value: "8+ Years" }
                                         ]}
                                     />
                                 </div>
@@ -636,30 +643,31 @@ const Banner = () => {
                                         showSearch
                                         placeholder="Select..."
                                         style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSelectModalLowyerTwoValue("languages", value)}
+                                        onChange={value => handleSelectModalLowyerTwoValue("language", value)}
                                         options={[
-                                            { label: "New York", value: "new-york" },
-                                            { label: "Los Angeles", value: "los-angeles" },
-                                            { label: "Chicago", value: "chicago" }
+                                            { value: 'New Jersey', label: 'New Jersey' },
+                                            { value: 'New York', label: 'New York' },
+                                            { value: 'Pennsylvania', label: 'Pennsylvania' },
+                                            { value: 'Washington, D.C', label: 'Washington, D.C' },
                                         ]}
                                     />
                                 </div>
 
                                 <div className='pb-4'>
                                     <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
-                                    <Input name='address' placeholder='address' style={{ width: '100%', height: '40px' }} />
+                                    <Input name='address' onChange={handleInputChange} placeholder='address' style={{ width: '100%', height: '40px' }} />
                                 </div>
 
 
                                 <div className='flex justify-between gap-2'>
                                     <div className='pb-4 w-full'>
                                         <p className='text-[14px] font-roboto font-bold text-[#001018]'>State</p>
-                                        <Input name='state' style={{ width: '100%', height: '40px' }} />
+                                        <Input name='state' onChange={handleInputChange} style={{ width: '100%', height: '40px' }} />
                                     </div>
 
                                     <div className='pb-4 w-full'>
                                         <p className='text-[14px] font-roboto font-bold text-[#001018]'>Zip code</p>
-                                        <Input name='zipCode' style={{ width: '100%', height: '40px' }} />
+                                        <Input name='zipCode' onChange={handleInputChange} style={{ width: '100%', height: '40px' }} />
                                     </div>
                                 </div>
                             </div>
@@ -668,6 +676,8 @@ const Banner = () => {
                 }
 
 
+
+                {/* modal three */}
                 {
                     role === "user" ? <Modal centered open={isModalOpenThree} onOk={handleOkAttonemy} onCancel={handleCancelAttonemy}
                         width={600}
@@ -723,12 +733,13 @@ const Banner = () => {
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectChange("lawyerExperience", value)}
                                     options={[
-                                        { label: "1-3 Years", value: "1-3" },
-                                        { label: "4-7 Years", value: "4-7" },
-                                        { label: "8+ Years", value: "8+" }
+                                        { label: "1-3 Years", value: "1-3 Years" },
+                                        { label: "4-7 Years", value: "4-7 Years" },
+                                        { label: "8+ Years", value: "8+ Years" }
                                     ]}
                                 />
                             </div>
+
 
                             <div className='pb-4'>
                                 <p className='text-[14px] font-roboto font-bold text-[#001018]'>Location</p>
@@ -737,7 +748,12 @@ const Banner = () => {
                                     placeholder="Select..."
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectChange("location", value)}
-                                    options={cityOptions}
+                                    options={[
+                                        { label: "English", value: "English" },
+                                        { label: "Spanish", value: "Spanish" },
+                                        { label: "German", value: "German" },
+                                        { label: "Russian", value: "Russian" }
+                                    ]}
                                 />
                             </div>
 
@@ -749,9 +765,10 @@ const Banner = () => {
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectChange("languages", value)}
                                     options={[
-                                        { label: "New York", value: "new-york" },
-                                        { label: "Los Angeles", value: "los-angeles" },
-                                        { label: "Chicago", value: "chicago" }
+                                        { value: 'New Jersey', label: 'New Jersey' },
+                                        { value: 'New York', label: 'New York' },
+                                        { value: 'Pennsylvania', label: 'Pennsylvania' },
+                                        { value: 'Washington, D.C', label: 'Washington, D.C' },
                                     ]}
                                 />
                             </div>
@@ -794,19 +811,18 @@ const Banner = () => {
                             <div>
                                 <svg className='mb-4' width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                                    <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
                                     <circle cx="264" cy="20" r="16" fill="#1B69AD" />
-                                    <path d="M258.167 20.8335L261.5 24.1668L269.833 15.8335" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M258.167 20.8335L261.5 24.1668L269.833 15.8335" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     <rect x="280" y="19" width="212" height="2" fill="#1B69AD" />
-                                    <circle cx="508" cy="20" r="15" stroke="#1B69AD" stroke-width="2" />
+                                    <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
                                     <circle cx="508" cy="20" r="5" fill="#1B69AD" />
                                 </svg>
 
 
 
                                 <hr />
-
                                 <div className='pt-4'>
                                     <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
                                         Add your profile photo and availability
@@ -842,7 +858,10 @@ const Banner = () => {
 
                                 <div className='pb-4'>
                                     <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
-                                    <Input name='webLink' placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
+                                    <Input name='webLink'
+                                        value={websiteLink}  // Bind the value to state
+                                        onChange={handleWebsiteLinkChange}
+                                        placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
                                 </div>
 
 
