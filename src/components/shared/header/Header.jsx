@@ -57,8 +57,8 @@ const Header = () => {
     };
 
 
-    const name = 'Jone Doe'
-    const photUrl = '/attorney1.png'
+    // const name = 'Jone Doe'
+    // const photUrl = '/attorney1.png'
 
     return (
         <>
