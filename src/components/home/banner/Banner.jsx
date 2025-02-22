@@ -230,7 +230,7 @@ const Banner = () => {
 
 
         setIsModalOpenThree(false)
-        // navigate('/attorney-tm')
+        navigate('/attorney-tm')
     };
 
 
@@ -347,7 +347,7 @@ const Banner = () => {
         formData.forEach((value, key) => {
             console.log(key, value);
         });
-        // navigate('/lawyer-profile')
+        navigate('/lawyer-profile')
     }
 
     const handleCancelLowyerThree = () => {
@@ -407,7 +407,7 @@ const Banner = () => {
         },
     ]
 
-    const role = "lowyer"
+    const role = "user"
 
 
     return (

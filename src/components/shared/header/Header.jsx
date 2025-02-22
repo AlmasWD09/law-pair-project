@@ -14,6 +14,12 @@ const Header = () => {
     const handleNavigaet = () => {
         navigate('/')
     }
+    const [searchQuery, setSearchQuery] = useState(""); // Store the search query
+
+
+
+
+
 
     // background color add in navbar scroll
     const changeBackground = () => {
@@ -27,6 +33,32 @@ const Header = () => {
     const handleMenu = () => {
         setMenuOpen(!menuOpen)
     }
+
+
+
+
+
+
+
+
+
+
+    // Handle the search input change
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+        console.log(e.target.value);
+    };
+
+    // Handle the search submission
+    const handleSearchSubmit = () => {
+        if (searchQuery.trim()) {
+            navigate(`/search?query=${searchQuery}`); // Navigate to the search results page with the query parameter
+        }
+    };
+
+
+    const name = 'Jone Doe'
+    const photUrl = '/attorney1.png'
 
     return (
         <>
@@ -44,10 +76,14 @@ const Header = () => {
                                 <input
                                     type="text"
                                     maxLength={18}
+                                    value={searchQuery}
+                                    onChange={handleSearchChange}
                                     className="w-[201px] h-[50px] py-2 pl-3 pr-4 text-gray-700 bg-transparent border rounded  outline-none"
                                     placeholder="Search attorney..."
                                 />
-                                <span className="absolute inset-y-0 right-0 flex items-center pl-3 ">
+                                <span className="absolute inset-y-0 right-0 flex items-center pl-3 "
+                                    onClick={handleSearchSubmit}
+                                >
                                     <RiSearchLine className="w-10 h-8 pr-3 text-primary" />
                                 </span>
                             </div>
@@ -106,22 +142,31 @@ const Header = () => {
 
                                 {/* navbar Sign Up and login button */}
                                 <div className=" bg-secondery/50 rounded-md py-3">
-                                    <div className="flex items-center gap-4">
-                                        <Link to='/create-account'>
-                                            <button className="bg-primary  rounded-[4px] text-[16px]
+                                    <div className="flex items-center gap-4 border-[#E7E7E9] ">
+                                        {
+                                            name && photUrl ? <div className="border px-4 py-2">
+                                                <button className=" rounded-[4px] text-[16px]
+                                        text-primary font-roboto pt-2 font-bold flex gap-2">
+                                                    <h2 className="">Create an Account</h2>
+                                                    <img src={photUrl} alt="" className="h-[20px] rounded-full" />
+                                                </button>
+                                            </div>
+                                                :
+                                                <Link to='/create-account'>
+                                                    <button className="bg-primary  rounded-[4px] text-[16px]
                                         text-[#FFFFFF] px-2 pt-2 font-bold flex gap-2">
-                                                <h2 className="">Create an Account</h2>
-                                                <span className="h-[20px] ">
-                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M16.666 5C16.666 4.53976 16.2929 4.16667 15.8327 4.16667C15.3724 4.16667 14.9994 4.53976 14.9994 5V8.33333C14.9994 8.79357 15.3724 9.16667 15.8327 9.16667C16.2929 9.16667 16.666 8.79357 16.666 8.33333V5Z" fill="white" />
-                                                        <path d="M17.4994 5.83333H14.166C13.7058 5.83333 13.3327 6.20643 13.3327 6.66667C13.3327 7.1269 13.7058 7.5 14.166 7.5H17.4994C17.9596 7.5 18.3327 7.1269 18.3327 6.66667C18.3327 6.20643 17.9596 5.83333 17.4994 5.83333Z" fill="white" />
-                                                        <path fillSRule="evenodd" clipRule="evenodd" d="M4.16602 11.6667C4.16602 10.7458 4.91768 10 5.84018 10H12.4918C13.4169 10 14.166 10.745 14.166 11.6717V15.3717C14.166 18.2092 4.16602 18.2092 4.16602 15.3717V11.6667Z" fill="white" />
-                                                        <path d="M9.16602 9.16667C11.007 9.16667 12.4993 7.67428 12.4993 5.83333C12.4993 3.99238 11.007 2.5 9.16602 2.5C7.32507 2.5 5.83268 3.99238 5.83268 5.83333C5.83268 7.67428 7.32507 9.16667 9.16602 9.16667Z" fill="white" />
-                                                    </svg>
-                                                </span>
-                                            </button>
-                                        </Link>
-
+                                                        <h2 className="">Create an Account</h2>
+                                                        <span className="h-[20px] ">
+                                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M16.666 5C16.666 4.53976 16.2929 4.16667 15.8327 4.16667C15.3724 4.16667 14.9994 4.53976 14.9994 5V8.33333C14.9994 8.79357 15.3724 9.16667 15.8327 9.16667C16.2929 9.16667 16.666 8.79357 16.666 8.33333V5Z" fill="white" />
+                                                                <path d="M17.4994 5.83333H14.166C13.7058 5.83333 13.3327 6.20643 13.3327 6.66667C13.3327 7.1269 13.7058 7.5 14.166 7.5H17.4994C17.9596 7.5 18.3327 7.1269 18.3327 6.66667C18.3327 6.20643 17.9596 5.83333 17.4994 5.83333Z" fill="white" />
+                                                                <path fillSRule="evenodd" clipRule="evenodd" d="M4.16602 11.6667C4.16602 10.7458 4.91768 10 5.84018 10H12.4918C13.4169 10 14.166 10.745 14.166 11.6717V15.3717C14.166 18.2092 4.16602 18.2092 4.16602 15.3717V11.6667Z" fill="white" />
+                                                                <path d="M9.16602 9.16667C11.007 9.16667 12.4993 7.67428 12.4993 5.83333C12.4993 3.99238 11.007 2.5 9.16602 2.5C7.32507 2.5 5.83268 3.99238 5.83268 5.83333C5.83268 7.67428 7.32507 9.16667 9.16602 9.16667Z" fill="white" />
+                                                            </svg>
+                                                        </span>
+                                                    </button>
+                                                </Link>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -150,21 +195,31 @@ const Header = () => {
                         {/* navbar signup and login button */}
                         <div className="lg:flex lg:justify-end hidden ">
 
-                            <div className="flex items-center gap-4">
-                                <Link to='/create-account'>
-                                    <button className=" bg-primary w-[204px] h-[48px] flex justify-center items-center gap-1 rounded-[4px] text-[16px] text-[#FFFFFF] font-bold">
-                                        <h2 className="font-roboto font-bold pt-2">Create an Account</h2>
-                                        <span className="h-[20px]">
-                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M16.666 5C16.666 4.53976 16.2929 4.16667 15.8327 4.16667C15.3724 4.16667 14.9994 4.53976 14.9994 5V8.33333C14.9994 8.79357 15.3724 9.16667 15.8327 9.16667C16.2929 9.16667 16.666 8.79357 16.666 8.33333V5Z" fill="white" />
-                                                <path d="M17.4994 5.83333H14.166C13.7058 5.83333 13.3327 6.20643 13.3327 6.66667C13.3327 7.1269 13.7058 7.5 14.166 7.5H17.4994C17.9596 7.5 18.3327 7.1269 18.3327 6.66667C18.3327 6.20643 17.9596 5.83333 17.4994 5.83333Z" fill="white" />
-                                                <path fillRule="evenodd" clipRule="evenodd" d="M4.16602 11.6667C4.16602 10.7458 4.91768 10 5.84018 10H12.4918C13.4169 10 14.166 10.745 14.166 11.6717V15.3717C14.166 18.2092 4.16602 18.2092 4.16602 15.3717V11.6667Z" fill="white" />
-                                                <path d="M9.16602 9.16667C11.007 9.16667 12.4993 7.67428 12.4993 5.83333C12.4993 3.99238 11.007 2.5 9.16602 2.5C7.32507 2.5 5.83268 3.99238 5.83268 5.83333C5.83268 7.67428 7.32507 9.16667 9.16602 9.16667Z" fill="white" />
-                                            </svg>
-                                        </span>
-                                    </button>
-                                </Link>
-
+                            <div className="flex justify-center items-center">
+                                {
+                                    name && photUrl ? <div className="border px-4 py-2">
+                                        <button className=" rounded-[4px] text-[16px]
+                                        text-primary font-roboto pt-2 font-bold flex gap-2">
+                                            <h2 className="">Create an Account</h2>
+                                            <img src={photUrl} alt="" className="h-[20px] rounded-full" />
+                                        </button>
+                                    </div>
+                                        :
+                                        <Link to='/create-account'>
+                                            <button className="bg-primary  rounded border-[#E7E7E9] [4px] text-[16px]
+                                        text-[#FFFFFF] px-2 pt-2 font-bold flex gap-2">
+                                                <h2 className="">Create an Account</h2>
+                                                <span className="h-[20px] ">
+                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M16.666 5C16.666 4.53976 16.2929 4.16667 15.8327 4.16667C15.3724 4.16667 14.9994 4.53976 14.9994 5V8.33333C14.9994 8.79357 15.3724 9.16667 15.8327 9.16667C16.2929 9.16667 16.666 8.79357 16.666 8.33333V5Z" fill="white" />
+                                                        <path d="M17.4994 5.83333H14.166C13.7058 5.83333 13.3327 6.20643 13.3327 6.66667C13.3327 7.1269 13.7058 7.5 14.166 7.5H17.4994C17.9596 7.5 18.3327 7.1269 18.3327 6.66667C18.3327 6.20643 17.9596 5.83333 17.4994 5.83333Z" fill="white" />
+                                                        <path fillSRule="evenodd" clipRule="evenodd" d="M4.16602 11.6667C4.16602 10.7458 4.91768 10 5.84018 10H12.4918C13.4169 10 14.166 10.745 14.166 11.6717V15.3717C14.166 18.2092 4.16602 18.2092 4.16602 15.3717V11.6667Z" fill="white" />
+                                                        <path d="M9.16602 9.16667C11.007 9.16667 12.4993 7.67428 12.4993 5.83333C12.4993 3.99238 11.007 2.5 9.16602 2.5C7.32507 2.5 5.83268 3.99238 5.83268 5.83333C5.83268 7.67428 7.32507 9.16667 9.16602 9.16667Z" fill="white" />
+                                                    </svg>
+                                                </span>
+                                            </button>
+                                        </Link>
+                                }
                             </div>
                         </div>
                     </nav>
