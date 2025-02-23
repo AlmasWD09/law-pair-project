@@ -1,8 +1,49 @@
 
 import { Link, } from "react-router-dom"
 import AccountCreate from "../../layout/AccountCreate";
+import { useState } from "react";
+import { Button, Modal } from "antd";
 
 const LawyerProfile = () => {
+
+    const [modalOneOpen, setIsModalOneOpen] = useState(false);
+    const [modalTwoOpen, setIsModalTwoOpen] = useState(false);
+
+
+    //=========== modal one start ===========
+    const showModal = () => {
+        setIsModalOneOpen(true);
+    };
+
+    const handleOk = () => {
+        setIsModalOneOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOneOpen(false);
+    };
+    //=========== modal one end ===========
+
+
+
+    //=========== modal two start ===========
+    const showModalTwo = () => {
+        setIsModalTwoOpen(true);
+        setIsModalOneOpen(false)
+    };
+
+    const handleOkTwo = () => {
+        // attorney logout function here.........
+
+
+        // setIsModalTwoOpen(false);
+    };
+
+    const handleCancelTwo = () => {
+        setIsModalTwoOpen(false);
+    };
+    //=========== modal one end =============
+
 
     return (
         <div className="bg-gray-100">
@@ -20,21 +61,86 @@ const LawyerProfile = () => {
                                     <span className="absolute bottom-0 right-0">
                                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect width="32" height="32" rx="16" fill="white" />
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M6 10.994C6 9.893 6.898 9 7.99 9H24.01C25.108 9 26 9.895 26 10.994V23.006C25.9992 23.5339 25.7894 24.04 25.4165 24.4137C25.0436 24.7873 24.5379 24.9981 24.01 25H7.99C7.46185 24.9989 6.9557 24.7884 6.58261 24.4146C6.20953 24.0407 6 23.5341 6 23.006V10.994ZM16 21C17.0609 21 18.0783 20.5786 18.8284 19.8284C19.5786 19.0783 20 18.0609 20 17C20 15.9391 19.5786 14.9217 18.8284 14.1716C18.0783 13.4214 17.0609 13 16 13C14.9391 13 13.9217 13.4214 13.1716 14.1716C12.4214 14.9217 12 15.9391 12 17C12 18.0609 12.4214 19.0783 13.1716 19.8284C13.9217 20.5786 14.9391 21 16 21ZM21 13C21 13.556 21.448 14 22 14C22.556 14 23 13.552 23 13C23 12.444 22.552 12 22 12C21.444 12 21 12.448 21 13ZM12 8C12 7.448 12.453 7 12.997 7H19.003C19.553 7 20 7.444 20 8V9H12V8Z" fill="#121221" />
+                                            <path fillRule="evenodd" clipRule="evenodd" d="M6 10.994C6 9.893 6.898 9 7.99 9H24.01C25.108 9 26 9.895 26 10.994V23.006C25.9992 23.5339 25.7894 24.04 25.4165 24.4137C25.0436 24.7873 24.5379 24.9981 24.01 25H7.99C7.46185 24.9989 6.9557 24.7884 6.58261 24.4146C6.20953 24.0407 6 23.5341 6 23.006V10.994ZM16 21C17.0609 21 18.0783 20.5786 18.8284 19.8284C19.5786 19.0783 20 18.0609 20 17C20 15.9391 19.5786 14.9217 18.8284 14.1716C18.0783 13.4214 17.0609 13 16 13C14.9391 13 13.9217 13.4214 13.1716 14.1716C12.4214 14.9217 12 15.9391 12 17C12 18.0609 12.4214 19.0783 13.1716 19.8284C13.9217 20.5786 14.9391 21 16 21ZM21 13C21 13.556 21.448 14 22 14C22.556 14 23 13.552 23 13C23 12.444 22.552 12 22 12C21.444 12 21 12.448 21 13ZM12 8C12 7.448 12.453 7 12.997 7H19.003C19.553 7 20 7.444 20 8V9H12V8Z" fill="#121221" />
                                             <path d="M16 19C17.1046 19 18 18.1046 18 17C18 15.8954 17.1046 15 16 15C14.8954 15 14 15.8954 14 17C14 18.1046 14.8954 19 16 19Z" fill="#121221" />
                                         </svg>
                                     </span>
                                 </div>
 
 
-                                <div className="flex ">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 21C13.1046 21 14 20.1046 14 19C14 17.8954 13.1046 17 12 17C10.8954 17 10 17.8954 10 19C10 20.1046 10.8954 21 12 21Z" fill="#121221" />
-                                        <path d="M12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" fill="#121221" />
-                                        <path d="M12 7C13.1046 7 14 6.10457 14 5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5C10 6.10457 10.8954 7 12 7Z" fill="#121221" />
-                                    </svg>
+                                <div className="flex">
+                                    <Button onClick={showModal} style={{ border: "0px solid" }}>
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 21C13.1046 21 14 20.1046 14 19C14 17.8954 13.1046 17 12 17C10.8954 17 10 17.8954 10 19C10 20.1046 10.8954 21 12 21Z" fill="#121221" />
+                                            <path d="M12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" fill="#121221" />
+                                            <path d="M12 7C13.1046 7 14 6.10457 14 5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5C10 6.10457 10.8954 7 12 7Z" fill="#121221" />
+                                        </svg>
+                                    </Button>
+                                    <Modal open={modalOneOpen} onCancel={handleCancel} footer={null}>
+                                        <div className="flex  gap-2">
+                                            <span className="cursor-pointer">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fillRule="evenodd" clipRule="evenodd" d="M4.02001 19.23C3.9869 19.392 3.99447 19.5597 4.04205 19.718C4.08963 19.8764 4.17573 20.0205 4.29265 20.1374C4.40956 20.2543 4.55364 20.3404 4.71199 20.388C4.87034 20.4355 5.03802 20.4431 5.20001 20.41L9.01001 19.63L4.80001 15.42L4.02001 19.23ZM9.94101 16.61L7.82101 14.49L16.306 6H16.308L18.429 8.121L9.94001 16.611L9.94101 16.61ZM19.844 6.707L17.724 4.585C17.5381 4.39908 17.3173 4.2517 17.0743 4.15131C16.8314 4.05092 16.5709 3.9995 16.308 4C15.796 4 15.284 4.195 14.893 4.585L5.13601 14.343L10.086 19.293L19.843 9.535C20.218 9.15995 20.4286 8.65133 20.4286 8.121C20.4286 7.59068 20.218 7.08206 19.843 6.707H19.844Z" fill="#121221" />
+                                                </svg>
+
+                                            </span>
+                                            <p className="font-roboto cursor-pointer">Edit profile</p>
+                                        </div>
+
+                                        <div className="flex  gap-2 w-fit" onClick={showModalTwo}>
+                                            <span className="cursor-pointer">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fillRule="evenodd" clipRule="evenodd" d="M12 3V5H19V19H12V21H19.006C20.106 21 21 20.107 21 19.005V4.995C21.0003 4.73302 20.9489 4.47357 20.8488 4.23147C20.7487 3.98937 20.6018 3.76938 20.4166 3.58409C20.2314 3.3988 20.0115 3.25184 19.7695 3.15161C19.5274 3.05139 19.268 2.99987 19.006 3H12Z" fill="#EF436B" />
+                                                    <path fillRule="evenodd" clipRule="evenodd" d="M3.977 11C3.71478 11.0034 3.46463 11.1108 3.28146 11.2984C3.09829 11.4861 2.99706 11.7388 3 12.001C3 12.552 3.437 13 3.977 13H15.024C15.2859 12.9968 15.5358 12.8898 15.7188 12.7025C15.9018 12.5152 16.0029 12.2629 16 12.001C16.0029 11.7389 15.9018 11.4864 15.7189 11.2988C15.5359 11.1111 15.286 11.0037 15.024 11H3.977Z" fill="#EF436B" />
+                                                    <path fillRule="evenodd" clipRule="evenodd" d="M12.303 8.305C12.1089 8.502 12.0001 8.76745 12.0001 9.044C12.0001 9.32055 12.1089 9.586 12.303 9.783L14.5 12L12.303 14.217C12.1088 14.4135 11.9999 14.6787 11.9999 14.955C11.9999 15.2313 12.1088 15.4965 12.303 15.693C12.707 16.102 13.363 16.102 13.768 15.693L16.698 12.738C16.8913 12.5408 16.9996 12.2756 16.9996 11.9995C16.9996 11.7234 16.8913 11.4582 16.698 11.261L13.768 8.305C13.6719 8.20858 13.5578 8.13207 13.4321 8.07987C13.3064 8.02767 13.1716 8.00079 13.0355 8.00079C12.8994 8.00079 12.7646 8.02767 12.6389 8.07987C12.5132 8.13207 12.3991 8.20858 12.303 8.305Z" fill="#EF436B" />
+                                                </svg>
+
+                                            </span>
+                                            <p className="text-[#EF436B] font-roboto cursor-pointer">Logout</p>
+                                        </div>
+                                    </Modal>
+
+
+                                    <Modal open={modalTwoOpen} onOk={handleOkTwo} onCancel={handleCancelTwo}
+                                        footer={
+                                            <div className="flex justify-end gap-2 md:gap-x-4 pt-[24px]">
+                                                <button
+                                                    className="font-roboto w-[40%] h-[40px] md:w-[121px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] md:text-[16px] font-bold"
+                                                    onClick={handleOkTwo}
+                                                >
+
+                                                    Yes, log out
+                                                </button>
+                                                <button
+                                                    className="font-roboto w-[65%] h-[40px] md:w-[201px] md:h-[64px] border border-[#D9DDE1] text-[#1b69ad] px-1 rounded-[5px] md:text-[16px] font-bold"
+                                                    onClick={handleCancelTwo}
+                                                >
+                                                    No, keep me logged in
+                                                </button>
+                                            </div>
+                                        }
+                                    >
+
+                                        <h1 className="font-roboto font-bold text-[24px]">Log out</h1>
+                                        <p className="font-roboto">Do you want to log out?</p>
+
+                                    </Modal>
                                 </div>
                             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                             <div className="pb-[24px]">
