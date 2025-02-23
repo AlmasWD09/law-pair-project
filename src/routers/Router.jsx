@@ -31,6 +31,7 @@ import DashboardOtpVerification from "../pages/dashboard/dashboardAuthentication
 import LawyerProfile from "../pages/profile/LawyerProfile";
 import PrivatRoutes from "./PrivatRoutes";
 import LegalResurcesDetails from "../pages/details/LegalResurcesDetails";
+import SearchAttorney from "../pages/searchAttorney/searchAttorney";
 
 
 const router = createBrowserRouter([
@@ -101,6 +102,10 @@ const router = createBrowserRouter([
   {
     path: "/lawyer-profile",
     element: <LawyerProfile />
+  },
+  {
+    path: "/search-attorney",
+    element: <SearchAttorney />
   },
   // dashboard layout
   {

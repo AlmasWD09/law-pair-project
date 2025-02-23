@@ -1,11 +1,11 @@
 import Header from "../components/shared/header/Header"
 
-const AccountCreate = ({children}) => {
+const AccountCreate = ({ children }) => {
   return (
     <div>
-            <Header />
-            <main className="min-h-screen">{children}</main>
-        </div>
+      <Header />
+      <main className="min-h-screen">{children}</main>
+    </div>
   )
 }
 

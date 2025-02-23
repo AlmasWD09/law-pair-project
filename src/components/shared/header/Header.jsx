@@ -4,9 +4,10 @@ import { VscMenu } from "react-icons/vsc";
 import { TfiClose } from "react-icons/tfi";
 import Button from "../Button";
 import { RiSearchLine } from "react-icons/ri";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 const Header = () => {
-
+const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(true);
     const [navbar, setNavbar] = useState(false)
@@ -14,8 +15,8 @@ const Header = () => {
     const handleNavigaet = () => {
         navigate('/')
     }
-    const [searchQuery, setSearchQuery] = useState(""); // Store the search query
 
+    const [searchValue, setSearchValue] = useState('')
 
 
 
@@ -35,30 +36,22 @@ const Header = () => {
     }
 
 
+    const handleSearch = async () => {
+        try {
+          const response = await axiosPublic.get(`/search-lawyer?name=${searchValue}`);
+          if(response.data.success){
+            navigate('/search-attorney', { state: { searchResults: response.data.lawyers.data            } })
+          }
 
-
-
-
-
-
-
-
-    // Handle the search input change
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value);
-        console.log(e.target.value);
-    };
-
-    // Handle the search submission
-    const handleSearchSubmit = () => {
-        if (searchQuery.trim()) {
-            navigate(`/search?query=${searchQuery}`); // Navigate to the search results page with the query parameter
+        } catch (error) {
+          console.error("Error fetching search results");
         }
-    };
+      };
 
 
-    const name = 'Jone Doe'
-    const photUrl = '/attorney1.png'
+
+    // const name = 'Jone Doe'
+    // const photUrl = '/attorney1.png'
 
     return (
         <>
@@ -76,15 +69,15 @@ const Header = () => {
                                 <input
                                     type="text"
                                     maxLength={18}
-                                    value={searchQuery}
-                                    onChange={handleSearchChange}
+                                    onChange={(e) => setSearchValue(e.target.value)}
                                     className="w-[201px] h-[50px] py-2 pl-3 pr-4 text-gray-700 bg-transparent border rounded  outline-none"
                                     placeholder="Search attorney..."
                                 />
                                 <span className="absolute inset-y-0 right-0 flex items-center pl-3 "
-                                    onClick={handleSearchSubmit}
                                 >
-                                    <RiSearchLine className="w-10 h-8 pr-3 text-primary" />
+                                    <RiSearchLine
+                                    onClick={handleSearch}
+                                    className="w-10 h-8 pr-3 text-primary" />
                                 </span>
                             </div>
 
