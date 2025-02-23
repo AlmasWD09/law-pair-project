@@ -140,17 +140,17 @@ const Banner = () => {
     };
 
 
-    const options = [
-        "Immigration",
-        "Wills & trusts",
-        "Family and Matrimonial",
-        "Trademarks",
-        "Advanced Care Planning",
-        "Criminal Defense",
-        "Residential Real Estate",
-        "Business Formation",
-        "Commercial Real Estate",
-    ];
+    // const options = [
+    //     "Immigration",
+    //     "Wills & trusts",
+    //     "Family and Matrimonial",
+    //     "Trademarks",
+    //     "Advanced Care Planning",
+    //     "Criminal Defense",
+    //     "Residential Real Estate",
+    //     "Business Formation",
+    //     "Commercial Real Estate",
+    // ];
 
     const handleSelect = (option) => {
         setSelectedOptions((prev) =>
@@ -165,6 +165,9 @@ const Banner = () => {
 
 
     // ===== user modal two start ===============
+    useEffect(() => {
+    }, [selectedOptions]);
+
 
     // Select Value Change Function
     const handleSelectModalTwoValue = (key, value) => {
@@ -174,32 +177,30 @@ const Banner = () => {
         }))
     }
 
+
     const handleOkTwo = async () => {
+
         const userInfo = {
-            service_ids: [1, 2, 3],
-            state: "state value",
-            language: "laguage value"
+            service_ids: selectedOptions || [28,27,30],// provlem not fixed------------->>
+            state: secondSelectValue.location,
+            language: secondSelectValue.city
+        }
+        try {
+            const response = await axiosPublic.get(`/find-lawyers?service_ids=${JSON.stringify(userInfo.service_ids)}&state=${userInfo.state}&language=${userInfo.language}`,);
+            console.log("Server Response:", response.data);
+
+            if (response.data.success) {
+                setIsModalOpenThree(true);
+                setIsModalOpenTwo(false);
+            } else {
+                toast.error('Please try again! Something is provlem');
+            }
+        } catch (error) {
+            toast.error("Error sending data to the server:", error.message);
         }
 
-        // try {
-        //     const response = await axios.post(`/find-lawyers?service_ids=${selectedOptions}&state=new york&language=english`, {
-        //         selectedOptions: selectedOptions,
-        //     });
-
-        //     console.log("Server Response:", response.data);
-        //     if (response.data.success) {
-        //         setIsModalOpenThree(true)
-        //         setIsModalOpenTwo(false)
-        //     }
-        //     else {
-        //         toast.error('please try again! and selected data MODAL TWO')
-        //     }
-        // } catch (error) {
-        //     toast.error("Error sending data to the server:", error);
-        // }
-
-        // setIsModalOpenThree(true)
-        // setIsModalOpenTwo(false)
+        setIsModalOpenThree(true)
+        setIsModalOpenTwo(false)
     };
 
 
