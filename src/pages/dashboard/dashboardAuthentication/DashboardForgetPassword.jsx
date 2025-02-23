@@ -1,8 +1,39 @@
 import { Button, Form, Input } from "antd"
 import { Link } from "react-router-dom"
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 
 const DashboardForgetPassword = () => {
+    const axiosPublic = useAxiosPublic()
+    const [form] = Form.useForm(); // Form instance
+
+    const onFinish = async (values) => {
+        console.log("Form Data:", values);
+        const forgetInfo = {
+            email: values.email,
+        }
+        console.log(forgetInfo)
+
+        try {
+            const response = await axiosPublic.post('/resent-otp', forgetInfo)
+
+            if (response.data.success) {
+                navigate('/admin/dashboard/otp-verification',{state:{email:forgetInfo.email}})
+
+                toast.success(response.data.message)
+            } else {
+                toast.error(response.data.message)
+            }
+
+        } catch (error) {
+            toast.error(error)
+        }
+
+
+        form.resetFields();
+    };
+
+
     return (
         <div className="flex flex-col justify-center items-center h-screen bg-[#faffff]">
             <div className="max-w-[684px] bg-[#FFFFFF] p-10 lg:px-20 py-8">
@@ -15,7 +46,7 @@ const DashboardForgetPassword = () => {
                     </div>
                 </div>
 
-                <Form className="">
+                <Form form={form} layout="vertical" onFinish={onFinish} className="">
                     <div>
                         <p className="font-roboto font-bold text-[#121221] text-[16px]">Submit your mail*</p>
                         <Form.Item name="email" rules={[{ required: true, message: "Please enter your email!" }, { type: "email", message: "Invalid email address!" }]}>
@@ -23,13 +54,13 @@ const DashboardForgetPassword = () => {
                         </Form.Item>
                     </div>
                     {/* Submit Button */}
-                    <Link to={'/admin/dashboard/otp-verification'}>
+                    {/* <Link to={'/admin/dashboard/otp-verification'}> */}
                     <Form.Item>
                         <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                             Submit
                         </Button>
                     </Form.Item>
-                    </Link>
+                    {/* </Link> */}
                 </Form>
             </div>
         </div>

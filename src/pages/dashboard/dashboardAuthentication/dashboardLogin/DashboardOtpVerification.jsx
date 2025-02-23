@@ -76,7 +76,7 @@ const DashboardForgetPassword = () => {
                     </div>
 
                     {/* Submit Button */}
-                    <Link to={'/admin/dashboard/create-new-password'}>
+                    {/* <Link to={'/admin/dashboard/create-new-password'}> */}
                         <Form.Item>
                             <Button
                                 className="w-full"
@@ -85,7 +85,7 @@ const DashboardForgetPassword = () => {
                                 Verify
                             </Button>
                         </Form.Item>
-                    </Link>
+                    {/* </Link> */}
                 </Form>
             </div>
         </div>
