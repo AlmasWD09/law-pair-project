@@ -1,22 +1,25 @@
 import { Button, Form, Input } from "antd"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 
 const DashboardForgetPassword = () => {
     const axiosPublic = useAxiosPublic()
     const [form] = Form.useForm(); // Form instance
+    const navigate = useNavigate()
 
     const onFinish = async (values) => {
-        console.log("Form Data:", values);
+
         const forgetInfo = {
             email: values.email,
         }
-        console.log(forgetInfo)
+    
 
         try {
             const response = await axiosPublic.post('/resent-otp', forgetInfo)
 
+            console.log(response.data)
             if (response.data.success) {
                 navigate('/admin/dashboard/otp-verification',{state:{email:forgetInfo.email}})
 
@@ -28,7 +31,6 @@ const DashboardForgetPassword = () => {
         } catch (error) {
             toast.error(error)
         }
-
 
         form.resetFields();
     };

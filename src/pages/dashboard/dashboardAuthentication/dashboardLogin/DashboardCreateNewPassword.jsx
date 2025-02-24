@@ -1,16 +1,42 @@
 import { Form, Input, Button } from "antd";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAxiosPublic from "../../../../hooks/useAxiosPublic";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const DashboardCreateNewPassword = () => {
   const [form] = Form.useForm(); // Form instance
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate()
 
 
-  const onFinish = (values) => {
-    console.log("Form Data:", values);
-    form.resetFields();
-    setIsModalOpen(false);
+  const token = Cookies.get("otpToken");
+  const onFinish = async (values) => {
+    const newPasswordInfo = {
+      password: values.password,
+      password_confirmation: values.password_confirmation
+    }
+
+    try {
+      const response = await axiosPublic.post('/reset-password', newPasswordInfo, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Accept": "application/json"
+        }
+      })
+      if (response.data.success) {
+        toast.success(response.data.message)
+        navigate('/admin/dashboard/congratulation')
+        form.resetFields();
+      } else {
+        toast.error('Failed!! please try again')
+      }
+    }
+    catch (error) {
+      console.log('Filed.....')
+    }
+
   };
 
 
@@ -28,38 +54,46 @@ const DashboardCreateNewPassword = () => {
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <div>
             <p className="font-roboto">New Password</p>
-            <Form.Item
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your password!',
-                },
-              ]}
+            <Form.Item name="password" rules={[
+              { required: true, message: "Please input your password!" },
+              { min: 8, message: "Password must be at least 8 characters!" }
+            ]}
+              hasFeedback
             >
-              <Input.Password type="password" placeholder="Create your new password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+              <Input.Password placeholder="Create your new password" className="w-full border border-gray-400 p-2 rounded-md" />
             </Form.Item>
           </div>
 
           <div>
             <p className="font-roboto">Confirm Password</p>
-            <Form.Item
-              name="re-enter-password"
+            <Form.Item name="password_confirmation"
+              dependencies={["password"]}
               rules={[
-                {
-                  required: true,
-                  message: 'Please input your password!',
-                },
+                { required: true, message: "Please input your confirm password!" },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (value.length < 8) {
+                      return Promise.reject(new Error("Password must be at least 8 characters!"));
+                    }
+                    if (getFieldValue("password") !== value) {
+                      return Promise.reject(new Error("Password does not match"));
+                    }
+                    return Promise.resolve();
+                  },
+                }),
               ]}
+              hasFeedback
             >
-              <Input.Password type="password" placeholder="Re-enter your new password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+              <Input.Password placeholder="Re-enter your new password" className="w-full border border-gray-400 p-2 rounded-md" />
             </Form.Item>
           </div>
 
 
           <Form.Item>
             <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
-              <Link to={'/admin/dashboard/congratulation'}>Done</Link>
+              {/* <Link to={'/admin/dashboard/congratulation'}> */}
+              Done
+              {/* </Link> */}
             </Button>
           </Form.Item>
         </Form>

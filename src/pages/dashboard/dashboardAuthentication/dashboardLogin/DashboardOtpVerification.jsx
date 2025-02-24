@@ -2,6 +2,10 @@ import { useState, useRef } from "react";
 import { Button, Form, Input, Space } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import "antd/dist/reset.css";
+import toast from "react-hot-toast";
+import useAxiosPublic from "../../../../hooks/useAxiosPublic";
+import Cookies from "js-cookie";
+
 
 const OTPInput = ({ length = 6, onComplete }) => {
     const [otp, setOtp] = useState(Array(length).fill(""));
@@ -47,15 +51,35 @@ const OTPInput = ({ length = 6, onComplete }) => {
 };
 
 const DashboardForgetPassword = () => {
+    const [form] = Form.useForm(); // Form instance
+    const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
+    const [otpValue, setOtpValue] = useState(0)
 
     const handleOtpComplete = (otp) => {
-        console.log("Entered OTP:", otp);
+        setOtpValue(otp)
     };
 
-    const handleVerify = () => {
-        // Perform OTP verification logic here
-        navigate("/admin/dashboard/otp-verification");
+    const handleVerify = async () => {
+
+        try {
+            const response = await axiosPublic.post("/verify-email", { otp: parseInt(otpValue) });
+            if ((response.data.success) && (response.data.access_token)) {
+
+                Cookies.set("otpToken", response?.data?.access_token, { expires: 7, secure: true, sameSite: "Strict" });
+
+                toast.success("OTP send successfully.");
+                navigate("/admin/dashboard/create-new-password");
+                form.resetFields();
+            } else {
+                toast.error("Failed to send OTP. Try again.");
+            }
+        }
+        catch (error) {
+            toast.error("Error sending OTP. Please try again.");
+        }
+
+
     };
 
     return (
@@ -77,14 +101,14 @@ const DashboardForgetPassword = () => {
 
                     {/* Submit Button */}
                     {/* <Link to={'/admin/dashboard/create-new-password'}> */}
-                        <Form.Item>
-                            <Button
-                                className="w-full"
-                                style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}
-                                onClick={handleVerify}>
-                                Verify
-                            </Button>
-                        </Form.Item>
+                    <Form.Item>
+                        <Button
+                            className="w-full"
+                            style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}
+                            onClick={handleVerify}>
+                            Verify
+                        </Button>
+                    </Form.Item>
                     {/* </Link> */}
                 </Form>
             </div>
