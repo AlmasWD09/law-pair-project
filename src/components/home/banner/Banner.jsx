@@ -8,7 +8,7 @@ import { CheckCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import toast from 'react-hot-toast';
-
+import Cookies from "js-cookie";
 
 
 const Banner = () => {
@@ -16,7 +16,11 @@ const Banner = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenTow, setIsModalOpenTwo] = useState(false);
     const [isModalOpenThree, setIsModalOpenThree] = useState(false);
+    const [timeValue, setTimeValue] = useState(null)
+    const [webLink, setWebLink] = useState('')
     const [selectedOptions, setSelectedOptions] = useState([]); // server-data post request 
+
+
     const [secondSelectValue, setSecondSelecteValue] = useState({
         location: null,
         city: null,
@@ -28,13 +32,12 @@ const Banner = () => {
         location: null,
         languages: null,
         date: null,
-        time: null
     });
     const navigate = useNavigate()
     const axiosPublic = useAxiosPublic();
     const [fileList, setFileList] = useState([])
 
-
+    const [modalOneValue, setModalOneValue] = useState([])
 
 
 
@@ -44,21 +47,12 @@ const Banner = () => {
     const [lawyerModalOpenTwo, setLawyerModalOpenTwo] = useState(false)
     const [lawyerModalOpenThree, setLawyerModalOpenThree] = useState(false)
     const [selectedLowyerOptions, setSelectedLowyerOptions] = useState();
-    const lowyerOptions = ["Monday", "Tuesday", "Wednesday", "Thursday"];
-    const [hoverIndex, setHoverIndex] = useState(null);
 
     const [lowyerSelectValue, setLowyerSelectValue] = useState({
         experience: null,
         language: null,
     })
-    const [lowyerformData, setLowyerFormData] = useState({
-        date: null,
-        time: null,
-    });
-    const [websiteLink, setWebsiteLink] = useState("");
-
-
-
+    const [selectDay, setSelectDay] = useState(null)
 
 
     // first modal option get server
@@ -94,21 +88,20 @@ const Banner = () => {
         setIsModalOpen(true);
     };
     const handleOk = async () => {
+        setModalOneValue(selectedOptions)
         if (selectedOptions.length === 0) {
             console.log("No options selected.");
             return;
         }
 
-        // console.log('selectedOptions-------->', selectedOptions)
-
         if (role === "user") {
             setIsModalOpen(false)
-            setSelectedOptions("")
+            setSelectedOptions([])
             setIsModalOpenTwo(true)
         }
         else {
             setIsModalOpen(false)
-            setSelectedOptions("")
+            setSelectedOptions([])
             setLawyerModalOpenTwo(true)
         }
 
@@ -163,23 +156,18 @@ const Banner = () => {
     const handleSelect = (option) => {
         setSelectedOptions((prev) => {
             if (prev.includes(option.id)) {
-             
+
                 return prev.filter((item) => item !== option.id);
             } else if (prev.length < 3) {
-              
+
                 return [...prev, option.id];
             } else {
-                return prev; 
+                return prev;
             }
         });
     };
 
     //====================== first modal end =================
-
-
-
-
-
 
 
 
@@ -208,9 +196,8 @@ const Banner = () => {
 
 
     const handleOkTwo = async () => {
-
         const userInfo = {
-            service_ids: selectedOptions || [28, 27, 30],// provlem not fixed------------->>
+            service_ids: modalOneValue,
             state: secondSelectValue.location,
             language: secondSelectValue.city
         }
@@ -331,7 +318,7 @@ const Banner = () => {
 
     const handleOkLowyerTwo = async () => {
 
-        console.log(typeof lowyerSelectValue)
+        // console.log('modal two layer vallue', lowyerSelectValue)
 
 
         // try {
@@ -364,42 +351,112 @@ const Banner = () => {
 
 
 
-
     //================= lowyer modal three start ==============
-    const handleDateChangeLowyerModal = (date, dateString) => {
-        setLowyerFormData(prev => ({
-            ...prev,
-            date: dateString
-        }));
-    };
+    const handleChangeLawyerDay = (value) => {
+        setSelectDay(value)
+    }
 
 
+    // time convert
     const handleTimeChangeLowyerModal = (time, timeString) => {
-        setLowyerFormData(prev => ({
+        const date = new Date(`1970-01-01T${timeString}`);
+        const formattedTime = date
+            .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
+            .toLowerCase(); // Convert AM/PM to lowercase
+
+        setTimeValue(prev => ({
             ...prev,
-            time: timeString
+            time: formattedTime
         }));
     };
 
 
-    const handleWebsiteLinkChange = (e) => {
-        setWebsiteLink(e.target.value);
-    };
 
-    const handleOkLowyerThree = () => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const token = Cookies.get("lawyerToken");
+
+    const handleOkLowyerThree = async () => {
+        // console.log(timeValue.time)
+        // console.log(sel)
+        // console.log(webLink)
+
+
+
+
+
+        const schedule = [
+            {
+                day:selectDay,
+                time:timeValue.time,
+
+            }
+        ]
+
+
+
+
+
+
         const formData = new FormData();
 
         if (fileList && fileList.length > 0) {
-            formData.append("image", fileList[0].originFileObj);
+            formData.append("avatar", fileList[0].originFileObj);
         }
-        formData.append('date', lowyerformData.date)
-        formData.append('time', lowyerformData.time)
-        formData.append('websiteLink', websiteLink);
+        formData.append('service_ids', modalOneValue)
+        formData.append('practice_area', lowyerSelectValue.practice)
+        formData.append('experience', lowyerSelectValue.experience)
+        formData.append('languages', lowyerSelectValue.language)
+        formData.append('state', lowyerSelectValue.state)
+        formData.append('address', lowyerSelectValue.address)
+        formData.append('phone', lowyerSelectValue.mobile)
+        // formData.append('zipCode', lowyerSelectValue.zipCode) /// post-------->
 
+        formData.append('web_link', webLink)
+        formData.append('schedule', JSON.stringify(schedule));
+
+        
         formData.forEach((value, key) => {
             console.log(key, value);
         });
-        navigate('/lawyer-profile')
+
+
+        // try {
+        //     const response = await axiosPublic.post('/lawyer/update-profile', formData,{
+        //         headers: {
+        //             Authorization: `Bearer ${token}`,
+        //             "Accept": "application/json"
+        //             // ✅ Send token in Authorization header
+        //         }
+
+        //     });
+
+        //     console.log("Server Response:", response.data);
+
+        // } catch (error) {
+        //     toast.error("Error sending data to the server:", error);
+        // }
+        // navigate('/lawyer-profile')
+
+
+
     }
 
     const handleCancelLowyerThree = () => {
@@ -459,8 +516,8 @@ const Banner = () => {
     // ]
 
 
-    const role = "user"
 
+    const role = "lawyer"
 
     return (
         <div className="bg-[#F5F5F7] container mx-auto px-4 pb-6 md:pb-[36px] lg:pb-[64px]">
@@ -648,7 +705,7 @@ const Banner = () => {
 
                     </Modal>
                         :
-                        <Modal centered open={lawyerModalOpenTwo} onOk={handleOkLowyerTwo} onCancel={handleCancelLowyerTwo}
+                        <Modal style={{ marginTop: "90px" }} centered open={lawyerModalOpenTwo} onOk={handleOkLowyerTwo} onCancel={handleCancelLowyerTwo}
                             width={600}
                             footer={
                                 <div className="flex justify-between items-center gap-x-4 pt-[24px]">
@@ -724,6 +781,12 @@ const Banner = () => {
                                         ]}
                                     />
                                 </div>
+
+                                <div className='pb-4'>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Mobile number</p>
+                                    <Input name='mobile' onChange={handleInputChange} placeholder='Enter your contact number to reach client' style={{ width: '100%', height: '40px' }} />
+                                </div>
+
 
                                 <div className='pb-4'>
                                     <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
@@ -1056,8 +1119,7 @@ const Banner = () => {
                                 <div className='pb-4'>
                                     <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
                                     <Input name='webLink'
-                                        value={websiteLink}  // Bind the value to state
-                                        onChange={handleWebsiteLinkChange}
+                                        onChange={(e) => setWebLink(e.target.value)}
                                         placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
                                 </div>
 
@@ -1066,7 +1128,23 @@ const Banner = () => {
                                     <div className='flex justify-between items-center gap-6 pb-4'>
                                         <div className='w-full'>
                                             <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-                                            <DatePicker style={{ width: "100%", height: '40px' }} onChange={handleDateChangeLowyerModal} />
+                                            <Space wrap>
+                                                <Select
+                                                    defaultValue="Select day.."
+                                                    style={{ width: 150 }}
+                                                    onChange={handleChangeLawyerDay}
+                                                    options={[
+                                                        { value: 'Monday', label: 'Monday' },
+                                                        { value: 'Tuesday', label: 'Tuesday' },
+                                                        { value: 'Wednesday', label: 'Wednesday' },
+                                                        { value: 'Thursday', label: 'Thursday' },
+                                                        { value: 'Friday', label: 'Friday' },
+                                                        { value: 'Saturday', label: 'Saturday' },
+                                                        { value: 'Sunday', label: 'Sunday' },
+
+                                                    ]}
+                                                />
+                                            </Space>
                                         </div>
 
 
@@ -1079,7 +1157,8 @@ const Banner = () => {
                                 </div>
 
 
-                                <div className='pb-4'>
+
+                                {/* <div className='pb-4'>
                                     <p className='text-[14px] font-roboto font-bold text-[#001018]'>Preview</p>
                                     <Space wrap>
                                         {lowyerOptions.map((option) => (
@@ -1107,7 +1186,7 @@ const Banner = () => {
                                     <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
                                     <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
                                     <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
-                                </div>
+                                </div> */}
                             </div>
 
                         </Modal>

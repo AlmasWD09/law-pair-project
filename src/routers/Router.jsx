@@ -32,6 +32,7 @@ import LawyerProfile from "../pages/profile/LawyerProfile";
 import PrivatRoutes from "./PrivatRoutes";
 import LegalResurcesDetails from "../pages/details/LegalResurcesDetails";
 import SearchAttorney from "../pages/searchAttorney/searchAttorney";
+import EditLawyerProfile from "../pages/profile/EditLawyerProfile";
 
 
 const router = createBrowserRouter([
@@ -102,6 +103,10 @@ const router = createBrowserRouter([
   {
     path: "/lawyer-profile",
     element: <LawyerProfile />
+  },
+  {
+    path: "/edit-lawyer-profile",
+    element: <EditLawyerProfile />
   },
   {
     path: "/search-attorney",

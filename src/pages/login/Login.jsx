@@ -30,25 +30,25 @@ const Login = () => {
             password: values.password
         }
 
-        // try {
-        //     const response = await axiosPublic.post("/login", clientInfo,{ withCredentials: true });
-        //     console.log('response--------', response.data)
+        try {
+            const response = await axiosPublic.post("/login", clientInfo,{ withCredentials: true });
+            console.log('response--------', response.data)
 
-        //     if (response.data.success) {
-        //         toast.success("login success")
-        //         // Cookies.set('adminToken', response?.data?.access_token, {
-        //         //     expires: 7,  // Token expires in 7 days
-        //         //     secure: true,  // Ensures HTTPS usage
-        //         //     sameSite: 'Strict'  // Prevents CSRF attacks
-        //         // });
-        //     }
-        //     else {
-        //         toast.error(response.data.message)
-        //     }
-        // }
-        // catch (error) {
-        //     toast.error("Login Error. plz try again!");
-        // }
+            if (response.data.success) {
+                toast.success("login success")
+                // Cookies.set('adminToken', response?.data?.access_token, {
+                //     expires: 7,  // Token expires in 7 days
+                //     secure: true,  // Ensures HTTPS usage
+                //     sameSite: 'Strict'  // Prevents CSRF attacks
+                // });
+            }
+            else {
+                toast.error(response.data.message)
+            }
+        }
+        catch (error) {
+            toast.error("Login Error. plz try again!");
+        }
 
         clientForm.resetFields();
         setIsModalOpen(false);
@@ -65,20 +65,20 @@ const Login = () => {
         }
 
 
-        // try {
-        //     const response = await axiosPublic.post("/login", attorneyInfo);
-        //     console.log(response.data)
+        try {
+            const response = await axiosPublic.post("/login", attorneyInfo);
+            console.log(response.data)
 
-        //     if (response.data.success) {
-        //         toast.success("login success")
-        //     }
-        //     else {
-        //         toast.error('login failedddd')
-        //     }
-        // }
-        // catch (error) {
-        //     toast.error("Login Error. plz try again!");
-        // }
+            if (response.data.success) {
+                toast.success("login success")
+            }
+            else {
+                toast.error('login failedddd')
+            }
+        }
+        catch (error) {
+            toast.error("Login Error. plz try again!");
+        }
 
         attorneyForm.resetFields();
         setIsModalOpen(false);
