@@ -78,7 +78,6 @@ const Banner = () => {
 
 
 
-
     const handleChange = ({ fileList }) => setFileList(fileList);
 
 
@@ -152,15 +151,45 @@ const Banner = () => {
     //     "Commercial Real Estate",
     // ];
 
+    // const handleSelect = (option) => {
+    //     setSelectedOptions((prev) =>
+    //         prev.includes(option.id)
+    //             ? prev.filter((item) => item !== option)
+    //             : [...prev, option.id]
+    //     );
+    // };
+
+
     const handleSelect = (option) => {
-        setSelectedOptions((prev) =>
-            prev.includes(option.id)
-                ? prev.filter((item) => item !== option)
-                : [...prev, option.id]
-        );
+        setSelectedOptions((prev) => {
+            if (prev.includes(option.id)) {
+             
+                return prev.filter((item) => item !== option.id);
+            } else if (prev.length < 3) {
+              
+                return [...prev, option.id];
+            } else {
+                return prev; 
+            }
+        });
     };
 
     //====================== first modal end =================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -430,7 +459,7 @@ const Banner = () => {
     // ]
 
 
-    const role = "lowyer"
+    const role = "user"
 
 
     return (
@@ -490,23 +519,43 @@ const Banner = () => {
 
                             <Space wrap>
                                 {categorieData.map((option, index) => (
+                                    // <Button
+                                    //     key={index}
+                                    //     onClick={() => handleSelect(option)}
+                                    //     style={{
+                                    //         borderRadius: 20,
+
+                                    //         backgroundColor: selectedOptions.includes(option.id) ? "#1b69ad" : "#FFFFFF",
+                                    //         color: selectedOptions.includes(option.id) ? "#FFFFFF" : "#1b69ad",
+                                    //         border: "1px solid #B6B6BA",
+                                    //         fontWeight: "bold",
+                                    //         fontSize: "16px",
+                                    //         fontFamily: "Roboto",
+                                    //         padding: "20px"
+                                    //     }}
+                                    // >
+                                    //     {option.name}
+                                    // </Button>
                                     <Button
                                         key={index}
                                         onClick={() => handleSelect(option)}
+                                        disabled={selectedOptions.length === 3 && !selectedOptions.includes(option.id)}
                                         style={{
                                             borderRadius: 20,
-
                                             backgroundColor: selectedOptions.includes(option.id) ? "#1b69ad" : "#FFFFFF",
                                             color: selectedOptions.includes(option.id) ? "#FFFFFF" : "#1b69ad",
                                             border: "1px solid #B6B6BA",
                                             fontWeight: "bold",
                                             fontSize: "16px",
                                             fontFamily: "Roboto",
-                                            padding: "20px"
+                                            padding: "20px",
+                                            cursor: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? "not-allowed" : "pointer",
+                                            opacity: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? 0.5 : 1,
                                         }}
                                     >
                                         {option.name}
                                     </Button>
+
                                 ))}
                             </Space>
 
