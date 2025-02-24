@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Form, Button, Typography, Space, Modal, Select, TimePicker, DatePicker, Input, Upload } from "antd";
 const { Title } = Typography;
 import useAxiosPublic from '../../hooks/useAxiosPublic';
-
+import Cookies from "js-cookie";
 
 
 
@@ -51,8 +51,52 @@ const EditLawyerProfile = () => {
   };
 
 
+
+  const token = Cookies.get("lawyerToken");
   const onFinish = (values) => {
     console.log(values)
+
+
+    const formData = new FormData();
+
+    if (fileList && fileList.length > 0) {
+      formData.append("avatar", fileList[0].originFileObj);
+    }
+    formData.append('service_ids', modalOneValue)
+    formData.append('practice_area', lowyerSelectValue.practice)
+    formData.append('experience', lowyerSelectValue.experience)
+    formData.append('languages', lowyerSelectValue.language)
+    formData.append('state', lowyerSelectValue.state)
+    formData.append('address', lowyerSelectValue.address)
+    formData.append('phone', lowyerSelectValue.mobile)
+    // formData.append('zipCode', lowyerSelectValue.zipCode) /// post-------->
+
+    formData.append('web_link', webLink)
+    formData.append('schedule', JSON.stringify(schedule));
+
+
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
+
+
+
+    // try {
+    //     const response = await axiosPublic.post('/lawyer/update-profile', formData,{
+    //         headers: {
+    //             Authorization: `Bearer ${token}`,
+    //             "Accept": "application/json"
+    //             // ✅ Send token in Authorization header
+    //         }
+
+    //     });
+
+    //     console.log("Server Response:", response.data);
+
+    // } catch (error) {
+    //     toast.error("Error sending data to the server:", error);
+    // }
+    // navigate('/lawyer-profile')
   }
 
 
@@ -151,7 +195,7 @@ const EditLawyerProfile = () => {
           </div>
 
 
-          <Button block type="submit" style={{backgroundColor:"#1b69ad", fontFamily:"Roboto", fontWeight:"bold", fontSize:"16px", color:"white", padding:"20px 0px"}}>
+          <Button block type="submit" style={{ backgroundColor: "#1b69ad", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", color: "white", padding: "20px 0px" }}>
             Update Profile
           </Button>
         </Form>
