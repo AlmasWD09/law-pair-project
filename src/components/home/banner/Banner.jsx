@@ -181,24 +181,25 @@ const Banner = () => {
     const handleOkTwo = async () => {
 
         const userInfo = {
-            service_ids: selectedOptions || [28,27,30],// provlem not fixed------------->>
+            service_ids: selectedOptions || [28, 27, 30],// provlem not fixed------------->>
             state: secondSelectValue.location,
             language: secondSelectValue.city
         }
-        try {
-            const response = await axiosPublic.get(`/find-lawyers?service_ids=${JSON.stringify(userInfo.service_ids)}&state=${userInfo.state}&language=${userInfo.language}`,);
-            console.log("Server Response:", response.data);
+        // try {
+        //     const response = await axiosPublic.get(`/find-lawyers?service_ids=${JSON.stringify(userInfo.service_ids)}&state=${userInfo.state}&language=${userInfo.language}`,);
+        //     console.log("Server Response:", response.data);
 
-            if (response.data.success) {
-                setIsModalOpenThree(true);
-                setIsModalOpenTwo(false);
-            } else {
-                toast.error('Please try again! Something is provlem');
-            }
-        } catch (error) {
-            toast.error("Error sending data to the server:", error.message);
-        }
+        //     if (response.data.success) {
+        //         setIsModalOpenThree(true);
+        //         setIsModalOpenTwo(false);
+        //     } else {
+        //         toast.error('Please try again! Something is provlem');
+        //     }
+        // } catch (error) {
+        //     toast.error("Error sending data to the server:", error.message);
+        // }
 
+        navigate('/attorney-tm')
         setIsModalOpenThree(true)
         setIsModalOpenTwo(false)
     };
@@ -336,46 +337,46 @@ const Banner = () => {
 
 
     //================= lowyer modal three start ==============
-    // const handleDateChangeLowyerModal = (date, dateString) => {
-    //     setLowyerFormData(prev => ({
-    //         ...prev,
-    //         date: dateString
-    //     }));
-    // };
+    const handleDateChangeLowyerModal = (date, dateString) => {
+        setLowyerFormData(prev => ({
+            ...prev,
+            date: dateString
+        }));
+    };
 
 
-    // const handleTimeChangeLowyerModal = (time, timeString) => {
-    //     setLowyerFormData(prev => ({
-    //         ...prev,
-    //         time: timeString
-    //     }));
-    // };
+    const handleTimeChangeLowyerModal = (time, timeString) => {
+        setLowyerFormData(prev => ({
+            ...prev,
+            time: timeString
+        }));
+    };
 
 
-    // const handleWebsiteLinkChange = (e) => {
-    //     setWebsiteLink(e.target.value);
-    // };
+    const handleWebsiteLinkChange = (e) => {
+        setWebsiteLink(e.target.value);
+    };
 
-    // const handleOkLowyerThree = () => {
-    //     const formData = new FormData();
+    const handleOkLowyerThree = () => {
+        const formData = new FormData();
 
-    //     if (fileList && fileList.length > 0) {
-    //         formData.append("image", fileList[0].originFileObj);
-    //     }
-    //     formData.append('date', lowyerformData.date)
-    //     formData.append('time', lowyerformData.time)
-    //     formData.append('websiteLink', websiteLink);
+        if (fileList && fileList.length > 0) {
+            formData.append("image", fileList[0].originFileObj);
+        }
+        formData.append('date', lowyerformData.date)
+        formData.append('time', lowyerformData.time)
+        formData.append('websiteLink', websiteLink);
 
-    //     formData.forEach((value, key) => {
-    //         console.log(key, value);
-    //     });
-    //     navigate('/lawyer-profile')
-    // }
+        formData.forEach((value, key) => {
+            console.log(key, value);
+        });
+        navigate('/lawyer-profile')
+    }
 
-    // const handleCancelLowyerThree = () => {
-    //     setLawyerModalOpenThree(false)
-    //     setLawyerModalOpenTwo(true)
-    // }
+    const handleCancelLowyerThree = () => {
+        setLawyerModalOpenThree(false)
+        setLawyerModalOpenTwo(true)
+    }
     //================= lowyer modal three start ================
 
 
@@ -429,7 +430,7 @@ const Banner = () => {
     // ]
 
 
-    const role = "user"
+    const role = "lowyer"
 
 
     return (
@@ -700,242 +701,368 @@ const Banner = () => {
 
 
                 {/* modal three */}
+                {/* {
+                    role === "user" ? 
+                    <Modal centered open={isModalOpenThree} onOk={handleOkAttonemy} onCancel={handleCancelAttonemy}
+                        width={600}
+                        footer={
+                            <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                                <button
+                                    className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                    onClick={handleCancelAttonemy}
+                                >
+                                    Back
+                                </button>
+                                <button
+                                    className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                    onClick={handleOkAttonemy}
+                                >
+                                    Continue
+                                </button>
+                            </div>
+                        }
+                    >
+
+
+                        <div>
+                            <svg className='mb-4' width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                                <path d="M14.167 20.834L17.5003 24.1673L25.8337 15.834" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
+                                <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                                <circle cx="508" cy="20" r="5" fill="#1B69AD" />
+                            </svg>
+
+                            <hr />
+                            <div className='pt-4'>
+                                <Title level={4} className='text-[14px] font-roboto font-bold text-[#001018]'>
+                                    Find the exact Attorny by filter
+                                </Title>
+                            </div>
+
+
+                            <div className='pb-4'>
+                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Lawyer experience</p>
+                                <Select
+                                    showSearch
+                                    placeholder="Select..."
+                                    style={{ width: '100%', height: '40px' }}
+                                    onChange={value => handleSelectChange("lawyerExperience", value)}
+                                    options={[
+                                        { label: "1-3 Years", value: "1-3 Years" },
+                                        { label: "4-7 Years", value: "4-7 Years" },
+                                        { label: "8+ Years", value: "8+ Years" }
+                                    ]}
+                                />
+                            </div>
+
+
+                            <div className='pb-4'>
+                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Location</p>
+                                <Select
+                                    showSearch
+                                    placeholder="Select..."
+                                    style={{ width: '100%', height: '40px' }}
+                                    onChange={value => handleSelectChange("location", value)}
+                                    options={[
+                                        { label: "English", value: "English" },
+                                        { label: "Spanish", value: "Spanish" },
+                                        { label: "German", value: "German" },
+                                        { label: "Russian", value: "Russian" }
+                                    ]}
+                                />
+                            </div>
+
+                            <div className='pb-4'>
+                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Languages</p>
+                                <Select
+                                    showSearch
+                                    placeholder="Select..."
+                                    style={{ width: '100%', height: '40px' }}
+                                    onChange={value => handleSelectChange("languages", value)}
+                                    options={[
+                                        { value: 'New Jersey', label: 'New Jersey' },
+                                        { value: 'New York', label: 'New York' },
+                                        { value: 'Pennsylvania', label: 'Pennsylvania' },
+                                        { value: 'Washington, D.C', label: 'Washington, D.C' },
+                                    ]}
+                                />
+                            </div>
+
+                            <div className='pb-4'>
+                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability</p>
+                                <div className='flex justify-between items-center gap-6'>
+                                    <DatePicker style={{ width: "50%", height: '40px' }} onChange={handleDateChange} />
+
+
+                          
+                                    <TimePicker style={{ width: "50%", height: '40px' }} onChange={handleTimeChange} />
+                                </div>
+                            </div>
+                        </div>
+                    </Modal>
+
+                        :
+                    <Modal centered open={lawyerModalOpenThree} onOk={handleOkLowyerThree} onCancel={handleCancelLowyerThree}
+                        width={600}
+                        footer={
+                            <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                                <button
+                                    className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                    onClick={handleCancelLowyerThree}
+                                >
+                                    Back
+                                </button>
+                                <button
+                                    className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                    onClick={handleOkLowyerThree}
+                                >
+                                    Continue
+                                </button>
+                            </div>
+                        }
+                    >
+
+
+                        <div>
+                            <svg className='mb-4' width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                                <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
+                                <circle cx="264" cy="20" r="16" fill="#1B69AD" />
+                                <path d="M258.167 20.8335L261.5 24.1668L269.833 15.8335" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                <rect x="280" y="19" width="212" height="2" fill="#1B69AD" />
+                                <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                                <circle cx="508" cy="20" r="5" fill="#1B69AD" />
+                            </svg>
+
+
+
+                            <hr />
+                            <div className='pt-4'>
+                                <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                                    Add your profile photo and availability
+                                </Title>
+                            </div>
+
+
+                        
+                            <div className="pb-4 w-full">
+                                <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
+                                <div className="w-full">
+                                    <Upload
+                                        fileList={fileList}
+                                        onChange={handleChange}
+                                        beforeUpload={() => false} 
+                                        style={{ width: '100%', height: '40px' }} 
+                                        className="upload-component" 
+                                    >
+                                        {fileList.length >= 1 ? null : (
+                                            <Button
+                                                icon={<UploadOutlined />}
+                                                style={{ width: '100%', height: '40px' }}
+                                            >
+                                                Upload Image
+                                            </Button>
+                                        )}
+                                    </Upload>
+                                </div>
+                            </div>
+
+
+
+
+                            <div className='pb-4'>
+                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
+                                <Input name='webLink'
+                                    value={websiteLink}
+                                    onChange={handleWebsiteLinkChange}
+                                    placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
+                            </div>
+
+
+                            <div className='pb-4'>
+                                <div className='flex justify-between items-center gap-6 pb-4'>
+                                    <div className='w-full'>
+                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
+                                        <DatePicker style={{ width: "100%", height: '40px' }} onChange={handleDateChangeLowyerModal} />
+                                    </div>
+
+
+                                    <div className='w-full'>
+                                  
+                                        <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
+                                        <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeLowyerModal} />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div className='pb-4'>
+                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Preview</p>
+                                <Space wrap>
+                                    {lowyerOptions.map((option) => (
+                                        <Button
+                                            key={option}
+                                            onClick={() => handleSelectLowyer(option)}
+                                            style={{
+                                                borderRadius: 20,
+
+                                                backgroundColor: selectedOptions.includes(option) ? "#1b69ad" : "#FFFFFF",
+                                                color: selectedOptions.includes(option) ? "#FFFFFF" : "#1b69ad",
+                                                border: "1px solid #B6B6BA",
+                                                fontWeight: "bold",
+                                                fontSize: "16px",
+                                                fontFamily: "Roboto",
+                                                padding: "20px"
+                                            }}
+                                        >
+                                            {option}
+                                        </Button>
+                                    ))}
+                                </Space>
+                            </div>
+                            <div className='flex flex-col md:flex-row gap-[12px]'>
+                                <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
+                                <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
+                                <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
+                            </div>
+                        </div>
+
+                    </Modal>
+                } */}
+
                 {
-                    // role === "user" ? <Modal centered open={isModalOpenThree} onOk={handleOkAttonemy} onCancel={handleCancelAttonemy}
-                    //     width={600}
-                    //     footer={
-                    //         <div className="flex justify-between items-center gap-x-4 pt-[24px]">
-                    //             <button
-                    //                 className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                    //                 onClick={handleCancelAttonemy}
-                    //             >
-                    //                 Back
-                    //             </button>
-                    //             <button
-                    //                 className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                    //                 onClick={handleOkAttonemy}
-                    //             >
-                    //                 Continue
-                    //             </button>
-                    //         </div>
-                    //     }
-                    // // okText="Done"
-                    // // cancelText="Back"
-                    // // okButtonProps={{
-                    // //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
-                    // // }}
-                    // // cancelButtonProps={{
-                    // //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
-                    // // }}
-                    // >
+                    role === "user" ? ""
+                        :
+                        <Modal centered open={lawyerModalOpenThree} onOk={handleOkLowyerThree} onCancel={handleCancelLowyerThree}
+                            width={600}
+                            footer={
+                                <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                                    <button
+                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                        onClick={handleCancelLowyerThree}
+                                    >
+                                        Back
+                                    </button>
+                                    <button
+                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                        onClick={handleOkLowyerThree}
+                                    >
+                                        Continue
+                                    </button>
+                                </div>
+                            }
+                        >
 
 
-                    //     <div>
-                    //         <svg className='mb-4' width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    //             <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                    //             <path d="M14.167 20.834L17.5003 24.1673L25.8337 15.834" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    //             <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
-                    //             <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                    //             <circle cx="508" cy="20" r="5" fill="#1B69AD" />
-                    //         </svg>
-
-                    //         <hr />
-                    //         <div className='pt-4'>
-                    //             <Title level={4} className='text-[14px] font-roboto font-bold text-[#001018]'>
-                    //                 Find the exact Attorny by filter
-                    //             </Title>
-                    //         </div>
-
-
-                    //         <div className='pb-4'>
-                    //             <p className='text-[14px] font-roboto font-bold text-[#001018]'>Lawyer experience</p>
-                    //             <Select
-                    //                 showSearch
-                    //                 placeholder="Select..."
-                    //                 style={{ width: '100%', height: '40px' }}
-                    //                 onChange={value => handleSelectChange("lawyerExperience", value)}
-                    //                 options={[
-                    //                     { label: "1-3 Years", value: "1-3 Years" },
-                    //                     { label: "4-7 Years", value: "4-7 Years" },
-                    //                     { label: "8+ Years", value: "8+ Years" }
-                    //                 ]}
-                    //             />
-                    //         </div>
-
-
-                    //         <div className='pb-4'>
-                    //             <p className='text-[14px] font-roboto font-bold text-[#001018]'>Location</p>
-                    //             <Select
-                    //                 showSearch
-                    //                 placeholder="Select..."
-                    //                 style={{ width: '100%', height: '40px' }}
-                    //                 onChange={value => handleSelectChange("location", value)}
-                    //                 options={[
-                    //                     { label: "English", value: "English" },
-                    //                     { label: "Spanish", value: "Spanish" },
-                    //                     { label: "German", value: "German" },
-                    //                     { label: "Russian", value: "Russian" }
-                    //                 ]}
-                    //             />
-                    //         </div>
-
-                    //         <div className='pb-4'>
-                    //             <p className='text-[14px] font-roboto font-bold text-[#001018]'>Languages</p>
-                    //             <Select
-                    //                 showSearch
-                    //                 placeholder="Select..."
-                    //                 style={{ width: '100%', height: '40px' }}
-                    //                 onChange={value => handleSelectChange("languages", value)}
-                    //                 options={[
-                    //                     { value: 'New Jersey', label: 'New Jersey' },
-                    //                     { value: 'New York', label: 'New York' },
-                    //                     { value: 'Pennsylvania', label: 'Pennsylvania' },
-                    //                     { value: 'Washington, D.C', label: 'Washington, D.C' },
-                    //                 ]}
-                    //             />
-                    //         </div>
-
-                    //         <div className='pb-4'>
-                    //             <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability</p>
-                    //             <div className='flex justify-between items-center gap-6'>
-                    //                 <DatePicker style={{ width: "50%", height: '40px' }} onChange={handleDateChange} />
-
-
-                    //                 {/* date picker component*/}
-                    //                 <TimePicker style={{ width: "50%", height: '40px' }} onChange={handleTimeChange} />
-                    //             </div>
-                    //         </div>
-                    //     </div>
-                    // </Modal>
-
-                    //     :
-                    // <Modal centered open={lawyerModalOpenThree} onOk={handleOkLowyerThree} onCancel={handleCancelLowyerThree}
-                    //     width={600}
-                    //     footer={
-                    //         <div className="flex justify-between items-center gap-x-4 pt-[24px]">
-                    //             <button
-                    //                 className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                    //                 onClick={handleCancelLowyerThree}
-                    //             >
-                    //                 Back
-                    //             </button>
-                    //             <button
-                    //                 className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                    //                 onClick={handleOkLowyerThree}
-                    //             >
-                    //                 Continue
-                    //             </button>
-                    //         </div>
-                    //     }
-                    // >
-
-
-                    //     <div>
-                    //         <svg className='mb-4' width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    //             <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                    //             <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    //             <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
-                    //             <circle cx="264" cy="20" r="16" fill="#1B69AD" />
-                    //             <path d="M258.167 20.8335L261.5 24.1668L269.833 15.8335" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    //             <rect x="280" y="19" width="212" height="2" fill="#1B69AD" />
-                    //             <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                    //             <circle cx="508" cy="20" r="5" fill="#1B69AD" />
-                    //         </svg>
+                            <div>
+                                <svg className='mb-4' width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                                    <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
+                                    <circle cx="264" cy="20" r="16" fill="#1B69AD" />
+                                    <path d="M258.167 20.8335L261.5 24.1668L269.833 15.8335" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    <rect x="280" y="19" width="212" height="2" fill="#1B69AD" />
+                                    <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                                    <circle cx="508" cy="20" r="5" fill="#1B69AD" />
+                                </svg>
 
 
 
-                    //         <hr />
-                    //         <div className='pt-4'>
-                    //             <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
-                    //                 Add your profile photo and availability
-                    //             </Title>
-                    //         </div>
+                                <hr />
+                                <div className='pt-4'>
+                                    <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                                        Add your profile photo and availability
+                                    </Title>
+                                </div>
 
 
-                    //         {/* upload image */}
-                    //         <div className="pb-4 w-full">
-                    //             <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
-                    //             <div className="w-full">
-                    //                 <Upload
-                    //                     fileList={fileList}
-                    //                     onChange={handleChange}
-                    //                     beforeUpload={() => false} // Prevent auto-upload
-                    //                     style={{ width: '100%', height: '40px' }} // Force the Upload component to take full width
-                    //                     className="upload-component" // Custom class to apply further styling
-                    //                 >
-                    //                     {fileList.length >= 1 ? null : (
-                    //                         <Button
-                    //                             icon={<UploadOutlined />}
-                    //                             style={{ width: '100%', height: '40px' }} // Ensure the button takes up full width
-                    //                         >
-                    //                             Upload Image
-                    //                         </Button>
-                    //                     )}
-                    //                 </Upload>
-                    //             </div>
-                    //         </div>
+                                {/* upload image */}
+                                <div className="pb-4 w-full">
+                                    <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
+                                    <div className="w-full">
+                                        <Upload
+                                            fileList={fileList}
+                                            onChange={handleChange}
+                                            beforeUpload={() => false} // Prevent auto-upload
+                                            style={{ width: '100%', height: '40px' }} // Force the Upload component to take full width
+                                            className="upload-component" // Custom class to apply further styling
+                                        >
+                                            {fileList.length >= 1 ? null : (
+                                                <Button
+                                                    icon={<UploadOutlined />}
+                                                    style={{ width: '100%', height: '40px' }} // Ensure the button takes up full width
+                                                >
+                                                    Upload Image
+                                                </Button>
+                                            )}
+                                        </Upload>
+                                    </div>
+                                </div>
 
 
 
 
-                    //         <div className='pb-4'>
-                    //             <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
-                    //             <Input name='webLink'
-                    //                 value={websiteLink}  // Bind the value to state
-                    //                 onChange={handleWebsiteLinkChange}
-                    //                 placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
-                    //         </div>
+                                <div className='pb-4'>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
+                                    <Input name='webLink'
+                                        value={websiteLink}  // Bind the value to state
+                                        onChange={handleWebsiteLinkChange}
+                                        placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
+                                </div>
 
 
-                    //         <div className='pb-4'>
-                    //             <div className='flex justify-between items-center gap-6 pb-4'>
-                    //                 <div className='w-full'>
-                    //                     <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-                    //                     <DatePicker style={{ width: "100%", height: '40px' }} onChange={handleDateChangeLowyerModal} />
-                    //                 </div>
+                                <div className='pb-4'>
+                                    <div className='flex justify-between items-center gap-6 pb-4'>
+                                        <div className='w-full'>
+                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
+                                            <DatePicker style={{ width: "100%", height: '40px' }} onChange={handleDateChangeLowyerModal} />
+                                        </div>
 
 
-                    //                 <div className='w-full'>
-                    //                     {/* date picker component*/}
-                    //                     <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
-                    //                     <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeLowyerModal} />
-                    //                 </div>
-                    //             </div>
-                    //         </div>
+                                        <div className='w-full'>
+                                            {/* date picker component*/}
+                                            <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
+                                            <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeLowyerModal} />
+                                        </div>
+                                    </div>
+                                </div>
 
 
-                    //         <div className='pb-4'>
-                    //             <p className='text-[14px] font-roboto font-bold text-[#001018]'>Preview</p>
-                    //             <Space wrap>
-                    //                 {lowyerOptions.map((option) => (
-                    //                     <Button
-                    //                         key={option}
-                    //                         onClick={() => handleSelectLowyer(option)}
-                    //                         style={{
-                    //                             borderRadius: 20,
+                                <div className='pb-4'>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Preview</p>
+                                    <Space wrap>
+                                        {lowyerOptions.map((option) => (
+                                            <Button
+                                                key={option}
+                                                onClick={() => handleSelectLowyer(option)}
+                                                style={{
+                                                    borderRadius: 20,
 
-                    //                             backgroundColor: selectedOptions.includes(option) ? "#1b69ad" : "#FFFFFF",
-                    //                             color: selectedOptions.includes(option) ? "#FFFFFF" : "#1b69ad",
-                    //                             border: "1px solid #B6B6BA",
-                    //                             fontWeight: "bold",
-                    //                             fontSize: "16px",
-                    //                             fontFamily: "Roboto",
-                    //                             padding: "20px"
-                    //                         }}
-                    //                     >
-                    //                         {option}
-                    //                     </Button>
-                    //                 ))}
-                    //             </Space>
-                    //         </div>
-                    //         <div className='flex flex-col md:flex-row gap-[12px]'>
-                    //             <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
-                    //             <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
-                    //             <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
-                    //         </div>
-                    //     </div>
+                                                    backgroundColor: selectedOptions.includes(option) ? "#1b69ad" : "#FFFFFF",
+                                                    color: selectedOptions.includes(option) ? "#FFFFFF" : "#1b69ad",
+                                                    border: "1px solid #B6B6BA",
+                                                    fontWeight: "bold",
+                                                    fontSize: "16px",
+                                                    fontFamily: "Roboto",
+                                                    padding: "20px"
+                                                }}
+                                            >
+                                                {option}
+                                            </Button>
+                                        ))}
+                                    </Space>
+                                </div>
+                                <div className='flex flex-col md:flex-row gap-[12px]'>
+                                    <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
+                                    <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
+                                    <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
+                                </div>
+                            </div>
 
-                    // </Modal>
+                        </Modal>
+
                 }
 
 
