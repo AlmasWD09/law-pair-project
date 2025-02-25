@@ -201,23 +201,20 @@ const Banner = () => {
             state: secondSelectValue.location,
             language: secondSelectValue.city
         }
-        // try {
-        //     const response = await axiosPublic.get(`/find-lawyers?service_ids=${JSON.stringify(userInfo.service_ids)}&state=${userInfo.state}&language=${userInfo.language}`,);
-        //     console.log("Server Response:", response.data);
+        try {
+            const response = await axiosPublic.get(`/find-lawyers?service_ids=${JSON.stringify(userInfo.service_ids)}&state=${userInfo.state}&language=${userInfo.language}`,);
+            console.log("Server Response:", response.data);
 
-        //     if (response.data.success) {
-        //         setIsModalOpenThree(true);
-        //         setIsModalOpenTwo(false);
-        //     } else {
-        //         toast.error('Please try again! Something is provlem');
-        //     }
-        // } catch (error) {
-        //     toast.error("Error sending data to the server:", error.message);
-        // }
-
-        navigate('/attorney-tm')
-        setIsModalOpenThree(true)
-        setIsModalOpenTwo(false)
+            if (response.data.success) {
+                setIsModalOpenTwo(false);
+                navigate('/attorney-tm')
+                
+            } else {
+                toast.error('Please try again! Something is wrong');
+            }
+        } catch (error) {
+            toast.error("Failed! Error sending data to the server:",);
+        }
     };
 
 
@@ -410,11 +407,6 @@ const Banner = () => {
             }
         ]
 
-
-
-
-
-
         const formData = new FormData();
 
         if (fileList && fileList.length > 0) {
@@ -517,7 +509,7 @@ const Banner = () => {
 
 
 
-    const role = "lawyer"
+    const role = "user"
 
     return (
         <div className="bg-[#F5F5F7] container mx-auto px-4 pb-6 md:pb-[36px] lg:pb-[64px]">

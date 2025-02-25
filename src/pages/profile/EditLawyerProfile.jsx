@@ -10,13 +10,7 @@ import Cookies from "js-cookie";
 const EditLawyerProfile = () => {
   const axiosPublic = useAxiosPublic()
   const [lawyerForm] = Form.useForm(); // Form instance
-  const [categorieData, setCategorieData] = useState([
-    { id: 1, name: "bangla" },
-    { id: 2, name: "bangla" },
-    { id: 3, name: "bangla" },
-    { id: 4, name: "bangla" },
-    { id: 5, name: "bangla" },
-  ]);
+  const [categorieData, setCategorieData] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
 
 
@@ -107,7 +101,7 @@ const EditLawyerProfile = () => {
 
         <Form form={lawyerForm} layout="vertical" onFinish={onFinish}>
           <div>
-            <Space wrap>
+            <Space wrap className=" max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-3 mt-16">
               {categorieData.map((option, index) => (
                 <Button
                   key={index}
