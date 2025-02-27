@@ -38,7 +38,7 @@ const Header = () => {
                             <div
                                 onClick={handleNavigaet}
                                 className="flex items-center cursor-pointer">
-                                <img className="w-[161px] h-[50px]" src="/logo.png" alt="nav logo" />
+                                <img className="w-[161px] h-[50px]" src="/logo3.png" alt="nav logo" />
                             </div>
                             <div className="relative mt-4 md:mt-0 hidden md:block">
                                 <input
