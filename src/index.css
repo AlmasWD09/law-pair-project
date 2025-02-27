@@ -6,8 +6,8 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    background-color:#F5F5F7;
+body {
+    background-color: #F5F5F7;
 }
 
 /* navbar active link style */
@@ -24,7 +24,14 @@ body{
   } */
 
 
-
+/* banner button hover effect remove */
+.no-hover:hover {
+    background-color: #b9d4eb !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: inherit !important;
+}
 
 
 
@@ -41,18 +48,18 @@ body{
 
 /* Active tab text color */
 .custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: #1b69ad !important; 
+    color: #1b69ad !important;
     font-weight: bold;
 }
 
 /* Active tab bottom border */
 .custom-tabs .ant-tabs-ink-bar {
-    background-color: #1b69ad !important; 
+    background-color: #1b69ad !important;
 }
 
 /* Hover tab text color */
 .custom-tabs .ant-tabs-tab:hover .ant-tabs-tab-btn {
-    color: #1b69ad !important; 
+    color: #1b69ad !important;
 }
 
 
@@ -61,14 +68,9 @@ body{
 .upload-component .ant-upload {
     width: 100% !important;
 }
+
 .upload-component .ant-btn {
     width: 100% !important;
 }
 
 /* upload image field style end */
-
-
-
-
-
-
