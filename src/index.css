@@ -24,7 +24,14 @@ body {
   } */
 
 
-
+/* banner button hover effect remove */
+.no-hover:hover {
+    background-color: #b9d4eb !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: inherit !important;
+}
 
 
 
@@ -67,51 +74,3 @@ body {
 }
 
 /* upload image field style end */
-
-
-
-
-/* pagination button style */
-.pagination {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 80px;
-    font-size: 19px;
-    gap: 5px;
-}
-
-
-.pagination .page-num {
-    padding: 8px 15px;
-    cursor: pointer;
-    border-radius: 3px;
-    font-weight: 400;
-}
-
-
-.pagination .page-num:hover {
-    background-color: green;
-    color: white;
-}
-
-.pagination .active {
-    background-color: green;
-    color: white;
-}
-
-
-
-
-
-
-/* pagination active colr in attorney-tm component */
-.ant-pagination-item-active {
-    background-color: #1b69ad !important;
-    border-color: #1b69ad !important;
-}
-
-.ant-pagination-item-active a {
-    color: #ffff !important;
-}
