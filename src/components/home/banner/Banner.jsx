@@ -395,7 +395,7 @@ const Banner = () => {
         },
     ]
 
-    const role = "user"
+    const role = "lawyer"
 
 
     return (
@@ -790,13 +790,38 @@ const Banner = () => {
                             </div>
 
                             <div className='pb-4'>
-                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability</p>
-                                <div className='flex justify-between items-center gap-6'>
-                                    <DatePicker style={{ width: "50%", height: '40px' }} onChange={handleDateChange} />
+                                <div className='flex justify-between items-center gap-6 pb-4'>
+                                    {/* <div className='w-full'>
+                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
+                                            <DatePicker style={{ width: "100%", height: '40px' }} onChange={handleDateChangeLowyerModal} />
+                                        </div> */}
+
+                                    <div className='w-full'>
+                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
+                                        <Space wrap>
+                                            <Select
+                                                defaultValue="Select day.."
+                                                style={{ width: 150 }}
+                                                o
+                                                options={[
+                                                    { value: 'Monday', label: 'Monday' },
+                                                    { value: 'Tuesday', label: 'Tuesday' },
+                                                    { value: 'Wednesday', label: 'Wednesday' },
+                                                    { value: 'Thursday', label: 'Thursday' },
+                                                    { value: 'Friday', label: 'Friday' },
+                                                    { value: 'Saturday', label: 'Saturday' },
+                                                    { value: 'Sunday', label: 'Sunday' },
+                                                ]}
+                                            />
+                                        </Space>
+                                    </div>
 
 
-                                    {/* date picker component*/}
-                                    <TimePicker style={{ width: "50%", height: '40px' }} onChange={handleTimeChange} />
+                                    <div className='w-full'>
+                                        {/* date picker component*/}
+                                        <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
+                                        <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeLowyerModal} />
+                                    </div>
                                 </div>
                             </div>
                         </div>
