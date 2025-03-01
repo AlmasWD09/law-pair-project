@@ -358,53 +358,44 @@ const Banner = () => {
 
     const bannerImage = [
         {
-            image1: "/bannerCard/card1.png",
-            image2: "/bannerCard/hover1.png",
+            image_icon: "/bannerCard/card1.png",
             name: "Immigration",
         },
         {
-            image1: "/bannerCard/card2.png",
-            image2: "/bannerCard/hover2.png",
+            image_icon: "/bannerCard/card2.png",
             name: "Wills & Trusts",
         },
         {
-            image1: "/bannerCard/card3.png",
-            image2: "/bannerCard/hover3.png",
+            image_icon: "/bannerCard/card3.png",
             name: "Family & Matrimonial",
         },
         {
-            image1: "/bannerCard/card4.png",
-            image2: "/bannerCard/hover4.png",
+            image_icon: "/bannerCard/card4.png",
             name: "Trademarks",
         },
         {
-            image1: "/bannerCard/card5.png",
-            image2: "/bannerCard/hover5.png",
+            image_icon: "/bannerCard/card5.png",
             name: "Advance Care Planning",
         },
         {
-            image1: "/bannerCard/card6.png",
-            image2: "/bannerCard/hover6.png",
+            image_icon: "/bannerCard/card6.png",
             name: "Criminal Defense",
         },
         {
-            image1: "/bannerCard/card7.png",
-            image2: "/bannerCard/hover7.png",
+            image_icon: "/bannerCard/card7.png",
             name: "Residential Real Estate",
         },
         {
-            image1: "/bannerCard/card8.png",
-            image2: "/bannerCard/hover8.png",
+            image_icon: "/bannerCard/card8.png",
             name: "Business Formation",
         },
         {
-            image1: "/bannerCard/card9.png",
-            image2: "/bannerCard/hover9.png",
+            image_icon: "/bannerCard/card9.png",
             name: "Commercial Real Estate",
         },
     ]
 
-    const role = "lawyer"
+    const role = "user"
 
 
     return (
@@ -976,18 +967,18 @@ const Banner = () => {
                 {/* banner curd */}
                 <div className="flex justify-center items-center">
                     <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-3">
-                        {bannerImage?.map((item, index) => {
+                        {/* {bannerImage?.map((item, index) => {
                             const isHovered = hoverIndex === index;
 
                             return (
                                 <div
                                     key={index}
                                     className="relative bg-[#FFFFFF] min-w-[280px] md:min-w-[300px] lg:min-w-[510px] min-h-[150px] md:min-h-[180px] lg:min-h-[204px] flex flex-col justify-center items-center p-3 rounded-[24px] hover:bg-primary hover:text-white group overflow-hidden"
-                                    onMouseEnter={() => setHoverIndex(index)} // Desktop hover
+                                    onMouseEnter={() => setHoverIndex(index)} 
                                     onMouseLeave={() => setHoverIndex(null)}
-                                    onClick={() => setHoverIndex(isHovered ? null : index)} // Mobile click
+                                    onClick={() => setHoverIndex(isHovered ? null : index)} 
                                 >
-                                    {/* Default Content (Before Hover) */}
+                                   
                                     <div className={`flex flex-col justify-center items-center ${isHovered ? "opacity-0" : "opacity-100"}`}>
                                         <img
                                             src={item.image1}
@@ -999,7 +990,7 @@ const Banner = () => {
                                         </h4>
                                     </div>
 
-                                    {/* Hover Content (After Hover) */}
+                                
                                     <div
                                         className={`absolute left-0 top-0 w-full h-full flex flex-col justify-center items-center transition-opacity duration-300 ease-in-out ${isHovered ? "opacity-100" : "opacity-0"
                                             }`}
@@ -1011,7 +1002,33 @@ const Banner = () => {
                                     </div>
                                 </div>
                             );
-                        })}
+                        })} */}
+
+                        {
+                            bannerImage.map((item, index) => {
+                                return (
+                                    <div
+                                        key={index}
+                                        className="relative bg-[#FFFFFF] min-w-[280px] md:min-w-[300px] lg:min-w-[510px] min-h-[150px] md:min-h-[180px] lg:min-h-[204px] flex flex-col justify-center items-center p-3 rounded-[24px] hover:bg-primary hover:opacity-85 group overflow-hidden"
+
+                                    >
+
+                                        <div className='flex flex-col justify-center items-center'>
+                                            <img
+                                                src={item.image_icon}
+                                                alt="default image"
+                                                className="pb-[8px] transition-opacity duration-300 ease-in-out"
+                                            />
+                                            <h4 className="text-[18px] font-semibold md:font-bold font-roboto text-center">
+                                                {item.name}
+                                            </h4>
+                                        </div>
+
+
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 </div>
             </div>
