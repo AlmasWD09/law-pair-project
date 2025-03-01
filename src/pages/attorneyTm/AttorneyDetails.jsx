@@ -97,14 +97,6 @@ const AttorneyDetails = () => {
 
 
 
-
-
-
-
-
-
-
-
                     <div className="pb-[24px]">
                         <h1 className="text-[20px] font-bold font-roboto text-[#001018]">{attorneySingleData.name}</h1>
                         <h3 className="text-[14px] font-roboto text-[#001018]">{attorneySingleData.title}</h3>
