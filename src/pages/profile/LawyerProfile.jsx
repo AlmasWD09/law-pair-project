@@ -47,10 +47,10 @@ const LawyerProfile = () => {
                             <div>
                                 <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">Contact details</h2>
                                 <div className="space-y-3 pt-[8px">
-                                    {/* <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3 pt-[8px]">
+                                    <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3 pt-[8px]">
                                         <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path fillRule="evenodd" clipRule="evenodd" d="M1.79399 1.36425C0.0679901 3.49725 1.18299 6.32125 2.05999 8.45325C2.47599 9.46525 3.13299 10.4783 3.68899 11.2933C4.66199 12.7172 6.87799 15.4232 9.58999 15.0152C10.758 14.8392 12.117 13.4602 11.187 12.5793L9.31799 10.6392C9.31799 10.6392 8.79499 10.2032 8.14699 10.5592L7.09899 11.1722C7.09899 11.1722 6.67099 11.3743 6.29999 10.8973C5.13699 9.52625 4.30499 8.10025 3.72199 6.40125C3.49499 5.73825 3.88999 5.57325 3.88999 5.57325L4.65699 5.12325C5.29399 4.74525 5.18099 4.07225 5.18099 4.07225L4.74299 1.33425C4.61099 0.76625 4.14199 0.53125 3.59799 0.53125C2.94999 0.53125 2.19799 0.86525 1.79399 1.36425Z" fill="#10101E" />
-                                        </svg> +123 4568 87978</p> */}
+                                        </svg> +123 4568 87978</p>
                                     <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
 
 
