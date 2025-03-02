@@ -45,13 +45,32 @@ const Banner = () => {
     })
 
 
+    // categorie modal
+    const [categorieModalOpen, setCategorieModalOpen] = useState(false);
+    const [categorieSecondModalOpen, setCategorieSecondModalOpen] = useState(false);
+    const [categorieSelectValue, setCategorieSelecteValue] = useState({
+        location: null,
+        city: null,
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
     const handleChange = ({ fileList }) => setFileList(fileList);
-
-
     const handleSelectLowyer = (option) => {
         setSelectedLowyerOptions((prev) =>
             prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
@@ -355,6 +374,56 @@ const Banner = () => {
 
 
 
+    //=============== categorie first modal start ===============
+    const showModalCategorie = () => {
+        setCategorieModalOpen(true);
+    };
+
+    // categorie select value
+    const handleSeleCtcategorieValue = (key, value) => {
+        setCategorieSelecteValue(prev => ({
+            ...prev,
+            [key]: value
+        }))
+    }
+
+    const handleCategorieOk = () => {
+        console.log(categorieSelectValue)
+        setCategorieSecondModalOpen(true)
+    }
+    const handleCancelCategorie = () => {
+        setCategorieModalOpen(false);
+     
+    }
+
+    //=============== categorie first modal end =================
+
+
+
+    //=============== categorie second modal start ===============
+    const handleOkCategorieTwo = () => {
+        console.log('click ok categorie')
+        navigate('/attorney-tm')
+    }
+
+    const handleCancelCategorieTwo = () => {
+        console.log('click cancel categorie')
+        setCategorieSecondModalOpen(false)
+        setCategorieModalOpen(true)
+    }
+    //=============== categorie second modal end =================
+
+
+
+
+
+
+
+
+
+
+
+
 
     const bannerImage = [
         {
@@ -395,8 +464,12 @@ const Banner = () => {
         },
     ]
 
-    const role = "lawyer"
+    const role = "user"
 
+
+    const handleCateogrie = (name) => {
+        console.log(name)
+    }
 
     return (
         <div className="bg-[#F5F5F7] container mx-auto px-2 md:px-4 pb-6 md:pb-[36px] lg:pb-[64px]">
@@ -562,10 +635,10 @@ const Banner = () => {
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectModalTwoValue("location", value)}
                                     options={[
-                                        { value: '1', label: 'New Jersey ' },
-                                        { value: '2', label: 'New York' },
-                                        { value: '3', label: 'Pennsylvania' },
-                                        { value: '3', label: 'Washington, D.C' },
+                                        { value: 'New Jersey', label: 'New Jersey' },
+                                        { value: 'New York', label: 'New York' },
+                                        { value: 'Pennsylvania', label: 'Pennsylvania' },
+                                        { value: 'Washington, D.C', label: 'Washington, D.C' },
                                     ]}
                                 />
                             </div>
@@ -578,10 +651,10 @@ const Banner = () => {
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectModalTwoValue("city", value)}
                                     options={[
-                                        { label: "English", value: "e" },
-                                        { label: "Spanish", value: "s" },
-                                        { label: "German", value: "g" },
-                                        { label: "Russian", value: "r" }
+                                        { label: "English", value: "English" },
+                                        { label: "Spanish", value: "Spanish" },
+                                        { label: "German", value: "German" },
+                                        { label: "Russian", value: "Russian" }
                                     ]}
                                 />
                             </div>
@@ -614,12 +687,12 @@ const Banner = () => {
                                 <svg
                                     className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]" width="40" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                                    <path d="M14.167 20.8335L17.5003 24.1668L25.8337 15.8335" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14.167 20.8335L17.5003 24.1668L25.8337 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
                                     <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
-                                    <circle cx="264" cy="20" r="15" stroke="#1B69AD" stroke-width="2" />
+                                    <circle cx="264" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
                                     <circle cx="264" cy="20" r="5" fill="#1B69AD" />
                                     <rect x="280" y="19" width="212" height="2" fill="#B6B6BA" />
-                                    <circle cx="508" cy="20" r="15" stroke="#B6B6BA" stroke-width="2" />
+                                    <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
                                 </svg>
 
 
@@ -644,10 +717,10 @@ const Banner = () => {
                                         style={{ width: '100%', height: '40px' }}
                                         onChange={value => handleSelectModalLowyerTwoValue("location", value)}
                                         options={[
-                                            { label: "1 to 3 years", value: "1" },
-                                            { label: "4 to 6 years", value: "2" },
-                                            { label: "7 to 9 years", value: "3" },
-                                            { label: "10 to 12 years", value: "" }
+                                            { value: 'New Jersey', label: 'New Jersey' },
+                                            { value: 'New York', label: 'New York' },
+                                            { value: 'Pennsylvania', label: 'Pennsylvania' },
+                                            { value: 'Washington, D.C', label: 'Washington, D.C' },
                                         ]}
                                     />
                                 </div>
@@ -660,10 +733,10 @@ const Banner = () => {
                                         style={{ width: '100%', height: '40px' }}
                                         onChange={value => handleSelectModalLowyerTwoValue("languages", value)}
                                         options={[
-                                            { label: "English", value: "e" },
-                                            { label: "Spanish", value: "s" },
-                                            { label: "German", value: "g" },
-                                            { label: "Russian", value: "r" }
+                                            { label: "English", value: "English" },
+                                            { label: "Spanish", value: "Spanish" },
+                                            { label: "German", value: "German" },
+                                            { label: "Russian", value: "Russian" }
                                         ]}
                                     />
                                 </div>
@@ -854,12 +927,12 @@ const Banner = () => {
                                     className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
                                     width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                                    <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
                                     <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
                                     <circle cx="264" cy="20" r="16" fill="#1B69AD" />
-                                    <path d="M258.167 20.8335L261.5 24.1668L269.833 15.8335" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M258.167 20.8335L261.5 24.1668L269.833 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
                                     <rect x="280" y="19" width="212" height="2" fill="#1B69AD" />
-                                    <circle cx="508" cy="20" r="15" stroke="#1B69AD" stroke-width="2" />
+                                    <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
                                     <circle cx="508" cy="20" r="5" fill="#1B69AD" />
                                 </svg>
 
@@ -994,7 +1067,6 @@ const Banner = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-3">
                         {/* {bannerImage?.map((item, index) => {
                             const isHovered = hoverIndex === index;
-
                             return (
                                 <div
                                     key={index}
@@ -1034,8 +1106,8 @@ const Banner = () => {
                                 return (
                                     <div
                                         key={index}
-                                        className="relative bg-[#FFFFFF] min-w-[280px] md:min-w-[300px] lg:min-w-[510px] min-h-[150px] md:min-h-[180px] lg:min-h-[204px] flex flex-col justify-center items-center p-3 rounded-[24px] hover:bg-primary hover:opacity-85 group overflow-hidden"
-
+                                        className="relative cursor-pointer bg-[#FFFFFF] min-w-[280px] md:min-w-[300px] lg:min-w-[510px] min-h-[150px] md:min-h-[180px] lg:min-h-[204px] flex flex-col justify-center items-center p-3 rounded-[24px] hover:bg-primary hover:opacity-85 group overflow-hidden"
+                                        onClick={() => (handleCateogrie(item.name), showModalCategorie())}
                                     >
 
                                         <div className='flex flex-col justify-center items-center'>
@@ -1048,12 +1120,226 @@ const Banner = () => {
                                                 {item.name}
                                             </h4>
                                         </div>
-
-
                                     </div>
                                 )
                             })
                         }
+
+                        {/* categorie for first modal */}
+                        <Modal centered open={categorieModalOpen} onOk={handleCategorieOk} onCancel={handleCancelCategorie}
+                            width={600}
+                            footer={
+                                <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                                    <button
+                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                        onClick={handleCancelCategorie}
+                                    >
+                                        Back
+                                    </button>
+                                    <button
+                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                        onClick={handleCategorieOk}
+                                    >
+                                        Continue
+                                    </button>
+                                </div>
+                            }
+                        // okText="Continue"
+                        // cancelText="Back"
+                        // okButtonProps={{
+                        //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
+                        // }}
+                        // cancelButtonProps={{
+                        //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
+                        // }}
+                        >
+
+
+                            <div>
+                                <svg className='mb-4' width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                                    <circle cx="20" cy="20" r="5" fill="#1B69AD" />
+                                    <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
+                                    <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
+                                </svg>
+
+                                <hr />
+
+                                <div className='pt-4'>
+                                    <Title level={4} className='text-[14px] font-roboto font-bold text-[#001018]'>
+                                        Location
+                                    </Title>
+                                </div>
+
+
+                                <div className='pb-4'>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Select your location</p>
+                                    <Select
+                                        showSearch
+                                        placeholder="Select..."
+                                        style={{ width: '100%', height: '40px' }}
+                                        onChange={value => handleSeleCtcategorieValue("location", value)}
+                                        options={[
+                                            { value: 'New Jersey', label: 'New Jersey' },
+                                            { value: 'New York', label: 'New York' },
+                                            { value: 'Pennsylvania', label: 'Pennsylvania' },
+                                            { value: 'Washington, D.C', label: 'Washington, D.C' },
+                                        ]}
+                                    />
+                                </div>
+
+                                <div>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>City</p>
+                                    <Select
+                                        showSearch
+                                        placeholder="Select..."
+                                        style={{ width: '100%', height: '40px' }}
+                                        onChange={value => handleSeleCtcategorieValue("city", value)}
+                                        options={[
+                                            { label: "English", value: "English" },
+                                            { label: "Spanish", value: "Spanish" },
+                                            { label: "German", value: "German" },
+                                            { label: "Russian", value: "Russian" }
+                                        ]}
+                                    />
+                                </div>
+                            </div>
+
+                        </Modal>
+
+                        {/* categorie for second modal */}
+                        <Modal centered open={categorieSecondModalOpen} onOk={handleOkCategorieTwo} onCancel={handleCancelCategorieTwo}
+                            width={600}
+                            footer={
+                                <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                                    <button
+                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                        onClick={handleCancelCategorieTwo}
+                                    >
+                                        Back
+                                    </button>
+                                    <button
+                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                        onClick={handleOkCategorieTwo}
+                                    >
+                                        Continue
+                                    </button>
+                                </div>
+                            }
+                        // okText="Done"
+                        // cancelText="Back"
+                        // okButtonProps={{
+                        //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
+                        // }}
+                        // cancelButtonProps={{
+                        //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
+                        // }}
+                        >
+
+
+                            <div>
+                                <svg
+                                    className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
+                                    width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                                    <path d="M14.167 20.834L17.5003 24.1673L25.8337 15.834" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
+                                    <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                                    <circle cx="508" cy="20" r="5" fill="#1B69AD" />
+                                </svg>
+
+                                <hr />
+                                <div className='pt-4'>
+                                    <Title level={4} className='text-[14px] font-roboto font-bold text-[#001018]'>
+                                        Find the exact Attorny by filter
+                                    </Title>
+                                </div>
+
+
+                                <div className='pb-4'>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Lawyer experience</p>
+                                    <Select
+                                        showSearch
+                                        placeholder="Select..."
+                                        style={{ width: '100%', height: '40px' }}
+                                        onChange={value => handleSelectChange("lawyerExperience", value)}
+                                        options={[
+                                            { label: "1-3 Years", value: "1-3" },
+                                            { label: "4-7 Years", value: "4-7" },
+                                            { label: "8+ Years", value: "8+" }
+                                        ]}
+                                    />
+                                </div>
+
+                                <div className='pb-4'>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Location</p>
+                                    <Select
+                                        showSearch
+                                        placeholder="Select..."
+                                        style={{ width: '100%', height: '40px' }}
+                                        onChange={value => handleSelectChange("location", value)}
+                                        options={[
+                                            { label: "New York", value: "new-york" },
+                                            { label: "Los Angeles", value: "los-angeles" },
+                                            { label: "Chicago", value: "chicago" }
+                                        ]}
+
+                                    />
+                                </div>
+
+                                <div className='pb-4'>
+                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Languages</p>
+                                    <Select
+                                        showSearch
+                                        placeholder="Select..."
+                                        style={{ width: '100%', height: '40px' }}
+                                        onChange={value => handleSelectChange("languages", value)}
+                                        options={cityOptions}
+                                    // options={[
+                                    //     { label: "New York", value: "new-york" },
+                                    //     { label: "Los Angeles", value: "los-angeles" },
+                                    //     { label: "Chicago", value: "chicago" }
+                                    // ]}
+                                    />
+                                </div>
+
+                                <div className='pb-4'>
+                                    <div className='flex justify-between items-center gap-6 pb-4'>
+                                        {/* <div className='w-full'>
+                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
+                                            <DatePicker style={{ width: "100%", height: '40px' }} onChange={handleDateChangeLowyerModal} />
+                                        </div> */}
+
+                                        <div className='w-full'>
+                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
+                                            <Space wrap>
+                                                <Select
+                                                    defaultValue="Select day.."
+                                                    style={{ width: 150 }}
+                                                    o
+                                                    options={[
+                                                        { value: 'Monday', label: 'Monday' },
+                                                        { value: 'Tuesday', label: 'Tuesday' },
+                                                        { value: 'Wednesday', label: 'Wednesday' },
+                                                        { value: 'Thursday', label: 'Thursday' },
+                                                        { value: 'Friday', label: 'Friday' },
+                                                        { value: 'Saturday', label: 'Saturday' },
+                                                        { value: 'Sunday', label: 'Sunday' },
+                                                    ]}
+                                                />
+                                            </Space>
+                                        </div>
+
+
+                                        <div className='w-full'>
+                                            {/* date picker component*/}
+                                            <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
+                                            <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeLowyerModal} />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Modal>
                     </div>
                 </div>
             </div>
