@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Typography, Space, Modal, Select, TimePicker, DatePicker, Input, Upload } from "antd";
 const { Title } = Typography;
 
@@ -393,7 +393,7 @@ const Banner = () => {
     }
     const handleCancelCategorie = () => {
         setCategorieModalOpen(false);
-     
+
     }
 
     //=============== categorie first modal end =================
@@ -464,12 +464,42 @@ const Banner = () => {
         },
     ]
 
-    const role = "user"
+    const role = "lawyer"
 
 
     const handleCateogrie = (name) => {
         console.log(name)
     }
+
+
+    useEffect(() => {
+        // Disable scroll when any modal is open
+        if (isModalOpen || isModalOpenTow || isModalOpenThree || categorieModalOpen || categorieSecondModalOpen || lawyerModalOpenTwo || lawyerModalOpenThree ||categorieModalOpen || categorieSecondModalOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            // Re-enable scroll when no modal is open
+            document.body.style.overflow = "auto";
+        }
+        return () => {
+            document.body.style.overflow = "auto"; // Cleanup function
+        };
+    }, [isModalOpen, isModalOpenTow, isModalOpenThree, lawyerModalOpenTwo, lawyerModalOpenThree,categorieModalOpen, categorieSecondModalOpen]);
+
+
+
+    // useEffect(() => {
+    //     if (categorieModalOpen || categorieSecondModalOpen) {
+    //         document.body.style.overflow = "hidden";
+    //     } else {
+    //         document.body.style.overflow = "auto";
+    //     }
+
+    //     return () => {
+    //         document.body.style.overflow = "auto"; // Cleanup function
+    //     };
+    // }, [categorieModalOpen, categorieSecondModalOpen]);
+
+
 
     return (
         <div className="bg-[#F5F5F7] container mx-auto px-2 md:px-4 pb-6 md:pb-[36px] lg:pb-[64px]">
@@ -875,7 +905,6 @@ const Banner = () => {
                                             <Select
                                                 defaultValue="Select day.."
                                                 style={{ width: 150 }}
-                                                o
                                                 options={[
                                                     { value: 'Monday', label: 'Monday' },
                                                     { value: 'Tuesday', label: 'Tuesday' },
