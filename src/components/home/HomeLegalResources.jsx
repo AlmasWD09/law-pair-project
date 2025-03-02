@@ -3,17 +3,17 @@ const HomeLegalResources = () => {
 
     const resurcesData = [
         {
-            image: "/legalImage/legal1.png",
+            image: "/legalImage/edit1.png",
             name: "Your Legal Compass",
             description: "Navigate complex legal matters with clarity and confidence."
         },
         {
-            image: "/legalImage/legal2.png",
+            image: "/legalImage/edit2.png",
             name: "Your Legal Compass",
             description: "Navigate complex legal matters with clarity and confidence."
         },
         {
-            image: "/legalImage/legal3.png",
+            image: "/legalImage/edit3.png",
             name: "Your Legal Compass",
             description: "Navigate complex legal matters with clarity and confidence."
         },

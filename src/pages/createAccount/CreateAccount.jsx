@@ -404,11 +404,6 @@ const CreateAccount = () => {
                 </div>
             ),
         },
-        {
-            key: '3',
-            label: 'Create In-House Counsel/HR Business Partner/Business Owner',
-            children: <div className="min-h-[500px] flex items-center justify-center"><p className="text-center text-2xl font-bold text-gray-500">Data Not Found</p></div>,
-        },
     ];
 
 

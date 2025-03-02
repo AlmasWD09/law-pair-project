@@ -119,14 +119,20 @@ const Banner = () => {
         "Residential Real Estate",
         "Business Formation",
         "Commercial Real Estate",
-    ];
+    ].map((option, index) => ({ id: index + 1, name: option }));
 
     const handleSelect = (option) => {
-        setSelectedOptions((prev) =>
-            prev.includes(option)
-                ? prev.filter((item) => item !== option)
-                : [...prev, option]
-        );
+        setSelectedOptions((prev) => {
+            if (prev.includes(option.id)) {
+
+                return prev.filter((item) => item !== option.id);
+            } else if (prev.length < 3) {
+
+                return [...prev, option.id];
+            } else {
+                return prev;
+            }
+        });
     };
 
     //====================== first modal end =================
@@ -352,48 +358,39 @@ const Banner = () => {
 
     const bannerImage = [
         {
-            image1: "/bannerCard/card1.png",
-            image2: "/bannerCard/hover1.png",
+            image_icon: "/bannerCard/card1.png",
             name: "Immigration",
         },
         {
-            image1: "/bannerCard/card2.png",
-            image2: "/bannerCard/hover2.png",
+            image_icon: "/bannerCard/card2.png",
             name: "Wills & Trusts",
         },
         {
-            image1: "/bannerCard/card3.png",
-            image2: "/bannerCard/hover3.png",
+            image_icon: "/bannerCard/card3.png",
             name: "Family & Matrimonial",
         },
         {
-            image1: "/bannerCard/card4.png",
-            image2: "/bannerCard/hover4.png",
+            image_icon: "/bannerCard/card4.png",
             name: "Trademarks",
         },
         {
-            image1: "/bannerCard/card5.png",
-            image2: "/bannerCard/hover5.png",
+            image_icon: "/bannerCard/card5.png",
             name: "Advance Care Planning",
         },
         {
-            image1: "/bannerCard/card6.png",
-            image2: "/bannerCard/hover6.png",
+            image_icon: "/bannerCard/card6.png",
             name: "Criminal Defense",
         },
         {
-            image1: "/bannerCard/card7.png",
-            image2: "/bannerCard/hover7.png",
+            image_icon: "/bannerCard/card7.png",
             name: "Residential Real Estate",
         },
         {
-            image1: "/bannerCard/card8.png",
-            image2: "/bannerCard/hover8.png",
+            image_icon: "/bannerCard/card8.png",
             name: "Business Formation",
         },
         {
-            image1: "/bannerCard/card9.png",
-            image2: "/bannerCard/hover9.png",
+            image_icon: "/bannerCard/card9.png",
             name: "Commercial Real Estate",
         },
     ]
@@ -406,7 +403,7 @@ const Banner = () => {
             <div className="text-center pt-[60px] lg:pt-[193px] pb-[60px] lg:pb-[297px]">
                 {/* <h1 className="text-[48px] md:text-[76px] lg:text-[96px] font-crimson font-semibold text-primary ">LawPair</h1> */}
                 <div className='flex justify-center items-center pb-6 md:pb-10'>
-                <img src="/logo4.png" alt="logo" className=''/>
+                    <img src="/logo4.png" alt="logo" className='' />
                 </div>
                 {/* <p className="max-w-[600px] mx-auto font-roboto font-normal h-[73px] text-[#41414D] md:pt-[48px] pb-[104px] leading-[28px]">No hassle. No fees. We've streamlined the attorney search process so that <br /> you can focus on what matters most.</p> */}
 
@@ -446,7 +443,9 @@ const Banner = () => {
                     <div>
                         <div style={{ maxWidth: "90%", margin: "auto", textAlign: "center" }}>
 
-                            <svg width="100%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg
+                                className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
+                                width="100%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
                                 <circle cx="20" cy="20" r="5" fill="#1B69AD" />
                                 <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
@@ -460,24 +459,44 @@ const Banner = () => {
 
 
                             <Space wrap>
-                                {options.map((option) => (
+                                {options.map((option, index) => (
+                                    // <Button
+                                    //     key={index}
+                                    //     onClick={() => handleSelect(option)}
+                                    //     style={{
+                                    //         borderRadius: 20,
+
+                                    //         backgroundColor: selectedOptions.includes(option.id) ? "#1b69ad" : "#FFFFFF",
+                                    //         color: selectedOptions.includes(option.id) ? "#FFFFFF" : "#1b69ad",
+                                    //         border: "1px solid #B6B6BA",
+                                    //         fontWeight: "bold",
+                                    //         fontSize: "16px",
+                                    //         fontFamily: "Roboto",
+                                    //         padding: "20px"
+                                    //     }}
+                                    // >
+                                    //     {option.name}
+                                    // </Button>
                                     <Button
-                                        key={option}
+                                        key={index}
                                         onClick={() => handleSelect(option)}
+                                        disabled={selectedOptions.length === 3 && !selectedOptions.includes(option.id)}
                                         style={{
                                             borderRadius: 20,
-
-                                            backgroundColor: selectedOptions.includes(option) ? "#1b69ad" : "#FFFFFF",
-                                            color: selectedOptions.includes(option) ? "#FFFFFF" : "#1b69ad",
+                                            backgroundColor: selectedOptions.includes(option.id) ? "#1b69ad" : "#FFFFFF",
+                                            color: selectedOptions.includes(option.id) ? "#FFFFFF" : "#1b69ad",
                                             border: "1px solid #B6B6BA",
                                             fontWeight: "bold",
                                             fontSize: "16px",
                                             fontFamily: "Roboto",
-                                            padding: "20px"
+                                            padding: "20px",
+                                            cursor: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? "not-allowed" : "pointer",
+                                            opacity: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? 0.5 : 1,
                                         }}
                                     >
-                                        {option}
+                                        {option.name}
                                     </Button>
+
                                 ))}
                             </Space>
 
@@ -592,7 +611,8 @@ const Banner = () => {
 
 
                             <div>
-                                <svg className='mb-4' width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg
+                                    className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]" width="40" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="20" cy="20" r="16" fill="#1B69AD" />
                                     <path d="M14.167 20.8335L17.5003 24.1668L25.8337 15.8335" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
@@ -704,7 +724,9 @@ const Banner = () => {
 
 
                         <div>
-                            <svg className='mb-4' width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg
+                                className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
+                                width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="20" cy="20" r="16" fill="#1B69AD" />
                                 <path d="M14.167 20.834L17.5003 24.1673L25.8337 15.834" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
@@ -768,13 +790,38 @@ const Banner = () => {
                             </div>
 
                             <div className='pb-4'>
-                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability</p>
-                                <div className='flex justify-between items-center gap-6'>
-                                    <DatePicker style={{ width: "50%", height: '40px' }} onChange={handleDateChange} />
+                                <div className='flex justify-between items-center gap-6 pb-4'>
+                                    {/* <div className='w-full'>
+                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
+                                            <DatePicker style={{ width: "100%", height: '40px' }} onChange={handleDateChangeLowyerModal} />
+                                        </div> */}
+
+                                    <div className='w-full'>
+                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
+                                        <Space wrap>
+                                            <Select
+                                                defaultValue="Select day.."
+                                                style={{ width: 150 }}
+                                                o
+                                                options={[
+                                                    { value: 'Monday', label: 'Monday' },
+                                                    { value: 'Tuesday', label: 'Tuesday' },
+                                                    { value: 'Wednesday', label: 'Wednesday' },
+                                                    { value: 'Thursday', label: 'Thursday' },
+                                                    { value: 'Friday', label: 'Friday' },
+                                                    { value: 'Saturday', label: 'Saturday' },
+                                                    { value: 'Sunday', label: 'Sunday' },
+                                                ]}
+                                            />
+                                        </Space>
+                                    </div>
 
 
-                                    {/* date picker component*/}
-                                    <TimePicker style={{ width: "50%", height: '40px' }} onChange={handleTimeChange} />
+                                    <div className='w-full'>
+                                        {/* date picker component*/}
+                                        <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
+                                        <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeLowyerModal} />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -803,7 +850,9 @@ const Banner = () => {
 
 
                             <div>
-                                <svg className='mb-4' width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg
+                                    className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
+                                    width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="20" cy="20" r="16" fill="#1B69AD" />
                                     <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
@@ -859,9 +908,29 @@ const Banner = () => {
 
                                 <div className='pb-4'>
                                     <div className='flex justify-between items-center gap-6 pb-4'>
-                                        <div className='w-full'>
+                                        {/* <div className='w-full'>
                                             <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
                                             <DatePicker style={{ width: "100%", height: '40px' }} onChange={handleDateChangeLowyerModal} />
+                                        </div> */}
+
+                                        <div className='w-full'>
+                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
+                                            <Space wrap>
+                                                <Select
+                                                    defaultValue="Select day.."
+                                                    style={{ width: 150 }}
+                                                    o
+                                                    options={[
+                                                        { value: 'Monday', label: 'Monday' },
+                                                        { value: 'Tuesday', label: 'Tuesday' },
+                                                        { value: 'Wednesday', label: 'Wednesday' },
+                                                        { value: 'Thursday', label: 'Thursday' },
+                                                        { value: 'Friday', label: 'Friday' },
+                                                        { value: 'Saturday', label: 'Saturday' },
+                                                        { value: 'Sunday', label: 'Sunday' },
+                                                    ]}
+                                                />
+                                            </Space>
                                         </div>
 
 
@@ -914,7 +983,7 @@ const Banner = () => {
             <div>
                 <div className="max-w-[695px] mx-auto text-center text-wrap pb-[36px]">
                     <h1 className="font-roboto font-bold text-[24px] md:text-[32px] textpri">Find the Legal Help You Need</h1>
-                    <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px]">Finding the right legal support has never been easier. Select up to 3 practice areas to find your LawPair Suggested (TM) attorney today</p>
+                    <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px] leading-[35px]">Finding the right legal support has never been easier. Select up to 3 practice areas to find your LawPair Suggested <sup>(TM)</sup> attorney today</p>
                 </div>
 
 
@@ -923,18 +992,18 @@ const Banner = () => {
                 {/* banner curd */}
                 <div className="flex justify-center items-center">
                     <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-3">
-                        {bannerImage?.map((item, index) => {
+                        {/* {bannerImage?.map((item, index) => {
                             const isHovered = hoverIndex === index;
 
                             return (
                                 <div
                                     key={index}
                                     className="relative bg-[#FFFFFF] min-w-[280px] md:min-w-[300px] lg:min-w-[510px] min-h-[150px] md:min-h-[180px] lg:min-h-[204px] flex flex-col justify-center items-center p-3 rounded-[24px] hover:bg-primary hover:text-white group overflow-hidden"
-                                    onMouseEnter={() => setHoverIndex(index)} // Desktop hover
+                                    onMouseEnter={() => setHoverIndex(index)} 
                                     onMouseLeave={() => setHoverIndex(null)}
-                                    onClick={() => setHoverIndex(isHovered ? null : index)} // Mobile click
+                                    onClick={() => setHoverIndex(isHovered ? null : index)} 
                                 >
-                                    {/* Default Content (Before Hover) */}
+                                   
                                     <div className={`flex flex-col justify-center items-center ${isHovered ? "opacity-0" : "opacity-100"}`}>
                                         <img
                                             src={item.image1}
@@ -946,7 +1015,7 @@ const Banner = () => {
                                         </h4>
                                     </div>
 
-                                    {/* Hover Content (After Hover) */}
+                                
                                     <div
                                         className={`absolute left-0 top-0 w-full h-full flex flex-col justify-center items-center transition-opacity duration-300 ease-in-out ${isHovered ? "opacity-100" : "opacity-0"
                                             }`}
@@ -958,12 +1027,35 @@ const Banner = () => {
                                     </div>
                                 </div>
                             );
-                        })}
+                        })} */}
+
+                        {
+                            bannerImage.map((item, index) => {
+                                return (
+                                    <div
+                                        key={index}
+                                        className="relative bg-[#FFFFFF] min-w-[280px] md:min-w-[300px] lg:min-w-[510px] min-h-[150px] md:min-h-[180px] lg:min-h-[204px] flex flex-col justify-center items-center p-3 rounded-[24px] hover:bg-primary hover:opacity-85 group overflow-hidden"
+
+                                    >
+
+                                        <div className='flex flex-col justify-center items-center'>
+                                            <img
+                                                src={item.image_icon}
+                                                alt="default image"
+                                                className="pb-[8px] transition-opacity duration-300 ease-in-out"
+                                            />
+                                            <h4 className="text-[18px] font-semibold md:font-bold font-roboto text-center">
+                                                {item.name}
+                                            </h4>
+                                        </div>
+
+
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 </div>
-
-
-
             </div>
         </div>
     )
