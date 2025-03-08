@@ -32,7 +32,7 @@ const CommonLayout = () => {
 
             ),
             name: "Total Users",
-            subscribe: count.total_users,
+            subscribe: count?.total_users,
             title: "0.5 increase in last 7 days",
         },
         {

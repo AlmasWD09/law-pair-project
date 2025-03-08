@@ -464,7 +464,7 @@ const Banner = () => {
         },
     ]
 
-    const role = "lawyer"
+    const role = "user"
 
 
     const handleCateogrie = (name) => {
@@ -474,7 +474,7 @@ const Banner = () => {
 
     useEffect(() => {
         // Disable scroll when any modal is open
-        if (isModalOpen || isModalOpenTow || isModalOpenThree || categorieModalOpen || categorieSecondModalOpen || lawyerModalOpenTwo || lawyerModalOpenThree ||categorieModalOpen || categorieSecondModalOpen) {
+        if (isModalOpen || isModalOpenTow || isModalOpenThree || categorieModalOpen || categorieSecondModalOpen || lawyerModalOpenTwo || lawyerModalOpenThree || categorieModalOpen || categorieSecondModalOpen) {
             document.body.style.overflow = "hidden";
         } else {
             // Re-enable scroll when no modal is open
@@ -483,7 +483,7 @@ const Banner = () => {
         return () => {
             document.body.style.overflow = "auto"; // Cleanup function
         };
-    }, [isModalOpen, isModalOpenTow, isModalOpenThree, lawyerModalOpenTwo, lawyerModalOpenThree,categorieModalOpen, categorieSecondModalOpen]);
+    }, [isModalOpen, isModalOpenTow, isModalOpenThree, lawyerModalOpenTwo, lawyerModalOpenThree, categorieModalOpen, categorieSecondModalOpen]);
 
 
 
