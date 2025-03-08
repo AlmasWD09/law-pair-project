@@ -468,7 +468,7 @@ const Banner = () => {
 
 
     const handleCateogrie = (name) => {
-        console.log(name)
+       
     }
 
 
