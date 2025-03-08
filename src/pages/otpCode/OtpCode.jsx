@@ -23,23 +23,24 @@ const OtpCode = () => {
             otp: values.otp
         }
 
-        try {
-            const response = await axiosPublic.post("/verify-email", otpCode);
-            console.log('check token---', response.data)
-            if ((response.data.success) && (response.data.access_token)) {
 
-                Cookies.set("otpToken", response?.data?.access_token, { expires: 7, secure: true, sameSite: "Strict" });
+        // try {
+        //     const response = await axiosPublic.post("/verify-email", otpCode);
+        //     console.log('check token---', response.data)
+        //     if ((response.data.success) && (response.data.access_token)) {
 
-                toast.success("OTP send successfully.");
-                navigate('/')
-                form.resetFields();
-            } else {
-                toast.error("Failed to send OTP. Try again.");
-            }
-        }
-        catch (error) {
-            toast.error("Error sending OTP. Please try again.");
-        }
+        //         Cookies.set("otpToken", response?.data?.access_token, { expires: 7, secure: true, sameSite: "Strict" });
+
+        //         toast.success("OTP send successfully.");
+        //         navigate('/')
+        //         form.resetFields();
+        //     } else {
+        //         toast.error("Failed to send OTP. Try again.");
+        //     }
+        // }
+        // catch (error) {
+        //     toast.error("Error sending OTP. Please try again.");
+        // }
 
         form.resetFields();
         setIsModalOpen(false);
@@ -49,18 +50,19 @@ const OtpCode = () => {
 
     const handleResendOtp = async () => {
         setLoading(true);
-        try {
-            const response = await axiosPublic.post("/resent-otp", { email });
-            console.log(response.data)
-            if (response.data.success) {
-                toast.success("OTP has been resent successfully.");
-            } else {
-                toast.error("Failed to resend OTP. Try again.");
-            }
-        }
-        catch (error) {
-            toast.error("Error sending OTP. Please try again.");
-        }
+
+        // try {
+        //     const response = await axiosPublic.post("/resent-otp", { email });
+        //     console.log(response.data)
+        //     if (response.data.success) {
+        //         toast.success("OTP has been resent successfully.");
+        //     } else {
+        //         toast.error("Failed to resend OTP. Try again.");
+        //     }
+        // }
+        // catch (error) {
+        //     toast.error("Error sending OTP. Please try again.");
+        // }
 
         setLoading(false);
     };
@@ -101,7 +103,7 @@ const OtpCode = () => {
                     </Form>
                 </div>
                 <div className="text-center pt-8">
-                    <p className="text-[14px] font-roboto">Didn’t get OTP yet? <Link to={'#'} onClick={handleResendOtp} className="text-primary font-bold font-roboto">Resend</Link></p>
+                    <p className="text-[14px] font-roboto">Didn’t get OTP yet? <span onClick={handleResendOtp} className="text-primary font-bold font-roboto">Resend</span></p>
                 </div>
             </div>
         </AccountCreate>

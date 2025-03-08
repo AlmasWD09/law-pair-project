@@ -44,44 +44,6 @@ const ForgetPassword = () => {
                 <div className="w-full md:w-[478px] min-h-[292px] bg-[#FFFFFF] p-6 rounded-lg shadow-lg">
                     <h2 className="text-[26px] font-bold font-roboto text-[#10101E]  mb-0">Forgot password?</h2>
                     <p className="font-roboto text-[#121221] text-[16px] pb-[32px]">No worries, we’re here help you to recover your password.</p>
-                    {/* <Form form={form} layout="vertical" onFinish={onFinish}>
-                        <div>
-                            <p className="font-roboto">Enter your new password</p>
-                            <Form.Item
-                                name="password"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input your password!',
-                                    },
-                                ]}
-                            >
-                                <Input.Password type="password" placeholder="Create your new password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-                            </Form.Item>
-                        </div>
-
-                        <div>
-                            <p className="font-roboto">Re-enter new password</p>
-                            <Form.Item
-                                name="re-enter-password"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input your password!',
-                                    },
-                                ]}
-                            >
-                                <Input.Password type="password" placeholder="Re-enter your new password" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
-                            </Form.Item>
-                        </div>
-
-                 
-                        <Form.Item>
-                            <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
-                            Save password
-                            </Button>
-                        </Form.Item>
-                    </Form> */}
 
                     <Form form={form} layout="vertical" onFinish={onFinish}>
                         <div>
@@ -100,11 +62,11 @@ const ForgetPassword = () => {
 
                         {/* submit button */}
                         <Form.Item>
-                            <Link to={'/otp-code'}>
+                            {/* <Link to={'/otp-code'}> */}
                             <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                                 Get OTP
                             </Button>
-                            </Link>
+                            {/* </Link> */}
                         </Form.Item>
                     </Form>
                 </div>

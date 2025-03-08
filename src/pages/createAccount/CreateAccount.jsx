@@ -19,7 +19,7 @@ const CreateAccount = () => {
 
     const onFinishOne = async (values) => {
 
-        const createAccountInfo = {
+        const createAccountUserInfo = {
             role: "user",
             first_name: values.first_name,
             last_name: values.last_name,
@@ -29,34 +29,33 @@ const CreateAccount = () => {
             password_confirmation: values.password_confirmation
         }
 
+        // try {
+        //     const res = await axiosPublic.post('/register', createAccountInfo);
+        //     console.log(res, 'data----------')
 
-        try {
-            const res = await axiosPublic.post('/register', createAccountInfo);
-            console.log(res, 'data----------')
+        //     if (res.data.success) {
+        //         setRoleValue(res.data.success.role)
+        //         toast.success(res.data.message);
+        //         navigate('/otp-code', { state: { email: values.email } })
+        //         formOne.resetFields()
 
-            if (res.data.success) {
-                setRoleValue(res.data.success.role)
-                toast.success(res.data.message);
-                navigate('/otp-code', { state: { email: values.email } })
-                formOne.resetFields()
+        //     }
 
-            }
-
-        } catch ({ response }) {
-            console.log(response)
-            if (response?.errors) {
-                // If validation errors are returned from Laravel
-                if (response.data.errors.email) {
-                    toast.error(response.data.errors.email[0]);  // Show first email error
-                } else if (response.data.errors.password) {
-                    toast.error(response.data.errors.password[0]);  // Show first password error
-                } else {
-                    toast.error("There was an error with your registration.");
-                }
-            } else {
-                toast.error(response?.data?.message || "Something went wrong.");
-            }
-        }
+        // } catch ({ response }) {
+        //     console.log(response)
+        //     if (response?.errors) {
+        //         // If validation errors are returned from Laravel
+        //         if (response.data.errors.email) {
+        //             toast.error(response.data.errors.email[0]);  // Show first email error
+        //         } else if (response.data.errors.password) {
+        //             toast.error(response.data.errors.password[0]);  // Show first password error
+        //         } else {
+        //             toast.error("There was an error with your registration.");
+        //         }
+        //     } else {
+        //         toast.error(response?.data?.message || "Something went wrong.");
+        //     }
+        // }
     };
 
 
@@ -71,33 +70,34 @@ const CreateAccount = () => {
             password_confirmation: values.password_confirmation
         }
 
+        console.log(createAttorneyInfo)
 
-        try {
-            const res = await axiosPublic.post('/register', createAttorneyInfo);
-            console.log(res.data, 'data 2222222----------')
+        // try {
+        //     const res = await axiosPublic.post('/register', createAttorneyInfo);
+        //     console.log(res.data, 'data 2222222----------')
 
-            if (res.data.success) {
-                setRoleValue(res.data.success.role)
-                toast.success(res.data.message);
-                navigate('/otp-code', { state: { email: values.email } })
-                formTwo.resetFields()
+        //     if (res.data.success) {
+        //         setRoleValue(res.data.success.role)
+        //         toast.success(res.data.message);
+        //         navigate('/otp-code', { state: { email: values.email } })
+        //         formTwo.resetFields()
 
-            }
+        //     }
 
-        } catch ({ response }) {
-            if (response?.errors) {
-                // If validation errors are returned from Laravel
-                if (response.data.errors.email) {
-                    toast.error(response.data.errors.email[0]);  // Show first email error
-                } else if (response.data.errors.password) {
-                    toast.error(response.data.errors.password[0]);  // Show first password error
-                } else {
-                    toast.error("There was an error with your registration.");
-                }
-            } else {
-                toast.error(response?.data?.message || "Something went wrong.");
-            }
-        }
+        // } catch ({ response }) {
+        //     if (response?.errors) {
+        //         // If validation errors are returned from Laravel
+        //         if (response.data.errors.email) {
+        //             toast.error(response.data.errors.email[0]);  // Show first email error
+        //         } else if (response.data.errors.password) {
+        //             toast.error(response.data.errors.password[0]);  // Show first password error
+        //         } else {
+        //             toast.error("There was an error with your registration.");
+        //         }
+        //     } else {
+        //         toast.error(response?.data?.message || "Something went wrong.");
+        //     }
+        // }
     }
 
     const items = [
@@ -173,9 +173,9 @@ const CreateAccount = () => {
                         </div>
 
                         <Form.Item>
-                           <Link to={'/otp-code'}>
+                           {/* <Link to={'/otp-code'}> */}
                            <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
-                           </Link>
+                           {/* </Link> */}
                         </Form.Item>
                     </Form>
                 </div>
@@ -189,7 +189,7 @@ const CreateAccount = () => {
                     <Form form={formTwo} layout="vertical" onFinish={onFinishTwo} className="space-y-4">
                         <div>
                             <p>First Name</p>
-                            <Form.Item name="first-name" rules={[{ required: true, message: "Please enter your first name" }]}>
+                            <Form.Item name="first_name" rules={[{ required: true, message: "Please enter your first name" }]}>
                                 <Input placeholder="Enter your first name" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
@@ -197,7 +197,7 @@ const CreateAccount = () => {
 
                         <div>
                             <p>Last Name</p>
-                            <Form.Item name="last-name" rules={[{ required: true, message: "Please enter your last name" }]}>
+                            <Form.Item name="last_name" rules={[{ required: true, message: "Please enter your last name" }]}>
                                 <Input placeholder="Enter your last name" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
@@ -219,15 +219,15 @@ const CreateAccount = () => {
 
                         <div>
                             <p>Confirm Password</p>
-                            <Form.Item name="confirm-password" rules={[{ required: true, message: "Please input your confirm password!" }]}>
+                            <Form.Item name="password_confirmation" rules={[{ required: true, message: "Please input your confirm password!" }]}>
                                 <Input.Password placeholder="Confirm your password" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
 
                         <Form.Item>
-                        <Link to={'/otp-code'}>
+                        {/* <Link to={'/otp-code'}> */}
                            <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
-                           </Link>
+                           {/* </Link> */}
                         </Form.Item>
                     </Form>
                 </div>
