@@ -173,8 +173,9 @@ const CreateAccount = () => {
                         </div>
 
                         <Form.Item>
-                            <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
-
+                           <Link to={'/otp-code'}>
+                           <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
+                           </Link>
                         </Form.Item>
                     </Form>
                 </div>
@@ -188,7 +189,7 @@ const CreateAccount = () => {
                     <Form form={formTwo} layout="vertical" onFinish={onFinishTwo} className="space-y-4">
                         <div>
                             <p>First Name</p>
-                            <Form.Item name="first_name" rules={[{ required: true, message: "Please enter your first name" }]}>
+                            <Form.Item name="first-name" rules={[{ required: true, message: "Please enter your first name" }]}>
                                 <Input placeholder="Enter your first name" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
@@ -196,7 +197,7 @@ const CreateAccount = () => {
 
                         <div>
                             <p>Last Name</p>
-                            <Form.Item name="last_name" rules={[{ required: true, message: "Please enter your last name" }]}>
+                            <Form.Item name="last-name" rules={[{ required: true, message: "Please enter your last name" }]}>
                                 <Input placeholder="Enter your last name" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
@@ -211,48 +212,26 @@ const CreateAccount = () => {
 
                         <div>
                             <p>Create Password</p>
-                            <Form.Item name="password" rules={[{ required: true, message: "Please input your password!" },
-                            { min: 8, message: "Password must be at least 8 characters!" }
-                            ]}
-                                hasFeedback
-                            >
+                            <Form.Item name="password" rules={[{ required: true, message: "Please input your password!" }]}>
                                 <Input.Password placeholder="Create your password" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
 
                         <div>
                             <p>Confirm Password</p>
-                            <Form.Item name="password_confirmation" dependencies={["password"]}
-                                rules={[
-                                    { required: true, message: "Please input your confirm password!" },
-                                    ({ getFieldValue }) => ({
-                                        validator(_, value) {
-                                            if (value.length < 8) {
-                                                return Promise.reject(new Error("Password must be at least 8 characters!"));
-                                            }
-                                            if (getFieldValue("password") !== value) {
-                                                return Promise.reject(new Error("Password does not match"));
-                                            }
-                                            return Promise.resolve();
-                                        },
-                                    }),
-                                ]}
-                                hasFeedback>
+                            <Form.Item name="confirm-password" rules={[{ required: true, message: "Please input your confirm password!" }]}>
                                 <Input.Password placeholder="Confirm your password" className="w-full border border-gray-400 p-2 rounded-md" />
                             </Form.Item>
                         </div>
 
                         <Form.Item>
-                            <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
+                        <Link to={'/otp-code'}>
+                           <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
+                           </Link>
                         </Form.Item>
                     </Form>
                 </div>
             ),
-        },
-        {
-            key: '3',
-            label: 'Create In-House Counsel/HR Business Partner/Business Owner',
-            children: <div className="min-h-[500px] flex items-center justify-center"><p className="text-center text-2xl font-bold text-gray-500">Data Not Found</p></div>,
         },
     ];
 
