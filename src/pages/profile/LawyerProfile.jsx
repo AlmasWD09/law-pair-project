@@ -1,7 +1,7 @@
 
 import { Link, } from "react-router-dom"
 import AccountCreate from "../../layout/AccountCreate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Modal } from "antd";
 
 const LawyerProfile = () => {
@@ -45,9 +45,23 @@ const LawyerProfile = () => {
     //=========== modal one end =============
 
 
-    const handleNavigate = () =>{
+    const handleNavigate = () => {
         console.log('dd')
     }
+
+
+    useEffect(() => {
+        // Disable scroll when any modal is open
+        if (modalOneOpen || modalTwoOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            // Re-enable scroll when no modal is open
+            document.body.style.overflow = "auto";
+        }
+        return () => {
+            document.body.style.overflow = "auto"; // Cleanup function
+        };
+    }, [modalOneOpen, modalTwoOpen]);
 
     return (
         <div className="bg-gray-100">
@@ -80,7 +94,7 @@ const LawyerProfile = () => {
                                             <path d="M12 7C13.1046 7 14 6.10457 14 5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5C10 6.10457 10.8954 7 12 7Z" fill="#121221" />
                                         </svg>
                                     </Button>
-                                    <Modal open={modalOneOpen} onCancel={handleCancel} footer={null}>
+                                    <Modal centered open={modalOneOpen} onCancel={handleCancel} footer={null}>
                                         <div onClick={handleNavigate} className="flex  gap-2">
                                             <span className="cursor-pointer">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,7 +119,7 @@ const LawyerProfile = () => {
                                     </Modal>
 
 
-                                    <Modal open={modalTwoOpen} onOk={handleOkTwo} onCancel={handleCancelTwo}
+                                    <Modal centered open={modalTwoOpen} onOk={handleOkTwo} onCancel={handleCancelTwo}
                                         footer={
                                             <div className="flex justify-end gap-2 md:gap-x-4 pt-[24px]">
                                                 <button

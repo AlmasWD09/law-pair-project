@@ -403,7 +403,7 @@ const Banner = () => {
         // } catch (error) {
         //     toast.error("Error sending data to the server:", error);
         // }
-    
+
 
 
     }
@@ -559,23 +559,6 @@ const Banner = () => {
 
                             <Space wrap>
                                 {categorieData.map((option, index) => (
-                                    // <Button
-                                    //     key={index}
-                                    //     onClick={() => handleSelect(option)}
-                                    //     style={{
-                                    //         borderRadius: 20,
-
-                                    //         backgroundColor: selectedOptions.includes(option.id) ? "#1b69ad" : "#FFFFFF",
-                                    //         color: selectedOptions.includes(option.id) ? "#FFFFFF" : "#1b69ad",
-                                    //         border: "1px solid #B6B6BA",
-                                    //         fontWeight: "bold",
-                                    //         fontSize: "16px",
-                                    //         fontFamily: "Roboto",
-                                    //         padding: "20px"
-                                    //     }}
-                                    // >
-                                    //     {option.name}
-                                    // </Button>
                                     <Button
                                         key={index}
                                         onClick={() => handleSelect(option)}
@@ -879,12 +862,11 @@ const Banner = () => {
                                     placeholder="Select..."
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectChange("languages", value)}
-                                    options={cityOptions}
-                                // options={[
-                                //     { label: "New York", value: "new-york" },
-                                //     { label: "Los Angeles", value: "los-angeles" },
-                                //     { label: "Chicago", value: "chicago" }
-                                // ]}
+                                    options={[
+                                        { label: "New York", value: "new-york" },
+                                        { label: "Los Angeles", value: "los-angeles" },
+                                        { label: "Chicago", value: "chicago" }
+                                    ]}
                                 />
                             </div>
 
@@ -1017,7 +999,7 @@ const Banner = () => {
                                                 <Select
                                                     defaultValue="Select day.."
                                                     style={{ width: 150 }}
-                                                    o
+
                                                     options={[
                                                         { value: 'Monday', label: 'Monday' },
                                                         { value: 'Tuesday', label: 'Tuesday' },
@@ -1074,9 +1056,6 @@ const Banner = () => {
 
                         </Modal>
                 }
-
-
-                {/* ddddddddddddd */}
 
 
             </div>
