@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 const CreateAccount = () => {
     const axiosPublic = useAxiosPublic()
@@ -21,7 +22,8 @@ const CreateAccount = () => {
     const onFinishOne = async (values) => {
 
         const createAccountUserInfo = {
-            role: "user",
+            // role: "Client",
+            role: "user", 
             first_name: values.first_name,
             last_name: values.last_name,
             location: values.location,

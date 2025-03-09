@@ -3,10 +3,12 @@ import { Form, Input, Button } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Tabs } from 'antd';
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
+
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
 const Login = () => {
@@ -14,8 +16,7 @@ const Login = () => {
     const [clientForm] = Form.useForm(); // Form instance
     const [attorneyForm] = Form.useForm(); // Form instance
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-
+    const navigate = useNavigate();
 
     const onChange = (key) => {
         clientForm.resetFields();  // Client form reset
@@ -23,38 +24,42 @@ const Login = () => {
     };
 
     const onFinishClient = async (values) => {
-
         const clientInfo = {
-            role: 'user',
+            role: "user",
             email: values.email,
             password: values.password
         }
 
-        console.log(clientInfo)
 
-        // try {
-        //     const response = await axiosPublic.post("/login", clientInfo,{ withCredentials: true });
-        //     console.log('response--------', response.data)
+        try {
+            const response = await axiosPublic.post("/login", clientInfo);
+            console.log(response.data)
 
-        //     if (response.data.success) {
-        //         toast.success("login success")
-        //         // Cookies.set('adminToken', response?.data?.access_token, {
-        //         //     expires: 7,  // Token expires in 7 days
-        //         //     secure: true,  // Ensures HTTPS usage
-        //         //     sameSite: 'Strict'  // Prevents CSRF attacks
-        //         // });
-        //     }
-        //     else {
-        //         toast.error(response.data.message)
-        //     }
-        // }
-        // catch (error) {
-        //     toast.error("Login Error. plz try again!");
-        // }
+            if (response.data.success) {
+                toast.success("login success")
+                Cookies.set('userToken', response?.data?.access_token, {
+                    expires: 7,
+                    secure: true,
+                    sameSite: 'Strict'
+                });
+                navigate('/')
+            }
+            else {
+                toast.error('login failed')
+            }
+        }
+        catch (error) {
+            toast.error("Login Error. plz try again!");
+        }
 
         clientForm.resetFields();
-        setIsModalOpen(false);
     };
+
+
+
+
+
+
 
 
 
@@ -66,25 +71,26 @@ const Login = () => {
             password: values.password
         }
 
- console.log(attorneyInfo)
-
-        // try {
-        //     const response = await axiosPublic.post("/login", attorneyInfo);
-        //     console.log(response.data)
-
-        //     if (response.data.success) {
-        //         toast.success("login success")
-        //     }
-        //     else {
-        //         toast.error('login failedddd')
-        //     }
-        // }
-        // catch (error) {
-        //     toast.error("Login Error. plz try again!");
-        // }
+        try {
+            const response = await axiosPublic.post("/login", attorneyInfo);
+            if (response.data.success) {
+                toast.success("login success")
+                Cookies.set('lawyerToken', response?.data?.access_token, {
+                    expires: 7,
+                    secure: true,
+                    sameSite: 'Strict'
+                });
+                navigate('/')
+            }
+            else {
+                toast.error('login failedddd')
+            }
+        }
+        catch (error) {
+            toast.error("Login Error. plz try again!");
+        }
 
         attorneyForm.resetFields();
-        setIsModalOpen(false);
     };
 
 
@@ -174,9 +180,9 @@ const Login = () => {
                     </div>
 
                     <div className="flex justify-end pb-2 pr-1">
-                        {/* <Link to={'/forget-password'}> */}
+                        <Link to={'/forget-password'}>
                             <h1 className="text-primary font-bold font-roboto">Forgot password?</h1>
-                        {/* </Link> */}
+                        </Link>
                     </div>
 
                     {/* Submit Button */}

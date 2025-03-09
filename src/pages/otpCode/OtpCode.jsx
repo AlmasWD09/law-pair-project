@@ -26,7 +26,8 @@ const OtpCode = () => {
             const response = await axiosPublic.post("/verify-email", otpCode);
             if ((response.data.success) && (response.data.access_token)) {
 
-                Cookies.set("otpToken", response?.data?.access_token, { expires: 7, secure: true, sameSite: "Strict" });
+                Cookies.set("otpToken", response?.data?.access_token,
+                    { expires: 7, secure: true, sameSite: "Strict" });
 
                 toast.success("OTP send successfully.");
                 navigate('/')

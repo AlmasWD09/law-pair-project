@@ -18,20 +18,20 @@ const ForgetPassword = () => {
             email: values.email,
         }
 
-        // try {
-        //     const response = await axiosPublic.post('/resent-otp', forgetInfo)
+        try {
+            const response = await axiosPublic.post('/resent-otp', forgetInfo)
 
-        //     if (response.data.success) {
-        //         navigate('/otp-code',{state:{email:forgetInfo.email}})
+            if (response.data.success) {
+                navigate('/otp-code',{state:{email:forgetInfo.email}})
 
-        //         toast.success(response.data.message)
-        //     } else {
-        //         toast.error(response.data.message)
-        //     }
+                toast.success(response.data.message)
+            } else {
+                toast.error(response.data.message)
+            }
 
-        // } catch (error) {
-        //     toast.error(error)
-        // }
+        } catch (error) {
+            toast.error(error)
+        }
 
 
         form.resetFields();
@@ -49,7 +49,6 @@ const ForgetPassword = () => {
                         <div>
                             <p className="font-roboto">Submit your email address</p>
                             <Form.Item
-
                                 name="email"
                                 rules={[
                                     { required: true, message: "Please enter your email!" },
