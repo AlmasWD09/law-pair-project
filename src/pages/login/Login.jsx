@@ -174,9 +174,9 @@ const Login = () => {
                     </div>
 
                     <div className="flex justify-end pb-2 pr-1">
-                        <Link to={'/forget-password'}>
+                        {/* <Link to={'/forget-password'}> */}
                             <h1 className="text-primary font-bold font-roboto">Forgot password?</h1>
-                        </Link>
+                        {/* </Link> */}
                     </div>
 
                     {/* Submit Button */}

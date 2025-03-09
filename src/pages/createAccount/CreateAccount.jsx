@@ -14,7 +14,8 @@ const CreateAccount = () => {
     const [roleValue, setRoleValue] = useState(null)
 
     const onChange = (key) => {
-        console.log(key);
+        formOne.resetFields();  // Client form reset
+        formTwo.resetFields();  // attorney form reset
     };
 
     const onFinishOne = async (values) => {
@@ -29,33 +30,32 @@ const CreateAccount = () => {
             password_confirmation: values.password_confirmation
         }
 
-        // try {
-        //     const res = await axiosPublic.post('/register', createAccountInfo);
-        //     console.log(res, 'data----------')
+        try {
+            const res = await axiosPublic.post('/register', createAccountUserInfo);
+            if (res.data.success) {
+                setRoleValue(res.data.success.role)
+                toast.success(res.data.message);
+                navigate('/otp-code', { state: { email: values.email } })
+                formOne.resetFields()
+            } else{
+                toast.error('The email has already been taken.')
+            }
 
-        //     if (res.data.success) {
-        //         setRoleValue(res.data.success.role)
-        //         toast.success(res.data.message);
-        //         navigate('/otp-code', { state: { email: values.email } })
-        //         formOne.resetFields()
-
-        //     }
-
-        // } catch ({ response }) {
-        //     console.log(response)
-        //     if (response?.errors) {
-        //         // If validation errors are returned from Laravel
-        //         if (response.data.errors.email) {
-        //             toast.error(response.data.errors.email[0]);  // Show first email error
-        //         } else if (response.data.errors.password) {
-        //             toast.error(response.data.errors.password[0]);  // Show first password error
-        //         } else {
-        //             toast.error("There was an error with your registration.");
-        //         }
-        //     } else {
-        //         toast.error(response?.data?.message || "Something went wrong.");
-        //     }
-        // }
+        } catch ({ response }) {
+            console.log(response)
+            if (response?.errors) {
+                // If validation errors are returned from Laravel
+                if (response.data.errors.email) {
+                    toast.error(response.data.errors.email[0]);  // Show first email error
+                } else if (response.data.errors.password) {
+                    toast.error(response.data.errors.password[0]);  // Show first password error
+                } else {
+                    toast.error("There was an error with your registration.");
+                }
+            } else {
+                toast.error(response?.data?.message || "Something went wrong.");
+            }
+        }
     };
 
 
@@ -173,9 +173,9 @@ const CreateAccount = () => {
                         </div>
 
                         <Form.Item>
-                           {/* <Link to={'/otp-code'}> */}
-                           <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
-                           {/* </Link> */}
+                            {/* <Link to={'/otp-code'}> */}
+                            <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
+                            {/* </Link> */}
                         </Form.Item>
                     </Form>
                 </div>
@@ -225,9 +225,9 @@ const CreateAccount = () => {
                         </div>
 
                         <Form.Item>
-                        {/* <Link to={'/otp-code'}> */}
-                           <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
-                           {/* </Link> */}
+                            {/* <Link to={'/otp-code'}> */}
+                            <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
+                            {/* </Link> */}
                         </Form.Item>
                     </Form>
                 </div>
