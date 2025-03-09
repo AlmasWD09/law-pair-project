@@ -58,10 +58,17 @@ const Banner = () => {
     // categorie modal
     const [categorieModalOpen, setCategorieModalOpen] = useState(false);
     const [categorieSecondModalOpen, setCategorieSecondModalOpen] = useState(false);
+    const [categorieName,setCategorieName] = useState('')
     const [categorieSelectValue, setCategorieSelecteValue] = useState({
         location: null,
         city: null,
     })
+    const [categorieSecondSelectValue, setCategorieSecondSelecteValue] = useState({
+        lawyerExperience: null,
+        location: null,
+        languages: null,
+        date: null,
+    });
 
 
     // first modal option get server
@@ -434,7 +441,7 @@ const Banner = () => {
     }
 
     const handleCategorieOk = () => {
-        console.log(categorieSelectValue)
+        // console.log('first modal---->',categorieSelectValue)
         setCategorieSecondModalOpen(true)
     }
     const handleCancelCategorie = () => {
@@ -446,24 +453,39 @@ const Banner = () => {
 
 
 
+
+
+
+
+
+
     //=============== categorie second modal start ===============
+    // categorie select value
+    const handleSeleSecondCtcategorieValue = (key, value) => {
+        setCategorieSecondSelecteValue(prev => ({
+            ...prev,
+            [key]: value
+        }))
+    }
+
     const handleOkCategorieTwo = () => {
-        console.log('click ok categorie')
-        navigate('/attorney-tm')
+        console.log(categorieName)
+        console.log(categorieSelectValue)
+        console.log(categorieSecondSelectValue)
+        // navigate('/attorney-tm')
     }
 
     const handleCancelCategorieTwo = () => {
-        console.log('click cancel categorie')
         setCategorieSecondModalOpen(false)
         setCategorieModalOpen(true)
     }
     //=============== categorie second modal end =================
 
 
-    const role = "lawyer"
+    const role = "user"
 
     const handleCateogrie = (name) => {
-
+       setCategorieName(name)
     }
 
 
@@ -1232,11 +1254,11 @@ const Banner = () => {
                                         showSearch
                                         placeholder="Select..."
                                         style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSelectChange("lawyerExperience", value)}
+                                        onChange={value => handleSeleSecondCtcategorieValue("lawyerExperience", value)}
                                         options={[
-                                            { label: "1-3 Years", value: "1-3" },
-                                            { label: "4-7 Years", value: "4-7" },
-                                            { label: "8+ Years", value: "8+" }
+                                            { label: "1-3 Years", value: "1-3 Years" },
+                                            { label: "4-7 Years", value: "4-7 Years" },
+                                            { label: "8+ Years", value: "8+ Years" }
                                         ]}
                                     />
                                 </div>
@@ -1247,7 +1269,7 @@ const Banner = () => {
                                         showSearch
                                         placeholder="Select..."
                                         style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSelectChange("location", value)}
+                                        onChange={value => handleSeleSecondCtcategorieValue("location", value)}
                                         options={[
                                             { label: "New York", value: "new-york" },
                                             { label: "Los Angeles", value: "los-angeles" },
@@ -1263,11 +1285,12 @@ const Banner = () => {
                                         showSearch
                                         placeholder="Select..."
                                         style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSelectChange("languages", value)}
+                                        onChange={value => handleSeleSecondCtcategorieValue("languages", value)}
                                         options={[
-                                            { label: "New York", value: "new-york" },
-                                            { label: "Los Angeles", value: "los-angeles" },
-                                            { label: "Chicago", value: "chicago" }
+                                            { label: "English", value: "English" },
+                                            { label: "Spanish", value: "Spanish" },
+                                            { label: "German", value: "German" },
+                                            { label: "Russian", value: "Russian" }
                                         ]}
                                     />
                                 </div>
@@ -1285,7 +1308,7 @@ const Banner = () => {
                                                 <Select
                                                     defaultValue="Select day.."
                                                     style={{ width: 150 }}
-                                                    o
+                                                    onChange={value => handleSeleSecondCtcategorieValue("availability", value)}
                                                     options={[
                                                         { value: 'Monday', label: 'Monday' },
                                                         { value: 'Tuesday', label: 'Tuesday' },
