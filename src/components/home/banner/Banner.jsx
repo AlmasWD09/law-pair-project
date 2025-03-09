@@ -67,7 +67,7 @@ const Banner = () => {
         lawyerExperience: null,
         location: null,
         languages: null,
-        date: null,
+        time: null,
     });
 
 
@@ -460,6 +460,13 @@ const Banner = () => {
 
 
     //=============== categorie second modal start ===============
+    const handleTimeChangeSecondCategorieModal = (time, timeString) => {
+        setCategorieSecondSelecteValue(prev => ({
+            ...prev,
+            time: timeString
+        }));
+    };
+
     // categorie select value
     const handleSeleSecondCtcategorieValue = (key, value) => {
         setCategorieSecondSelecteValue(prev => ({
@@ -1326,7 +1333,7 @@ const Banner = () => {
                                         <div className='w-full'>
                                             {/* date picker component*/}
                                             <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
-                                            <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeLowyerModal} />
+                                            <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeSecondCategorieModal} />
                                         </div>
                                     </div>
                                 </div>
