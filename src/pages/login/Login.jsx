@@ -42,7 +42,7 @@ const Login = () => {
                     secure: true,
                     sameSite: 'Strict'
                 });
-                navigate('/')
+                navigate('/user-profile')
             }
             else {
                 toast.error('login failed')
@@ -80,7 +80,7 @@ const Login = () => {
                     secure: true,
                     sameSite: 'Strict'
                 });
-                navigate('/')
+                navigate('/lawyer-profile')
             }
             else {
                 toast.error('login failedddd')
