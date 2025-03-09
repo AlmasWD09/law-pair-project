@@ -70,34 +70,31 @@ const CreateAccount = () => {
             password_confirmation: values.password_confirmation
         }
 
-        console.log(createAttorneyInfo)
 
-        // try {
-        //     const res = await axiosPublic.post('/register', createAttorneyInfo);
-        //     console.log(res.data, 'data 2222222----------')
+        try {
+            const res = await axiosPublic.post('/register', createAttorneyInfo);
+            if (res.data.success) {
+                setRoleValue(res.data.success.role)
+                toast.success(res.data.message);
+                navigate('/otp-code', { state: { email: values.email } })
+                formTwo.resetFields()
 
-        //     if (res.data.success) {
-        //         setRoleValue(res.data.success.role)
-        //         toast.success(res.data.message);
-        //         navigate('/otp-code', { state: { email: values.email } })
-        //         formTwo.resetFields()
+            }
 
-        //     }
-
-        // } catch ({ response }) {
-        //     if (response?.errors) {
-        //         // If validation errors are returned from Laravel
-        //         if (response.data.errors.email) {
-        //             toast.error(response.data.errors.email[0]);  // Show first email error
-        //         } else if (response.data.errors.password) {
-        //             toast.error(response.data.errors.password[0]);  // Show first password error
-        //         } else {
-        //             toast.error("There was an error with your registration.");
-        //         }
-        //     } else {
-        //         toast.error(response?.data?.message || "Something went wrong.");
-        //     }
-        // }
+        } catch ({ response }) {
+            if (response?.errors) {
+                // If validation errors are returned from Laravel
+                if (response.data.errors.email) {
+                    toast.error(response.data.errors.email[0]);  // Show first email error
+                } else if (response.data.errors.password) {
+                    toast.error(response.data.errors.password[0]);  // Show first password error
+                } else {
+                    toast.error("There was an error with your registration.");
+                }
+            } else {
+                toast.error(response?.data?.message || "Something went wrong.");
+            }
+        }
     }
 
     const items = [

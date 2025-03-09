@@ -8,7 +8,7 @@ Currently, two official plugins are available:
 1. create account ---ok user & lawyer
 
 =========== Api start ========
-1. create account client/otp_code/reset_otp---> ok
-2. 
+1. create account (client & attorney)/otp_code/reset_otp---> ok
+2. login (client & attorney) -------> ok
 
 =========== Api end ========
