@@ -7,7 +7,7 @@ const LegalResurcesDetails = () => {
 
 
   return (
-    <section className="flex justify-center py-3">
+    <section className="max-w-4xl mx-auto bg-red-200 flex justify-center py-3">
       <div className="max-w-2xl overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
         <img
           className="object-cover w-full h-64 md:h-[70%]"

@@ -1,52 +1,58 @@
 import { FaArrowLeft, FaHome } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { Pagination } from "antd";
 import { useState } from "react";
 
 const AttorneyTm = () => {
+    const location = useLocation();
+    const lawyersData = location.state?.lawyers || [];
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 6; 
+    const itemsPerPage = 6;
 
-    const attorneyData = [
-        {
-            "id": 1,
-            "image": "/attorney1.png",
-            "name": "John Doe",
-            "title": "Software Engineer"
-        },
-        {
-            "id": 2,
-            "image": "/attorney3.png",
-            "name": "Jane Smith",
-            "title": "Product Manager"
-        },
-        {
-            "id": 3,
-            "image": "/attorney2.png",
-            "name": "Alice Johnson",
-            "title": "UI/UX Designer"
-        },
-        {
-            "id": 4,
-            "image": "/attorney1.png",
-            "name": "Michael Brown",
-            "title": "Data Scientist"
-        },
-        {
-            "id": 5,
-            "image": "/attorney2.png",
-            "name": "Emily Davis",
-            "title": "Marketing Specialist"
-        },
-        {
-            "id": 6,
-            "image": "/attorney3.png",
-            "name": "David Wilson",
-            "title": "Cybersecurity Analyst"
-        }
-    ];
+    console.log(lawyersData)
+
+
+    // const attorneyData = [
+    //     {
+    //         "id": 1,
+    //         "image": "/attorney1.png",
+    //         "name": "John Doe",
+    //         "title": "Software Engineer"
+    //     },
+    //     {
+    //         "id": 2,
+    //         "image": "/attorney3.png",
+    //         "name": "Jane Smith",
+    //         "title": "Product Manager"
+    //     },
+    //     {
+    //         "id": 3,
+    //         "image": "/attorney2.png",
+    //         "name": "Alice Johnson",
+    //         "title": "UI/UX Designer"
+    //     },
+    //     {
+    //         "id": 4,
+    //         "image": "/attorney1.png",
+    //         "name": "Michael Brown",
+    //         "title": "Data Scientist"
+    //     },
+    //     {
+    //         "id": 5,
+    //         "image": "/attorney2.png",
+    //         "name": "Emily Davis",
+    //         "title": "Marketing Specialist"
+    //     },
+    //     {
+    //         "id": 6,
+    //         "image": "/attorney3.png",
+    //         "name": "David Wilson",
+    //         "title": "Cybersecurity Analyst"
+    //     }
+    // ];
+
 
     const handleNavigate = () => {
         navigate(-1)
@@ -61,7 +67,7 @@ const AttorneyTm = () => {
     // Slice data based on current page
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const paginatedData = attorneyData.slice(startIndex, endIndex);
+    const paginatedData = lawyersData?.slice(startIndex, endIndex);
 
 
 
@@ -92,27 +98,26 @@ const AttorneyTm = () => {
                             return (
                                 <Link to={`/attorney-tm-details/${attorney.id}`} key={index}>
                                     <div className="w-[300px] h-[378px] p-4 shadow-lg rounded-md">
-                                        <img src={attorney.image} alt="attorney" className="w-full" />
+                                        <img src='/attorney1.png' alt="attorney" className="w-full" />
+                                        {/* <img src={attorney.avatar}  alt="attorney" className="w-full" /> */}
                                         <div className="flex justify-between items-center">
-                                            <h2 className="text-[20px] font-bold font-roboto text-[#001018] pb-2 pt-[16px]">{attorney.name}</h2>
+                                            <h2 className="text-[20px] font-bold font-roboto text-[#001018] pb-2 pt-[16px]">{attorney.full_name}</h2>
                                             <span><FaRegCheckCircle /></span>
                                         </div>
 
-                                        <h3 className="text-[14px] font-roboto text-[#001018]">{attorney.title}</h3>
+                                        <h3 className="text-[14px] font-roboto text-[#001018]">{attorney.state}</h3>
                                     </div>
                                 </Link>
                             )
                         })
                     }
-
-
                 </div>
             </div>
 
             <div className="py-8">
                 <Pagination
                     current={currentPage}
-                    total={attorneyData.length}
+                    total={lawyersData.length}
                     pageSize={itemsPerPage}
                     onChange={handlePageChange}
                     align="center"

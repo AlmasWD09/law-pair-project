@@ -63,15 +63,16 @@ const Banner = () => {
         location: null,
         city: null,
     })
-    const [categorieSecondSelectValue, setCategorieSecondSelecteValue] = useState({
-        lawyerExperience: null,
-        location: null,
-        languages: null,
-        time: null,
-    });
+    // const [categorieSecondSelectValue, setCategorieSecondSelecteValue] = useState({
+    //     lawyerExperience: null,
+    //     location: null,
+    //     languages: null,
+    //     time: null,
+    // });
 
 
     // first modal option get server
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -458,11 +459,10 @@ const Banner = () => {
                 }
             });
 
-            console.log("Server Response:", response);
-            console.log("Server Response:", response.data?.lawyers?.data);
+            console.log(response.data?.lawyers?.data)
 
             if (response.data.success) {
- 
+                navigate('/attorney-tm', { state: { lawyers: response.data?.lawyers?.data } })
             }
             else {
                 toast.error('No lawyer found!')
@@ -470,12 +470,12 @@ const Banner = () => {
         } catch (error) {
             setCategorieModalOpen(false);
             toast.error('No lawyer found!')
+        } finally {
+            setCategorieModalOpen(false);
         }
-
-
-
-
     }
+
+
     const handleCancelCategorie = () => {
         setCategorieModalOpen(false);
 
