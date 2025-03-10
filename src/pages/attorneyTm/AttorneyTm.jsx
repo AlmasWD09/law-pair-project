@@ -14,46 +14,6 @@ const AttorneyTm = () => {
     console.log(lawyersData)
 
 
-    // const attorneyData = [
-    //     {
-    //         "id": 1,
-    //         "image": "/attorney1.png",
-    //         "name": "John Doe",
-    //         "title": "Software Engineer"
-    //     },
-    //     {
-    //         "id": 2,
-    //         "image": "/attorney3.png",
-    //         "name": "Jane Smith",
-    //         "title": "Product Manager"
-    //     },
-    //     {
-    //         "id": 3,
-    //         "image": "/attorney2.png",
-    //         "name": "Alice Johnson",
-    //         "title": "UI/UX Designer"
-    //     },
-    //     {
-    //         "id": 4,
-    //         "image": "/attorney1.png",
-    //         "name": "Michael Brown",
-    //         "title": "Data Scientist"
-    //     },
-    //     {
-    //         "id": 5,
-    //         "image": "/attorney2.png",
-    //         "name": "Emily Davis",
-    //         "title": "Marketing Specialist"
-    //     },
-    //     {
-    //         "id": 6,
-    //         "image": "/attorney3.png",
-    //         "name": "David Wilson",
-    //         "title": "Cybersecurity Analyst"
-    //     }
-    // ];
-
-
     const handleNavigate = () => {
         navigate(-1)
     }

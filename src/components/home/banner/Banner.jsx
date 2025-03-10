@@ -166,16 +166,6 @@ const Banner = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
     // ===== user modal two start ===============
     useEffect(() => {
     }, [selectedOptions]);
@@ -191,27 +181,36 @@ const Banner = () => {
 
 
     const handleOkTwo = async () => {
-        const userInfo = {
-            service_ids: modalOneValue,
+        const findLawyerInfo = {
+            service_ids: modalOneValue,  // Ensure it's an array
             state: secondSelectValue.location,
             language: secondSelectValue.city
+        };
+
+        // console.log('modal---one--value------>', modalOneValue)
+        // console.log('modal---two--value------>', secondSelectValue)
+
+        try {
+            const response = await axiosPublic.get(`/find-lawyers`, {
+                params: {
+                    service_ids: JSON.stringify(findLawyerInfo.service_ids), // Ensure it's a JSON array
+                    state: findLawyerInfo.state,
+                    language: findLawyerInfo.language
+                }
+            });
+
+            if (response.data.success) {
+                navigate('/attorney-tm', { state: { lawyers: response.data?.lawyers?.data } })
+            }
+            else {
+                toast.error('No lawyer found!')
+            }
+        } catch (error) {
+            setIsModalOpenTwo(false)
+            toast.error('No lawyer found!')
+        } finally {
+            setIsModalOpenTwo(false)
         }
-        // try {
-        //     const response = await axiosPublic.get(`/find-lawyers?service_ids=${JSON.stringify(userInfo.service_ids)}&state=${userInfo.state}&language=${userInfo.language}`,);
-        //     console.log("Server Response:", response.data);
-
-        //     if (response.data.success) {
-        //         setIsModalOpenTwo(false);
-        //         navigate('/attorney-tm')
-
-        //     } else {
-        //         toast.error('Please try again! Something is wrong');
-        //     }
-        // } catch (error) {
-        //     toast.error("Failed! Error sending data to the server:",);
-        // }
-        setIsModalOpenThree(true)
-        setIsModalOpenTwo(false)
     };
 
 
@@ -250,18 +249,14 @@ const Banner = () => {
     };
 
     const handleOkAttonemy = async () => {
-        console.log('modal---one--value------>', modalOneValue)
-        console.log('modal---two--value------>', secondSelectValue)
-        console.log('modal---three--value------>', formData)
 
+        // try {
+        //     const response = await axiosPublic.post("url", formData);
 
-        try {
-            const response = await axiosPublic.post("url", formData);
-
-            console.log("Server Response:", response.data);
-        } catch (error) {
-            console.error("Error sending data:", error);
-        }
+        //     console.log("Server Response:", response.data);
+        // } catch (error) {
+        //     console.error("Error sending data:", error);
+        // }
 
         setIsModalOpenThree(false)
         navigate('/attorney-tm')
@@ -358,43 +353,37 @@ const Banner = () => {
     const token = Cookies.get("lawyerToken");
 
     const handleOkLowyerThree = async () => {
-        // console.log(timeValue.time)
-        // console.log(sel)
-        // console.log(webLink)
+        // navigate('/lawyer-profile')
 
 
-        navigate('/lawyer-profile')
+        // const schedule = [
+        //     {
+        //         day: selectDay,
+        //         time: timeValue.time,
+
+        //     }
+        // ]
+
+        // const formData = new FormData();
+
+        // if (fileList && fileList.length > 0) {
+        //     formData.append("avatar", fileList[0].originFileObj);
+        // }
+        // formData.append('service_ids', modalOneValue)
+        // formData.append('practice_area', lowyerSelectValue.practice)
+        // formData.append('experience', lowyerSelectValue.experience)
+        // formData.append('languages', lowyerSelectValue.language)
+        // formData.append('state', lowyerSelectValue.state)
+        // formData.append('address', lowyerSelectValue.address)
+        // formData.append('phone', lowyerSelectValue.mobile)
+
+        // formData.append('web_link', webLink)
+        // formData.append('schedule', JSON.stringify(schedule));
 
 
-        const schedule = [
-            {
-                day: selectDay,
-                time: timeValue.time,
-
-            }
-        ]
-
-        const formData = new FormData();
-
-        if (fileList && fileList.length > 0) {
-            formData.append("avatar", fileList[0].originFileObj);
-        }
-        formData.append('service_ids', modalOneValue)
-        formData.append('practice_area', lowyerSelectValue.practice)
-        formData.append('experience', lowyerSelectValue.experience)
-        formData.append('languages', lowyerSelectValue.language)
-        formData.append('state', lowyerSelectValue.state)
-        formData.append('address', lowyerSelectValue.address)
-        formData.append('phone', lowyerSelectValue.mobile)
-        // formData.append('zipCode', lowyerSelectValue.zipCode) /// post-------->
-
-        formData.append('web_link', webLink)
-        formData.append('schedule', JSON.stringify(schedule));
-
-
-        formData.forEach((value, key) => {
-            console.log(key, value);
-        });
+        // formData.forEach((value, key) => {
+        //     console.log(key, value);
+        // });
 
 
         // try {
@@ -560,12 +549,9 @@ const Banner = () => {
     return (
         <div className="bg-[#F5F5F7] container mx-auto px-2 md:px-4 pb-6 md:pb-[36px] lg:pb-[64px]">
             <div className="text-center pt-[60px] lg:pt-[193px] pb-[60px] lg:pb-[297px]">
-                {/* <h1 className="text-[48px] md:text-[76px] lg:text-[96px] font-crimson font-semibold text-primary ">LawPair</h1> */}
                 <div className='flex justify-center items-center pb-6 md:pb-10'>
                     <img src="/logo4.png" alt="logo" className='' />
                 </div>
-                {/* <p className="max-w-[600px] mx-auto font-roboto font-normal h-[73px] text-[#41414D] md:pt-[48px] pb-[104px] leading-[28px]">No hassle. No fees. We've streamlined the attorney search process so that <br /> you can focus on what matters most.</p> */}
-
 
                 <Button onClick={showModal} style={{ width: "298px", height: "55px", backgroundColor: "#b9d4eb", fontFamily: "Roboto", fontSize: "20px", fontWeight: "bold", }} className='no-hover'>
                     Click here to find your lawyer
@@ -836,7 +822,7 @@ const Banner = () => {
 
 
                 {/* modal three */}
-                {
+                {/* {
                     role === "user" ? <Modal centered open={isModalOpenThree} onOk={handleOkAttonemy} onCancel={handleCancelAttonemy}
                         width={600}
                         footer={
@@ -854,17 +840,7 @@ const Banner = () => {
                                     Continue
                                 </button>
                             </div>
-                        }
-                    // okText="Done"
-                    // cancelText="Back"
-                    // okButtonProps={{
-                    //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
-                    // }}
-                    // cancelButtonProps={{
-                    //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
-                    // }}
-                    >
-
+                        }>
 
                         <div>
                             <svg
@@ -893,9 +869,9 @@ const Banner = () => {
                                     style={{ width: '100%', height: '40px' }}
                                     onChange={value => handleSelectChange("lawyerExperience", value)}
                                     options={[
-                                        { label: "1-3 Years", value: "1-3" },
-                                        { label: "4-7 Years", value: "4-7" },
-                                        { label: "8+ Years", value: "8+" }
+                                        { label: "1-3 Years", value: "1-3 Years" },
+                                        { label: "4-7 Years", value: "4-7 Years" },
+                                        { label: "8+ Years", value: "8+ Years" }
                                     ]}
                                 />
                             </div>
@@ -933,11 +909,6 @@ const Banner = () => {
 
                             <div className='pb-4'>
                                 <div className='flex justify-between items-center gap-6 pb-4'>
-                                    {/* <div className='w-full'>
-                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-                                            <DatePicker style={{ width: "100%", height: '40px' }} onChange={handleDateChangeLowyerModal} />
-                                        </div> */}
-
                                     <div className='w-full'>
                                         <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
                                         <Space wrap>
@@ -959,7 +930,6 @@ const Banner = () => {
 
 
                                     <div className='w-full'>
-                                        {/* date picker component*/}
                                         <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
                                         <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeLowyerModal} />
                                     </div>
@@ -1015,21 +985,21 @@ const Banner = () => {
                                 </div>
 
 
-                                {/* upload image */}
+
                                 <div className="pb-4 w-full">
                                     <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
                                     <div className="w-full">
                                         <Upload
                                             fileList={fileList}
                                             onChange={handleChange}
-                                            beforeUpload={() => false} // Prevent auto-upload
-                                            style={{ width: '100%', height: '40px' }} // Force the Upload component to take full width
-                                            className="upload-component" // Custom class to apply further styling
+                                            beforeUpload={() => false}
+                                            style={{ width: '100%', height: '40px' }}
+                                            className="upload-component"
                                         >
                                             {fileList.length >= 1 ? null : (
                                                 <Button
                                                     icon={<UploadOutlined />}
-                                                    style={{ width: '100%', height: '40px' }} // Ensure the button takes up full width
+                                                    style={{ width: '100%', height: '40px' }}
                                                 >
                                                     Upload Image
                                                 </Button>
@@ -1049,11 +1019,6 @@ const Banner = () => {
 
                                 <div className='pb-4'>
                                     <div className='flex justify-between items-center gap-6 pb-4'>
-                                        {/* <div className='w-full'>
-                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-                                            <DatePicker style={{ width: "100%", height: '40px' }} onChange={handleDateChangeLowyerModal} />
-                                        </div> */}
-
                                         <div className='w-full'>
                                             <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
                                             <Space wrap>
@@ -1076,7 +1041,6 @@ const Banner = () => {
 
 
                                         <div className='w-full'>
-                                            {/* date picker component*/}
                                             <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
                                             <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeLowyerModal} />
                                         </div>
@@ -1116,7 +1080,7 @@ const Banner = () => {
                             </div>
 
                         </Modal>
-                }
+                } */}
 
 
             </div>
@@ -1129,7 +1093,7 @@ const Banner = () => {
 
 
 
-                {/* banner curd */}
+
                 <div className="flex justify-center items-center">
                     <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-3">
                         {
@@ -1156,7 +1120,7 @@ const Banner = () => {
                             })
                         }
 
-                        {/* categorie for first modal */}
+
                         <Modal centered open={categorieModalOpen} onOk={handleCategorieOk} onCancel={handleCancelCategorie}
                             width={600}
                             footer={
@@ -1174,16 +1138,7 @@ const Banner = () => {
                                         Continue
                                     </button>
                                 </div>
-                            }
-                        // okText="Continue"
-                        // cancelText="Back"
-                        // okButtonProps={{
-                        //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
-                        // }}
-                        // cancelButtonProps={{
-                        //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
-                        // }}
-                        >
+                            }>
 
 
                             <div>
@@ -1211,10 +1166,10 @@ const Banner = () => {
                                         style={{ width: '100%', height: '40px' }}
                                         onChange={value => handleSeleCtcategorieValue("location", value)}
                                         options={[
-                                            { value: 'new jersey', label: 'New Jersey' },
-                                            { value: 'new york', label: 'New York' },
-                                            { value: 'pennsylvania', label: 'Pennsylvania' },
-                                            { value: 'washington, d.c', label: 'Washington, D.C' },
+                                            { value: 'new jersey', label: 'new jersey' },
+                                            { value: 'new york', label: 'new york' },
+                                            { value: 'pennsylvania', label: 'pennsylvania' },
+                                            { value: 'washington, d.c', label: 'washington, d.c' },
                                         ]}
                                     />
                                 </div>
