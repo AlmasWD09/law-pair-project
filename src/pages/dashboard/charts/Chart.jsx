@@ -49,7 +49,7 @@ const Chart = ({ chartValue,curdTitle }) => {
             } else if (window.innerWidth < 1024) {
                 setChartHeight(430);
             } else {
-                setChartHeight(440);
+                setChartHeight(540);
             }
         };
 
@@ -65,7 +65,7 @@ const Chart = ({ chartValue,curdTitle }) => {
                 {chartData.prices.length > 0 ? (
                     <ReactApexChart
                         options={chartOptions}
-                        series={[{ name: "Monthly Data", data: chartData.prices }]}
+                        series={[{ name: `Monthly ${curdTitle}`, data: chartData.prices }]}
                         type="area"
                         height={chartHeight}
                     />
@@ -79,95 +79,4 @@ const Chart = ({ chartValue,curdTitle }) => {
 
 export default Chart;
 
-// import { useEffect, useState } from "react";
-// import ReactApexChart from "react-apexcharts";
-// import axios from "axios";
-
-// const Chart = () => {
-//     const [chartData, setChartData] = useState({
-//         series: [],
-//         options: {
-//             chart: {
-//                 type: "area",
-//                 height: 350,
-//                 zoom: { enabled: false },
-//             },
-//             dataLabels: { enabled: false },
-//             stroke: { curve: "straight" },
-//             title: { text: "User Analytics", align: "left" },
-//             labels: [],
-//             xaxis: { categories: [], type: "category" },
-//             yaxis: { opposite: true },
-//             legend: { horizontalAlign: "left" },
-//         },
-//     });
-
-//     const [chartHeight, setChartHeight] = useState(440);
-
-//     useEffect(() => {
-   
-//         const fetchData = async () => {
-//             try {
-//                 const response = await axios.get("http://10.0.80.13:9000/api/admin/dashboard");
-//                 const apiData = response.data.data;
-
-
-//                 const months = apiData.map((item) => item.month);
-//                 const totalUsers = apiData.map((item) => item.total_users);
-//                 const totalClients = apiData.map((item) => item.total_clients);
-//                 const totalLawyers = apiData.map((item) => item.total_lawyers);
-
-         
-//                 setChartData({
-//                     series: [
-//                         { name: "Total Users", data: totalUsers },
-//                         { name: "Total Clients", data: totalClients },
-//                         { name: "Total Lawyers", data: totalLawyers },
-//                     ],
-//                     options: {
-//                         chart: { type: "area", height: 350, zoom: { enabled: false } },
-//                         dataLabels: { enabled: false },
-//                         stroke: { curve: "smooth" },
-//                         title: { text: "User Analytics", align: "left" },
-//                         labels: months,
-//                         xaxis: { categories: months, type: "category" },
-//                         yaxis: { opposite: false },
-//                         legend: { horizontalAlign: "left" },
-//                     },
-//                 });
-//             } catch (error) {
-//                 console.error("Error fetching data:", error);
-//             }
-//         };
-
-//         fetchData();
-//     }, []);
-
-//     useEffect(() => {
-//         const handleResize = () => {
-//             if (window.innerWidth < 640) {
-//                 setChartHeight(300);
-//             } else if (window.innerWidth < 1024) {
-//                 setChartHeight(450);
-//             } else {
-//                 setChartHeight(440);
-//             }
-//         };
-
-//         window.addEventListener("resize", handleResize);
-//         handleResize();
-
-//         return () => window.removeEventListener("resize", handleResize);
-//     }, []);
-
-//     return (
-//         <div>
-//             <div id="chart" className="bg-[#FFFF] my-6 p-4 rounded-lg">
-//                 <ReactApexChart options={chartData.options} series={chartData.series} type="area" height={chartHeight} />
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Chart;
 
