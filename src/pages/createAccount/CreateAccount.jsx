@@ -22,7 +22,7 @@ const CreateAccount = () => {
     const onFinishOne = async (values) => {
 
         const createAccountUserInfo = {
-            // role: "Client",
+            // role: "client",
             role: "user", 
             first_name: values.first_name,
             last_name: values.last_name,

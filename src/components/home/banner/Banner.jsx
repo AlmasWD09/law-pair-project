@@ -31,7 +31,7 @@ const Banner = () => {
         lawyerExperience: null,
         location: null,
         languages: null,
-        date: null,
+        time: null,
     });
     const navigate = useNavigate()
     const axiosPublic = useAxiosPublic();
@@ -58,7 +58,7 @@ const Banner = () => {
     // categorie modal
     const [categorieModalOpen, setCategorieModalOpen] = useState(false);
     const [categorieSecondModalOpen, setCategorieSecondModalOpen] = useState(false);
-    const [categorieName,setCategorieName] = useState('')
+    const [categorieName, setCategorieName] = useState('')
     const [categorieSelectValue, setCategorieSelecteValue] = useState({
         location: null,
         city: null,
@@ -249,7 +249,10 @@ const Banner = () => {
     };
 
     const handleOkAttonemy = async () => {
-        console.log("Selected values----------:", formData);
+        console.log('modal---one--value------>', modalOneValue)
+        console.log('modal---two--value------>', secondSelectValue)
+        console.log('modal---three--value------>', formData)
+
 
         try {
             const response = await axiosPublic.post("url", formData);
@@ -258,8 +261,6 @@ const Banner = () => {
         } catch (error) {
             console.error("Error sending data:", error);
         }
-
-
 
         setIsModalOpenThree(false)
         navigate('/attorney-tm')
@@ -440,9 +441,40 @@ const Banner = () => {
         }))
     }
 
-    const handleCategorieOk = () => {
-        // console.log('first modal---->',categorieSelectValue)
-        setCategorieSecondModalOpen(true)
+    const handleCategorieOk = async () => {
+
+        const findLawyerInfo = {
+            service_ids: [categorieName],  // Ensure it's an array
+            state: categorieSelectValue.location,
+            language: categorieSelectValue.city
+        };
+
+        try {
+            const response = await axiosPublic.get(`/find-lawyers`, {
+                params: {
+                    service_ids: JSON.stringify(findLawyerInfo.service_ids), // Ensure it's a JSON array
+                    state: findLawyerInfo.state,
+                    language: findLawyerInfo.language
+                }
+            });
+
+            console.log("Server Response:", response);
+            console.log("Server Response:", response.data?.lawyers?.data);
+
+            if (response.data.success) {
+ 
+            }
+            else {
+                toast.error('No lawyer found!')
+            }
+        } catch (error) {
+            setCategorieModalOpen(false);
+            toast.error('No lawyer found!')
+        }
+
+
+
+
     }
     const handleCancelCategorie = () => {
         setCategorieModalOpen(false);
@@ -460,39 +492,39 @@ const Banner = () => {
 
 
     //=============== categorie second modal start ===============
-    const handleTimeChangeSecondCategorieModal = (time, timeString) => {
-        setCategorieSecondSelecteValue(prev => ({
-            ...prev,
-            time: timeString
-        }));
-    };
+    // const handleTimeChangeSecondCategorieModal = (time, timeString) => {
+    //     setCategorieSecondSelecteValue(prev => ({
+    //         ...prev,
+    //         time: timeString
+    //     }));
+    // };
 
-    // categorie select value
-    const handleSeleSecondCtcategorieValue = (key, value) => {
-        setCategorieSecondSelecteValue(prev => ({
-            ...prev,
-            [key]: value
-        }))
-    }
 
-    const handleOkCategorieTwo = () => {
-        console.log(categorieName)
-        console.log(categorieSelectValue)
-        console.log(categorieSecondSelectValue)
-        // navigate('/attorney-tm')
-    }
+    // const handleSeleSecondCtcategorieValue = (key, value) => {
+    //     setCategorieSecondSelecteValue(prev => ({
+    //         ...prev,
+    //         [key]: value
+    //     }))
+    // }
 
-    const handleCancelCategorieTwo = () => {
-        setCategorieSecondModalOpen(false)
-        setCategorieModalOpen(true)
-    }
+    // const handleOkCategorieTwo = () => {
+    // console.log(categorieName)
+    // console.log(categorieSelectValue)
+    //     console.log(categorieSecondSelectValue)
+    //     navigate('/attorney-tm')
+    // }
+
+    // const handleCancelCategorieTwo = () => {
+    //     setCategorieSecondModalOpen(false)
+    //     setCategorieModalOpen(true)
+    // }
     //=============== categorie second modal end =================
 
 
     const role = "user"
 
     const handleCateogrie = (name) => {
-       setCategorieName(name)
+        setCategorieName(name)
     }
 
 
@@ -1106,7 +1138,7 @@ const Banner = () => {
                                     <div
                                         key={index}
                                         className="relative cursor-pointer bg-[#FFFFFF] min-w-[280px] md:min-w-[300px] lg:min-w-[510px] min-h-[150px] md:min-h-[180px] lg:min-h-[204px] flex flex-col justify-center items-center p-3 rounded-[24px] hover:bg-primary hover:opacity-85 group overflow-hidden"
-                                        onClick={() => (handleCateogrie(item.name), showModalCategorie())}
+                                        onClick={() => (handleCateogrie(item.id), showModalCategorie())}
                                     >
 
                                         <div className='flex flex-col justify-center items-center'>
@@ -1179,10 +1211,10 @@ const Banner = () => {
                                         style={{ width: '100%', height: '40px' }}
                                         onChange={value => handleSeleCtcategorieValue("location", value)}
                                         options={[
-                                            { value: 'New Jersey', label: 'New Jersey' },
-                                            { value: 'New York', label: 'New York' },
-                                            { value: 'Pennsylvania', label: 'Pennsylvania' },
-                                            { value: 'Washington, D.C', label: 'Washington, D.C' },
+                                            { value: 'new jersey', label: 'New Jersey' },
+                                            { value: 'new york', label: 'New York' },
+                                            { value: 'pennsylvania', label: 'Pennsylvania' },
+                                            { value: 'washington, d.c', label: 'Washington, D.C' },
                                         ]}
                                     />
                                 </div>
@@ -1195,10 +1227,10 @@ const Banner = () => {
                                         style={{ width: '100%', height: '40px' }}
                                         onChange={value => handleSeleCtcategorieValue("city", value)}
                                         options={[
-                                            { label: "English", value: "English" },
-                                            { label: "Spanish", value: "Spanish" },
-                                            { label: "German", value: "German" },
-                                            { label: "Russian", value: "Russian" }
+                                            { label: "English", value: "english" },
+                                            { label: "Spanish", value: "spanish" },
+                                            { label: "German", value: "german" },
+                                            { label: "Russian", value: "russian" }
                                         ]}
                                     />
                                 </div>
@@ -1207,7 +1239,7 @@ const Banner = () => {
                         </Modal>
 
                         {/* categorie for second modal */}
-                        <Modal centered open={categorieSecondModalOpen} onOk={handleOkCategorieTwo} onCancel={handleCancelCategorieTwo}
+                        {/* <Modal centered open={categorieSecondModalOpen} onOk={handleOkCategorieTwo} onCancel={handleCancelCategorieTwo}
                             width={600}
                             footer={
                                 <div className="flex justify-between items-center gap-x-4 pt-[24px]">
@@ -1225,14 +1257,6 @@ const Banner = () => {
                                     </button>
                                 </div>
                             }
-                        // okText="Done"
-                        // cancelText="Back"
-                        // okButtonProps={{
-                        //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
-                        // }}
-                        // cancelButtonProps={{
-                        //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
-                        // }}
                         >
 
 
@@ -1304,11 +1328,6 @@ const Banner = () => {
 
                                 <div className='pb-4'>
                                     <div className='flex justify-between items-center gap-6 pb-4'>
-                                        {/* <div className='w-full'>
-                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-                                            <DatePicker style={{ width: "100%", height: '40px' }} onChange={handleDateChangeLowyerModal} />
-                                        </div> */}
-
                                         <div className='w-full'>
                                             <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
                                             <Space wrap>
@@ -1331,14 +1350,13 @@ const Banner = () => {
 
 
                                         <div className='w-full'>
-                                            {/* date picker component*/}
                                             <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
                                             <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeSecondCategorieModal} />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </Modal>
+                        </Modal> */}
                     </div>
                 </div>
             </div>
