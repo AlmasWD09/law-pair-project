@@ -13,7 +13,7 @@ const CommonLayout = () => {
     const [chartValue, setChartValue] = useState([]);
     const [userType, setUserType] = useState('total_users')
     const [curdTitle, setCurdTitle] = useState('Total Users')
-
+    const [selectedYear, setSelectedYear] = useState("");
 
 
     const dashboardAllData = [
@@ -88,6 +88,16 @@ const CommonLayout = () => {
     }
 
 
+    // Function to handle year change
+    const handleYearChange = (year) => {
+        setSelectedYear(year);
+    };
+
+    // Fetch data and set chart data here (you may have logic for fetching data)
+    useEffect(() => {
+        // Logic to fetch chart data
+    }, [selectedYear]);
+
 
 
     const token = Cookies.get("adminToken")
@@ -144,7 +154,12 @@ const CommonLayout = () => {
             </div>
 
             {/* dynamic chart */}
-            <Chart chartValue={chartValue} curdTitle={curdTitle} />
+            <Chart
+                chartValue={chartValue}
+                curdTitle={curdTitle}
+                selectedYear={selectedYear}
+                handleYearChange={handleYearChange}
+            />
         </div>
     )
 }
