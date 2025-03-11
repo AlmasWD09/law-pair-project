@@ -7,10 +7,10 @@ const LegalResurcesDetails = () => {
 
 
   return (
-    <section className="max-w-4xl mx-auto bg-red-200 flex justify-center py-3">
-      <div className="max-w-2xl overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
+    <section className="container mx-auto">
+      <div className=" flex justify-start rounded-lg p-10">
         <img
-          className="object-cover w-full h-64 md:h-[70%]"
+          className="object-cover rounded-lg"
           src="/legalImage/legal2.png"
           alt="Article"
         />

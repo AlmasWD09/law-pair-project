@@ -5,6 +5,7 @@ import { TfiClose } from "react-icons/tfi";
 import Button from "../Button";
 import { RiSearchLine } from "react-icons/ri";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 const Header = () => {
     const axiosPublic = useAxiosPublic();
@@ -40,14 +41,17 @@ const Header = () => {
 
 
     const handleSearch = async () => {
+        if (!searchValue.trim()) {
+            return alert("Please enter a search term!");
+        }
+    
         try {
             const response = await axiosPublic.get(`/search-lawyer?name=${searchValue}`);
             if (response.data.success) {
-                navigate('/search-attorney', { state: { searchResults: response.data.lawyers.data } })
+                navigate('/search-attorney', { state: { searchResults: response.data.lawyers.data } });
             }
-
         } catch (error) {
-            console.error("Error fetching search results");
+           toast.error('No lawyer found!')
         }
     };
 
@@ -100,9 +104,14 @@ const Header = () => {
                                     maxLength={18}
                                     className="w-[201px] h-[50px] py-2 pl-3 pr-4 text-gray-700 bg-transparent border rounded outline-none"
                                     placeholder="Search attorney..."
+                                    value={searchValue}
+                                    onChange={(e) => setSearchValue(e.target.value)}
+                                    onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                                 />
                                 <span className="absolute inset-y-0 right-0 flex items-center pl-3">
-                                    <RiSearchLine className="w-10 h-8 pr-3 text-primary" />
+                                    <RiSearchLine
+                                     onClick={handleSearch}
+                                    className="w-10 h-8 pr-3 text-primary" />
                                 </span>
                             </div>
                         </div>

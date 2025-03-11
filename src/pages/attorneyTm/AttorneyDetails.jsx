@@ -172,13 +172,16 @@ const AttorneyDetails = () => {
                                 </svg>
                                 <Link to={`${lawyerData.web_link}`} className="text-primary underline">{lawyerData.web_link}</Link></p>
                         </div>
-                        {/* <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">Availability</h2>
+                        <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">Availability</h2>
                         <div className="flex flex-wrap lg:flex-row items-center gap-3 pt-3">
-                            <button className="border px-4 py-1 rounded-full font-roboto text-primary text-[16px]">Monday</button>
-                            <button className="border px-4 py-1 rounded-full font-roboto text-primary text-[16px]">Tuesday</button>
-                            <button className="border px-4 py-1 rounded-full font-roboto text-primary text-[16px]">Wednesday</button>
-                            <button className="border px-4 py-1 rounded-full font-roboto text-primary text-[16px]">Thursday</button>
-                        </div> */}
+                            {
+                                lawyerData.schedule?.map((avilityDay, index) => {
+                                    return (
+                                        <button key={index} className="border px-4 py-1 rounded-full font-roboto text-primary text-[16px]">{avilityDay.day}</button>
+                                    )
+                                })
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
