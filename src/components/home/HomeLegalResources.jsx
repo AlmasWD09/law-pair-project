@@ -111,6 +111,7 @@ const HomeLegalResources = () => {
                 </div>
             </div>
         </div>
+        
     )
 }
 
