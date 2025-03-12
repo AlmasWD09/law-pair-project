@@ -510,7 +510,7 @@ const Banner = () => {
     //=============== categorie second modal end =================
 
 
-    const role = "lawyer"
+    const role = "user"
 
     const handleCateogrie = (name) => {
         setCategorieName(name)
