@@ -1,48 +1,72 @@
 import { useNavigate } from "react-router-dom"
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const HomeLegalResources = () => {
+    const axiosPublic = useAxiosPublic();
     const navigate = useNavigate()
+    const [resurcesData, setResurcesData] = useState([]);
 
-    const resurcesData = [
-        {
-            id: 1,
-            image: "/legalImage/legal1.png",
-            name: "Your Legal Compass",
-            description: "Navigate complex legal matters with clarity and confidence."
-        },
-        {
-            id: 2,
-            image: "/legalImage/legal2.png",
-            name: "Your Legal Compass",
-            description: "Navigate complex legal matters with clarity and confidence."
-        },
-        {
-            id: 3,
-            image: "/legalImage/legal3.png",
-            name: "Your Legal Compass",
-            description: "Navigate complex legal matters with clarity and confidence."
-        },
+    const token = Cookies.get("adminToken");
 
-        {
-            id: 4,
-            image: "/legalImage/legal4.png",
-            name: "Your Legal Compass",
-            description: "Navigate complex legal matters with clarity and confidence."
-        },
-        {
-            id: 5,
-            image: "/legalImage/legal5.png",
-            name: "Your Legal Compass",
-            description: "Navigate complex legal matters with clarity and confidence."
-        },
-        {
-            id: 6,
-            image: "/legalImage/legal6.png",
-            name: "Your Legal Compass",
-            description: "Navigate complex legal matters with clarity and confidence."
-        },
+    // const resurcesData = [
+    //     {
+    //         id: 1,
+    //         image: "/legalImage/legal1.png",
+    //         name: "Your Legal Compass",
+    //         description: "Navigate complex legal matters with clarity and confidence."
+    //     },
+    //     {
+    //         id: 2,
+    //         image: "/legalImage/legal2.png",
+    //         name: "Your Legal Compass",
+    //         description: "Navigate complex legal matters with clarity and confidence."
+    //     },
+    //     {
+    //         id: 3,
+    //         image: "/legalImage/legal3.png",
+    //         name: "Your Legal Compass",
+    //         description: "Navigate complex legal matters with clarity and confidence."
+    //     },
 
-    ]
+    //     {
+    //         id: 4,
+    //         image: "/legalImage/legal4.png",
+    //         name: "Your Legal Compass",
+    //         description: "Navigate complex legal matters with clarity and confidence."
+    //     },
+    //     {
+    //         id: 5,
+    //         image: "/legalImage/legal5.png",
+    //         name: "Your Legal Compass",
+    //         description: "Navigate complex legal matters with clarity and confidence."
+    //     },
+    //     {
+    //         id: 6,
+    //         image: "/legalImage/legal6.png",
+    //         name: "Your Legal Compass",
+    //         description: "Navigate complex legal matters with clarity and confidence."
+    //     },
+
+    // ]
+
+    // get request 
+    useEffect(() => {
+        axiosPublic.get('/admin/legal-resources/?per_page=10', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+            },
+        })
+            .then((response) => {
+                setResurcesData(response.data.legal_resources.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching dashboard users:", error);
+            });
+    }, [token,]);
+
 
     const handleClick = (id) => {
         navigate(`/legal-resources-details/${id}`)
@@ -53,30 +77,30 @@ const HomeLegalResources = () => {
 
             {/* Free legal resources cards */}
             <div className="flex justify-center">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
                     {
-                        resurcesData.map((item, index) => {
+                        resurcesData.slice(-6).map((item, index) => {
                             return (
                                 <div key={index} className="relative w-full h-full lg:w-[329px] lg:h-[306px] rounded">
-                                    {/* Image */}
-
                                     <div className="w-full h-full lg:w-[329px] lg:h-[306px]">
                                         <img
                                             src={item.image}
                                             alt="Your Legal Compass"
-                                            className="w-full h-full object-cover"
+                                            className="w-full h-full rounded-lg object-cover"
                                         />
                                     </div>
-                                    {/* Gradient Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70"></div>
 
-                                    {/* Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70 rounded-xl">
+                                    </div>
+
                                     <div className="absolute bottom-2 left-0 p-[24px] w-full text-white">
-                                        <h2 className="text-lg font-bold">Your Legal Compass</h2>
-                                        <p className="text-sm">Navigate complex legal matters with clarity and confidence.</p>
+                                        <h2 className="text-lg font-bold">{item.title}</h2>
+                                        <p className="text-sm"> {item.description.length > 49
+                                            ? `${item.description.slice(0, 65)}.`
+                                            : item.description}</p>
                                         <button
                                             onClick={() => handleClick(item.id)}
-                                            className="mt-3 bg-white text-black px-4 py-2 font-semibold rounded">
+                                            className="mt-3 bg-white text-black px-4 py-[14px] font-semibold rounded">
                                             Read more
                                         </button>
                                     </div>

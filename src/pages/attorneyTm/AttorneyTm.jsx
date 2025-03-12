@@ -27,7 +27,7 @@ const AttorneyTm = () => {
     const endIndex = startIndex + itemsPerPage;
     const paginatedData = lawyersData?.slice(startIndex, endIndex);
 
-
+console.log(lawyersData)
 
     return (
         <div className="container mx-auto px-4 py-8 md:py-20">
