@@ -4,15 +4,32 @@ import { Form, Button, Typography, Space, Modal, Select, TimePicker, DatePicker,
 const { Title } = Typography;
 import useAxiosPublic from '../../hooks/useAxiosPublic';
 import Cookies from "js-cookie";
+import { UploadOutlined } from "@ant-design/icons";
 
 
 
 const EditLawyerProfile = () => {
   const axiosPublic = useAxiosPublic()
-  const [lawyerForm] = Form.useForm(); // Form instance
+  const [form] = Form.useForm();
   const [categorieData, setCategorieData] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
 
+
+  const [fileList, setFileList] = useState([]);
+  const [webLink, setWebLink] = useState("");
+  const [availability, setAvailability] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+
+
+
+  // Handle File Upload
+  const handleChange = ({ fileList }) => setFileList(fileList);
+  const handleAvailabilityChange = (value) => setAvailability(value);
+  const handleTimeChange = (time, timeString, type) => {
+    if (type === "start") setStartTime(timeString);
+    if (type === "end") setEndTime(timeString);
+  };
 
   // first modal option get server
   useEffect(() => {
@@ -47,8 +64,10 @@ const EditLawyerProfile = () => {
 
 
   const token = Cookies.get("lawyerToken");
+
   const onFinish = (values) => {
     console.log(values)
+    console.log('clicik')
 
 
     const formData = new FormData();
@@ -56,41 +75,40 @@ const EditLawyerProfile = () => {
     if (fileList && fileList.length > 0) {
       formData.append("avatar", fileList[0].originFileObj);
     }
-    formData.append('service_ids', modalOneValue)
-    formData.append('practice_area', lowyerSelectValue.practice)
-    formData.append('experience', lowyerSelectValue.experience)
-    formData.append('languages', lowyerSelectValue.language)
-    formData.append('state', lowyerSelectValue.state)
-    formData.append('address', lowyerSelectValue.address)
-    formData.append('phone', lowyerSelectValue.mobile)
-    // formData.append('zipCode', lowyerSelectValue.zipCode) /// post-------->
-
-    formData.append('web_link', webLink)
-    formData.append('schedule', JSON.stringify(schedule));
+    formData.append("service_ids", JSON.stringify(selectedOptions));
+    formData.append("practice_area", values.practice);
+    formData.append("experience", values.experience);
+    formData.append("languages", values.language);
+    formData.append("state", values.state);
+    formData.append("address", values.address);
+    formData.append("phone", values.mobile);
+    formData.append("web_link", values.webLink);
+    formData.append("availability", values.availability);
+    formData.append("start_time", values.startTime);
+    formData.append("end_time", values.endTime);
 
 
     formData.forEach((value, key) => {
       console.log(key, value);
     });
 
+      // try {
+      //     const response = await axiosPublic.post('/lawyer/update-profile', formData,{
+      //         headers: {
+      //             Authorization: `Bearer ${token}`,
+      //             "Accept": "application/json"
+      //             // ✅ Send token in Authorization header
+      //         }
 
+      //     });
 
-    // try {
-    //     const response = await axiosPublic.post('/lawyer/update-profile', formData,{
-    //         headers: {
-    //             Authorization: `Bearer ${token}`,
-    //             "Accept": "application/json"
-    //             // ✅ Send token in Authorization header
-    //         }
+      //     console.log("Server Response:", response.data);
 
-    //     });
+      // } catch (error) {
+      //     toast.error("Error sending data to the server:", error);
+      // }
+      // navigate('/lawyer-profile')
 
-    //     console.log("Server Response:", response.data);
-
-    // } catch (error) {
-    //     toast.error("Error sending data to the server:", error);
-    // }
-    // navigate('/lawyer-profile')
   }
 
 
@@ -99,9 +117,9 @@ const EditLawyerProfile = () => {
       <div className="container mx-auto px-4 border rounded-md my-4 p-4">
         <h1 className="font-roboto font-bold text-center text-2xl uppercase text-primary">Edit Lawyer Profile </h1>
 
-        <Form form={lawyerForm} layout="vertical" onFinish={onFinish}>
+        <Form form={form} layout="vertical" onFinish={onFinish}>
           <div>
-            <Space wrap className=" max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-3 mt-16">
+            <Space wrap className=" mt-16">
               {categorieData.map((option, index) => (
                 <Button
                   key={index}
@@ -149,7 +167,7 @@ const EditLawyerProfile = () => {
             </div>
 
             <div className='pb-4 w-full'>
-              <p className='text-[14px] font-roboto font-bold text-[#001018]'>City</p>
+              <p className='text-[14px] font-roboto font-bold text-[#001018]'>Language</p>
               <Select
                 showSearch
                 placeholder="Select..."
@@ -161,6 +179,28 @@ const EditLawyerProfile = () => {
                   { label: "Russian", value: "Russian" }
                 ]}
               />
+            </div>
+
+            <div className="pb-4 w-full">
+              <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
+              <div className="w-full">
+                <Upload
+                  fileList={fileList}
+                  onChange={handleChange}
+                  beforeUpload={() => false}
+                  style={{ width: '100%', height: '40px' }}
+                  className="upload-component"
+                >
+                  {fileList.length >= 1 ? null : (
+                    <Button
+                      icon={<UploadOutlined />}
+                      style={{ width: '100%', height: '40px' }}
+                    >
+                      Upload Image
+                    </Button>
+                  )}
+                </Upload>
+              </div>
             </div>
 
             <div className='pb-4 w-full'>
@@ -186,10 +226,44 @@ const EditLawyerProfile = () => {
             </div>
 
             {/* schedule */}
+            <div className='pb-4'>
+              <div className='flex flex-col lg:flex-row justify-between items-center gap-6 pb-4'>
+                <div className='w-full'>
+                  <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
+
+                  <Select
+                    style={{ width: '100%', height: '40px' }}
+                    defaultValue="Select day.."
+                    onChange={handleAvailabilityChange}
+                    options={[
+                      { value: 'Monday', label: 'Monday' },
+                      { value: 'Tuesday', label: 'Tuesday' },
+                      { value: 'Wednesday', label: 'Wednesday' },
+                      { value: 'Thursday', label: 'Thursday' },
+                      { value: 'Friday', label: 'Friday' },
+                      { value: 'Saturday', label: 'Saturday' },
+                      { value: 'Sunday', label: 'Sunday' },
+                    ]}
+                  />
+                </div>
+
+
+                <div className='w-full'>
+                  <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>Start Time</p>
+                  <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "start")}
+                  />
+                </div>
+
+              </div>
+              <div className='w-full'>
+                <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>End Time</p>
+                <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "end")} />
+              </div>
+            </div>
           </div>
 
 
-          <Button block type="submit" style={{ backgroundColor: "#1b69ad", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", color: "white", padding: "20px 0px" }}>
+          <Button block htmlType="submit" style={{ backgroundColor: "#1b69ad", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", color: "white", padding: "20px 0px" }}>
             Update Profile
           </Button>
         </Form>

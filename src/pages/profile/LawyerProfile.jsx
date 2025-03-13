@@ -1,11 +1,13 @@
 
-import { Link, } from "react-router-dom"
+import { Link, useNavigate, } from "react-router-dom"
 import AccountCreate from "../../layout/AccountCreate";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "antd";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const LawyerProfile = () => {
-
+    const axiosPublic = useAxiosPublic();
+    const navigate = useNavigate();
     const [modalOneOpen, setIsModalOneOpen] = useState(false);
     const [modalTwoOpen, setIsModalTwoOpen] = useState(false);
 
@@ -17,6 +19,7 @@ const LawyerProfile = () => {
 
     const handleOk = () => {
         setIsModalOneOpen(false);
+        navigate('/edit-lawyer-profile')
     };
 
     const handleCancel = () => {
@@ -32,22 +35,23 @@ const LawyerProfile = () => {
         setIsModalOneOpen(false)
     };
 
-    const handleOkTwo = () => {
+    const handleOkTwo = async () => {
         // attorney logout function here.........
+        // try {
+        //     const response = await axiosPublic.post('/logout')
+        //     console.log(response.data)
+        // }
+        // catch (error) {
+        //     console.log('logout Failed')
+        // }
 
-
-        // setIsModalTwoOpen(false);
+        setIsModalTwoOpen(false);
     };
 
     const handleCancelTwo = () => {
         setIsModalTwoOpen(false);
     };
     //=========== modal one end =============
-
-
-    const handleNavigate = () => {
-        console.log('dd')
-    }
 
 
     useEffect(() => {
@@ -94,8 +98,9 @@ const LawyerProfile = () => {
                                             <path d="M12 7C13.1046 7 14 6.10457 14 5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5C10 6.10457 10.8954 7 12 7Z" fill="#121221" />
                                         </svg>
                                     </Button>
+
                                     <Modal centered open={modalOneOpen} onCancel={handleCancel} footer={null}>
-                                        <div onClick={handleNavigate} className="flex  gap-2">
+                                        <div onClick={handleOk} className="flex  gap-2">
                                             <span className="cursor-pointer">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path fillRule="evenodd" clipRule="evenodd" d="M4.02001 19.23C3.9869 19.392 3.99447 19.5597 4.04205 19.718C4.08963 19.8764 4.17573 20.0205 4.29265 20.1374C4.40956 20.2543 4.55364 20.3404 4.71199 20.388C4.87034 20.4355 5.03802 20.4431 5.20001 20.41L9.01001 19.63L4.80001 15.42L4.02001 19.23ZM9.94101 16.61L7.82101 14.49L16.306 6H16.308L18.429 8.121L9.94001 16.611L9.94101 16.61ZM19.844 6.707L17.724 4.585C17.5381 4.39908 17.3173 4.2517 17.0743 4.15131C16.8314 4.05092 16.5709 3.9995 16.308 4C15.796 4 15.284 4.195 14.893 4.585L5.13601 14.343L10.086 19.293L19.843 9.535C20.218 9.15995 20.4286 8.65133 20.4286 8.121C20.4286 7.59068 20.218 7.08206 19.843 6.707H19.844Z" fill="#121221" />

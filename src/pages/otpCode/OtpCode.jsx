@@ -47,30 +47,30 @@ const OtpCode = () => {
 
 
     const onFinish = async (values) => {
-        // const otpCode = {
-        //     otp: values.otp
-        // }
+        const otpCode = {
+            otp: values.otp
+        }
 
-        // try {
-        //     const response = await axiosPublic.post("/verify-email", otpCode);
-        //     if ((response.data.success) && (response.data.access_token)) {
+        try {
+            const response = await axiosPublic.post("/verify-email", otpCode);
+            if ((response.data.success) && (response.data.access_token)) {
 
-        //         Cookies.set("otpToken", response?.data?.access_token,
-        //             { expires: 7, secure: true, sameSite: "Strict" });
+                Cookies.set("otpToken", response?.data?.access_token,
+                    { expires: 7, secure: true, sameSite: "Strict" });
 
-        //         toast.success("OTP send successfully.");
-        //         navigate('/')
-        //         form.resetFields();
-        //     } else {
-        //         toast.error("Failed to send OTP. Try again.");
-        //     }
-        // }
-        // catch (error) {
-        //     toast.error("Wrong OTP. Please try again.");
-        // }
-        // form.resetFields();
+                toast.success("OTP send successfully.");
+                setIsModalOpen(true)
+                form.resetFields();
+            } else {
+                toast.error("Failed to send OTP. Try again.");
+            }
+        }
+        catch (error) {
+            toast.error("Wrong OTP. Please try again.");
+        }
+        form.resetFields();
 
-        // setIsModalOpen(false);
+        setIsModalOpen(false);
 
         setIsModalOpen(true)
     };
@@ -108,8 +108,11 @@ const OtpCode = () => {
     }, []);
 
     // Handle File Upload
-    const handleChange = ({ fileList }) => setFileList(fileList);
-
+    const handleChange = ({ file, fileList }) => {
+        // Ensure we store the file with originFileObj
+        setFileList(fileList.map(file => ({ ...file, originFileObj: file.originFileObj || file })));
+    };
+    const token = Cookies.get("otpToken");
 
     //====================== first modal start ==============
 
@@ -189,12 +192,58 @@ const OtpCode = () => {
 
 
     const handleOkLowyerThree = async () => {
-        console.log("Uploaded File:", fileList);
-        console.log("Website Link:", webLink);
-        console.log("Availability:", availability);
-        console.log("Start Time:", startTime);
-        console.log("End Time:", endTime);
-        navigate('/lawyer-profile')
+
+        const schedule = {
+            day: availability,
+            time: `${startTime} - ${endTime}`,
+
+        }
+
+        const formData = new FormData();
+        formData.append('service_ids', JSON.stringify(modalOneValue))
+        formData.append('practice_area', modalTwoValue.practice)
+        formData.append('experience', modalTwoValue.experience)
+        formData.append('languages', modalTwoValue.languages)
+        if (fileList && fileList.length > 0) {
+            formData.append('avatar', fileList[0].originFileObj); // Fix: Use originFileObj
+        }
+        formData.append('state', modalTwoValue.state)
+        formData.append('address', modalTwoValue.address)
+        formData.append('phone', modalTwoValue.phone)
+
+        formData.append('web_link', webLink)
+        formData.append('schedule', JSON.stringify(schedule));
+
+
+
+        // console.log(modalOneValue)
+        // console.log(modalTwoValue)
+        // formData.forEach((value, key) => {
+        //     console.log(key, value);
+        // });
+
+
+
+        try {
+            const response = await axiosPublic.post('/lawyer/update-profile', formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Accept": "application/json"
+                }
+
+            });
+
+
+            if (response.data.success) {
+                toast.success('Profile create successfully')
+                navigate('/lawyer-profile')
+            } else {
+                toast.error("something is wrong! please try again.");
+            }
+
+        } catch (error) {
+            toast.error("something is wrong! please try again.");
+        }
     }
 
     const handleCancelLowyerThree = () => {
@@ -216,7 +265,7 @@ const OtpCode = () => {
         return () => {
             document.body.style.overflow = "auto"; // Cleanup function
         };
-    }, [isModalOpen,issModalOpenTwo,issModalOpenThree]);
+    }, [isModalOpen, issModalOpenTwo, issModalOpenThree]);
 
 
 
@@ -239,11 +288,11 @@ const OtpCode = () => {
                             <Form.Item
 
                                 name="otp"
-                            // rules={[
-                            //     { required: true, message: "Please Enter your OTP!" },
-                            //     { pattern: /^[0-9]{4,6}$/, message: "Invalid OTP format!" }, // ✅ Ensures 4-6 digit number
+                                rules={[
+                                    { required: true, message: "Please Enter your OTP!" },
+                                    { pattern: /^[0-9]{4,6}$/, message: "Invalid OTP format!" }, // ✅ Ensures 4-6 digit number
 
-                            // ]}
+                                ]}
                             >
                                 <Input
                                     type="text" // ✅ Use "text" instead of "number" to avoid auto-correction issues
@@ -338,7 +387,6 @@ const OtpCode = () => {
 
                             ))}
                         </Space>
-
                     </div>
                 </div>
             </Modal>
@@ -400,12 +448,11 @@ const OtpCode = () => {
                             showSearch
                             placeholder="Select..."
                             style={{ width: '100%', height: '40px' }}
-                            onChange={(value) => handleSelectChange("location", value)}
+                            onChange={(value) => handleSelectChange("experience", value)}
                             options={[
-                                { value: 'New Jersey', label: 'New Jersey' },
-                                { value: 'New York', label: 'New York' },
-                                { value: 'Pennsylvania', label: 'Pennsylvania' },
-                                { value: 'Washington, D.C', label: 'Washington, D.C' },
+                                { label: "1-3 Years", value: "1-3 Years" },
+                                { label: "4-7 Years", value: "4-7 Years" },
+                                { label: "8+ Years", value: "8+ Years" }
                             ]}
                         />
                     </div>
@@ -424,6 +471,14 @@ const OtpCode = () => {
                                 { label: "Russian", value: "Russian" }
                             ]}
                         />
+                    </div>
+
+                    <div className='pb-4'>
+                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
+                        <Input name='phone'
+                            value={modalTwoValue.phone}
+                            onChange={handleInputChange}
+                            placeholder='phone' style={{ width: '100%', height: '40px' }} />
                     </div>
 
                     <div className='pb-4'>
@@ -533,19 +588,18 @@ const OtpCode = () => {
                     <div className='pb-4'>
                         <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
                         <Input
-                         onChange={(e) => setWebLink(e.target.value)}
-                        placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
+                            onChange={(e) => setWebLink(e.target.value)}
+                            placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
                     </div>
 
 
                     <div className='pb-4'>
-                        <div className='flex justify-between items-center gap-6 pb-4'>
+                        <div className='flex flex-col justify-between items-center gap-6 pb-4'>
                             <div className='w-full'>
                                 <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-                                <Space wrap>
                                     <Select
                                         defaultValue="Select day.."
-                                        style={{ width: 150 }}
+                                        style={{ width: '100%', height: '40px' }}
                                         onChange={handleAvailabilityChange}
                                         options={[
                                             { value: 'Monday', label: 'Monday' },
@@ -557,18 +611,17 @@ const OtpCode = () => {
                                             { value: 'Sunday', label: 'Sunday' },
                                         ]}
                                     />
-                                </Space>
                             </div>
 
 
                             <div className='w-full'>
-                                <p className='text-[14px] font-roboto font-bold text-primary text-end'>Start Time</p>
-                                <TimePicker style={{ width: "100%", height: '40px' }}  onChange={(time, timeString) => handleTimeChange(time, timeString, "start")}
-                                 />
+                                <p className='text-[14px] font-roboto font-bold text-primary '>Start Time</p>
+                                <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "start")}
+                                />
                             </div>
 
                             <div className='w-full'>
-                                <p className='text-[14px] font-roboto font-bold text-primary text-end'>End Time</p>
+                                <p className='text-[14px] font-roboto font-bold text-primary '>End Time</p>
                                 <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "end")} />
                             </div>
                         </div>

@@ -76,7 +76,7 @@ const CreateAccount = () => {
             const res = await axiosPublic.post('/register', createAttorneyInfo);
             if (res.data.success) {
                 setRoleValue(res.data.success.role)
-                toast.success(res.data.message);
+                toast.success('Attorney register successfully');
                 navigate('/otp-code', { state: { email: values.email } })
                 formTwo.resetFields()
 
@@ -223,9 +223,9 @@ const CreateAccount = () => {
                         </div>
 
                         <Form.Item>
-                            <Link to={'/otp-code'}>
+                            {/* <Link to={'/otp-code'}> */}
                             <Button htmlType="submit" block style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>Create Account</Button>
-                            </Link>
+                            {/* </Link> */}
                         </Form.Item>
                     </Form>
                 </div>
