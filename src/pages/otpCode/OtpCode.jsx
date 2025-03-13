@@ -194,6 +194,7 @@ const OtpCode = () => {
         console.log("Availability:", availability);
         console.log("Start Time:", startTime);
         console.log("End Time:", endTime);
+        navigate('/lawyer-profile')
     }
 
     const handleCancelLowyerThree = () => {

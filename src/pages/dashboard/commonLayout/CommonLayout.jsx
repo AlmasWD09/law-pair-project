@@ -102,7 +102,7 @@ const CommonLayout = () => {
 
     const token = Cookies.get("adminToken")
     useEffect(() => {
-        axiosPublic.get(`/admin/dashboard?user_type=${userType}&year=2024`, {
+        axiosPublic.get(`/admin/dashboard?user_type=${userType}&year=2025`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Accept": "application/json"
