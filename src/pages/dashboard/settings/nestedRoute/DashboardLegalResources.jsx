@@ -18,7 +18,7 @@ const DashboardLegalResources = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalLegalResurces, setTotalLegalResurces] = useState(0);
-  const perPage = 2;
+  const perPage = 3;
 
   const handleUpload = ({ fileList }) => {
     if (fileList.length > 1) {
@@ -93,14 +93,14 @@ const DashboardLegalResources = () => {
         },
       })
       .then((response) => {
-        console.log(response.data)
         setData(response.data.legal_resources.data);
         setTotalLegalResurces(response.data.legal_resources.total);
+        console.log(response.data.legal_resources.total)
       })
       .catch((error) => {
         console.error("Error fetching dashboard users:", error);
       });
-  }, [token, currentPage,data]);
+  }, [token, currentPage,fileList]);
 
 
   const showDeleteModal = (record) => {
@@ -137,6 +137,10 @@ const DashboardLegalResources = () => {
       setData((prev) => prev.filter((item) => item.id !== selectedRecord.id));
       setTotalLegalResurces((prev) => prev - 1)
 
+      if (data.length === 1 && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+
       setIsModalVisible(false);
       setSelectedRecord(null);
     }
@@ -146,6 +150,9 @@ const DashboardLegalResources = () => {
     setIsModalVisible(false);
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const columns = [
     {
@@ -174,6 +181,9 @@ const DashboardLegalResources = () => {
       ),
     },
   ];
+
+
+
 
   return (
     <div className="bg-white p-4 rounded-lg max-w-full">
@@ -263,18 +273,21 @@ const DashboardLegalResources = () => {
 
       {/* table components */}
       <div className="overflow-x-auto pt-3">
-        <Table columns={columns} dataSource={data} pagination={false} rowKey="id" />
+        <Table columns={columns} dataSource={data} pagination={false}  rowKey="id" />
       </div>
 
       {/* pagination component */}
-      <Pagination
-        current={currentPage}
-        pageSize={perPage}
-        total={totalLegalResurces}
-        onChange={(page) => setCurrentPage(page)}
-        className="mt-4"
-        align="end"
+      <Pagination 
+          current={currentPage}
+          total={totalLegalResurces}
+          pageSize={perPage}
+          onChange={handlePageChange}
+          showSizeChanger={false}
+          align="end"
+          className="my-4"
       />
+
+
       <Modal
         title="Confirm Delete"
         open={isModalVisible}

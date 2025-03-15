@@ -5,7 +5,6 @@ const { Title } = Typography;
 import useAxiosPublic from '../../hooks/useAxiosPublic';
 import Cookies from "js-cookie";
 import { UploadOutlined } from "@ant-design/icons";
-import toast from "react-hot-toast";
 
 
 
@@ -32,7 +31,7 @@ const EditLawyerProfile = () => {
     full_name,
     address,
     avatar,
-    categories,
+    // categories,
     email,
     experience,
     languages,
@@ -42,8 +41,6 @@ const EditLawyerProfile = () => {
     state,
     web_link
   } = lawyerAllData || {};
-
-
 
 
   // Handle File Upload
@@ -100,6 +97,7 @@ const EditLawyerProfile = () => {
   const handleSelect = (option) => {
     setSelectedOptions((prev) => {
       if (prev.includes(option.id)) {
+
         return prev.filter((item) => item !== option.id);
       } else if (prev.length < 3) {
 
@@ -110,57 +108,61 @@ const EditLawyerProfile = () => {
     });
   };
 
-  const onFinish = async (values) => {
-  //   const schedule = {
-  //     day: availability,
-  //     time: `${startTime} - ${endTime}`,
-
-  // }
-  //       const formData = new FormData();
-  //       formData.append('service_ids', JSON.stringify(values))
-  //       formData.append('practice_area', values.practice)
-  //       formData.append('experience', values.experience)
-  //       formData.append('languages', values.languages)
-  //       if (fileList && fileList.length > 0) {
-  //           formData.append('avatar', fileList[0].originFileObj); // Fix: Use originFileObj
-  //       }
-  //       formData.append('state', values.state)
-  //       formData.append('address', values.address)
-  //       formData.append('phone', values.phone)
-
-  //       formData.append('web_link', values)
-  //       formData.append('schedule', JSON.stringify(schedule));
+  const onFinish = (values) => {
+    console.log(values)
+    console.log('clicik')
 
 
-  //   formData.forEach((value, key) => {
-  //     console.log(key, value);
-  //   });
+    const formData = new FormData();
 
-  //   try {
-  //       const response = await axiosPublic.post('/lawyer/update-profile', formData,{
-  //           headers: {
-  //               Authorization: `Bearer ${token}`,
-  //               "Accept": "application/json"
-  //           }
-  //       });
-  //   } catch (error) {
-  //       toast.error("Error sending data to the server:", error);
-  //   }
+    if (fileList && fileList.length > 0) {
+      formData.append("avatar", fileList[0].originFileObj);
+    }
+    formData.append("service_ids", JSON.stringify(selectedOptions));
+    formData.append("practice_area", values.practice);
+    formData.append("experience", values.experience);
+    formData.append("languages", values.language);
+    formData.append("state", values.state);
+    formData.append("address", values.address);
+    formData.append("phone", values.mobile);
+    formData.append("web_link", values.webLink);
+    formData.append("availability", values.availability);
+    formData.append("start_time", values.startTime);
+    formData.append("end_time", values.endTime);
+
+
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
+
+    // try {
+    //     const response = await axiosPublic.post('/lawyer/update-profile', formData,{
+    //         headers: {
+    //             Authorization: `Bearer ${token}`,
+    //             "Accept": "application/json"
+    //             // ✅ Send token in Authorization header
+    //         }
+
+    //     });
+
+    //     console.log("Server Response:", response.data);
+
+    // } catch (error) {
+    //     toast.error("Error sending data to the server:", error);
+    // }
+    // navigate('/lawyer-profile')
 
   }
-
-
-console.log(lawyerAllData)
-
 
   return (
     <AccountCreate>
       <div className="container mx-auto px-4 border rounded-md my-4 p-4">
         <h1 className="font-roboto font-bold text-center text-2xl uppercase text-primary">Edit Lawyer Profile </h1>
+
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <div>
             <Space wrap className=" mt-16">
-              {categorieData?.map((option, index) => (
+              {categorieData.map((option, index) => (
                 <Button
                   key={index}
                   onClick={() => handleSelect(option)}
@@ -180,9 +182,11 @@ console.log(lawyerAllData)
                 >
                   {option.name}
                 </Button>
+
               ))}
             </Space>
           </div>
+
           <div className="mt-8">
             <div className='pb-4'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Where do you practice</p>
@@ -231,7 +235,7 @@ console.log(lawyerAllData)
                   listType="picture-card" // Image preview dekhate use korte parben
                 >
                   {fileList.length >= 1 ? null : (
-                    <Button icon={<UploadOutlined />}>Upload Image</Button>
+                    <Button  icon={<UploadOutlined />}>Upload Image</Button>
                   )}
                 </Upload>
               </div>
