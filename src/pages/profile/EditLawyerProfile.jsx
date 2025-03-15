@@ -12,6 +12,7 @@ const EditLawyerProfile = () => {
   const axiosPublic = useAxiosPublic()
   const [form] = Form.useForm();
   const [categorieData, setCategorieData] = useState([]);
+  const [lawyerAllData, setLawyerAllData] = useState({});
   const [selectedOptions, setSelectedOptions] = useState([]);
 
 
@@ -22,14 +23,61 @@ const EditLawyerProfile = () => {
   const [endTime, setEndTime] = useState(null);
 
 
+  const token = Cookies.get("otpToken");
+  const {
+    id,
+    first_name,
+    last_name,
+    full_name,
+    address,
+    avatar,
+    // categories,
+    email,
+    experience,
+    languages,
+    phone,
+    practice_area,
+    schedule, // Nested destructuring
+    state,
+    web_link
+  } = lawyerAllData || {};
+
+  const categories = ['Trademarks', 'Advance Care Planning', 'Residential Real Estate']
 
   // Handle File Upload
   const handleChange = ({ fileList }) => setFileList(fileList);
+  useEffect(() => {
+    if (avatar) {
+      setFileList([{ url: avatar }]); // Default avatar set kora
+    }
+  }, [avatar]); // Avatar update hole abar fileList update hob
   const handleAvailabilityChange = (value) => setAvailability(value);
   const handleTimeChange = (time, timeString, type) => {
     if (type === "start") setStartTime(timeString);
     if (type === "end") setEndTime(timeString);
   };
+
+  // lawyer all value get
+  useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        const response = await axiosPublic.get('/lawyer/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Accept": "application/json"
+            // ✅ Send token in Authorization header
+          }
+
+        });
+        setLawyerAllData(response?.data?.lawyer)
+
+      } catch (error) {
+        console.error('Failed to load data:', error);
+      }
+    };
+
+    fetchAllData();
+  }, []);
 
   // first modal option get server
   useEffect(() => {
@@ -61,10 +109,6 @@ const EditLawyerProfile = () => {
     });
   };
 
-
-
-  const token = Cookies.get("lawyerToken");
-
   const onFinish = (values) => {
     console.log(values)
     console.log('clicik')
@@ -92,25 +136,24 @@ const EditLawyerProfile = () => {
       console.log(key, value);
     });
 
-      // try {
-      //     const response = await axiosPublic.post('/lawyer/update-profile', formData,{
-      //         headers: {
-      //             Authorization: `Bearer ${token}`,
-      //             "Accept": "application/json"
-      //             // ✅ Send token in Authorization header
-      //         }
+    // try {
+    //     const response = await axiosPublic.post('/lawyer/update-profile', formData,{
+    //         headers: {
+    //             Authorization: `Bearer ${token}`,
+    //             "Accept": "application/json"
+    //             // ✅ Send token in Authorization header
+    //         }
 
-      //     });
+    //     });
 
-      //     console.log("Server Response:", response.data);
+    //     console.log("Server Response:", response.data);
 
-      // } catch (error) {
-      //     toast.error("Error sending data to the server:", error);
-      // }
-      // navigate('/lawyer-profile')
+    // } catch (error) {
+    //     toast.error("Error sending data to the server:", error);
+    // }
+    // navigate('/lawyer-profile')
 
   }
-
 
   return (
     <AccountCreate>
@@ -148,12 +191,13 @@ const EditLawyerProfile = () => {
           <div className="mt-8">
             <div className='pb-4'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Where do you practice</p>
-              <Input name='practice' placeholder='e.g.: New Jersey, New York, EOIR (Immigration Court)' style={{ width: '100%', height: '40px' }} />
+              <Input value={practice_area} name='practice' placeholder='e.g.: New Jersey, New York, EOIR (Immigration Court)' style={{ width: '100%', height: '40px' }} />
             </div>
 
             <div className='pb-4'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Experience</p>
               <Select
+                value={experience}
                 showSearch
                 placeholder="Select..."
                 style={{ width: '100%', height: '40px' }}
@@ -169,6 +213,7 @@ const EditLawyerProfile = () => {
             <div className='pb-4 w-full'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Language</p>
               <Select
+                value={languages}
                 showSearch
                 placeholder="Select..."
                 style={{ width: '100%', height: '40px' }}
@@ -183,21 +228,15 @@ const EditLawyerProfile = () => {
 
             <div className="pb-4 w-full">
               <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
-              <div className="w-full">
+              <div className="w-full flex justify-center">
                 <Upload
                   fileList={fileList}
                   onChange={handleChange}
                   beforeUpload={() => false}
-                  style={{ width: '100%', height: '40px' }}
-                  className="upload-component"
+                  listType="picture-card" // Image preview dekhate use korte parben
                 >
                   {fileList.length >= 1 ? null : (
-                    <Button
-                      icon={<UploadOutlined />}
-                      style={{ width: '100%', height: '40px' }}
-                    >
-                      Upload Image
-                    </Button>
+                    <Button  icon={<UploadOutlined />}>Upload Image</Button>
                   )}
                 </Upload>
               </div>
@@ -205,23 +244,23 @@ const EditLawyerProfile = () => {
 
             <div className='pb-4 w-full'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>State</p>
-              <Input name='state' style={{ width: '100%', height: '40px' }} />
+              <Input value={state} name='state' style={{ width: '100%', height: '40px' }} />
             </div>
 
 
             <div className='pb-4'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
-              <Input name='address' placeholder='address' style={{ width: '100%', height: '40px' }} />
+              <Input value={address} name='address' placeholder='address' style={{ width: '100%', height: '40px' }} />
             </div>
 
             <div className='pb-4'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Mobile number</p>
-              <Input name='mobile' placeholder='Enter your contact number to reach client' style={{ width: '100%', height: '40px' }} />
+              <Input value={phone} name='mobile' placeholder='Enter your contact number to reach client' style={{ width: '100%', height: '40px' }} />
             </div>
 
             <div className='pb-4'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
-              <Input name='webLink'
+              <Input value={web_link} name='webLink'
                 placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
             </div>
 
@@ -232,6 +271,7 @@ const EditLawyerProfile = () => {
                   <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
 
                   <Select
+                    value={schedule?.day}
                     style={{ width: '100%', height: '40px' }}
                     defaultValue="Select day.."
                     onChange={handleAvailabilityChange}
