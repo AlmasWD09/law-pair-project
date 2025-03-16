@@ -1,14 +1,11 @@
 
 import { useEffect, useState } from 'react';
-import { Button, Typography, Space, Modal, Select, TimePicker, DatePicker, Input, Upload } from "antd";
+import { Button, Typography, Space, Modal, Select, } from "antd";
 const { Title } = Typography;
-
-
-import { CheckCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import toast from 'react-hot-toast';
-import Cookies from "js-cookie";
+
 
 
 const Banner = () => {
@@ -16,45 +13,18 @@ const Banner = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenTow, setIsModalOpenTwo] = useState(false);
     const [isModalOpenThree, setIsModalOpenThree] = useState(false);
-    const [timeValue, setTimeValue] = useState(null)
-    const [webLink, setWebLink] = useState('')
-    const [selectedOptions, setSelectedOptions] = useState([]); // server-data post request 
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
 
     const [secondSelectValue, setSecondSelecteValue] = useState({
         location: null,
         city: null,
     })
-    // const [selectedLocation, setSelectedLocation] = useState(null);
-    // const [selectedCity, setSelectedCity] = useState(null);
-    const [formData, setFormData] = useState({
-        lawyerExperience: null,
-        location: null,
-        languages: null,
-        time: null,
-    });
     const navigate = useNavigate()
     const axiosPublic = useAxiosPublic();
-    const [fileList, setFileList] = useState([])
-
     const [modalOneValue, setModalOneValue] = useState([])
-
-
-
-
-
-
     const [lawyerModalOpenTwo, setLawyerModalOpenTwo] = useState(false)
     const [lawyerModalOpenThree, setLawyerModalOpenThree] = useState(false)
-    const [selectedLowyerOptions, setSelectedLowyerOptions] = useState([]);
-    const lowyerOptions = ["Monday", "Tuesday", "Wednesday", "Thursday"];
-    const [lowyerSelectValue, setLowyerSelectValue] = useState({
-        experience: null,
-        language: null,
-    })
-    const [selectDay, setSelectDay] = useState(null)
-
-
     // categorie modal
     const [categorieModalOpen, setCategorieModalOpen] = useState(false);
     const [categorieSecondModalOpen, setCategorieSecondModalOpen] = useState(false);
@@ -63,16 +33,9 @@ const Banner = () => {
         location: null,
         city: null,
     })
-    // const [categorieSecondSelectValue, setCategorieSecondSelecteValue] = useState({
-    //     lawyerExperience: null,
-    //     location: null,
-    //     languages: null,
-    //     time: null,
-    // });
 
 
     // first modal option get server
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -86,20 +49,6 @@ const Banner = () => {
 
         fetchData();
     }, []);
-
-
-
-    const handleChange = ({ fileList }) => setFileList(fileList);
-
-
-    const handleSelectLowyer = (option) => {
-        console.log(option)
-        setSelectedLowyerOptions((prev) =>
-            prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
-        );
-    };
-
-
     //====================== first modal start ==============
     const showModal = () => {
         setIsModalOpen(true);
@@ -122,24 +71,6 @@ const Banner = () => {
             setLawyerModalOpenTwo(true)
         }
 
-
-        // try {
-        //     const response = await axios.post('url', {
-        //         selectedOptions: selectedOptions,
-        //     });
-
-        //     console.log("Server Response:", response.data);
-        //     if (response.data.success) {
-        //         setIsModalOpen(false)
-        //         setSelectedOptions("")
-        //         setIsModalOpenTwo(true)
-        //     }
-        //     else {
-        //         toast.error('please try again! and selected data MODAL ONE')
-        //     }
-        // } catch (error) {
-        //     toast.error("Error sending data to the server:", error);
-        // }
     };
 
 
@@ -182,18 +113,15 @@ const Banner = () => {
 
     const handleOkTwo = async () => {
         const findLawyerInfo = {
-            service_ids: modalOneValue,  // Ensure it's an array
+            service_ids: modalOneValue,
             state: secondSelectValue.location,
             language: secondSelectValue.city
         };
 
-        // console.log('modal---one--value------>', modalOneValue)
-        // console.log('modal---two--value------>', secondSelectValue)
-
         try {
             const response = await axiosPublic.get(`/find-lawyers`, {
                 params: {
-                    service_ids: JSON.stringify(findLawyerInfo.service_ids), // Ensure it's a JSON array
+                    service_ids: JSON.stringify(findLawyerInfo.service_ids),
                     state: findLawyerInfo.state,
                     language: findLawyerInfo.language
                 }
@@ -219,203 +147,6 @@ const Banner = () => {
         setIsModalOpen(true)
     };
     // ===== modal two end =====================
-
-
-
-
-
-
-
-    // ====== user modal three start ===============
-    const handleSelectChange = (key, value) => {
-        setFormData(prev => ({
-            ...prev,
-            [key]: value
-        }));
-    };
-
-    const handleDateChange = (date, dateString) => {
-        setFormData(prev => ({
-            ...prev,
-            date: dateString
-        }));
-    };
-
-    const handleTimeChange = (time, timeString) => {
-        setFormData(prev => ({
-            ...prev,
-            time: timeString
-        }));
-    };
-
-    const handleOkAttonemy = async () => {
-
-        // try {
-        //     const response = await axiosPublic.post("url", formData);
-
-        //     console.log("Server Response:", response.data);
-        // } catch (error) {
-        //     console.error("Error sending data:", error);
-        // }
-
-        setIsModalOpenThree(false)
-        navigate('/attorney-tm')
-    };
-
-
-    const handleCancelAttonemy = () => {
-        setIsModalOpenThree(false);
-        setIsModalOpenTwo(true)
-    };
-    // ====== user modal three end =================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //================= lowyer modal two start ==============
-
-    // Select Value Change Function
-    const handleSelectModalLowyerTwoValue = (key, value) => {
-        setLowyerSelectValue(prev => ({
-            ...prev,
-            [key]: value
-        }))
-    }
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        handleSelectModalLowyerTwoValue(name, value);
-    };
-
-    const handleOkLowyerTwo = async () => {
-
-        // console.log('modal two layer vallue', lowyerSelectValue)
-
-
-        // try {
-        //     const response = await axios.post('url',lowyerSelectValue);
-
-        //     console.log("Server Response:", response.data);
-        //     if (response.data.success) {
-        //         setLawyerModalOpenTwo(false)
-        //         setLawyerModalOpenTwo('')
-        //         setLawyerModalOpenThree(true)
-        //     }
-        //     else {
-        //         toast.error('please try again! and selected data MODAL TWO')
-        //     }
-        // } catch (error) {
-        //     toast.error("Error sending data to the server:", error);
-        // }
-
-        setLawyerModalOpenTwo(false)
-        setLawyerModalOpenTwo('')
-        setLawyerModalOpenThree(true)
-    }
-
-
-    const handleCancelLowyerTwo = () => {
-        setLawyerModalOpenTwo(false)
-        setIsModalOpen(true)
-    }
-    //================= lowyer modal two end ================
-
-
-
-    //================= lowyer modal three start ==============
-    const handleTimeChangeLowyerModal = (time, timeString) => {
-        setFormData(prev => ({
-            ...prev,
-            time: timeString
-        }));
-    };
-
-
-    const token = Cookies.get("lawyerToken");
-
-    const handleOkLowyerThree = async () => {
-        // navigate('/lawyer-profile')
-
-
-        // const schedule = [
-        //     {
-        //         day: selectDay,
-        //         time: timeValue.time,
-
-        //     }
-        // ]
-
-        // const formData = new FormData();
-
-        // if (fileList && fileList.length > 0) {
-        //     formData.append("avatar", fileList[0].originFileObj);
-        // }
-        // formData.append('service_ids', modalOneValue)
-        // formData.append('practice_area', lowyerSelectValue.practice)
-        // formData.append('experience', lowyerSelectValue.experience)
-        // formData.append('languages', lowyerSelectValue.language)
-        // formData.append('state', lowyerSelectValue.state)
-        // formData.append('address', lowyerSelectValue.address)
-        // formData.append('phone', lowyerSelectValue.mobile)
-
-        // formData.append('web_link', webLink)
-        // formData.append('schedule', JSON.stringify(schedule));
-
-
-        // formData.forEach((value, key) => {
-        //     console.log(key, value);
-        // });
-
-
-        // try {
-        //     const response = await axiosPublic.post('/lawyer/update-profile', formData,{
-        //         headers: {
-        //             Authorization: `Bearer ${token}`,
-        //             "Accept": "application/json"
-        //             // ✅ Send token in Authorization header
-        //         }
-
-        //     });
-
-        //     console.log("Server Response:", response.data);
-
-        // } catch (error) {
-        //     toast.error("Error sending data to the server:", error);
-        // }
-
-
-
-    }
-
-    const handleCancelLowyerThree = () => {
-        setLawyerModalOpenThree(false)
-        setLawyerModalOpenTwo(true)
-    }
-    //================= lowyer modal three start ================
-
-
-
-
-
 
 
     //=============== categorie first modal start ===============
@@ -471,45 +202,6 @@ const Banner = () => {
     }
 
     //=============== categorie first modal end =================
-
-
-
-
-
-
-
-
-
-    //=============== categorie second modal start ===============
-    // const handleTimeChangeSecondCategorieModal = (time, timeString) => {
-    //     setCategorieSecondSelecteValue(prev => ({
-    //         ...prev,
-    //         time: timeString
-    //     }));
-    // };
-
-
-    // const handleSeleSecondCtcategorieValue = (key, value) => {
-    //     setCategorieSecondSelecteValue(prev => ({
-    //         ...prev,
-    //         [key]: value
-    //     }))
-    // }
-
-    // const handleOkCategorieTwo = () => {
-    // console.log(categorieName)
-    // console.log(categorieSelectValue)
-    //     console.log(categorieSecondSelectValue)
-    //     navigate('/attorney-tm')
-    // }
-
-    // const handleCancelCategorieTwo = () => {
-    //     setCategorieSecondModalOpen(false)
-    //     setCategorieModalOpen(true)
-    // }
-    //=============== categorie second modal end =================
-
-
     const role = "user"
 
     const handleCateogrie = (name) => {
@@ -576,13 +268,6 @@ const Banner = () => {
                             </button>
                         </div>
                     }
-                // okText="Continue"
-                // okButtonProps={{
-                //     className:"w-[50%] h-[50px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                //   }}
-                //   cancelButtonProps={{
-                //     className:"w-[50%] h-[50px] md:w-[161px] md:h-[64px] border  text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                //   }}
                 >
 
 
@@ -636,452 +321,87 @@ const Banner = () => {
 
 
                 {/* modal two */}
-                {
-                    role === 'user' ? <Modal centered open={isModalOpenTow} onOk={handleOkTwo} onCancel={handleCancelTwo}
-                        width={600}
-                        footer={
-                            <div className="flex justify-between items-center gap-x-4 pt-[24px]">
-                                <button
-                                    className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                                    onClick={handleCancelTwo}
-                                >
-                                    Back
-                                </button>
-                                <button
-                                    className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                                    onClick={handleOkTwo}
-                                >
-                                    Continue
-                                </button>
-                            </div>
-                        }
-                    // okText="Continue"
-                    // cancelText="Back"
-                    // okButtonProps={{
-                    //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
-                    // }}
-                    // cancelButtonProps={{
-                    //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
-                    // }}
-                    >
+
+                <Modal centered open={isModalOpenTow} onOk={handleOkTwo} onCancel={handleCancelTwo}
+                    width={600}
+                    footer={
+                        <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                            <button
+                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                onClick={handleCancelTwo}
+                            >
+                                Back
+                            </button>
+                            <button
+                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                onClick={handleOkTwo}
+                            >
+                                Continue
+                            </button>
+                        </div>
+                    }
+                // okText="Continue"
+                // cancelText="Back"
+                // okButtonProps={{
+                //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
+                // }}
+                // cancelButtonProps={{
+                //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
+                // }}
+                >
 
 
-                        <div>
-                            <svg className='mb-4' width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                                <circle cx="20" cy="20" r="5" fill="#1B69AD" />
-                                <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
-                                <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
-                            </svg>
+                    <div>
+                        <svg className='mb-4' width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                            <circle cx="20" cy="20" r="5" fill="#1B69AD" />
+                            <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
+                            <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
+                        </svg>
 
-                            <hr />
+                        <hr />
 
-                            <div className='pt-4'>
-                                <Title level={4} className='text-[14px] font-roboto font-bold text-[#001018]'>
-                                    Location
-                                </Title>
-                            </div>
-
-
-                            <div className='pb-4'>
-                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Select your location</p>
-                                <Select
-                                    showSearch
-                                    placeholder="Select..."
-                                    style={{ width: '100%', height: '40px' }}
-                                    onChange={value => handleSelectModalTwoValue("location", value)}
-                                    options={[
-                                        { value: 'New Jersey', label: 'New Jersey' },
-                                        { value: 'New York', label: 'New York' },
-                                        { value: 'Pennsylvania', label: 'Pennsylvania' },
-                                        { value: 'Washington, D.C', label: 'Washington, D.C' },
-                                    ]}
-                                />
-                            </div>
-
-                            <div>
-                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>City</p>
-                                <Select
-                                    showSearch
-                                    placeholder="Select..."
-                                    style={{ width: '100%', height: '40px' }}
-                                    onChange={value => handleSelectModalTwoValue("city", value)}
-                                    options={[
-                                        { label: "English", value: "English" },
-                                        { label: "Spanish", value: "Spanish" },
-                                        { label: "German", value: "German" },
-                                        { label: "Russian", value: "Russian" }
-                                    ]}
-                                />
-                            </div>
+                        <div className='pt-4'>
+                            <Title level={4} className='text-[14px] font-roboto font-bold text-[#001018]'>
+                                Location
+                            </Title>
                         </div>
 
-                    </Modal>
-                        :
-                        <Modal centered open={lawyerModalOpenTwo} onOk={handleOkLowyerTwo} onCancel={handleCancelLowyerTwo}
-                            width={600}
-                            footer={
-                                <div className="flex justify-between items-center gap-x-4 pt-[24px]">
-                                    <button
-                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                                        onClick={handleCancelLowyerTwo}
-                                    >
-                                        Back
-                                    </button>
-                                    <button
-                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                                        onClick={handleOkLowyerTwo}
-                                    >
-                                        Continue
-                                    </button>
-                                </div>
-                            }
-                        >
 
-
-                            <div>
-                                <svg
-                                    className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]" width="40" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                                    <path d="M14.167 20.8335L17.5003 24.1668L25.8337 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
-                                    <circle cx="264" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                                    <circle cx="264" cy="20" r="5" fill="#1B69AD" />
-                                    <rect x="280" y="19" width="212" height="2" fill="#B6B6BA" />
-                                    <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
-                                </svg>
-
-
-                                <hr />
-
-                                <div className='pt-4'>
-                                    <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
-                                        Add your professional details
-                                    </Title>
-                                </div>
-                                <div className='pb-4'>
-                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Where do you practice</p>
-                                    <Input name='practice' placeholder='e.g.: New Jersey, New York, EOIR (Immigration Court)' style={{ width: '100%', height: '40px' }} />
-                                </div>
-
-
-                                <div className='pb-4'>
-                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Experience</p>
-                                    <Select
-                                        showSearch
-                                        placeholder="Select..."
-                                        style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSelectModalLowyerTwoValue("location", value)}
-                                        options={[
-                                            { value: 'New Jersey', label: 'New Jersey' },
-                                            { value: 'New York', label: 'New York' },
-                                            { value: 'Pennsylvania', label: 'Pennsylvania' },
-                                            { value: 'Washington, D.C', label: 'Washington, D.C' },
-                                        ]}
-                                    />
-                                </div>
-
-                                <div className='pb-4'>
-                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Select your language(s)</p>
-                                    <Select
-                                        showSearch
-                                        placeholder="Select..."
-                                        style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSelectModalLowyerTwoValue("languages", value)}
-                                        options={[
-                                            { label: "English", value: "English" },
-                                            { label: "Spanish", value: "Spanish" },
-                                            { label: "German", value: "German" },
-                                            { label: "Russian", value: "Russian" }
-                                        ]}
-                                    />
-                                </div>
-
-                                <div className='pb-4'>
-                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
-                                    <Input name='address' placeholder='address' style={{ width: '100%', height: '40px' }} />
-                                </div>
-
-
-                                <div className='flex justify-between gap-2'>
-                                    <div className='pb-4 w-full'>
-                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>State</p>
-                                        <Input name='state' style={{ width: '100%', height: '40px' }} />
-                                    </div>
-
-                                    <div className='pb-4 w-full'>
-                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Zip code</p>
-                                        <Input name='zipCode' style={{ width: '100%', height: '40px' }} />
-                                    </div>
-                                </div>
-                            </div>
-
-                        </Modal>
-                }
-
-
-
-                {/* modal three */}
-                {/* {
-                    role === "user" ? <Modal centered open={isModalOpenThree} onOk={handleOkAttonemy} onCancel={handleCancelAttonemy}
-                        width={600}
-                        footer={
-                            <div className="flex justify-between items-center gap-x-4 pt-[24px]">
-                                <button
-                                    className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                                    onClick={handleCancelAttonemy}
-                                >
-                                    Back
-                                </button>
-                                <button
-                                    className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                                    onClick={handleOkAttonemy}
-                                >
-                                    Continue
-                                </button>
-                            </div>
-                        }>
+                        <div className='pb-4'>
+                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Select your location</p>
+                            <Select
+                                showSearch
+                                placeholder="Select..."
+                                style={{ width: '100%', height: '40px' }}
+                                onChange={value => handleSelectModalTwoValue("location", value)}
+                                options={[
+                                    { value: 'New Jersey', label: 'New Jersey' },
+                                    { value: 'New York', label: 'New York' },
+                                    { value: 'Pennsylvania', label: 'Pennsylvania' },
+                                    { value: 'Washington, D.C', label: 'Washington, D.C' },
+                                ]}
+                            />
+                        </div>
 
                         <div>
-                            <svg
-                                className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
-                                width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                                <path d="M14.167 20.834L17.5003 24.1673L25.8337 15.834" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
-                                <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                                <circle cx="508" cy="20" r="5" fill="#1B69AD" />
-                            </svg>
-
-                            <hr />
-                            <div className='pt-4'>
-                                <Title level={4} className='text-[14px] font-roboto font-bold text-[#001018]'>
-                                    Find the exact Attorny by filter
-                                </Title>
-                            </div>
-
-
-                            <div className='pb-4'>
-                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Lawyer experience</p>
-                                <Select
-                                    showSearch
-                                    placeholder="Select..."
-                                    style={{ width: '100%', height: '40px' }}
-                                    onChange={value => handleSelectChange("lawyerExperience", value)}
-                                    options={[
-                                        { label: "1-3 Years", value: "1-3 Years" },
-                                        { label: "4-7 Years", value: "4-7 Years" },
-                                        { label: "8+ Years", value: "8+ Years" }
-                                    ]}
-                                />
-                            </div>
-
-                            <div className='pb-4'>
-                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Location</p>
-                                <Select
-                                    showSearch
-                                    placeholder="Select..."
-                                    style={{ width: '100%', height: '40px' }}
-                                    onChange={value => handleSelectChange("location", value)}
-                                    options={[
-                                        { label: "New York", value: "new-york" },
-                                        { label: "Los Angeles", value: "los-angeles" },
-                                        { label: "Chicago", value: "chicago" }
-                                    ]}
-
-                                />
-                            </div>
-
-                            <div className='pb-4'>
-                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Languages</p>
-                                <Select
-                                    showSearch
-                                    placeholder="Select..."
-                                    style={{ width: '100%', height: '40px' }}
-                                    onChange={value => handleSelectChange("languages", value)}
-                                    options={[
-                                        { label: "New York", value: "new-york" },
-                                        { label: "Los Angeles", value: "los-angeles" },
-                                        { label: "Chicago", value: "chicago" }
-                                    ]}
-                                />
-                            </div>
-
-                            <div className='pb-4'>
-                                <div className='flex justify-between items-center gap-6 pb-4'>
-                                    <div className='w-full'>
-                                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-                                        <Space wrap>
-                                            <Select
-                                                defaultValue="Select day.."
-                                                style={{ width: 150 }}
-                                                options={[
-                                                    { value: 'Monday', label: 'Monday' },
-                                                    { value: 'Tuesday', label: 'Tuesday' },
-                                                    { value: 'Wednesday', label: 'Wednesday' },
-                                                    { value: 'Thursday', label: 'Thursday' },
-                                                    { value: 'Friday', label: 'Friday' },
-                                                    { value: 'Saturday', label: 'Saturday' },
-                                                    { value: 'Sunday', label: 'Sunday' },
-                                                ]}
-                                            />
-                                        </Space>
-                                    </div>
-
-
-                                    <div className='w-full'>
-                                        <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
-                                        <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeLowyerModal} />
-                                    </div>
-                                </div>
-                            </div>
+                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>City</p>
+                            <Select
+                                showSearch
+                                placeholder="Select..."
+                                style={{ width: '100%', height: '40px' }}
+                                onChange={value => handleSelectModalTwoValue("city", value)}
+                                options={[
+                                    { label: "English", value: "English" },
+                                    { label: "Spanish", value: "Spanish" },
+                                    { label: "German", value: "German" },
+                                    { label: "Russian", value: "Russian" }
+                                ]}
+                            />
                         </div>
-                    </Modal>
+                    </div>
 
-                        :
-                        <Modal centered open={lawyerModalOpenThree} onOk={handleOkLowyerThree} onCancel={handleCancelLowyerThree}
-                            width={600}
-                            footer={
-                                <div className="flex justify-between items-center gap-x-4 pt-[24px]">
-                                    <button
-                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                                        onClick={handleCancelLowyerThree}
-                                    >
-                                        Back
-                                    </button>
-                                    <button
-                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                                        onClick={handleOkLowyerThree}
-                                    >
-                                        Continue
-                                    </button>
-                                </div>
-                            }
-                        >
-
-
-                            <div>
-                                <svg
-                                    className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
-                                    width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                                    <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
-                                    <circle cx="264" cy="20" r="16" fill="#1B69AD" />
-                                    <path d="M258.167 20.8335L261.5 24.1668L269.833 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <rect x="280" y="19" width="212" height="2" fill="#1B69AD" />
-                                    <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                                    <circle cx="508" cy="20" r="5" fill="#1B69AD" />
-                                </svg>
-
-
-
-                                <hr />
-
-                                <div className='pt-4'>
-                                    <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
-                                        Add your profile photo and availability
-                                    </Title>
-                                </div>
-
-
-
-                                <div className="pb-4 w-full">
-                                    <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
-                                    <div className="w-full">
-                                        <Upload
-                                            fileList={fileList}
-                                            onChange={handleChange}
-                                            beforeUpload={() => false}
-                                            style={{ width: '100%', height: '40px' }}
-                                            className="upload-component"
-                                        >
-                                            {fileList.length >= 1 ? null : (
-                                                <Button
-                                                    icon={<UploadOutlined />}
-                                                    style={{ width: '100%', height: '40px' }}
-                                                >
-                                                    Upload Image
-                                                </Button>
-                                            )}
-                                        </Upload>
-                                    </div>
-                                </div>
-
-
-
-
-                                <div className='pb-4'>
-                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
-                                    <Input name='webLink' placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
-                                </div>
-
-
-                                <div className='pb-4'>
-                                    <div className='flex justify-between items-center gap-6 pb-4'>
-                                        <div className='w-full'>
-                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-                                            <Space wrap>
-                                                <Select
-                                                    defaultValue="Select day.."
-                                                    style={{ width: 150 }}
-
-                                                    options={[
-                                                        { value: 'Monday', label: 'Monday' },
-                                                        { value: 'Tuesday', label: 'Tuesday' },
-                                                        { value: 'Wednesday', label: 'Wednesday' },
-                                                        { value: 'Thursday', label: 'Thursday' },
-                                                        { value: 'Friday', label: 'Friday' },
-                                                        { value: 'Saturday', label: 'Saturday' },
-                                                        { value: 'Sunday', label: 'Sunday' },
-                                                    ]}
-                                                />
-                                            </Space>
-                                        </div>
-
-
-                                        <div className='w-full'>
-                                            <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
-                                            <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeLowyerModal} />
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div className='pb-4'>
-                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Preview</p>
-                                    <Space wrap>
-                                        {lowyerOptions.map((option) => (
-                                            <Button
-                                                key={option}
-                                                onClick={() => handleSelectLowyer(option)}
-                                                style={{
-                                                    borderRadius: 20,
-
-                                                    backgroundColor: selectedOptions.includes(option) ? "#1b69ad" : "#FFFFFF",
-                                                    color: selectedOptions.includes(option) ? "#FFFFFF" : "#1b69ad",
-                                                    border: "1px solid #B6B6BA",
-                                                    fontWeight: "bold",
-                                                    fontSize: "16px",
-                                                    fontFamily: "Roboto",
-                                                    padding: "20px"
-                                                }}
-                                            >
-                                                {option}
-                                            </Button>
-                                        ))}
-                                    </Space>
-                                </div>
-                                <div className='flex flex-col md:flex-row gap-[12px]'>
-                                    <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
-                                    <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
-                                    <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
-                                </div>
-                            </div>
-
-                        </Modal>
-                } */}
-
+                </Modal>
 
             </div>
             <div>
@@ -1089,11 +409,6 @@ const Banner = () => {
                     <h1 className="font-roboto font-bold text-[24px] md:text-[32px] textpri">Find the Legal Help You Need</h1>
                     <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px] leading-[35px]">Finding the right legal support has never been easier. Select up to 3 practice areas to find your LawPair Suggested <sup>(TM)</sup> attorney today</p>
                 </div>
-
-
-
-
-
                 <div className="flex justify-center items-center">
                     <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-3">
                         {
@@ -1192,126 +507,6 @@ const Banner = () => {
                             </div>
 
                         </Modal>
-
-                        {/* categorie for second modal */}
-                        {/* <Modal centered open={categorieSecondModalOpen} onOk={handleOkCategorieTwo} onCancel={handleCancelCategorieTwo}
-                            width={600}
-                            footer={
-                                <div className="flex justify-between items-center gap-x-4 pt-[24px]">
-                                    <button
-                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                                        onClick={handleCancelCategorieTwo}
-                                    >
-                                        Back
-                                    </button>
-                                    <button
-                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                                        onClick={handleOkCategorieTwo}
-                                    >
-                                        Continue
-                                    </button>
-                                </div>
-                            }
-                        >
-
-
-                            <div>
-                                <svg
-                                    className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
-                                    width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                                    <path d="M14.167 20.834L17.5003 24.1673L25.8337 15.834" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
-                                    <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                                    <circle cx="508" cy="20" r="5" fill="#1B69AD" />
-                                </svg>
-
-                                <hr />
-                                <div className='pt-4'>
-                                    <Title level={4} className='text-[14px] font-roboto font-bold text-[#001018]'>
-                                        Find the exact Attorny by filter
-                                    </Title>
-                                </div>
-
-
-                                <div className='pb-4'>
-                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Lawyer experience</p>
-                                    <Select
-                                        showSearch
-                                        placeholder="Select..."
-                                        style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSeleSecondCtcategorieValue("lawyerExperience", value)}
-                                        options={[
-                                            { label: "1-3 Years", value: "1-3 Years" },
-                                            { label: "4-7 Years", value: "4-7 Years" },
-                                            { label: "8+ Years", value: "8+ Years" }
-                                        ]}
-                                    />
-                                </div>
-
-                                <div className='pb-4'>
-                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Location</p>
-                                    <Select
-                                        showSearch
-                                        placeholder="Select..."
-                                        style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSeleSecondCtcategorieValue("location", value)}
-                                        options={[
-                                            { label: "New York", value: "new-york" },
-                                            { label: "Los Angeles", value: "los-angeles" },
-                                            { label: "Chicago", value: "chicago" }
-                                        ]}
-
-                                    />
-                                </div>
-
-                                <div className='pb-4'>
-                                    <p className='text-[14px] font-roboto font-bold text-[#001018]'>Languages</p>
-                                    <Select
-                                        showSearch
-                                        placeholder="Select..."
-                                        style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSeleSecondCtcategorieValue("languages", value)}
-                                        options={[
-                                            { label: "English", value: "English" },
-                                            { label: "Spanish", value: "Spanish" },
-                                            { label: "German", value: "German" },
-                                            { label: "Russian", value: "Russian" }
-                                        ]}
-                                    />
-                                </div>
-
-                                <div className='pb-4'>
-                                    <div className='flex justify-between items-center gap-6 pb-4'>
-                                        <div className='w-full'>
-                                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-                                            <Space wrap>
-                                                <Select
-                                                    defaultValue="Select day.."
-                                                    style={{ width: 150 }}
-                                                    onChange={value => handleSeleSecondCtcategorieValue("availability", value)}
-                                                    options={[
-                                                        { value: 'Monday', label: 'Monday' },
-                                                        { value: 'Tuesday', label: 'Tuesday' },
-                                                        { value: 'Wednesday', label: 'Wednesday' },
-                                                        { value: 'Thursday', label: 'Thursday' },
-                                                        { value: 'Friday', label: 'Friday' },
-                                                        { value: 'Saturday', label: 'Saturday' },
-                                                        { value: 'Sunday', label: 'Sunday' },
-                                                    ]}
-                                                />
-                                            </Space>
-                                        </div>
-
-
-                                        <div className='w-full'>
-                                            <p className='text-[14px] font-roboto font-bold text-primary text-end'>Add new</p>
-                                            <TimePicker style={{ width: "100%", height: '40px' }} onChange={handleTimeChangeSecondCategorieModal} />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </Modal> */}
                     </div>
                 </div>
             </div>

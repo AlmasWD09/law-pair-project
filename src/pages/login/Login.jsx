@@ -17,6 +17,9 @@ const Login = () => {
     const [attorneyForm] = Form.useForm(); // Form instance
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
+
 
     const onChange = (key) => {
         clientForm.resetFields();  // Client form reset
@@ -42,7 +45,7 @@ const Login = () => {
                     secure: true,
                     sameSite: 'Strict'
                 });
-                navigate('/user-profile')
+                navigate(from, { replace: true });
             }
             else {
                 toast.error('login failed')
@@ -80,7 +83,7 @@ const Login = () => {
                     secure: true,
                     sameSite: 'Strict'
                 });
-                navigate('/lawyer-profile')
+                navigate(from, { replace: true });
             }
             else {
                 toast.error('login failedddd')
@@ -89,7 +92,6 @@ const Login = () => {
         catch (error) {
             toast.error("Login Error. plz try again!");
         }
-
         attorneyForm.resetFields();
     };
 
