@@ -6,6 +6,7 @@ import useAxiosPublic from '../../hooks/useAxiosPublic';
 import Cookies from "js-cookie";
 import { UploadOutlined } from "@ant-design/icons";
 import toast from "react-hot-toast";
+import moment from 'moment';
 
 
 
@@ -20,8 +21,8 @@ const EditLawyerProfile = () => {
   const [fileList, setFileList] = useState([]);
   const [webLink, setWebLink] = useState("");
   const [availability, setAvailability] = useState(null);
-  const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
 
 
   const token = Cookies.get("otpToken");
@@ -38,11 +39,23 @@ const EditLawyerProfile = () => {
     languages,
     phone,
     practice_area,
-    schedule, // Nested destructuring
     state,
     web_link
   } = lawyerAllData || {};
 
+  const {
+    schedule, // Destructure only schedule
+  } = lawyerAllData || {};
+
+  const time = schedule?.time || ""; // Ensure time is always a string
+
+  useEffect(() => {
+    if (time) {
+      const [start, end] = time.split(" - ").map(t => t.trim());
+      setStartTime(start);
+      setEndTime(end);
+    }
+  }, [time]);
 
 
 
@@ -110,47 +123,46 @@ const EditLawyerProfile = () => {
     });
   };
 
+
   const onFinish = async (values) => {
-  //   const schedule = {
-  //     day: availability,
-  //     time: `${startTime} - ${endTime}`,
+    //   const schedule = {
+    //     day: availability,
+    //     time: `${startTime} - ${endTime}`,
 
-  // }
-  //       const formData = new FormData();
-  //       formData.append('service_ids', JSON.stringify(values))
-  //       formData.append('practice_area', values.practice)
-  //       formData.append('experience', values.experience)
-  //       formData.append('languages', values.languages)
-  //       if (fileList && fileList.length > 0) {
-  //           formData.append('avatar', fileList[0].originFileObj); // Fix: Use originFileObj
-  //       }
-  //       formData.append('state', values.state)
-  //       formData.append('address', values.address)
-  //       formData.append('phone', values.phone)
+    // }
+    //       const formData = new FormData();
+    //       formData.append('service_ids', JSON.stringify(values))
+    //       formData.append('practice_area', values.practice)
+    //       formData.append('experience', values.experience)
+    //       formData.append('languages', values.languages)
+    //       if (fileList && fileList.length > 0) {
+    //           formData.append('avatar', fileList[0].originFileObj); // Fix: Use originFileObj
+    //       }
+    //       formData.append('state', values.state)
+    //       formData.append('address', values.address)
+    //       formData.append('phone', values.phone)
 
-  //       formData.append('web_link', values)
-  //       formData.append('schedule', JSON.stringify(schedule));
+    //       formData.append('web_link', values)
+    //       formData.append('schedule', JSON.stringify(schedule));
 
 
-  //   formData.forEach((value, key) => {
-  //     console.log(key, value);
-  //   });
+    //   formData.forEach((value, key) => {
+    //     console.log(key, value);
+    //   });
 
-  //   try {
-  //       const response = await axiosPublic.post('/lawyer/update-profile', formData,{
-  //           headers: {
-  //               Authorization: `Bearer ${token}`,
-  //               "Accept": "application/json"
-  //           }
-  //       });
-  //   } catch (error) {
-  //       toast.error("Error sending data to the server:", error);
-  //   }
+    //   try {
+    //       const response = await axiosPublic.post('/lawyer/update-profile', formData,{
+    //           headers: {
+    //               Authorization: `Bearer ${token}`,
+    //               "Accept": "application/json"
+    //           }
+    //       });
+    //   } catch (error) {
+    //       toast.error("Error sending data to the server:", error);
+    //   }
 
   }
 
-
-console.log(lawyerAllData)
 
 
   return (
@@ -285,14 +297,26 @@ console.log(lawyerAllData)
 
                 <div className='w-full'>
                   <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>Start Time</p>
-                  <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "start")}
+                  {/* <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "start")}
+                  /> */}
+                  <TimePicker
+                    value={startTime ? moment(startTime, "HH:mm") : null}
+                    format="HH:mm"
+                    onChange={(time, timeString) => handleTimeChange(time, timeString, "start")}
+                    style={{ width: "100%", height: "40px" }}
                   />
                 </div>
 
               </div>
               <div className='w-full'>
                 <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>End Time</p>
-                <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "end")} />
+                {/* <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "end")} /> */}
+                <TimePicker
+                  value={endTime ? moment(endTime, "HH:mm") : null}
+                  format="HH:mm"
+                  onChange={(time, timeString) => handleTimeChange(time, timeString, "end")}
+                  style={{ width: "100%", height: "40px" }}
+                />
               </div>
             </div>
           </div>

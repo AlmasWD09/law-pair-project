@@ -100,7 +100,7 @@ const DashboardLegalResources = () => {
       .catch((error) => {
         console.error("Error fetching dashboard users:", error);
       });
-  }, [token, currentPage,fileList]);
+  }, [token, currentPage, fileList]);
 
 
   const showDeleteModal = (record) => {
@@ -181,7 +181,6 @@ const DashboardLegalResources = () => {
       ),
     },
   ];
-
 
 
 
@@ -273,18 +272,18 @@ const DashboardLegalResources = () => {
 
       {/* table components */}
       <div className="overflow-x-auto pt-3">
-        <Table columns={columns} dataSource={data} pagination={false}  rowKey="id" />
+        <Table columns={columns} dataSource={data} pagination={false} rowKey="id" />
       </div>
 
       {/* pagination component */}
-      <Pagination 
-          current={currentPage}
-          total={totalLegalResurces}
-          pageSize={perPage}
-          onChange={handlePageChange}
-          showSizeChanger={false}
-          align="end"
-          className="my-4"
+      <Pagination
+        current={currentPage}
+        total={totalLegalResurces}
+        pageSize={perPage}
+        onChange={handlePageChange}
+        showSizeChanger={false}
+        align="end"
+        className="my-4"
       />
 
 
