@@ -43,9 +43,7 @@ const EditLawyerProfile = () => {
     web_link
   } = lawyerAllData || {};
 
-  const {
-    schedule, // Destructure only schedule
-  } = lawyerAllData || {};
+  const { schedule, } = lawyerAllData || {};
 
   const time = schedule?.time || ""; // Ensure time is always a string
 
@@ -56,6 +54,12 @@ const EditLawyerProfile = () => {
       setEndTime(end);
     }
   }, [time]);
+
+
+  const filteredCategories = categorieData.filter(category => 
+    categories?.includes(category.name)
+  );
+
 
 
 
@@ -124,7 +128,19 @@ const EditLawyerProfile = () => {
   };
 
 
+  useEffect(() => {
+    if (filteredCategories.length > 0) {
+      setSelectedOptions(prev => {
+        const newSelection = filteredCategories.map(category => category.id);
+        return JSON.stringify(prev) === JSON.stringify(newSelection) ? prev : newSelection;
+      });
+    }
+  }, [filteredCategories]);
+  
+
+
   const onFinish = async (values) => {
+    console.log(values)
     //   const schedule = {
     //     day: availability,
     //     time: `${startTime} - ${endTime}`,
