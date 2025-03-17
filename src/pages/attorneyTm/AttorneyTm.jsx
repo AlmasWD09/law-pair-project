@@ -38,7 +38,8 @@ const AttorneyTm = () => {
 
     const handleFavoriteList = async (id) => {
         const favoriteInfo = {
-            lawyer_id: id
+            lawyer_id: id,
+            // is_favorite: "true",
         }
 
         if (userToken) {
@@ -51,6 +52,7 @@ const AttorneyTm = () => {
                 })
                 if ((response.data.success)) {
                     toast.success('Favorite successfully')
+                    navigate('/user-profile')
                 }
             }
             catch (error) {
@@ -63,7 +65,7 @@ const AttorneyTm = () => {
     }
 
 
-
+console.log(lawyersData)
     return (
         <div className="container mx-auto px-4 py-8 md:py-20">
             {

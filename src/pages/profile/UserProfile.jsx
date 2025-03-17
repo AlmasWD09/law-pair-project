@@ -1,22 +1,31 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate"
 import { FaEdit } from "react-icons/fa";
-import { Pagination } from "antd";
+import { Button, Input, Modal, Pagination, Upload } from "antd";
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
+import { UploadOutlined } from "@ant-design/icons";
 
 
 const UserProfile = () => {
     const axiosPublic = useAxiosPublic();
+    const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 4
     const [favoriteData, setFavoriteData] = useState([])
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [fileList, setFileList] = useState([]);
+
+
+
 
     // token get in cookies
     const userToken = Cookies.get("userToken");
 
-
+    // Handle File Upload
+    const handleChange = ({ fileList }) => setFileList(fileList);
 
     // first modal option get server
     useEffect(() => {
@@ -50,18 +59,43 @@ const UserProfile = () => {
     const paginatedData = favoriteData.slice(startIndex, endIndex);
 
 
+    // logout function
     const handleLogout = async () => {
-        console.log('click-----> Log OUT')
-
-        // try {
-        //     const response = await axiosPublic.post('/logout')
-        //     console.log(response.data)
-        // }
-        // catch (error) {
-        //     console.log('logout Failed')
-        // }
+        try {
+            const response = await axiosPublic.get('/logout', {
+                headers: {
+                    Authorization: `Bearer ${userToken}`,
+                    Accept: "application/json",
+                },
+            })
+            console.log(response.data)
+            if (response.data.success) {
+                toast.success('User logged out successfully!')
+                Cookies.remove("userToken");
+                navigate('/login')
+            }
+        }
+        catch (error) {
+            toast.error('Logout Failed')
+        }
     }
 
+
+    // ========== user profile update modal start ================
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = async () => {
+
+
+    };
+
+
+    const handleCancel = () => {
+        setIsModalOpen(false)
+    };
+
+    // ========== user profile update modal end  =================
 
     return (
         <div className="bg-gray-100">
@@ -81,7 +115,9 @@ const UserProfile = () => {
                                     <h1 className="text-[20px] font-bold font-roboto text-[#001018 pl-4 pt-[12px] pb-[24px]">
                                         Yolo Lana
                                     </h1>
-                                    <button className="flex items-center gap-2 border rounded-md px-4 py-2 text-[14px] font-bold text-primary mb-[24px]">
+                                    <button
+                                        onClick={showModal}
+                                        className="flex items-center gap-2 border rounded-md px-4 py-2 text-[14px] font-bold text-primary mb-[24px]">
                                         Edit profile
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <mask id="mask0_599_7852" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
@@ -92,6 +128,67 @@ const UserProfile = () => {
                                             </g>
                                         </svg>
                                     </button>
+
+                                    {/* edit modal component */}
+                                    <Modal centered open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+                                        width={600}
+                                        footer={
+                                            <div className="font-roboto flex justify-center md:justify-between items-center gap-x-4 md:px-7 pt-[24px]">
+                                                <button
+                                                    className="w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                                    onClick={handleCancel}
+                                                >
+                                                    Cancel
+                                                </button>
+                                                <button
+                                                    className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                                    onClick={handleOk}
+                                                >
+                                                    Continue
+                                                </button>
+                                            </div>
+                                        }
+                                    >
+
+
+                                        <div className="py-8">
+                                            <div className="pb-4 w-full">
+                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
+                                                <div className="w-full">
+                                                    <Upload
+                                                        fileList={fileList}
+                                                        onChange={handleChange}
+                                                        beforeUpload={() => false} // Prevent auto-upload
+                                                        style={{ width: '100%', height: '40px' }} // Force the Upload component to take full width
+                                                        className="upload-component" // Custom class to apply further styling
+                                                    >
+                                                        {fileList.length >= 1 ? null : (
+                                                            <Button
+                                                                icon={<UploadOutlined />}
+                                                                style={{ width: '100%', height: '40px' }} // Ensure the button takes up full width
+                                                            >
+                                                                Upload Image
+                                                            </Button>
+                                                        )}
+                                                    </Upload>
+                                                </div>
+                                            </div>
+
+                                            <div className="pt-4">
+                                            <p className="text-[14px] font-roboto font-bold text-[#001018]">Full Name</p>
+                                                <Input placeholder="Enter Your Full Name" 
+                                                style={{ width: '100%', height: '40px' }}
+                                                />
+                                            </div>
+
+                                            <div className="pt-4">
+                                            <p className="text-[14px] font-roboto font-bold text-[#001018]">Address</p>
+                                                <Input placeholder="Enter Your Address" 
+                                                style={{ width: '100%', height: '40px' }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </Modal>
 
                                     <hr />
 
