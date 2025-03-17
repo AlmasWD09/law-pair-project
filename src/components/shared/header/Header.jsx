@@ -6,6 +6,9 @@ import Button from "../Button";
 import { RiSearchLine } from "react-icons/ri";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
+
+
 
 const Header = () => {
     const axiosPublic = useAxiosPublic();
@@ -16,14 +19,30 @@ const Header = () => {
     const [searchValue, setSearchValue] = useState('')
 
 
+
+
+
+    // token get in cookies
+    const lawyerToken = Cookies.get("lawyerToken");
+    const userToken = Cookies.get("userToken");
+
+
+
+
+    if (lawyerToken) {
+        console.log('lawyerToken')
+    } else if (userToken) {
+        console.log('userToken')
+    } else {
+        console.log('not logged in')
+    }
+
+
+
+
     const handleNavigate = () => {
         navigate("/");
     };
-
-
-
-
-
 
 
     // background color add in navbar scroll
@@ -44,14 +63,14 @@ const Header = () => {
         if (!searchValue.trim()) {
             return alert("Please enter a search term!");
         }
-    
+
         try {
             const response = await axiosPublic.get(`/search-lawyer?name=${searchValue}`);
             if (response.data.success) {
                 navigate('/search-attorney', { state: { searchResults: response.data.lawyers.data } });
             }
         } catch (error) {
-           toast.error('No lawyer found!')
+            toast.error('No lawyer found!')
         }
     };
 
@@ -110,8 +129,8 @@ const Header = () => {
                                 />
                                 <span className="absolute inset-y-0 right-0 flex items-center pl-3">
                                     <RiSearchLine
-                                     onClick={handleSearch}
-                                    className="w-10 h-8 pr-3 text-primary" />
+                                        onClick={handleSearch}
+                                        className="w-10 h-8 pr-3 text-primary" />
                                 </span>
                             </div>
                         </div>
