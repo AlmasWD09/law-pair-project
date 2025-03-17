@@ -4,6 +4,10 @@ import AccountCreate from "../../layout/AccountCreate";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "antd";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
+
+
 
 const LawyerProfile = () => {
     const axiosPublic = useAxiosPublic();
@@ -11,6 +15,8 @@ const LawyerProfile = () => {
     const [modalOneOpen, setIsModalOneOpen] = useState(false);
     const [modalTwoOpen, setIsModalTwoOpen] = useState(false);
 
+        // token get in cookies
+        const lawyerToken = Cookies.get("lawyerToken");
 
     //=========== modal one start ===========
     const showModal = () => {
@@ -36,16 +42,25 @@ const LawyerProfile = () => {
     };
 
     const handleOkTwo = async () => {
-        // attorney logout function here.........
-        // try {
-        //     const response = await axiosPublic.post('/logout')
-        //     console.log(response.data)
-        // }
-        // catch (error) {
-        //     console.log('logout Failed')
-        // }
-
-        setIsModalTwoOpen(false);
+        try {
+            const response = await axiosPublic.get('/logout', {
+                headers: {
+                    Authorization: `Bearer ${lawyerToken}`,
+                    Accept: "application/json",
+                },
+            })
+            console.log(response.data)
+            if (response.data.success) {
+                toast.success('User logged out successfully!')
+                Cookies.remove("lawyerToken");
+                setIsModalTwoOpen(false);
+                navigate('/login')
+            }
+        }
+        catch (error) {
+            toast.error('Logout Failed')
+        }
+        
     };
 
     const handleCancelTwo = () => {

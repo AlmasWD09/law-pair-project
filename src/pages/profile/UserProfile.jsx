@@ -17,7 +17,10 @@ const UserProfile = () => {
     const [favoriteData, setFavoriteData] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [fileList, setFileList] = useState([]);
-
+    const [modalValues, setModalValues] = useState({
+        full_name: '',
+        address: '',
+    })
 
 
 
@@ -38,7 +41,7 @@ const UserProfile = () => {
                     },
                 });
 
-                setFavoriteData(response.data.favoriteList.data)
+                setFavoriteData(response.data?.favoriteList?.data)
             } catch (error) {
                 console.error('Failed to load data:', error);
             }
@@ -82,19 +85,66 @@ const UserProfile = () => {
 
 
     // ========== user profile update modal start ================
+    const handleInputChange = (e) => {
+        setModalValues({ ...modalValues, [e.target.name]: e.target.value });
+    }
+
     const showModal = () => {
         setIsModalOpen(true);
     };
     const handleOk = async () => {
+        console.log("Uploaded File:", fileList, modalValues.full_name, modalValues.address);
+        const formData = new FormData();
 
+        if (fileList && fileList.length > 0) {
+          formData.append("avatar", fileList[0].originFileObj);
+        }
+  
+        formData.append("full_name", modalValues.full_name);
+        formData.append("address", modalValues.address);
+
+        formData.forEach((value, key) => {
+          console.log(key, value);
+        });
+
+
+    // try {
+    //     const response = await axiosPublic.post('/update-profile', formData,{
+    //         headers: {
+    //             Authorization: `Bearer ${userToken}`,
+    //             "Accept": "application/json"
+    //         }
+
+    //     });
+
+    //     console.log("Server Response:", response.data);
+    //     if(response.data.success) {
+    //         toast.success('Profile updated successfully!');
+    //         setIsModalOpen(false)
+    //     }
+
+    // } catch (error) {
+    //     toast.error('Something went wrong! Please try Again');
+    // }
 
     };
-
 
     const handleCancel = () => {
         setIsModalOpen(false)
     };
 
+
+    // modal scroll off screen
+    useEffect(() => {
+        if (isModalOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+        return () => {
+            document.body.style.overflow = 'auto';
+        }
+    }, [isModalOpen])
     // ========== user profile update modal end  =================
 
     return (
@@ -175,16 +225,22 @@ const UserProfile = () => {
                                             </div>
 
                                             <div className="pt-4">
-                                            <p className="text-[14px] font-roboto font-bold text-[#001018]">Full Name</p>
-                                                <Input placeholder="Enter Your Full Name" 
-                                                style={{ width: '100%', height: '40px' }}
+                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">Full Name</p>
+                                                <Input name="full_name"
+                                                    value={modalValues.full_name}
+                                                    onChange={handleInputChange}
+                                                    placeholder="Enter Your Full Name"
+                                                    style={{ width: '100%', height: '40px' }}
                                                 />
                                             </div>
 
                                             <div className="pt-4">
-                                            <p className="text-[14px] font-roboto font-bold text-[#001018]">Address</p>
-                                                <Input placeholder="Enter Your Address" 
-                                                style={{ width: '100%', height: '40px' }}
+                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">Address</p>
+                                                <Input name="address"
+                                                    value={modalValues.address}
+                                                    onChange={handleInputChange}
+                                                    placeholder="Enter Your Address"
+                                                    style={{ width: '100%', height: '40px' }}
                                                 />
                                             </div>
                                         </div>

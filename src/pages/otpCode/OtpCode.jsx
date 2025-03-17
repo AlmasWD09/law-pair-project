@@ -55,7 +55,7 @@ const OtpCode = () => {
             const response = await axiosPublic.post("/verify-email", otpCode);
             if ((response.data.success) && (response.data.access_token)) {
 
-                Cookies.set("otpToken", response?.data?.access_token,
+                Cookies.set("lawyerToken", response?.data?.access_token,
                     { expires: 7, secure: true, sameSite: "Strict" });
 
                 toast.success("OTP send successfully.");
@@ -112,7 +112,7 @@ const OtpCode = () => {
         // Ensure we store the file with originFileObj
         setFileList(fileList.map(file => ({ ...file, originFileObj: file.originFileObj || file })));
     };
-    const token = Cookies.get("otpToken");
+    const token = Cookies.get("lawyerToken");
 
     //====================== first modal start ==============
 
