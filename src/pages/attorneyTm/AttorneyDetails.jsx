@@ -10,45 +10,6 @@ const AttorneyDetails = () => {
     const axiosPublic = useAxiosPublic()
     const [lawyerData, setLawyerData] = useState({})
 
-    const attorneyData = [
-        {
-            "id": 1,
-            "image": "/attorney1.png",
-            "name": "John Doe",
-            "title": "Software Engineer"
-        },
-        {
-            "id": 2,
-            "image": "/attorney1.png",
-            "name": "Jane Smith",
-            "title": "Product Manager"
-        },
-        {
-            "id": 3,
-            "image": "/attorney1.png",
-            "name": "Alice Johnson",
-            "title": "UI/UX Designer"
-        },
-        {
-            "id": 4,
-            "image": "/attorney1.png",
-            "name": "Michael Brown",
-            "title": "Data Scientist"
-        },
-        {
-            "id": 5,
-            "image": "/attorney1.png",
-            "name": "Emily Davis",
-            "title": "Marketing Specialist"
-        },
-        {
-            "id": 6,
-            "image": "/attorney1.png",
-            "name": "David Wilson",
-            "title": "Cybersecurity Analyst"
-        }
-    ];
-
     useEffect(() => {
         axiosPublic.get(`/lawyer/${id}`,)
             .then(response => setLawyerData(response?.data?.lawyer))
@@ -175,7 +136,7 @@ const AttorneyDetails = () => {
                         <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">Availability</h2>
                         <div className="flex flex-wrap lg:flex-row items-center gap-3 pt-3">
                             {
-                                lawyerData.schedule?.map((avilityDay, index) => {
+                                lawyerData?.schedule?.map((avilityDay, index) => {
                                     return (
                                         <button key={index} className="border px-4 py-1 rounded-full font-roboto text-primary text-[16px]">{avilityDay.day}</button>
                                     )

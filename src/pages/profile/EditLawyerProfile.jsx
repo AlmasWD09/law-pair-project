@@ -45,7 +45,7 @@ const EditLawyerProfile = () => {
 
   const { schedule, } = lawyerAllData || {};
 
-  const time = schedule?.time || ""; // Ensure time is always a string
+  const time = schedule?.time || ""; 
 
   useEffect(() => {
     if (time) {
@@ -140,9 +140,8 @@ const EditLawyerProfile = () => {
 
 
   const onFinish = async (values) => {
-    console.log(values)
+    console.log('click')
   }
-
 
 
   return (

@@ -30,11 +30,11 @@ const Header = () => {
 
 
     if (lawyerToken) {
-        console.log('lawyerToken')
+        // console.log('lawyerToken')
     } else if (userToken) {
-        console.log('userToken')
+        // console.log('userToken')
     } else {
-        console.log('not logged in')
+        // console.log('not logged in')
     }
 
 

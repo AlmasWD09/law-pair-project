@@ -9,6 +9,7 @@ import Title from "antd/es/skeleton/Title";
 import { UploadOutlined } from "@ant-design/icons";
 
 
+
 const OtpCode = () => {
     const axiosPublic = useAxiosPublic();
     const [form] = Form.useForm(); // Form instance
@@ -43,7 +44,7 @@ const OtpCode = () => {
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
 
-
+    const lawyerToken = Cookies.get("lawyerToken");
 
 
     const onFinish = async (values) => {
@@ -112,7 +113,7 @@ const OtpCode = () => {
         // Ensure we store the file with originFileObj
         setFileList(fileList.map(file => ({ ...file, originFileObj: file.originFileObj || file })));
     };
-    const token = Cookies.get("lawyerToken");
+
 
     //====================== first modal start ==============
 
@@ -218,16 +219,16 @@ const OtpCode = () => {
 
         // console.log(modalOneValue)
         // console.log(modalTwoValue)
-        // formData.forEach((value, key) => {
-        //     console.log(key, value);
-        // });
+        formData.forEach((value, key) => {
+            console.log(key, value);
+        });
 
 
 
         try {
             const response = await axiosPublic.post('/lawyer/update-profile', formData, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${lawyerToken}`,
                     "Accept": "application/json"
                 }
 
@@ -474,7 +475,7 @@ const OtpCode = () => {
                     </div>
 
                     <div className='pb-4'>
-                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
+                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Phone</p>
                         <Input name='phone'
                             value={modalTwoValue.phone}
                             onChange={handleInputChange}

@@ -5,7 +5,7 @@ const { Title } = Typography;
 import { useNavigate } from 'react-router-dom';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import toast from 'react-hot-toast';
-
+import Cookies from "js-cookie";
 
 
 const Banner = () => {
@@ -34,6 +34,9 @@ const Banner = () => {
         city: null,
     })
 
+
+    // token get in cookies
+    const userToken = Cookies.get("userToken");
 
     // first modal option get server
     useEffect(() => {
@@ -111,36 +114,39 @@ const Banner = () => {
     }
 
 
+
     const handleOkTwo = async () => {
         const findLawyerInfo = {
             service_ids: modalOneValue,
             state: secondSelectValue.location,
             language: secondSelectValue.city
         };
-
+    
         try {
             const response = await axiosPublic.get(`/find-lawyers`, {
                 params: {
-                    service_ids: JSON.stringify(findLawyerInfo.service_ids),
+                    service_ids: JSON.stringify(findLawyerInfo.service_ids), 
                     state: findLawyerInfo.state,
                     language: findLawyerInfo.language
+                },
+                headers: {  // Move headers inside the same object
+                    Authorization: `Bearer ${userToken}`,
+                    Accept: "application/json",
                 }
             });
-
+    
             if (response.data.success) {
-                navigate('/attorney-tm', { state: { lawyers: response.data?.lawyers?.data } })
-            }
-            else {
-                toast.error('No lawyer found!')
+                navigate('/attorney-tm', { state: { lawyers: response.data?.lawyers?.data } });
+            } else {
+                toast.error('No lawyer found!');
             }
         } catch (error) {
-            setIsModalOpenTwo(false)
-            toast.error('No lawyer found!')
+            toast.error('No lawyer found!');
         } finally {
-            setIsModalOpenTwo(false)
+            setIsModalOpenTwo(false);
         }
     };
-
+    
 
     const handleCancelTwo = () => {
         setIsModalOpenTwo(false);
@@ -376,10 +382,10 @@ const Banner = () => {
                                 style={{ width: '100%', height: '40px' }}
                                 onChange={value => handleSelectModalTwoValue("location", value)}
                                 options={[
-                                    { value: 'New Jersey', label: 'New Jersey' },
-                                    { value: 'New York', label: 'New York' },
-                                    { value: 'Pennsylvania', label: 'Pennsylvania' },
-                                    { value: 'Washington, D.C', label: 'Washington, D.C' },
+                                    { value: 'new jersey', label: ' New Jersey' },
+                                    { value: 'new york', label: 'New York' },
+                                    { value: 'pennsylvania', label: 'Pennsylvania' },
+                                    { value: 'washington, d.c', label: 'Washington, D.C' },
                                 ]}
                             />
                         </div>
@@ -392,10 +398,10 @@ const Banner = () => {
                                 style={{ width: '100%', height: '40px' }}
                                 onChange={value => handleSelectModalTwoValue("city", value)}
                                 options={[
-                                    { label: "English", value: "English" },
-                                    { label: "Spanish", value: "Spanish" },
-                                    { label: "German", value: "German" },
-                                    { label: "Russian", value: "Russian" }
+                                    { label: "English", value: "english" },
+                                    { label: "Spanish", value: "spanish" },
+                                    { label: "German", value: "german" },
+                                    { label: "Russian", value: "russian" }
                                 ]}
                             />
                         </div>
