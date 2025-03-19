@@ -18,7 +18,9 @@ const UserProfile = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [fileList, setFileList] = useState([]);
     const [modalValues, setModalValues] = useState({
-        full_name: '',
+        first_name: '',
+        last_name: '',
+        phone: '',
         address: '',
     })
 
@@ -100,32 +102,34 @@ const UserProfile = () => {
           formData.append("avatar", fileList[0].originFileObj);
         }
   
-        formData.append("full_name", modalValues.full_name);
+        formData.append("first_name", modalValues.first_name);
+        formData.append("last_name", modalValues.last_name);
+        formData.append("phone", modalValues.phone);
         formData.append("address", modalValues.address);
 
-        formData.forEach((value, key) => {
-          console.log(key, value);
+        // formData.forEach((value, key) => {
+        //   console.log(key, value);
+        // });
+
+
+    try {
+        const response = await axiosPublic.post('/update-profile', formData,{
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+                "Accept": "application/json"
+            }
+
         });
 
+        console.log("Server Response:", response.data);
+        if(response.data.success) {
+            toast.success('Profile updated successfully!');
+            setIsModalOpen(false)
+        }
 
-    // try {
-    //     const response = await axiosPublic.post('/update-profile', formData,{
-    //         headers: {
-    //             Authorization: `Bearer ${userToken}`,
-    //             "Accept": "application/json"
-    //         }
-
-    //     });
-
-    //     console.log("Server Response:", response.data);
-    //     if(response.data.success) {
-    //         toast.success('Profile updated successfully!');
-    //         setIsModalOpen(false)
-    //     }
-
-    // } catch (error) {
-    //     toast.error('Something went wrong! Please try Again');
-    // }
+    } catch (error) {
+        toast.error('Something went wrong! Please try Again');
+    }
 
     };
 
@@ -226,11 +230,29 @@ const UserProfile = () => {
                                             </div>
 
                                             <div className="pt-4">
-                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">Full Name</p>
-                                                <Input name="full_name"
-                                                    value={modalValues.full_name}
+                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">First Name</p>
+                                                <Input name="first_name"
+                                                    value={modalValues.first_name}
                                                     onChange={handleInputChange}
-                                                    placeholder="Enter Your Full Name"
+                                                    placeholder="Enter Your First Name"
+                                                    style={{ width: '100%', height: '40px' }}
+                                                />
+                                            </div>
+                                            <div className="pt-4">
+                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">Last Name</p>
+                                                <Input name="last_name"
+                                                    value={modalValues.last_name}
+                                                    onChange={handleInputChange}
+                                                    placeholder="Enter Your Last Name"
+                                                    style={{ width: '100%', height: '40px' }}
+                                                />
+                                            </div>
+                                            <div className="pt-4">
+                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">Phone Number</p>
+                                                <Input name="phone"
+                                                    value={modalValues.phone}
+                                                    onChange={handleInputChange}
+                                                    placeholder="Enter Your Phone Number"
                                                     style={{ width: '100%', height: '40px' }}
                                                 />
                                             </div>
