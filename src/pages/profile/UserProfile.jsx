@@ -7,6 +7,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { UploadOutlined } from "@ant-design/icons";
+import defalutAvater from "/attorney1.png"
 
 
 const UserProfile = () => {
@@ -23,14 +24,41 @@ const UserProfile = () => {
         phone: '',
         address: '',
     })
-
-
+    const [userData, setUserData] = useState({})
+    const { address, avatar, email, first_name, last_name, full_name, phone, } = userData ||{};
 
     // token get in cookies
     const userToken = Cookies.get("userToken");
 
     // Handle File Upload
     const handleChange = ({ fileList }) => setFileList(fileList);
+
+
+    // user profile get api
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axiosPublic.get('/user/profile', {
+                    headers: {
+                        Authorization: `Bearer ${userToken}`,
+                        Accept: "application/json",
+                    },
+                });
+
+
+                if (response.data.status) {
+                    setUserData(response?.data?.data)
+                }
+            } catch (error) {
+                toast.error('Failed to load data:');
+            }
+        };
+
+        fetchUserData();
+    }, [userData]);
+
+
+
 
     // first modal option get server
     useEffect(() => {
@@ -99,9 +127,9 @@ const UserProfile = () => {
         const formData = new FormData();
 
         if (fileList && fileList.length > 0) {
-          formData.append("avatar", fileList[0].originFileObj);
+            formData.append("avatar", fileList[0].originFileObj);
         }
-  
+
         formData.append("first_name", modalValues.first_name);
         formData.append("last_name", modalValues.last_name);
         formData.append("phone", modalValues.phone);
@@ -112,24 +140,24 @@ const UserProfile = () => {
         // });
 
 
-    try {
-        const response = await axiosPublic.post('/update-profile', formData,{
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                "Accept": "application/json"
+        try {
+            const response = await axiosPublic.post('/update-profile', formData, {
+                headers: {
+                    Authorization: `Bearer ${userToken}`,
+                    "Accept": "application/json"
+                }
+
+            });
+
+            console.log("Server Response:", response.data);
+            if (response.data.success) {
+                toast.success('Profile updated successfully!');
+                setIsModalOpen(false)
             }
 
-        });
-
-        console.log("Server Response:", response.data);
-        if(response.data.success) {
-            toast.success('Profile updated successfully!');
-            setIsModalOpen(false)
+        } catch (error) {
+            toast.error('Something went wrong! Please try Again');
         }
-
-    } catch (error) {
-        toast.error('Something went wrong! Please try Again');
-    }
 
     };
 
@@ -151,7 +179,8 @@ const UserProfile = () => {
     }, [isModalOpen])
     // ========== user profile update modal end  =================
 
-    
+
+
     return (
         <div className="bg-gray-100">
             <AccountCreate >
@@ -164,11 +193,11 @@ const UserProfile = () => {
                                 <div className="p-4">
                                     <img
                                         className="object-cover w-[124px] h-[124px] rounded-full"
-                                        src="/attorney1.png"
+                                        src={defalutAvater}
                                         alt="Article"
                                     />
                                     <h1 className="text-[20px] font-bold font-roboto text-[#001018 pl-4 pt-[12px] pb-[24px]">
-                                        Yolo Lana
+                                        {first_name} {last_name}
                                     </h1>
                                     <button
                                         onClick={showModal}
@@ -258,7 +287,7 @@ const UserProfile = () => {
                                             </div>
 
                                             <div className="pt-4">
-                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">Address</p>
+                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">address</p>
                                                 <Input name="address"
                                                     value={modalValues.address}
                                                     onChange={handleInputChange}
@@ -272,15 +301,12 @@ const UserProfile = () => {
                                     <hr />
 
                                     <div className="pt-[24px]">
-                                        <p className="font-roboto text-[16px] text-[#10101E] text-wrap flex gap-3">
-                                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <p className=" flex justify-between font-roboto text-[16px] text-[#10101E] text-wrap">
+                                            <svg width="100" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path fillRule="evenodd" clipRule="evenodd" d="M12 21.668C9.72 21.668 6 12.982 6 9.66797C6 8.07667 6.63214 6.55055 7.75736 5.42533C8.88258 4.30011 10.4087 3.66797 12 3.66797C13.5913 3.66797 15.1174 4.30011 16.2426 5.42533C17.3679 6.55055 18 8.07667 18 9.66797C18 12.982 14.28 21.668 12 21.668ZM12 12.668C12.3824 12.668 12.7611 12.5926 13.1144 12.4463C13.4677 12.3 13.7887 12.0855 14.0591 11.8151C14.3295 11.5447 14.544 11.2236 14.6903 10.8703C14.8367 10.517 14.912 10.1384 14.912 9.75597C14.912 9.37356 14.8367 8.99489 14.6903 8.64159C14.544 8.28829 14.3295 7.96728 14.0591 7.69687C13.7887 7.42647 13.4677 7.21197 13.1144 7.06563C12.7611 6.91929 12.3824 6.84397 12 6.84397C11.2277 6.84397 10.487 7.15077 9.9409 7.69687C9.3948 8.24298 9.088 8.98366 9.088 9.75597C9.088 10.5283 9.3948 11.269 9.9409 11.8151C10.487 12.3612 11.2277 12.668 12 12.668Z" fill="#10101E" />
                                             </svg>
-
-                                            456 Justice Avenue, Suite 890 Central Legal <br />
-                                            Distri
-                                            <br />
-                                            ctLos Angeles, CA 90017 United States</p>
+                                            {address}
+                                            </p>
                                     </div>
                                 </div>
 
