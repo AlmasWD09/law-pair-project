@@ -21,6 +21,7 @@ const Login = () => {
     const from = location.state?.from?.pathname || '/';
 
 
+
     const onChange = (key) => {
         clientForm.resetFields();  // Client form reset
         attorneyForm.resetFields(); // Attorney form reset
@@ -45,6 +46,7 @@ const Login = () => {
                     secure: true,
                     sameSite: 'Strict'
                 });
+                Cookies.remove("lawyerToken");
                 navigate(from, { replace: true });
             }
             else {
@@ -83,6 +85,7 @@ const Login = () => {
                     secure: true,
                     sameSite: 'Strict'
                 });
+                Cookies.remove('userToken');
                 navigate(from, { replace: true });
             }
             else {
