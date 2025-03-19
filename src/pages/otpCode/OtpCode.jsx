@@ -235,6 +235,7 @@ const OtpCode = () => {
             });
 
 
+            console.log(response.data)
             if (response.data.success) {
                 toast.success('Profile create successfully')
                 navigate('/lawyer-profile')

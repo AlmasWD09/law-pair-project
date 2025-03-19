@@ -16,16 +16,15 @@ const EditLawyerProfile = () => {
   const [categorieData, setCategorieData] = useState([]);
   const [lawyerAllData, setLawyerAllData] = useState({});
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
 
 
   const [fileList, setFileList] = useState([]);
-  const [webLink, setWebLink] = useState("");
-  const [availability, setAvailability] = useState(null);
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [packtice, setPacktice] = useState('')
+  // lawyer token 
+  const lawyerToken = Cookies.get("lawyerToken");
 
-  const token = Cookies.get("otpToken");
+
   const {
     id,
     first_name,
@@ -43,17 +42,6 @@ const EditLawyerProfile = () => {
     web_link
   } = lawyerAllData || {};
 
-  const { schedule, } = lawyerAllData || {};
-
-  const time = schedule?.time || ""; 
-
-  useEffect(() => {
-    if (time) {
-      const [start, end] = time.split(" - ").map(t => t.trim());
-      setStartTime(start);
-      setEndTime(end);
-    }
-  }, [time]);
 
 
   const filteredCategories = categorieData.filter(category =>
@@ -64,17 +52,24 @@ const EditLawyerProfile = () => {
 
 
   // Handle File Upload
-  const handleChange = ({ fileList }) => setFileList(fileList);
+  const handleChange = ({ fileList }) => {
+    setFileList(fileList.map(file => ({ ...file, originFileObj: file.originFileObj || file })));
+  };
+
+
   useEffect(() => {
     if (avatar) {
       setFileList([{ url: avatar }]); // Default avatar set kora
     }
-  }, [avatar]); // Avatar update hole abar fileList update hob
-  const handleAvailabilityChange = (value) => setAvailability(value);
+  }, [avatar]);
+
+  // Handle Time Selection
   const handleTimeChange = (time, timeString, type) => {
     if (type === "start") setStartTime(timeString);
     if (type === "end") setEndTime(timeString);
   };
+
+
 
   // lawyer all value get
   useEffect(() => {
@@ -82,7 +77,7 @@ const EditLawyerProfile = () => {
       try {
         const response = await axiosPublic.get('/lawyer/profile', {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${lawyerToken}`,
             "Accept": "application/json"
             // ✅ Send token in Authorization header
           }
@@ -138,16 +133,66 @@ const EditLawyerProfile = () => {
   }, [filteredCategories]);
 
 
-
   const onFinish = async (values) => {
-    console.log('click')
+
+    const service_ids = ['29', '30']
+
+    const schedule = {
+      day: day,
+      time: `${startTime} - ${endTime}`,
+
+    }
+
+    const formData = new FormData();
+    formData.append('service_ids', JSON.stringify(service_ids))
+    formData.append('practice_area', values.practice_area)
+    formData.append('experience', values.experience)
+    formData.append('languages', values.languages)
+    if (fileList && fileList.length > 0) {
+      formData.append('avatar', fileList[0].originFileObj); // Fix: Use originFileObj
+    }
+    formData.append('state', values.state)
+    formData.append('address', values.address)
+    formData.append('phone', values.phone)
+
+    formData.append('web_link', values.web_link)
+    formData.append('schedule', schedule);
+
+
+    // formData.forEach((value, key) => {
+    //   console.log(key, value);
+    // });
+
+
+
+    try {
+      const response = await axiosPublic.post('/lawyer/update-profile', formData, {
+        headers: {
+          Authorization: `Bearer ${lawyerToken}`,
+          "Accept": "application/json"
+        }
+
+      });
+
+      console.log(response.data)
+      if (response.data.success) {
+        toast.success('Profile Update successfully')
+        navigate('/lawyer-profile')
+      } else {
+        toast.error("something is wrong! please try again.");
+      }
+
+    } catch (error) {
+      toast.error("something is wrong! please try again.");
+    }
   }
+
 
 
   return (
     <AccountCreate>
       <div className="container mx-auto px-4 border rounded-md my-4 p-4">
-        <h1 className="font-roboto font-bold text-center text-2xl uppercase text-primary">Edit Lawyer Profile </h1>
+        <h1 className="font-roboto font-bold text-center text-2xl uppercase text-primary">Edit Lawyer Profile ------(service_ids, ) </h1>
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <div>
             <Space wrap className=" mt-16">
@@ -174,46 +219,49 @@ const EditLawyerProfile = () => {
               ))}
             </Space>
           </div>
+
+
+
           <div className="mt-8">
             <div className='pb-4'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Where do you practice</p>
-              <Input
-                value={practice_area}
-                name='practice'
-                onChange={e => setPacktice(e.target.value)}
-                placeholder='e.g.: New Jersey, New York, EOIR (Immigration Court)' style={{ width: '100%', height: '40px' }} />
+              <Form.Item name="practice_area">
+                <Input placeholder='e.g.: New Jersey, New York, EOIR (Immigration Court)' style={{ width: '100%', height: '40px' }} />
+              </Form.Item>
             </div>
 
             <div className='pb-4'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Experience</p>
-              <Select
-                value={experience}
-                showSearch
-                placeholder="Select..."
-                style={{ width: '100%', height: '40px' }}
+              <Form.Item name="experience">
+                <Select
+                  showSearch
+                  placeholder="Select..."
+                  style={{ width: '100%', height: '40px' }}
 
-                options={[
-                  { label: "1-3 Years", value: "1-3 Years" },
-                  { label: "4-7 Years", value: "4-7 Years" },
-                  { label: "8+ Years", value: "8+ Years" }
-                ]}
-              />
+                  options={[
+                    { label: "1-3 Years", value: "1-3 Years" },
+                    { label: "4-7 Years", value: "4-7 Years" },
+                    { label: "8+ Years", value: "8+ Years" }
+                  ]}
+                />
+              </Form.Item>
             </div>
 
             <div className='pb-4 w-full'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Language</p>
-              <Select
-                value={languages}
-                showSearch
-                placeholder="Select..."
-                style={{ width: '100%', height: '40px' }}
-                options={[
-                  { label: "English", value: "English" },
-                  { label: "Spanish", value: "Spanish" },
-                  { label: "German", value: "German" },
-                  { label: "Russian", value: "Russian" }
-                ]}
-              />
+              <Form.Item name="languages">
+                <Select
+                  showSearch
+                  placeholder="Select..."
+                  style={{ width: '100%', height: '40px' }}
+                  options={[
+                    { label: "English", value: "english" },
+                    { label: "Spanish", value: "spanish" },
+                    { label: "German", value: "german" },
+                    { label: "Russian", value: "russian" }
+                  ]}
+                />
+              </Form.Item>
             </div>
 
             <div className="pb-4 w-full">
@@ -234,72 +282,68 @@ const EditLawyerProfile = () => {
 
             <div className='pb-4 w-full'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>State</p>
-              <Input value={state} name='state' style={{ width: '100%', height: '40px' }} />
+              <Form.Item name='state'>
+                <Input style={{ width: '100%', height: '40px' }} />
+              </Form.Item>
             </div>
 
 
             <div className='pb-4'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
-              <Input value={address} name='address' placeholder='address' style={{ width: '100%', height: '40px' }} />
+              <Form.Item name='address'>
+                <Input placeholder='address' style={{ width: '100%', height: '40px' }} />
+              </Form.Item>
             </div>
 
             <div className='pb-4'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Mobile number</p>
-              <Input value={phone} name='mobile' placeholder='Enter your contact number to reach client' style={{ width: '100%', height: '40px' }} />
+              <Form.Item name='phone'>
+                <Input placeholder='Enter your contact number to reach client' style={{ width: '100%', height: '40px' }} />
+              </Form.Item>
             </div>
 
             <div className='pb-4'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
-              <Input value={web_link} name='web_link'
-                placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
+              <Form.Item name='web_link'>
+                <Input placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
+              </Form.Item>
             </div>
 
-            {/* schedule */}
             <div className='pb-4'>
               <div className='flex flex-col lg:flex-row justify-between items-center gap-6 pb-4'>
                 <div className='w-full'>
                   <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-
-                  <Select
-                    value={schedule?.day}
-                    style={{ width: '100%', height: '40px' }}
-                    defaultValue="Select day.."
-                    onChange={handleAvailabilityChange}
-                    options={[
-                      { value: 'Monday', label: 'Monday' },
-                      { value: 'Tuesday', label: 'Tuesday' },
-                      { value: 'Wednesday', label: 'Wednesday' },
-                      { value: 'Thursday', label: 'Thursday' },
-                      { value: 'Friday', label: 'Friday' },
-                      { value: 'Saturday', label: 'Saturday' },
-                      { value: 'Sunday', label: 'Sunday' },
-                    ]}
-                  />
+                  <Form.Item name="day">
+                    <Select
+                      showSearch
+                      style={{ width: '100%', height: '40px' }}
+                      options={[
+                        { value: 'Monday', label: 'Monday' },
+                        { value: 'Tuesday', label: 'Tuesday' },
+                        { value: 'Wednesday', label: 'Wednesday' },
+                        { value: 'Thursday', label: 'Thursday' },
+                        { value: 'Friday', label: 'Friday' },
+                        { value: 'Saturday', label: 'Saturday' },
+                        { value: 'Sunday', label: 'Sunday' },
+                      ]}
+                    />
+                  </Form.Item>
                 </div>
 
 
                 <div className='w-full'>
-                  <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>Start Time</p>
-                  {/* <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "start")}
-                  /> */}
-                  <TimePicker
-                    value={startTime ? moment(startTime, "HH:mm") : null}
-                    format="HH:mm"
-                    onChange={(time, timeString) => handleTimeChange(time, timeString, "start")}
-                    style={{ width: "100%", height: "40px" }}
-                  />
+                  <Form.Item>
+                    <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>Start Time</p>
+                    <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "start")} />
+                  </Form.Item>
                 </div>
 
               </div>
               <div className='w-full'>
-                <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>End Time</p>
-                {/* <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "end")} /> */}
-                <TimePicker
-                  value={endTime ? moment(endTime, "HH:mm") : null}
-                  format="HH:mm"
-                  onChange={(time, timeString) => handleTimeChange(time, timeString, "end")}
-                  style={{ width: "100%", height: "40px" }}
-                />
+                <Form.Item>
+                  <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>End Time</p>
+                  <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "end")} />
+                </Form.Item>
               </div>
             </div>
           </div>
@@ -315,3 +359,8 @@ const EditLawyerProfile = () => {
 }
 
 export default EditLawyerProfile
+
+
+
+
+
