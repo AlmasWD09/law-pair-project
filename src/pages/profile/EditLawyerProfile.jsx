@@ -86,7 +86,7 @@ const EditLawyerProfile = () => {
         setLawyerAllData(response?.data?.lawyer)
 
       } catch (error) {
-        console.error('Failed to load data:', error);
+        console.error('Failed to load data:',);
       }
     };
 
@@ -138,9 +138,7 @@ const EditLawyerProfile = () => {
     const service_ids = ['29', '30']
 
     const schedule = {
-      day: day,
       time: `${startTime} - ${endTime}`,
-
     }
 
     const formData = new FormData();
@@ -149,42 +147,43 @@ const EditLawyerProfile = () => {
     formData.append('experience', values.experience)
     formData.append('languages', values.languages)
     if (fileList && fileList.length > 0) {
-      formData.append('avatar', fileList[0].originFileObj); // Fix: Use originFileObj
+      formData.append('avatar', fileList[0].originFileObj);
     }
     formData.append('state', values.state)
     formData.append('address', values.address)
     formData.append('phone', values.phone)
 
     formData.append('web_link', values.web_link)
-    formData.append('schedule', schedule);
+    formData.append('day', values.day)
+    formData.append('schedule', schedule.time);
 
 
-    // formData.forEach((value, key) => {
-    //   console.log(key, value);
-    // });
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
 
 
 
-    try {
-      const response = await axiosPublic.post('/lawyer/update-profile', formData, {
-        headers: {
-          Authorization: `Bearer ${lawyerToken}`,
-          "Accept": "application/json"
-        }
+    // try {
+    //   const response = await axiosPublic.post('/lawyer/update-profile', formData, {
+    //     headers: {
+    //       Authorization: `Bearer ${lawyerToken}`,
+    //       "Accept": "application/json"
+    //     }
 
-      });
+    //   });
 
-      console.log(response.data)
-      if (response.data.success) {
-        toast.success('Profile Update successfully')
-        navigate('/lawyer-profile')
-      } else {
-        toast.error("something is wrong! please try again.");
-      }
+    //   console.log(response.data)
+    //   if (response.data.success) {
+    //     toast.success('Profile Update successfully')
+    //     navigate('/lawyer-profile')
+    //   } else {
+    //     toast.error("something is wrong! please try again.");
+    //   }
 
-    } catch (error) {
-      toast.error("something is wrong! please try again.");
-    }
+    // } catch (error) {
+    //   toast.error("something is wrong! please try again.");
+    // }
   }
 
 
