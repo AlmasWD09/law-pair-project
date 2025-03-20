@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate"
 import { FaEdit } from "react-icons/fa";
 import { Button, Input, Modal, Pagination, Upload } from "antd";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
@@ -24,8 +24,9 @@ const UserProfile = () => {
         phone: '',
         address: '',
     })
+    const [loading, setLoading] = useState(false)
     const [userData, setUserData] = useState({})
-    const { address, avatar, email, first_name, last_name, full_name, phone, } = userData ||{};
+    const { address, avatar, email, first_name, last_name, full_name, phone, } = userData || {};
 
     // token get in cookies
     const userToken = Cookies.get("userToken");
@@ -35,27 +36,29 @@ const UserProfile = () => {
 
 
     // user profile get api
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await axiosPublic.get('/user/profile', {
-                    headers: {
-                        Authorization: `Bearer ${userToken}`,
-                        Accept: "application/json",
-                    },
-                });
+    const fetchUserData = async () => {
+        try {
+            const response = await axiosPublic.get('/user/profile', {
+                headers: {
+                    Authorization: `Bearer ${userToken}`,
+                    Accept: "application/json",
+                },
+            });
 
-
-                if (response.data.status) {
-                    setUserData(response?.data?.data)
-                }
-            } catch (error) {
-                toast.error('Failed to load data:');
+            if (response.data.status) {
+                setUserData(response.data.data);
             }
-        };
+        } catch (error) {
+            toast.error('Failed to load data');
+        }
+    };
 
-        fetchUserData();
-    }, [userData]);
+
+    useEffect(() => {
+        if (userToken) {
+            fetchUserData();
+        }
+    }, [userToken]);
 
 
 
@@ -122,8 +125,11 @@ const UserProfile = () => {
     const showModal = () => {
         setIsModalOpen(true);
     };
+
+
+
     const handleOk = async () => {
-        console.log("Uploaded File:", fileList, modalValues.full_name, modalValues.address);
+        setLoading(true);
         const formData = new FormData();
 
         if (fileList && fileList.length > 0) {
@@ -136,7 +142,7 @@ const UserProfile = () => {
         formData.append("address", modalValues.address);
 
         // formData.forEach((value, key) => {
-        //   console.log(key, value);
+        //     console.log(key, value);
         // });
 
 
@@ -153,10 +159,24 @@ const UserProfile = () => {
             if (response.data.success) {
                 toast.success('Profile updated successfully!');
                 setIsModalOpen(false)
+                // ✅ Fetch updated user data
+                fetchUserData();
+                setModalValues({
+                    first_name: "",
+                    last_name: "",
+                    phone: "",
+                    address: "",
+                });
+                setFileList([])
+
+            } else {
+                toast.error(response.data.message);
             }
 
         } catch (error) {
-            toast.error('Something went wrong! Please try Again');
+            console.log(error.response)
+        } finally {
+            setLoading(false); // Stop loading
         }
 
     };
@@ -193,7 +213,7 @@ const UserProfile = () => {
                                 <div className="p-4">
                                     <img
                                         className="object-cover w-[124px] h-[124px] rounded-full"
-                                        src={defalutAvater}
+                                        src={avatar}
                                         alt="Article"
                                     />
                                     <h1 className="text-[20px] font-bold font-roboto text-[#001018 pl-4 pt-[12px] pb-[24px]">
@@ -227,8 +247,9 @@ const UserProfile = () => {
                                                 <button
                                                     className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
                                                     onClick={handleOk}
+                                                    disabled={loading}
                                                 >
-                                                    Continue
+                                                    {loading ? <span className="loader text-xs p-2">Loading..</span> : "Continue"}
                                                 </button>
                                             </div>
                                         }
@@ -301,12 +322,16 @@ const UserProfile = () => {
                                     <hr />
 
                                     <div className="pt-[24px]">
-                                        <p className=" flex justify-between font-roboto text-[16px] text-[#10101E] text-wrap">
+                                        <div className="pl-4">
+                                            <p>{email}</p>
+                                            <p>{phone}</p>
+                                        </div>
+                                        <p className="pt-4 flex justify-between font-roboto text-[16px] text-[#10101E] text-wrap">
                                             <svg width="100" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path fillRule="evenodd" clipRule="evenodd" d="M12 21.668C9.72 21.668 6 12.982 6 9.66797C6 8.07667 6.63214 6.55055 7.75736 5.42533C8.88258 4.30011 10.4087 3.66797 12 3.66797C13.5913 3.66797 15.1174 4.30011 16.2426 5.42533C17.3679 6.55055 18 8.07667 18 9.66797C18 12.982 14.28 21.668 12 21.668ZM12 12.668C12.3824 12.668 12.7611 12.5926 13.1144 12.4463C13.4677 12.3 13.7887 12.0855 14.0591 11.8151C14.3295 11.5447 14.544 11.2236 14.6903 10.8703C14.8367 10.517 14.912 10.1384 14.912 9.75597C14.912 9.37356 14.8367 8.99489 14.6903 8.64159C14.544 8.28829 14.3295 7.96728 14.0591 7.69687C13.7887 7.42647 13.4677 7.21197 13.1144 7.06563C12.7611 6.91929 12.3824 6.84397 12 6.84397C11.2277 6.84397 10.487 7.15077 9.9409 7.69687C9.3948 8.24298 9.088 8.98366 9.088 9.75597C9.088 10.5283 9.3948 11.269 9.9409 11.8151C10.487 12.3612 11.2277 12.668 12 12.668Z" fill="#10101E" />
                                             </svg>
                                             {address}
-                                            </p>
+                                        </p>
                                     </div>
                                 </div>
 
@@ -341,8 +366,12 @@ const UserProfile = () => {
                                         paginatedData.map((attorney, index) => {
                                             return (
                                                 <div key={index} className="lg:first-letter lg:h-[378px] p-4 shadow-lg rounded-md ">
-                                                    <img src='/attorney1.png' alt="attorney" className="w-full rounded-md" />
-                                                    {/* <img src={attorney.image} alt="attorney" className="w-full rounded-md" /> */}
+                                                    <img
+                                                        className="object-cover w-[124px] h-[124px] rounded-full"
+                                                        src={attorney.avatar}
+                                                        alt="Profile"
+                                                        onError={(e) => e.target.src = '/attorney1.png'}
+                                                    />
                                                     <div className="flex justify-between items-center">
                                                         <h2 className="text-[20px] font-bold font-roboto text-[#001018] pb-2 pt-[16px]">{attorney.state}</h2>
 

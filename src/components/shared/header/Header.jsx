@@ -31,13 +31,13 @@ const Header = () => {
 
 
 
-    if (lawyerToken) {
-        console.log('lawyerToken')
-    } else if (userToken) {
-        console.log('userToken')
-    } else {
-        console.log('not logged in')
-    }
+    // if (lawyerToken) {
+    //     console.log('lawyerToken')
+    // } else if (userToken) {
+    //     console.log('userToken')
+    // } else {
+    //     console.log('not logged in')
+    // }
 
 
 
@@ -119,7 +119,7 @@ const Header = () => {
         };
 
         fetchLawyerData();
-    }, []);
+    }, [lawyerToken]);
 
 
     // useer profile data get api
@@ -141,13 +141,10 @@ const Header = () => {
         };
 
         fetchUserData();
-    }, []);
+    }, [userToken]);
 
 
 
-
-    console.log('userDATA', userData);
-    console.log('LAWYERDATA', lawyerData);
     return (
         <>
             {/* Navbar */}
