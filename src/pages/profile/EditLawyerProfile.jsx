@@ -25,6 +25,7 @@ const EditLawyerProfile = () => {
 
 
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('')
 
@@ -92,13 +93,13 @@ const EditLawyerProfile = () => {
     categories?.includes(category.name)
   );
 
-  
 
+
+  // Handle select change
   const handleSelect = (value) => {
     if (value.length <= 3) {
       setSelectedOptions(value); // update selected values if it's 3 or fewer
     } else {
-      // Optionally, you can show a message or alert
       toast.error('You can select a maximum of 3 options');
     }
   };
@@ -130,7 +131,8 @@ const EditLawyerProfile = () => {
         setLawyerAllData(response?.data?.lawyer)
         setStartTime(dayjs(response?.data?.lawyer?.schedule?.time, "HH:mm:ss"));
         setEndTime(dayjs(response?.data?.lawyer?.schedule?.time, "HH:mm:ss"));
-        setSelectedOptions(response.data.lawyer.categories || []);
+        setAllCategories(response?.data?.lawyer?.categories || []);
+        setSelectedOptions(response?.data?.lawyer?.categories || []);
       } catch (error) {
         console.error('Failed to load data:',);
       }
@@ -216,9 +218,9 @@ const EditLawyerProfile = () => {
 
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <div>
-            <Space style={{ width: '100%',height: '40px' }} direction="vertical">
+            <Space style={{ width: '100%', height: '40px' }} direction="vertical">
               <Select
-              style={{ width: '100%',height: '40px' }}
+                style={{ width: '100%', height: '40px' }}
                 mode="multiple"
                 allowClear
                 placeholder="Please select"
@@ -227,16 +229,24 @@ const EditLawyerProfile = () => {
                 onChange={handleSelect}
               >
                 {categorieData.map((option, index) => {
+                  const isOptionDisabled = allCategories.includes(option.id) && !selectedOptions.includes(option.id);
+
                   return (
                     <Select.Option
-                    style={{ width: '100%',height: '40px' }}
-                    key={index} value={option.id}>
+                      style={{ width: '100%', height: '40px' }}
+                      key={index}
+                      value={option.id}
+                      disabled={isOptionDisabled} // Disable options that are fetched and not selected
+                    >
                       {option.name}
                     </Select.Option>
-                  )
+                  );
                 })}
               </Select>
             </Space>
+
+
+
           </div>
 
 
