@@ -1,6 +1,6 @@
 
 import AccountCreate from "../../layout/AccountCreate"
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Button, Typography, Space, Modal, Select, TimePicker, DatePicker, Input, Upload } from "antd";
 const { Title } = Typography;
 import useAxiosPublic from '../../hooks/useAxiosPublic';
@@ -88,24 +88,6 @@ const EditLawyerProfile = () => {
     categories?.includes(category.name)
   );
 
-//  filteredCategories.map(category =>parseInt(category.id));
-
-
-
-  const handleSelect = (name, id) => {
-    setSelectedOptions(prevSelection => {
-      if (prevSelection.includes(id)) {
-        return prevSelection.filter(selectedId => selectedId !== id);
-      } else {
-        if (prevSelection.length < 3) {
-          return [...prevSelection, id];
-        } else {
-          return prevSelection; 
-        }
-      }
-    });
-  };
-  
 
   // lawyer all value get
   useEffect(() => {
@@ -146,7 +128,28 @@ const EditLawyerProfile = () => {
   }, []);
 
 
- 
+  const handleSelect = (option) => {
+    setSelectedOptions((prev) => {
+      if (prev.includes(option.id)) {
+        return prev.filter((item) => item !== option.id);
+      } else if (prev.length < 3) {
+
+        return [...prev, option.id];
+      } else {
+        return prev;
+      }
+    });
+  };
+
+
+  useEffect(() => {
+    if (filteredCategories.length > 0) {
+      setSelectedOptions(prev => {
+        const newSelection = filteredCategories.map(category => category.id);
+        return JSON.stringify(prev) === JSON.stringify(newSelection) ? prev : newSelection;
+      });
+    }
+  }, [filteredCategories]);
 
 
   const onFinish = async (values) => {
@@ -199,20 +202,17 @@ const EditLawyerProfile = () => {
     // }
   }
 
-console.log(selectedOptions)
-
   return (
     <AccountCreate>
       <div className="container mx-auto px-4 border rounded-md my-4 p-4">
-        <h1 className="font-roboto font-bold text-center text-2xl uppercase text-primary">Edit Lawyer Profile </h1>
-
+        <h1 className="font-roboto font-bold text-center text-2xl uppercase text-primary">Edit Lawyer Profile ------(service_ids, ) </h1>
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <div>
             <Space wrap className=" mt-16">
               {categorieData?.map((option, index) => (
                 <Button
                   key={index}
-                  onClick={()=>handleSelect(option?.name,option.id)}
+                  onClick={() => handleSelect(option)}
                   disabled={selectedOptions.length === 3 && !selectedOptions.includes(option.id)}
                   style={{
                     borderRadius: 20,
@@ -226,7 +226,7 @@ console.log(selectedOptions)
                     cursor: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? "not-allowed" : "pointer",
                     opacity: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? 0.5 : 1,
                   }}
-                  >
+                >
                   {option.name}
                 </Button>
               ))}
@@ -294,7 +294,7 @@ console.log(selectedOptions)
                   name="image"
                   rules={[
                     {
-                      required: ImageFileList?.length === 0,
+                      required: ImageFileList.length === 0,
                       message: "Image required!",
                     },
                   ]}
@@ -398,7 +398,6 @@ console.log(selectedOptions)
 }
 
 export default EditLawyerProfile
-
 
 
 
