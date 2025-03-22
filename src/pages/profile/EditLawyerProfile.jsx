@@ -20,10 +20,14 @@ const EditLawyerProfile = () => {
   const [form] = Form.useForm();
   const [categorieData, setCategorieData] = useState([]);
   const [lawyerAllData, setLawyerAllData] = useState({});
-  const [selectedOptions, setSelectedOptions] = useState([]);
   const [ImageFileList, setImageFileList] = useState([]);
+
+
+
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState(null)
+  const [endTime, setEndTime] = useState('')
+
 
 
 
@@ -88,24 +92,28 @@ const EditLawyerProfile = () => {
     categories?.includes(category.name)
   );
 
-//  filteredCategories.map(category =>parseInt(category.id));
-
-
-
-  const handleSelect = (name, id) => {
-    setSelectedOptions(prevSelection => {
-      if (prevSelection.includes(id)) {
-        return prevSelection.filter(selectedId => selectedId !== id);
-      } else {
-        if (prevSelection.length < 3) {
-          return [...prevSelection, id];
-        } else {
-          return prevSelection; 
-        }
-      }
-    });
-  };
   
+
+  const handleSelect = (value) => {
+    if (value.length <= 3) {
+      setSelectedOptions(value); // update selected values if it's 3 or fewer
+    } else {
+      // Optionally, you can show a message or alert
+      toast.error('You can select a maximum of 3 options');
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+
 
   // lawyer all value get
   useEffect(() => {
@@ -122,6 +130,7 @@ const EditLawyerProfile = () => {
         setLawyerAllData(response?.data?.lawyer)
         setStartTime(dayjs(response?.data?.lawyer?.schedule?.time, "HH:mm:ss"));
         setEndTime(dayjs(response?.data?.lawyer?.schedule?.time, "HH:mm:ss"));
+        setSelectedOptions(response.data.lawyer.categories || []);
       } catch (error) {
         console.error('Failed to load data:',);
       }
@@ -146,8 +155,9 @@ const EditLawyerProfile = () => {
   }, []);
 
 
- 
 
+
+  // filteredCategories.map(category =>console.log(category.name))
 
   const onFinish = async (values) => {
 
@@ -195,11 +205,9 @@ const EditLawyerProfile = () => {
     //   }
 
     // } catch (error) {
-    //   toast.error("something is wrong! please try again.");
+    //   toast.error('Something went wrong! please try again');
     // }
   }
-
-console.log(selectedOptions)
 
   return (
     <AccountCreate>
@@ -208,28 +216,26 @@ console.log(selectedOptions)
 
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <div>
-            <Space wrap className=" mt-16">
-              {categorieData?.map((option, index) => (
-                <Button
-                  key={index}
-                  onClick={()=>handleSelect(option?.name,option.id)}
-                  disabled={selectedOptions.length === 3 && !selectedOptions.includes(option.id)}
-                  style={{
-                    borderRadius: 20,
-                    backgroundColor: selectedOptions.includes(option.id) ? "#1b69ad" : "#FFFFFF",
-                    color: selectedOptions.includes(option.id) ? "#FFFFFF" : "#1b69ad",
-                    border: "1px solid #B6B6BA",
-                    fontWeight: "bold",
-                    fontSize: "16px",
-                    fontFamily: "Roboto",
-                    padding: "20px",
-                    cursor: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? "not-allowed" : "pointer",
-                    opacity: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? 0.5 : 1,
-                  }}
-                  >
-                  {option.name}
-                </Button>
-              ))}
+            <Space style={{ width: '100%',height: '40px' }} direction="vertical">
+              <Select
+              style={{ width: '100%',height: '40px' }}
+                mode="multiple"
+                allowClear
+                placeholder="Please select"
+                maxTagCount={3}
+                value={selectedOptions}
+                onChange={handleSelect}
+              >
+                {categorieData.map((option, index) => {
+                  return (
+                    <Select.Option
+                    style={{ width: '100%',height: '40px' }}
+                    key={index} value={option.id}>
+                      {option.name}
+                    </Select.Option>
+                  )
+                })}
+              </Select>
             </Space>
           </div>
 
@@ -381,7 +387,7 @@ console.log(selectedOptions)
               <div className='w-full'>
                 <Form.Item >
                   <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>End Time</p>
-                  <TimePicker value={endTime} style={{ width: "100%", height: '40px' }} onChange={(time) => setEndTime(time)} />
+                  <TimePicker value={endTime} style={{ width: "100%", height: '40px' }} onChange={(time) => setEndTime(time)} Pm />
                 </Form.Item>
               </div>
             </div>

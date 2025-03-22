@@ -73,7 +73,7 @@ const OtpCode = () => {
 
         setIsModalOpen(false);
 
-        setIsModalOpen(true)
+        // setIsModalOpen(true)
     };
 
     const handleResendOtp = async () => {

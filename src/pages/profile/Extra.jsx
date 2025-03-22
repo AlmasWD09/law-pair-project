@@ -1,6 +1,6 @@
 
 import AccountCreate from "../../layout/AccountCreate"
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Form, Button, Typography, Space, Modal, Select, TimePicker, DatePicker, Input, Upload } from "antd";
 const { Title } = Typography;
 import useAxiosPublic from '../../hooks/useAxiosPublic';
@@ -20,10 +20,13 @@ const EditLawyerProfile = () => {
   const [form] = Form.useForm();
   const [categorieData, setCategorieData] = useState([]);
   const [lawyerAllData, setLawyerAllData] = useState({});
-  const [selectedOptions, setSelectedOptions] = useState([]);
   const [ImageFileList, setImageFileList] = useState([]);
+
+
+
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState(null)
+  const [endTime, setEndTime] = useState('')
 
 
 
@@ -88,6 +91,24 @@ const EditLawyerProfile = () => {
     categories?.includes(category.name)
   );
 
+ filteredCategories.map(category =>console.log(category.id));
+
+
+
+  const handleSelect = (name, id) => {
+    setSelectedOptions(prevSelection => {
+      if (prevSelection.includes(id)) {
+        return prevSelection.filter(selectedId => selectedId !== id);
+      } else {
+        if (prevSelection.length < 3) {
+          return [...prevSelection, id];
+        } else {
+          return prevSelection; 
+        }
+      }
+    });
+  };
+  
 
   // lawyer all value get
   useEffect(() => {
@@ -128,28 +149,7 @@ const EditLawyerProfile = () => {
   }, []);
 
 
-  const handleSelect = (option) => {
-    setSelectedOptions((prev) => {
-      if (prev.includes(option.id)) {
-        return prev.filter((item) => item !== option.id);
-      } else if (prev.length < 3) {
-
-        return [...prev, option.id];
-      } else {
-        return prev;
-      }
-    });
-  };
-
-
-  useEffect(() => {
-    if (filteredCategories.length > 0) {
-      setSelectedOptions(prev => {
-        const newSelection = filteredCategories.map(category => category.id);
-        return JSON.stringify(prev) === JSON.stringify(newSelection) ? prev : newSelection;
-      });
-    }
-  }, [filteredCategories]);
+ 
 
 
   const onFinish = async (values) => {
@@ -198,21 +198,24 @@ const EditLawyerProfile = () => {
     //   }
 
     // } catch (error) {
-    //   toast.error("something is wrong! please try again.");
+    //   toast.error('Something went wrong! please try again');
     // }
   }
+
+
 
   return (
     <AccountCreate>
       <div className="container mx-auto px-4 border rounded-md my-4 p-4">
-        <h1 className="font-roboto font-bold text-center text-2xl uppercase text-primary">Edit Lawyer Profile ------(service_ids, ) </h1>
+        <h1 className="font-roboto font-bold text-center text-2xl uppercase text-primary">Edit Lawyer Profile </h1>
+
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <div>
             <Space wrap className=" mt-16">
               {categorieData?.map((option, index) => (
                 <Button
                   key={index}
-                  onClick={() => handleSelect(option)}
+                  onClick={()=>handleSelect(option?.name,option.id)}
                   disabled={selectedOptions.length === 3 && !selectedOptions.includes(option.id)}
                   style={{
                     borderRadius: 20,
@@ -226,7 +229,7 @@ const EditLawyerProfile = () => {
                     cursor: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? "not-allowed" : "pointer",
                     opacity: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? 0.5 : 1,
                   }}
-                >
+                  >
                   {option.name}
                 </Button>
               ))}
@@ -294,7 +297,7 @@ const EditLawyerProfile = () => {
                   name="image"
                   rules={[
                     {
-                      required: ImageFileList.length === 0,
+                      required: ImageFileList?.length === 0,
                       message: "Image required!",
                     },
                   ]}
@@ -381,7 +384,7 @@ const EditLawyerProfile = () => {
               <div className='w-full'>
                 <Form.Item >
                   <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>End Time</p>
-                  <TimePicker value={endTime} style={{ width: "100%", height: '40px' }} onChange={(time) => setEndTime(time)} />
+                  <TimePicker value={endTime} style={{ width: "100%", height: '40px' }} onChange={(time) => setEndTime(time)}Pm />
                 </Form.Item>
               </div>
             </div>
@@ -398,6 +401,7 @@ const EditLawyerProfile = () => {
 }
 
 export default EditLawyerProfile
+
 
 
 

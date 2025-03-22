@@ -6,6 +6,7 @@ import { Button, Modal } from "antd";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import LoadindSpenier from "../../components/shared/LoadindSpenier";
 
 
 
@@ -15,6 +16,8 @@ const LawyerProfile = () => {
     const [modalOneOpen, setIsModalOneOpen] = useState(false);
     const [modalTwoOpen, setIsModalTwoOpen] = useState(false);
     const [lawyerAllData, setLawyerAllData] = useState({});
+    const [loading, setLoading] = useState(true);
+
     const {
         first_name,
         last_name,
@@ -49,9 +52,11 @@ const LawyerProfile = () => {
 
                 });
                 setLawyerAllData(response?.data?.lawyer)
+                setLoading(false);
 
             } catch (error) {
                 console.error('Failed to load data:',);
+                setLoading(false);
             }
         };
 
@@ -130,6 +135,10 @@ const LawyerProfile = () => {
         };
     }, [modalOneOpen, modalTwoOpen]);
 
+
+    if (loading) {
+        return <LoadindSpenier />
+    }
     return (
         <div className="bg-gray-100">
             <AccountCreate >
