@@ -58,8 +58,10 @@ const OtpCode = () => {
     };
 
     const lawyerToken = Cookies.get("lawyerToken");
+    const userrToken = Cookies.get("userrToken");
 
 
+    // Otp code
     const onFinish = async (values) => {
         const otpCode = {
             otp: values.otp
@@ -67,13 +69,20 @@ const OtpCode = () => {
 
         try {
             const response = await axiosPublic.post("/verify-email", otpCode);
-            if ((response.data.success) && (response.data.access_token)) {
+            if ((response.data.success) && ((response.data.access_token) || (userrToken || lawyerToken))) {
 
                 Cookies.set("lawyerToken", response?.data?.access_token,
                     { expires: 7, secure: true, sameSite: "Strict" });
 
                 toast.success("OTP send successfully.");
-                setIsModalOpen(true)
+                console.log('line--> 78')
+                if (userrToken) {
+                    navigate("/login")
+                    console.log('line--> 81')
+                } else {
+                    setIsModalOpen(true)
+                    console.log('line--> 84')
+                }
                 form.resetFields();
             } else {
                 toast.error("Failed to send OTP. Try again.");
@@ -84,9 +93,9 @@ const OtpCode = () => {
         }
         form.resetFields();
 
-        setIsModalOpen(false);
+        // setIsModalOpen(false);
 
-        setIsModalOpen(true)
+        // setIsModalOpen(true)
     };
 
     const handleResendOtp = async () => {
@@ -243,7 +252,7 @@ const OtpCode = () => {
             console.log(response.data)
             if (response.data.success) {
                 toast.success('Profile create successfully')
-                // navigate('/lawyer-profile')
+                navigate('/lawyer-profile')
             } else {
                 toast.error("something is wrong! please try again.");
             }
@@ -254,8 +263,8 @@ const OtpCode = () => {
     }
 
     const handleCancelLowyerThree = () => {
-        // setIsModalOpenThree(false)
-        // setIsModalOpenTwo(true)
+        setIsModalOpenThree(false)
+        setIsModalOpenTwo(true)
     }
     // ===================== three modal end  ====================
 

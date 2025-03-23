@@ -208,29 +208,29 @@ const EditLawyerProfile = () => {
     formData.append("schedule", JSON.stringify(formattedSchedule));
 
 
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(key, value);
+    // });
 
 
 
-    // try {
-    //   const response = await axiosPublic.post('/lawyer/update-profile', formData, {
-    //     headers: {
-    //       Authorization: `Bearer ${lawyerToken}`,
-    //       "Accept": "application/json"
-    //     }
+    try {
+      const response = await axiosPublic.post('/lawyer/update-profile', formData, {
+        headers: {
+          Authorization: `Bearer ${lawyerToken}`,
+          "Accept": "application/json"
+        }
 
-    //   });
+      });
 
-    //   if (response.data.success) {
-    //     toast.success('Profile Update successfully')
-    //     navigate('/lawyer-profile')
-    //   }
+      if (response.data.success) {
+        toast.success('Profile Update successfully')
+        navigate('/lawyer-profile')
+      }
 
-    // } catch (error) {
-    //   toast.error('Something went wrong! please try again');
-    // }
+    } catch (error) {
+      toast.error('Something went wrong! please try again');
+    }
   }
 
   return (
