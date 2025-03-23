@@ -213,8 +213,8 @@ const UserProfile = () => {
                                 <div className="p-4">
                                     <img
                                         className="object-cover w-[124px] h-[124px] rounded-full"
-                                        src={avatar}
-                                        alt="Article"
+                                        src={avatar || "/default-avatar.png"} // If avatar is null/undefined, use default
+                                        alt="User Avatar"
                                     />
                                     <h1 className="text-[20px] font-bold font-roboto text-[#001018 pl-4 pt-[12px] pb-[24px]">
                                         {first_name} {last_name}

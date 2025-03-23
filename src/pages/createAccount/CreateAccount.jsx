@@ -12,12 +12,12 @@ const CreateAccount = () => {
     const [formOne] = Form.useForm();
     const [formTwo] = Form.useForm();
     const navigate = useNavigate();
-    const [roleValue, setRoleValue] = useState(null)
 
     const onChange = (key) => {
         formOne.resetFields();  // Client form reset
         formTwo.resetFields();  // attorney form reset
     };
+
 
     const onFinishOne = async (values) => {
 
@@ -31,11 +31,13 @@ const CreateAccount = () => {
             password_confirmation: values.password_confirmation
         }
 
+
         try {
             const res = await axiosPublic.post('/register', createAccountUserInfo);
             if (res.data.success) {
-                setRoleValue(res.data.success.role)
+                Cookies.set('user_role', createAccountUserInfo.role, { expires: 7 });
                 toast.success(res.data.message);
+
                 navigate('/otp-code', { state: { email: values.email } })
                 formOne.resetFields()
             } else{
@@ -75,7 +77,7 @@ const CreateAccount = () => {
         try {
             const res = await axiosPublic.post('/register', createAttorneyInfo);
             if (res.data.success) {
-                setRoleValue(res.data.success.role)
+                Cookies.set('lawyer_role', createAttorneyInfo.role, { expires: 7 });
                 toast.success('Attorney register successfully');
                 navigate('/otp-code', { state: { email: values.email } })
                 formTwo.resetFields()

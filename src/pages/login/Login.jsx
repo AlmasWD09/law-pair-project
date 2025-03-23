@@ -47,6 +47,7 @@ const Login = () => {
                     sameSite: 'Strict'
                 });
                 Cookies.remove("lawyerToken");
+                Cookies.remove("user_role");
                 navigate(from, { replace: true });
             }
             else {
@@ -86,6 +87,8 @@ const Login = () => {
                     sameSite: 'Strict'
                 });
                 Cookies.remove('userToken');
+                Cookies.remove("lawyer_role");
+                
                 navigate(from, { replace: true });
             }
             else {
