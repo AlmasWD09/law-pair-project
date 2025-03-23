@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { UploadOutlined } from "@ant-design/icons";
 import defalutAvater from "/attorney1.png"
+import LoadindSpenier from "../../components/shared/LoadindSpenier";
 
 
 const UserProfile = () => {
@@ -47,9 +48,11 @@ const UserProfile = () => {
 
             if (response.data.status) {
                 setUserData(response.data.data);
+                setLoading(false);
             }
         } catch (error) {
             toast.error('Failed to load data');
+            setLoading(false);
         }
     };
 
@@ -200,7 +203,11 @@ const UserProfile = () => {
     // ========== user profile update modal end  =================
 
 
-
+    
+    if (loading) {
+        return <LoadindSpenier />
+    }
+    
     return (
         <div className="bg-gray-100">
             <AccountCreate >
@@ -211,12 +218,17 @@ const UserProfile = () => {
                             {/* sidebar */}
                             <div className="md:w-[270px] lg:w-[309px] h-[calc(100vh-122px)] bg-[#FFFFFF] flex flex-col justify-between shadow-lg rounded-lg p-4">
                                 <div className="p-4">
-                                    <img
+                                    {userData.avatar ? <img
                                         className="object-cover w-[124px] h-[124px] rounded-full"
-                                        src={avatar || "/default-avatar.png"} // If avatar is null/undefined, use default
+                                        src={userData?.avatar}
+                                        alt="User Avatar"
+                                    /> : <img
+                                        className="object-cover w-[124px] h-[124px] rounded-full"
+                                        src='/attorney1.png'
                                         alt="User Avatar"
                                     />
-                                    <h1 className="text-[20px] font-bold font-roboto text-[#001018 pl-4 pt-[12px] pb-[24px]">
+                                }
+                                    <h1 className=" font-bold font-roboto text-[#001018 pl-4 pt-[12px] pb-[24px]">
                                         {first_name} {last_name}
                                     </h1>
                                     <button

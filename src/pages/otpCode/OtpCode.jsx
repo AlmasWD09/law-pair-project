@@ -57,43 +57,8 @@ const OtpCode = () => {
         }));
     };
 
-    // const lawyerToken = Cookies.get("lawyerToken");
-    // const userrToken = Cookies.get("userrToken");
-
-
-
-    // const onFinish = async (values) => {
-    //     const otpCode = {
-    //         otp: values.otp
-    //     }
-
-    //     try {
-    //         const response = await axiosPublic.post("/verify-email", otpCode);
-    //         if ((response.data.success) && ((response.data.access_token) || (userrToken || lawyerToken))) {
-
-    //             Cookies.set("lawyerToken", response?.data?.access_token,
-    //                 { expires: 7, secure: true, sameSite: "Strict" });
-
-    //             toast.success("OTP send successfully.");
-    //             console.log('line--> 78')
-    //             if (userrToken) {
-    //                 navigate("/login")
-    //                 console.log('line--> 81')
-    //             } else {
-    //                 setIsModalOpen(true)
-    //                 console.log('line--> 84')
-    //             }
-    //             form.resetFields();
-    //         } else {
-    //             toast.error("Failed to send OTP. Try again.");
-    //         }
-    //     }
-    //     catch (error) {
-    //         toast.error("Wrong OTP. Please try again.");
-    //     }
-    // };
     const lawyerToken = Cookies.get("lawyerToken");
-    const userrToken = Cookies.get("userrToken");
+    const userToken = Cookies.get("userToken");
     const user_role = Cookies.get("user_role");
     const lawyer_role = Cookies.get("lawyer_role");
 
@@ -255,12 +220,6 @@ const OtpCode = () => {
 
         formData.append('web_link', webLink)
         formData.append("schedule", JSON.stringify(formattedSchedule));
-
-
-
-        // console.log(modalOneValue)
-        // console.log(modalTwoValue)
-
 
         formData.forEach((value, key) => {
             console.log(key, value);
