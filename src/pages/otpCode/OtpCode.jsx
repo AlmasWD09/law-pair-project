@@ -40,9 +40,22 @@ const OtpCode = () => {
     // modal three
     const [fileList, setFileList] = useState([]);
     const [webLink, setWebLink] = useState("");
-    const [availability, setAvailability] = useState(null);
-    const [startTime, setStartTime] = useState(null);
-    const [endTime, setEndTime] = useState(null);
+    const [scheduleData, setScheduleData] = useState({
+        saturday: '',
+        sunday: '',
+        monday: '',
+        tuesday: '',
+        wednesday: '',
+        thursday: '',
+        friday: '',
+    });
+
+    const handleTimeChange = (day, value) => {
+        setScheduleData(prevSchedule => ({
+            ...prevSchedule,
+            [day]: value
+        }));
+    };
 
     const lawyerToken = Cookies.get("lawyerToken");
 
@@ -73,7 +86,7 @@ const OtpCode = () => {
 
         setIsModalOpen(false);
 
-        // setIsModalOpen(true)
+        setIsModalOpen(true)
     };
 
     const handleResendOtp = async () => {
@@ -182,23 +195,13 @@ const OtpCode = () => {
 
 
     // ===================== three modal start ===================
-    // Handle Availability Selection
-    const handleAvailabilityChange = (value) => setAvailability(value);
-
-    // Handle Time Selection
-    const handleTimeChange = (time, timeString, type) => {
-        if (type === "start") setStartTime(timeString);
-        if (type === "end") setEndTime(timeString);
-    };
-
-
     const handleOkLowyerThree = async () => {
 
-        const schedule = {
-            day: availability,
-            time: `${startTime} - ${endTime}`,
+        const formattedSchedule = Object.keys(scheduleData).map((day) => ({
+            day: day,
+            time: scheduleData[day] ? `${scheduleData[day][0].format('hh:mm a')} - ${scheduleData[day][1].format('hh:mm a')}` : ''
+        }));
 
-        }
 
         const formData = new FormData();
         formData.append('service_ids', JSON.stringify(modalOneValue))
@@ -206,19 +209,21 @@ const OtpCode = () => {
         formData.append('experience', modalTwoValue.experience)
         formData.append('languages', modalTwoValue.languages)
         if (fileList && fileList.length > 0) {
-            formData.append('avatar', fileList[0].originFileObj); // Fix: Use originFileObj
+            formData.append('avatar', fileList[0].originFileObj);
         }
         formData.append('state', modalTwoValue.state)
         formData.append('address', modalTwoValue.address)
         formData.append('phone', modalTwoValue.phone)
 
         formData.append('web_link', webLink)
-        formData.append('schedule', JSON.stringify(schedule));
+        formData.append("schedule", JSON.stringify(formattedSchedule));
 
 
 
         // console.log(modalOneValue)
         // console.log(modalTwoValue)
+
+
         formData.forEach((value, key) => {
             console.log(key, value);
         });
@@ -238,7 +243,7 @@ const OtpCode = () => {
             console.log(response.data)
             if (response.data.success) {
                 toast.success('Profile create successfully')
-                navigate('/lawyer-profile')
+                // navigate('/lawyer-profile')
             } else {
                 toast.error("something is wrong! please try again.");
             }
@@ -249,8 +254,8 @@ const OtpCode = () => {
     }
 
     const handleCancelLowyerThree = () => {
-        setIsModalOpenThree(false)
-        setIsModalOpenTwo(true)
+        // setIsModalOpenThree(false)
+        // setIsModalOpenTwo(true)
     }
     // ===================== three modal end  ====================
 
@@ -597,73 +602,24 @@ const OtpCode = () => {
 
                     <div className='pb-4'>
                         <div className='flex flex-col justify-between items-center gap-6 pb-4'>
-                            <div className='w-full'>
-                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-                                    <Select
-                                        defaultValue="Select day.."
-                                        style={{ width: '100%', height: '40px' }}
-                                        onChange={handleAvailabilityChange}
-                                        options={[
-                                            { value: 'Monday', label: 'Monday' },
-                                            { value: 'Tuesday', label: 'Tuesday' },
-                                            { value: 'Wednesday', label: 'Wednesday' },
-                                            { value: 'Thursday', label: 'Thursday' },
-                                            { value: 'Friday', label: 'Friday' },
-                                            { value: 'Saturday', label: 'Saturday' },
-                                            { value: 'Sunday', label: 'Sunday' },
-                                        ]}
-                                    />
-                            </div>
-
-
-                            <div className='w-full'>
-                                <p className='text-[14px] font-roboto font-bold text-primary '>Start Time</p>
-                                <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "start")}
-                                />
-                            </div>
-
-                            <div className='w-full'>
-                                <p className='text-[14px] font-roboto font-bold text-primary '>End Time</p>
-                                <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "end")} />
+                            <div className="border p-4 w-full rounded-lg space-y-3">
+                                {Object.keys(scheduleData).map((day) => (
+                                    <div key={day} className="flex items-center justify-between gap-3">
+                                        <div>
+                                            <p className="text-primary font-semibold">{day}</p>
+                                        </div>
+                                        <div>
+                                            <TimePicker.RangePicker v value={scheduleData[day] ? [scheduleData[day][0], scheduleData[day][1]] : []}
+                                                onChange={(value) => handleTimeChange(day, value)}
+                                                format="hh:mm A" />
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
-
-
-                    <div className='pb-4'>
-                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Preview</p>
-                        {/* <Space wrap>
-                            {lowyerOptions.map((option) => (
-                                <Button
-                                    key={option}
-                                    onClick={() => handleSelectLowyer(option)}
-                                    style={{
-                                        borderRadius: 20,
-
-                                        backgroundColor: selectedOptions.includes(option) ? "#1b69ad" : "#FFFFFF",
-                                        color: selectedOptions.includes(option) ? "#FFFFFF" : "#1b69ad",
-                                        border: "1px solid #B6B6BA",
-                                        fontWeight: "bold",
-                                        fontSize: "16px",
-                                        fontFamily: "Roboto",
-                                        padding: "20px"
-                                    }}
-                                >
-                                    {option}
-                                </Button>
-                            ))}
-                        </Space> */}
-                    </div>
-                    <div className='flex flex-col md:flex-row gap-[12px]'>
-                        <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
-                        <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
-                        <p className='font-roboto text-[14px] text-[#121221]'>11:30-12:30 pm</p>
-                    </div>
                 </div>
-
             </Modal>
-
-
         </AccountCreate>
     )
 }

@@ -65,12 +65,6 @@ const LawyerProfile = () => {
 
 
 
-
-
-
-
-
-
     //=========== modal one start ===========
     const showModal = () => {
         setIsModalOneOpen(true);

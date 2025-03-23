@@ -1,573 +1,627 @@
-// import AccountCreate from "../../layout/AccountCreate"
-// import { useEffect, useState } from 'react';
-// import { Form, Button, Typography, Space, Modal, Select, TimePicker, DatePicker, Input, Upload } from "antd";
-// const { Title } = Typography;
-// import useAxiosPublic from '../../hooks/useAxiosPublic';
-// import Cookies from "js-cookie";
-// import { UploadOutlined } from "@ant-design/icons";
-
-
-
-// const EditLawyerProfile = () => {
-//   const axiosPublic = useAxiosPublic()
-//   const [form] = Form.useForm();
-//   const [categorieData, setCategorieData] = useState([]);
-//   const [lawyerAllData, setLawyerAllData] = useState({});
-//   const [selectedOptions, setSelectedOptions] = useState([]);
-
-
-//   const [fileList, setFileList] = useState([]);
-//   const [webLink, setWebLink] = useState("");
-//   const [availability, setAvailability] = useState(null);
-//   const [startTime, setStartTime] = useState(null);
-//   const [endTime, setEndTime] = useState(null);
-
-
-//   const token = Cookies.get("otpToken");
-//   const {
-//     id,
-//     first_name,
-//     last_name,
-//     full_name,
-//     address,
-//     avatar,
-//     // categories,
-//     email,
-//     experience,
-//     languages,
-//     phone,
-//     practice_area,
-//     schedule, // Nested destructuring
-//     state,
-//     web_link
-//   } = lawyerAllData || {};
-
-
-//   // Handle File Upload
-//   const handleChange = ({ fileList }) => setFileList(fileList);
-//   useEffect(() => {
-//     if (avatar) {
-//       setFileList([{ url: avatar }]); // Default avatar set kora
-//     }
-//   }, [avatar]); // Avatar update hole abar fileList update hob
-//   const handleAvailabilityChange = (value) => setAvailability(value);
-//   const handleTimeChange = (time, timeString, type) => {
-//     if (type === "start") setStartTime(timeString);
-//     if (type === "end") setEndTime(timeString);
-//   };
-
-//   // lawyer all value get
-//   useEffect(() => {
-//     const fetchAllData = async () => {
-//       try {
-//         const response = await axiosPublic.get('/lawyer/profile', {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//             "Accept": "application/json"
-//             // ✅ Send token in Authorization header
-//           }
-
-//         });
-//         setLawyerAllData(response?.data?.lawyer)
-
-//       } catch (error) {
-//         console.error('Failed to load data:', error);
-//       }
-//     };
-
-//     fetchAllData();
-//   }, []);
-
-//   // first modal option get server
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await axiosPublic.get(`/admin/categories?per_page=10`);
-//         setCategorieData(response?.data?.categories.data)
-
-//       } catch (error) {
-//         console.error('Failed to load data:', error);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-
-//   const handleSelect = (option) => {
-//     setSelectedOptions((prev) => {
-//       if (prev.includes(option.id)) {
-
-//         return prev.filter((item) => item !== option.id);
-//       } else if (prev.length < 3) {
-
-//         return [...prev, option.id];
-//       } else {
-//         return prev;
-//       }
-//     });
-//   };
-
-//   const onFinish = (values) => {
-//     console.log(values)
-//     console.log('clicik')
-
-
-//     const formData = new FormData();
-
-//     if (fileList && fileList.length > 0) {
-//       formData.append("avatar", fileList[0].originFileObj);
-//     }
-//     formData.append("service_ids", JSON.stringify(selectedOptions));
-//     formData.append("practice_area", values.practice);
-//     formData.append("experience", values.experience);
-//     formData.append("languages", values.language);
-//     formData.append("state", values.state);
-//     formData.append("address", values.address);
-//     formData.append("phone", values.mobile);
-//     formData.append("web_link", values.webLink);
-//     formData.append("availability", values.availability);
-//     formData.append("start_time", values.startTime);
-//     formData.append("end_time", values.endTime);
-
-
-//     formData.forEach((value, key) => {
-//       console.log(key, value);
-//     });
-
-//     // try {
-//     //     const response = await axiosPublic.post('/lawyer/update-profile', formData,{
-//     //         headers: {
-//     //             Authorization: `Bearer ${token}`,
-//     //             "Accept": "application/json"
-//     //             // ✅ Send token in Authorization header
-//     //         }
-
-//     //     });
-
-//     //     console.log("Server Response:", response.data);
-
-//     // } catch (error) {
-//     //     toast.error("Error sending data to the server:", error);
-//     // }
-//     // navigate('/lawyer-profile')
-
-//   }
-
-//   return (
-//     <AccountCreate>
-//       <div className="container mx-auto px-4 border rounded-md my-4 p-4">
-//         <h1 className="font-roboto font-bold text-center text-2xl uppercase text-primary">Edit Lawyer Profile </h1>
-
-//         <Form form={form} layout="vertical" onFinish={onFinish}>
-//           <div>
-//             <Space wrap className=" mt-16">
-//               {categorieData.map((option, index) => (
-//                 <Button
-//                   key={index}
-//                   onClick={() => handleSelect(option)}
-//                   disabled={selectedOptions.length === 3 && !selectedOptions.includes(option.id)}
-//                   style={{
-//                     borderRadius: 20,
-//                     backgroundColor: selectedOptions.includes(option.id) ? "#1b69ad" : "#FFFFFF",
-//                     color: selectedOptions.includes(option.id) ? "#FFFFFF" : "#1b69ad",
-//                     border: "1px solid #B6B6BA",
-//                     fontWeight: "bold",
-//                     fontSize: "16px",
-//                     fontFamily: "Roboto",
-//                     padding: "20px",
-//                     cursor: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? "not-allowed" : "pointer",
-//                     opacity: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? 0.5 : 1,
-//                   }}
-//                 >
-//                   {option.name}
-//                 </Button>
-
-//               ))}
-//             </Space>
-//           </div>
-
-//           <div className="mt-8">
-//             <div className='pb-4'>
-//               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Where do you practice</p>
-//               <Input value={practice_area} name='practice' placeholder='e.g.: New Jersey, New York, EOIR (Immigration Court)' style={{ width: '100%', height: '40px' }} />
-//             </div>
-
-//             <div className='pb-4'>
-//               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Experience</p>
-//               <Select
-//                 value={experience}
-//                 showSearch
-//                 placeholder="Select..."
-//                 style={{ width: '100%', height: '40px' }}
-
-//                 options={[
-//                   { label: "1-3 Years", value: "1-3 Years" },
-//                   { label: "4-7 Years", value: "4-7 Years" },
-//                   { label: "8+ Years", value: "8+ Years" }
-//                 ]}
-//               />
-//             </div>
-
-//             <div className='pb-4 w-full'>
-//               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Language</p>
-//               <Select
-//                 value={languages}
-//                 showSearch
-//                 placeholder="Select..."
-//                 style={{ width: '100%', height: '40px' }}
-//                 options={[
-//                   { label: "English", value: "English" },
-//                   { label: "Spanish", value: "Spanish" },
-//                   { label: "German", value: "German" },
-//                   { label: "Russian", value: "Russian" }
-//                 ]}
-//               />
-//             </div>
-
-//             <div className="pb-4 w-full">
-//               <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
-              // <div className="w-full flex justify-center">
-              //   <Upload
-              //     fileList={fileList}
-              //     onChange={handleChange}
-              //     beforeUpload={() => false}
-              //     listType="picture-card" // Image preview dekhate use korte parben
-              //   >
-              //     {fileList.length >= 1 ? null : (
-              //       <Button  icon={<UploadOutlined />}>Upload Image</Button>
-              //     )}
-              //   </Upload>
-              // </div>
-//             </div>
-
-//             <div className='pb-4 w-full'>
-//               <p className='text-[14px] font-roboto font-bold text-[#001018]'>State</p>
-//               <Input value={state} name='state' style={{ width: '100%', height: '40px' }} />
-//             </div>
-
-
-//             <div className='pb-4'>
-//               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
-//               <Input value={address} name='address' placeholder='address' style={{ width: '100%', height: '40px' }} />
-//             </div>
-
-//             <div className='pb-4'>
-//               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Mobile number</p>
-//               <Input value={phone} name='mobile' placeholder='Enter your contact number to reach client' style={{ width: '100%', height: '40px' }} />
-//             </div>
-
-//             <div className='pb-4'>
-//               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
-//               <Input value={web_link} name='webLink'
-//                 placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
-//             </div>
-
-//             {/* schedule */}
-//             <div className='pb-4'>
-//               <div className='flex flex-col lg:flex-row justify-between items-center gap-6 pb-4'>
-//                 <div className='w-full'>
-//                   <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-
-//                   <Select
-//                     value={schedule?.day}
-//                     style={{ width: '100%', height: '40px' }}
-//                     defaultValue="Select day.."
-//                     onChange={handleAvailabilityChange}
-//                     options={[
-//                       { value: 'Monday', label: 'Monday' },
-//                       { value: 'Tuesday', label: 'Tuesday' },
-//                       { value: 'Wednesday', label: 'Wednesday' },
-//                       { value: 'Thursday', label: 'Thursday' },
-//                       { value: 'Friday', label: 'Friday' },
-//                       { value: 'Saturday', label: 'Saturday' },
-//                       { value: 'Sunday', label: 'Sunday' },
-//                     ]}
-//                   />
-//                 </div>
-
-
-//                 <div className='w-full'>
-//                   <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>Start Time</p>
-//                   <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "start")}
-//                   />
-//                 </div>
-
-//               </div>
-//               <div className='w-full'>
-//                 <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>End Time</p>
-//                 <TimePicker style={{ width: "100%", height: '40px' }} onChange={(time, timeString) => handleTimeChange(time, timeString, "end")} />
-//               </div>
-//             </div>
-//           </div>
-
-
-//           <Button block htmlType="submit" style={{ backgroundColor: "#1b69ad", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", color: "white", padding: "20px 0px" }}>
-//             Update Profile
-//           </Button>
-//         </Form>
-//       </div>
-//     </AccountCreate>
-//   )
-// }
-
-// export default EditLawyerProfile
-
-
-
-
-import AccountCreate from "../../layout/AccountCreate";
+import { Form, Input, Button, Modal, Space, Select, Upload, TimePicker } from "antd";
 import { useEffect, useState } from "react";
-import { Form, Button, Typography, Space, Modal, Select, TimePicker, DatePicker, Input, Upload } from "antd";
-const { Title } = Typography;
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import AccountCreate from "../../layout/AccountCreate";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Cookies from "js-cookie";
-import { UploadOutlined } from "@ant-design/icons";
 import toast from "react-hot-toast";
-import moment from "moment";
+import Title from "antd/es/skeleton/Title";
+import { UploadOutlined } from "@ant-design/icons";
 
-const EditLawyerProfile = () => {
-  const axiosPublic = useAxiosPublic();
-  const [form] = Form.useForm();
-  const [categorieData, setCategorieData] = useState([]);
-  const [lawyerAllData, setLawyerAllData] = useState({});
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [fileList, setFileList] = useState([]);
-  const [availability, setAvailability] = useState(null);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
 
-  const lawyerToken = Cookies.get("lawyerToken");
 
-  const {
-    id,
-    first_name,
-    last_name,
-    full_name,
-    address,
-    avatar,
-    categories,
-    email,
-    experience,
-    languages,
-    phone,
-    practice_area,
-    state,
-    web_link,
-  } = lawyerAllData || {};
+const OtpCode = () => {
+    const axiosPublic = useAxiosPublic();
+    const [form] = Form.useForm(); // Form instance
+    const [loading, setLoading] = useState(false);
+    const location = useLocation();
+    const email = location?.state?.email
+    const navigate = useNavigate();
 
-  const { schedule } = lawyerAllData || {};
-  const time = schedule?.time || "";
 
-  useEffect(() => {
-    if (time) {
-      const [start, end] = time.split(" - ").map((t) => t.trim());
-      setStartTime(start);
-      setEndTime(end);
-    }
-  }, [time]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [issModalOpenTwo, setIsModalOpenTwo] = useState(false);
+    const [issModalOpenThree, setIsModalOpenThree] = useState(false)
 
-  const filteredCategories = categorieData.filter((category) =>
-    categories?.includes(category.name)
-  );
+    const [categorieData, setCategorieData] = useState([]);
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
-  // Handle File Upload
-  const handleChange = ({ fileList }) => setFileList(fileList);
-
-  useEffect(() => {
-    if (avatar) {
-      setFileList([{ url: avatar }]); // Default avatar set kora
-    }
-  }, [avatar]); // Avatar update hole abar fileList update hob
-
-  const handleSelect = (option) => {
-    setSelectedOptions((prev) => {
-      if (prev.includes(option.id)) {
-        return prev.filter((item) => item !== option.id);
-      } else if (prev.length < 3) {
-        return [...prev, option.id];
-      } else {
-        return prev;
-      }
+    const [modalOneValue, setModalOneValue] = useState([])
+    const [modalTwoValue, setModalTwoValue] = useState({
+        practice: "",
+        location: "",
+        languages: "",
+        address: "",
+        state: "",
+        zipCode: "",
     });
-  };
 
-  useEffect(() => {
-    if (filteredCategories.length > 0) {
-      setSelectedOptions((prev) => {
-        const newSelection = filteredCategories.map((category) => category.id);
-        return JSON.stringify(prev) === JSON.stringify(newSelection) ? prev : newSelection;
-      });
+
+    // modal three
+    const [fileList, setFileList] = useState([]);
+    const [webLink, setWebLink] = useState("");
+    const [scheduleData, setScheduleData] = useState({
+        saturday: '',
+        sunday: '',
+        monday: '',
+        tuesday: '',
+        wednesday: '',
+        thursday: '',
+        friday: '',
+    });
+
+    const handleTimeChange = (day, value) => {
+        setScheduleData(prevSchedule => ({
+            ...prevSchedule,
+            [day]: value
+        }));
+    };
+
+    const lawyerToken = Cookies.get("lawyerToken");
+
+
+    const onFinish = async (values) => {
+        const otpCode = {
+            otp: values.otp
+        }
+
+        try {
+            const response = await axiosPublic.post("/verify-email", otpCode);
+            if ((response.data.success) && (response.data.access_token)) {
+
+                Cookies.set("lawyerToken", response?.data?.access_token,
+                    { expires: 7, secure: true, sameSite: "Strict" });
+
+                toast.success("OTP send successfully.");
+                setIsModalOpen(true)
+                form.resetFields();
+            } else {
+                toast.error("Failed to send OTP. Try again.");
+            }
+        }
+        catch (error) {
+            toast.error("Wrong OTP. Please try again.");
+        }
+        form.resetFields();
+
+        setIsModalOpen(false);
+
+        setIsModalOpen(true)
+    };
+
+    const handleResendOtp = async () => {
+        setLoading(true);
+        try {
+            const response = await axiosPublic.post("/resent-otp", { email });
+            if (response.data.success) {
+                toast.success("OTP has been resent successfully.");
+            } else {
+                toast.error("Failed to resend OTP. Try again.");
+            }
+        }
+        catch (error) {
+            toast.error("Error sending OTP. Please try again.");
+        }
+
+        setLoading(false);
+    };
+
+    // categorie name gat
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axiosPublic.get(`/admin/categories?per_page=10`);
+                setCategorieData(response?.data?.categories.data)
+
+            } catch (error) {
+                console.error('Failed to load data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // Handle File Upload
+    const handleChange = ({ file, fileList }) => {
+        // Ensure we store the file with originFileObj
+        setFileList(fileList.map(file => ({ ...file, originFileObj: file.originFileObj || file })));
+    };
+
+
+    //====================== first modal start ==============
+
+    const handleOk = async () => {
+        setModalOneValue(selectedOptions)
+
+        setIsModalOpen(false)
+        setIsModalOpenTwo(true)
+    };
+
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+        setSelectedOptions("")
+    };
+
+    const handleSelect = (option) => {
+        setSelectedOptions((prev) => {
+            if (prev.includes(option.id)) {
+
+                return prev.filter((item) => item !== option.id);
+            } else if (prev.length < 3) {
+
+                return [...prev, option.id];
+            } else {
+                return prev;
+            }
+        });
+    };
+
+    //====================== first modal end =================
+
+
+
+
+
+    //====================== second modal start =================
+    // Handle input change
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setModalTwoValue((prev) => ({ ...prev, [name]: value }));
+    };
+
+    // Handle select change
+    const handleSelectChange = (field, value) => {
+        setModalTwoValue((prev) => ({ ...prev, [field]: value }));
+    };
+
+
+
+    const handleOkLowyerTwo = async () => {
+
+        setIsModalOpenThree(true)
+        setIsModalOpenTwo(false)
     }
-  }, [filteredCategories]);
 
-  const onFinish = async (values) => {
-    // Include additional form values here if needed
-    console.log(values); // Here you get all the form values
-    // For example:
-    // {
-    //   practice_area: "some value",
-    //   experience: "1-3 Years",
-    //   languages: "english",
-    //   state: "some state",
-    //   address: "some address",
-    //   mobile: "1234567890",
-    //   web_link: "example.com",
-    //   availability: "Monday",
-    //   startTime: "10:00 AM",
-    //   endTime: "5:00 PM"
-    // }
-    // You can send `values` to your API or store it as needed.
-  };
 
-  return (
-    <AccountCreate>
-      <div className="container mx-auto px-4 border rounded-md my-4 p-4">
-        <h1 className="font-roboto font-bold text-center text-2xl uppercase text-primary">
-          Edit Lawyer Profile
-        </h1>
-        <Form form={form} layout="vertical" onFinish={onFinish}>
-          <div>
-            <Space wrap className=" mt-16">
-              {categorieData?.map((option, index) => (
-                <Button
-                  key={index}
-                  onClick={() => handleSelect(option)}
-                  disabled={selectedOptions.length === 3 && !selectedOptions.includes(option.id)}
-                  style={{
-                    borderRadius: 20,
-                    backgroundColor: selectedOptions.includes(option.id)
-                      ? "#1b69ad"
-                      : "#FFFFFF",
-                    color: selectedOptions.includes(option.id) ? "#FFFFFF" : "#1b69ad",
-                    border: "1px solid #B6B6BA",
-                    fontWeight: "bold",
-                    fontSize: "16px",
-                    fontFamily: "Roboto",
-                    padding: "20px",
-                    cursor:
-                      selectedOptions.length === 3 && !selectedOptions.includes(option.id)
-                        ? "not-allowed"
-                        : "pointer",
-                    opacity:
-                      selectedOptions.length === 3 && !selectedOptions.includes(option.id)
-                        ? 0.5
-                        : 1,
-                  }}
-                >
-                  {option.name}
-                </Button>
-              ))}
-            </Space>
-          </div>
+    const handleCancelLowyerTwo = () => {
+        setIsModalOpenTwo(false)
+        setIsModalOpen(true)
+    }
+    //====================== second modal end = =================
 
-          {/* Form Inputs */}
-          <div className="mt-8">
-            <Form.Item name="practice_area" label="Where do you practice">
-              <Input placeholder="e.g.: New Jersey, New York, EOIR (Immigration Court)" />
-            </Form.Item>
 
-            <Form.Item name="experience" label="Experience">
-              <Select
-                showSearch
-                placeholder="Select..."
-                options={[
-                  { label: "1-3 Years", value: "1-3 Years" },
-                  { label: "4-7 Years", value: "4-7 Years" },
-                  { label: "8+ Years", value: "8+ Years" },
-                ]}
-              />
-            </Form.Item>
 
-            <Form.Item name="languages" label="Language">
-              <Select
-                showSearch
-                placeholder="Select..."
-                options={[
-                  { label: "English", value: "english" },
-                  { label: "Spanish", value: "spanish" },
-                  { label: "German", value: "german" },
-                  { label: "Russian", value: "russian" },
-                ]}
-              />
-            </Form.Item>
 
-            <Form.Item name="state" label="State">
-              <Input />
-            </Form.Item>
 
-            <Form.Item name="address" label="Office address">
-              <Input placeholder="address" />
-            </Form.Item>
+    // ===================== three modal start ===================
+    const handleOkLowyerThree = async () => {
 
-            <Form.Item name="mobile" label="Mobile number">
-              <Input placeholder="Enter your contact number" />
-            </Form.Item>
+        const formattedSchedule = Object.keys(scheduleData).map((day) => ({
+            day: day,
+            time: scheduleData[day] ? `${scheduleData[day][0].format('hh:mm a')} - ${scheduleData[day][1].format('hh:mm a')}` : ''
+        }));
 
-            <Form.Item name="web_link" label="Website link (optional)">
-              <Input placeholder="Include a link to your website here" />
-            </Form.Item>
 
-            <Form.Item name="availability" label="Availability (optional)">
-              <Select
-                showSearch
-                options={[
-                  { value: "Monday", label: "Monday" },
-                  { value: "Tuesday", label: "Tuesday" },
-                  { value: "Wednesday", label: "Wednesday" },
-                  { value: "Thursday", label: "Thursday" },
-                  { value: "Friday", label: "Friday" },
-                  { value: "Saturday", label: "Saturday" },
-                  { value: "Sunday", label: "Sunday" },
-                ]}
-              />
-            </Form.Item>
+        const formData = new FormData();
+        formData.append('service_ids', JSON.stringify(modalOneValue))
+        formData.append('practice_area', modalTwoValue.practice)
+        formData.append('experience', modalTwoValue.experience)
+        formData.append('languages', modalTwoValue.languages)
+        if (fileList && fileList.length > 0) {
+            formData.append('avatar', fileList[0].originFileObj);
+        }
+        formData.append('state', modalTwoValue.state)
+        formData.append('address', modalTwoValue.address)
+        formData.append('phone', modalTwoValue.phone)
 
-            <Form.Item name="startTime" label="Start Time">
-              <TimePicker
-                onChange={(time, timeString) => setStartTime(timeString)}
-                value={moment(startTime, "HH:mm")}
-              />
-            </Form.Item>
+        formData.append('web_link', webLink)
+        formData.append("schedule", JSON.stringify(formattedSchedule));
 
-            <Form.Item name="endTime" label="End Time">
-              <TimePicker
-                onChange={(time, timeString) => setEndTime(timeString)}
-                value={moment(endTime, "HH:mm")}
-              />
-            </Form.Item>
 
-            {/* File Upload */}
-            <Form.Item name="avatar" label="Upload profile photo">
-              <Upload
-                fileList={fileList}
-                onChange={handleChange}
-                beforeUpload={() => false}
-                listType="picture-card"
-              >
-                {fileList.length >= 1 ? null : <Button icon={<UploadOutlined />}>Upload Image</Button>}
-              </Upload>
-            </Form.Item>
-          </div>
 
-          <Button
-            block
-            htmlType="submit"
-            style={{
-              backgroundColor: "#1b69ad",
-              fontFamily: "Roboto",
-              fontWeight: "bold",
-              fontSize: "16px",
-              color: "white",
-              padding: "20px 0px",
-            }}
-          >
-            Update Profile
-          </Button>
-        </Form>
-      </div>
-    </AccountCreate>
-  );
-};
+        // console.log(modalOneValue)
+        // console.log(modalTwoValue)
 
-export default EditLawyerProfile;
+
+        // formData.forEach((value, key) => {
+        //     console.log(key, value);
+        // });
+
+
+
+        try {
+            const response = await axiosPublic.post('/lawyer/update-profile', formData, {
+                headers: {
+                    Authorization: `Bearer ${lawyerToken}`,
+                    "Accept": "application/json"
+                }
+
+            });
+
+
+            console.log(response.data)
+            if (response.data.success) {
+                toast.success('Profile create successfully')
+                // navigate('/lawyer-profile')
+            } else {
+                toast.error("something is wrong! please try again.");
+            }
+
+        } catch (error) {
+            toast.error("something is wrong! please try again.");
+        }
+    }
+
+    const handleCancelLowyerThree = () => {
+        // setIsModalOpenThree(false)
+        // setIsModalOpenTwo(true)
+    }
+    // ===================== three modal end  ====================
+
+
+
+    useEffect(() => {
+        // Disable scroll when any modal is open
+        if (isModalOpen || issModalOpenTwo || issModalOpenThree) {
+            document.body.style.overflow = "hidden";
+        } else {
+            // Re-enable scroll when no modal is open
+            document.body.style.overflow = "auto";
+        }
+        return () => {
+            document.body.style.overflow = "auto"; // Cleanup function
+        };
+    }, [isModalOpen, issModalOpenTwo, issModalOpenThree]);
+
+
+
+
+
+    // console.log(modalOneValue)
+    // console.log(modalTwoValue)
+
+    return (
+        <AccountCreate>
+            <div className="flex flex-col justify-center items-center bg-[#f5f5f7] h-[calc(100vh-122px)] container mx-auto px-4">
+                <div className="w-full md:w-[478px] min-h-[292px] bg-[#FFFFFF] p-6 rounded-lg shadow-lg">
+                    <h2 className="text-[26px] font-bold font-roboto text-[#10101E]  mb-0">We’ve sent you an OTP to</h2>
+                    <p className="font-roboto text-[#121221] text-[16px] pb-[32px]">{email || "immi@gmail.com"}</p>
+
+
+                    <Form form={form} layout="vertical" onFinish={onFinish}>
+                        <div>
+                            <p className="font-roboto">OTP code</p>
+                            <Form.Item
+
+                                name="otp"
+                                rules={[
+                                    { required: true, message: "Please Enter your OTP!" },
+                                    { pattern: /^[0-9]{4,6}$/, message: "Invalid OTP format!" }, // ✅ Ensures 4-6 digit number
+
+                                ]}
+                            >
+                                <Input
+                                    type="text" // ✅ Use "text" instead of "number" to avoid auto-correction issues
+                                    maxLength={6} // ✅ Limits OTP to 6 digits
+                                    placeholder="Enter your OTP" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />
+                            </Form.Item>
+                        </div>
+
+                        {/* submit button */}
+                        <Form.Item>
+                            <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
+                                Submit OTP
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </div>
+                <div className="text-center pt-8">
+                    <p className="text-[14px] font-roboto">Didn’t get OTP yet? <span onClick={handleResendOtp} className="text-primary font-bold font-roboto">Resend</span></p>
+                </div>
+            </div>
+
+
+            {/* =========================  modal start ====================== */}
+            {/* modal one */}
+            <Modal centered open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+                width={600}
+                footer={
+                    <div className="font-roboto flex justify-center md:justify-between items-center gap-x-4 md:px-7 pt-[24px]">
+                        <button
+                            className="w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                            onClick={handleCancel}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                            onClick={handleOk}
+                        >
+                            Continue
+                        </button>
+                    </div>
+                }
+            // okText="Continue"
+            // okButtonProps={{
+            //     className:"w-[50%] h-[50px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+            //   }}
+            //   cancelButtonProps={{
+            //     className:"w-[50%] h-[50px] md:w-[161px] md:h-[64px] border  text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+            //   }}
+            >
+
+
+                <div>
+                    <div style={{ maxWidth: "90%", margin: "auto", textAlign: "center" }}>
+
+                        <svg
+                            className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
+                            width="100%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                            <circle cx="20" cy="20" r="5" fill="#1B69AD" />
+                            <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
+                            <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
+                        </svg>
+
+
+                        <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                            Select the legal help you need
+                        </Title>
+
+
+                        <Space wrap>
+                            {categorieData.map((option, index) => (
+                                <Button
+                                    key={index}
+                                    onClick={() => handleSelect(option)}
+                                    disabled={selectedOptions.length === 3 && !selectedOptions.includes(option.id)}
+                                    style={{
+                                        borderRadius: 20,
+                                        backgroundColor: selectedOptions.includes(option.id) ? "#1b69ad" : "#FFFFFF",
+                                        color: selectedOptions.includes(option.id) ? "#FFFFFF" : "#1b69ad",
+                                        border: "1px solid #B6B6BA",
+                                        fontWeight: "bold",
+                                        fontSize: "16px",
+                                        fontFamily: "Roboto",
+                                        padding: "20px",
+                                        cursor: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? "not-allowed" : "pointer",
+                                        opacity: selectedOptions.length === 3 && !selectedOptions.includes(option.id) ? 0.5 : 1,
+                                    }}
+                                >
+                                    {option.name}
+                                </Button>
+
+                            ))}
+                        </Space>
+                    </div>
+                </div>
+            </Modal>
+
+            {/* ========================= modal tow start ==================== */}
+            <Modal centered open={issModalOpenTwo} onOk={handleOkLowyerTwo} onCancel={handleCancelLowyerTwo}
+                width={600}
+                footer={
+                    <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                        <button
+                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                            onClick={handleCancelLowyerTwo}
+                        >
+                            Back
+                        </button>
+                        <button
+                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                            onClick={handleOkLowyerTwo}
+                        >
+                            Continue
+                        </button>
+                    </div>
+                }
+            >
+
+
+                <div>
+                    <svg
+                        className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]" width="40" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                        <path d="M14.167 20.8335L17.5003 24.1668L25.8337 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
+                        <circle cx="264" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                        <circle cx="264" cy="20" r="5" fill="#1B69AD" />
+                        <rect x="280" y="19" width="212" height="2" fill="#B6B6BA" />
+                        <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
+                    </svg>
+
+
+                    <hr />
+
+                    <div className='pt-4'>
+                        <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                            Add your professional details
+                        </Title>
+                    </div>
+                    <div className='pb-4'>
+                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Where do you practice</p>
+                        <Input name='practice'
+                            value={modalTwoValue.practice}
+                            onChange={handleInputChange}
+                            placeholder='e.g.: New Jersey, New York, EOIR (Immigration Court)' style={{ width: '100%', height: '40px' }} />
+                    </div>
+
+
+                    <div className='pb-4'>
+                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Experience</p>
+                        <Select
+                            showSearch
+                            placeholder="Select..."
+                            style={{ width: '100%', height: '40px' }}
+                            onChange={(value) => handleSelectChange("experience", value)}
+                            options={[
+                                { label: "1-3 Years", value: "1-3 Years" },
+                                { label: "4-7 Years", value: "4-7 Years" },
+                                { label: "8+ Years", value: "8+ Years" }
+                            ]}
+                        />
+                    </div>
+
+                    <div className='pb-4'>
+                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Select your language(s)</p>
+                        <Select
+                            showSearch
+                            placeholder="Select..."
+                            style={{ width: '100%', height: '40px' }}
+                            onChange={(value) => handleSelectChange("languages", value)}
+                            options={[
+                                { label: "English", value: "English" },
+                                { label: "Spanish", value: "Spanish" },
+                                { label: "German", value: "German" },
+                                { label: "Russian", value: "Russian" }
+                            ]}
+                        />
+                    </div>
+
+                    <div className='pb-4'>
+                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Phone</p>
+                        <Input name='phone'
+                            value={modalTwoValue.phone}
+                            onChange={handleInputChange}
+                            placeholder='phone' style={{ width: '100%', height: '40px' }} />
+                    </div>
+
+                    <div className='pb-4'>
+                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
+                        <Input name='address'
+                            value={modalTwoValue.address}
+                            onChange={handleInputChange}
+                            placeholder='address' style={{ width: '100%', height: '40px' }} />
+                    </div>
+
+
+                    <div className='flex justify-between gap-2'>
+                        <div className='pb-4 w-full'>
+                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>State</p>
+                            <Input name='state'
+                                value={modalTwoValue.state}
+                                onChange={handleInputChange}
+                                style={{ width: '100%', height: '40px' }} />
+                        </div>
+
+                        <div className='pb-4 w-full'>
+                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Zip code</p>
+                            <Input
+                                value={modalTwoValue.zipCode}
+                                onChange={handleInputChange}
+                                name='zipCode' style={{ width: '100%', height: '40px' }} />
+                        </div>
+                    </div>
+                </div>
+
+            </Modal>
+
+
+            {/* ======================= modal three start ===================== */}
+            <Modal centered open={issModalOpenThree} onOk={handleOkLowyerThree} onCancel={handleCancelLowyerThree}
+                width={600}
+                footer={
+                    <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                        <button
+                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                            onClick={handleCancelLowyerThree}
+                        >
+                            Back
+                        </button>
+                        <button
+                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                            onClick={handleOkLowyerThree}
+                        >
+                            Continue
+                        </button>
+                    </div>
+                }
+            >
+
+
+                <div>
+                    <svg
+                        className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
+                        width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                        <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
+                        <circle cx="264" cy="20" r="16" fill="#1B69AD" />
+                        <path d="M258.167 20.8335L261.5 24.1668L269.833 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <rect x="280" y="19" width="212" height="2" fill="#1B69AD" />
+                        <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                        <circle cx="508" cy="20" r="5" fill="#1B69AD" />
+                    </svg>
+
+
+
+                    <hr />
+
+                    <div className='pt-4'>
+                        <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                            Add your profile photo and availability
+                        </Title>
+                    </div>
+
+
+
+                    <div className="pb-4 w-full">
+                        <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
+                        <div className="w-full">
+                            <Upload
+                                fileList={fileList}
+                                onChange={handleChange}
+                                beforeUpload={() => false}
+                                style={{ width: '100%', height: '40px' }}
+                                className="upload-component"
+                            >
+                                {fileList.length >= 1 ? null : (
+                                    <Button
+                                        icon={<UploadOutlined />}
+                                        style={{ width: '100%', height: '40px' }}
+                                    >
+                                        Upload Image
+                                    </Button>
+                                )}
+                            </Upload>
+                        </div>
+                    </div>
+
+
+
+
+                    <div className='pb-4'>
+                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
+                        <Input
+                            onChange={(e) => setWebLink(e.target.value)}
+                            placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
+                    </div>
+
+
+                    <div className='pb-4'>
+                        <div className='flex flex-col justify-between items-center gap-6 pb-4'>
+                            <div className="border p-4 w-full rounded-lg space-y-3">
+                                {Object.keys(scheduleData).map((day) => (
+                                    <div key={day} className="flex items-center justify-between gap-3">
+                                        <div>
+                                            <p className="text-primary font-semibold">{day}</p>
+                                        </div>
+                                        <div>
+                                            <TimePicker.RangePicker v value={scheduleData[day] ? [scheduleData[day][0], scheduleData[day][1]] : []}
+                                                onChange={(value) => handleTimeChange(day, value)}
+                                                format="hh:mm A" />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
+        </AccountCreate>
+    )
+}
+
+export default OtpCode

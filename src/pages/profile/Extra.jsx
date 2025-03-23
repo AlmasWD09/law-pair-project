@@ -10,8 +10,9 @@ import toast from "react-hot-toast";
 import moment from 'moment';
 import { UploadCloud } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import dayjs from 'dayjs';
-
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
 
 
 const EditLawyerProfile = () => {
@@ -26,10 +27,26 @@ const EditLawyerProfile = () => {
 
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('')
+  const [scheduleData, setScheduleData] = useState([]);
 
 
+  // Convert time string to dayjs format
+  const parseTime = (timeString) => {
+    if (!timeString) return [null, null]; // Handle empty cases
+    const [start, end] = timeString.split(" - "); // Split into start & end time
+    return [dayjs(start, "hh:mm a"), dayjs(end, "hh:mm a")]; // Convert to dayjs
+  };
+
+  // Handle time change
+  const handleTimeChange = (day, value) => {
+    setScheduleData((prev) =>
+      prev.map((item) =>
+        item.day === day
+          ? { ...item, time: `${value[0].format("hh:mm a")} - ${value[1].format("hh:mm a")}` }
+          : item
+      )
+    );
+  };
 
 
   // lawyer token 
@@ -128,11 +145,14 @@ const EditLawyerProfile = () => {
           }
 
         });
+        setScheduleData(response?.data?.lawyer?.schedule)
         setLawyerAllData(response?.data?.lawyer)
         setStartTime(dayjs(response?.data?.lawyer?.schedule?.time, "HH:mm:ss"));
         setEndTime(dayjs(response?.data?.lawyer?.schedule?.time, "HH:mm:ss"));
         setAllCategories(response?.data?.lawyer?.categories || []);
         setSelectedOptions(response?.data?.lawyer?.categories || []);
+        setScheduleData(response?.data?.lawyer?.schedule || [])
+
       } catch (error) {
         console.error('Failed to load data:',);
       }
@@ -164,9 +184,12 @@ const EditLawyerProfile = () => {
   const onFinish = async (values) => {
 
     const service_ids = selectedOptions
-    const schedule = {
-      time: `${startTime} - ${endTime}`,
-    }
+    const formattedSchedule = scheduleData.map((day) => ({
+      day: day,
+      time: scheduleData[day] ? `${scheduleData[day][0].format('hh:mm a')} - ${scheduleData[day][1].format('hh:mm a')}` : ''
+    }));
+
+
 
     const formData = new FormData();
     formData.append('service_ids', JSON.stringify(service_ids))
@@ -181,34 +204,32 @@ const EditLawyerProfile = () => {
     formData.append('phone', values.phone)
 
     formData.append('web_link', values.web_link)
-    formData.append('day', values.day)
-    formData.append('schedule', schedule.time);
+    formData.append("schedule", JSON.stringify(formattedSchedule));
 
 
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(key, value);
+    // });
 
 
 
-    // try {
-    //   const response = await axiosPublic.post('/lawyer/update-profile', formData, {
-    //     headers: {
-    //       Authorization: `Bearer ${lawyerToken}`,
-    //       "Accept": "application/json"
-    //     }
+    try {
+      const response = await axiosPublic.post('/lawyer/update-profile', formData, {
+        headers: {
+          Authorization: `Bearer ${lawyerToken}`,
+          "Accept": "application/json"
+        }
 
-    //   });
+      });
 
-    //   console.log(response.data)
-    //   if (response.data.success) {
-    //     toast.success('Profile Update successfully')
-    //     navigate('/lawyer-profile')
-    //   }
+      if (response.data.success) {
+        toast.success('Profile Update successfully')
+        navigate('/lawyer-profile')
+      }
 
-    // } catch (error) {
-    //   toast.error('Something went wrong! please try again');
-    // }
+    } catch (error) {
+      toast.error('Something went wrong! please try again');
+    }
   }
 
   return (
@@ -244,9 +265,6 @@ const EditLawyerProfile = () => {
                 })}
               </Select>
             </Space>
-
-
-
           </div>
 
 
@@ -363,42 +381,23 @@ const EditLawyerProfile = () => {
             </div>
 
 
-
             <div className='pb-4'>
-              <div className='flex flex-col lg:flex-row justify-between items-center gap-6 pb-4'>
-                <div className='w-full'>
-                  <p className='text-[14px] font-roboto font-bold text-[#001018]'>Availability (optional)</p>
-                  <Form.Item name="day" >
-                    <Select
-                      showSearch
-                      style={{ width: '100%', height: '40px' }}
-                      options={[
-                        { value: 'Monday', label: 'Monday' },
-                        { value: 'Tuesday', label: 'Tuesday' },
-                        { value: 'Wednesday', label: 'Wednesday' },
-                        { value: 'Thursday', label: 'Thursday' },
-                        { value: 'Friday', label: 'Friday' },
-                        { value: 'Saturday', label: 'Saturday' },
-                        { value: 'Sunday', label: 'Sunday' },
-                      ]}
-                    />
-                  </Form.Item>
+              <div className='flex flex-col justify-between items-center gap-6 pb-4'>
+                <div className="border p-4 w-full rounded-lg space-y-3">
+                  {scheduleData?.map((item) => (
+                    <div key={item.day} className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="text-primary font-semibold">{item.day}</p>
+                      </div>
+                      <div>
+                        <TimePicker.RangePicker
+                          value={parseTime(item.time)}
+                          onChange={(value) => handleTimeChange(item.day, value)}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-
-
-                <div className='w-full'>
-                  <Form.Item >
-                    <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>Start Time</p>
-                    <TimePicker value={startTime} style={{ width: "100%", height: '40px' }} onChange={(time) => setStartTime(time)} />
-                  </Form.Item>
-                </div>
-
-              </div>
-              <div className='w-full'>
-                <Form.Item >
-                  <p className='text-[14px] font-roboto font-bold text-primary lg:text-end'>End Time</p>
-                  <TimePicker value={endTime} style={{ width: "100%", height: '40px' }} onChange={(time) => setEndTime(time)} Pm />
-                </Form.Item>
               </div>
             </div>
           </div>
