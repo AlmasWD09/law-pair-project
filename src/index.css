@@ -6,8 +6,8 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    background-color:#F5F5F7;
+body {
+    background-color: #F5F5F7;
 }
 
 /* navbar active link style */
@@ -24,7 +24,14 @@ body{
   } */
 
 
-
+/* banner button hover effect remove */
+.no-hover:hover {
+    background-color: #b9d4eb !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: inherit !important;
+}
 
 
 
@@ -41,18 +48,18 @@ body{
 
 /* Active tab text color */
 .custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: #1b69ad !important; 
+    color: #1b69ad !important;
     font-weight: bold;
 }
 
 /* Active tab bottom border */
 .custom-tabs .ant-tabs-ink-bar {
-    background-color: #1b69ad !important; 
+    background-color: #1b69ad !important;
 }
 
 /* Hover tab text color */
 .custom-tabs .ant-tabs-tab:hover .ant-tabs-tab-btn {
-    color: #1b69ad !important; 
+    color: #1b69ad !important;
 }
 
 
@@ -61,6 +68,7 @@ body{
 .upload-component .ant-upload {
     width: 100% !important;
 }
+
 .upload-component .ant-btn {
     width: 100% !important;
 }
@@ -68,7 +76,17 @@ body{
 /* upload image field style end */
 
 
+/* user profile upload for continue button style */
+.loader {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
 
-
-
-
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

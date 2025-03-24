@@ -4,12 +4,16 @@ import { AiFillHome } from "react-icons/ai";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
+import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
+
 
 
 const Sidebar = () => {
     const [openDropdown, setOpenDropdown] = useState(null);
     const [settingIconColor, setSettingIconColor] = useState(false)
     const navigate = useNavigate()
+
 
 
 
@@ -115,6 +119,24 @@ const Sidebar = () => {
         },
     ];
 
+    const handleLogout = async () => {
+
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Deleted Your Role.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, delete it!',
+        });
+
+        if (result.isConfirmed) {
+            Cookies.remove('adminToken');
+            navigate("/admin/dashboard/login")
+            Swal.fire('Deleted!', 'Sucessfully Deleted Your Role.', 'success');
+        }
+    };
+
 
     return (
         <>
@@ -185,11 +207,11 @@ const Sidebar = () => {
                             Papatundee
                         </h1>
                     </div>
-                    <Link to={'/admin/dashboard/login'}>
-                        <div>
-                            <img src="/logo/login.png" alt="login image" className="w-[30px] h-[30px]" />
-                        </div>
-                    </Link>
+                    <span>
+                        <svg onClick={handleLogout} className="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.58L17 17L22 12M4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z" fill="#EF436B" />
+                        </svg>
+                    </span>
                 </div>
             </div>
 
@@ -265,7 +287,11 @@ const Sidebar = () => {
                         </h1>
                     </div>
                     <div>
-                        <img src="/logo/login.png" alt="login image" className="w-[20px] h-[20px]" />
+                        <span>
+                            <svg onClick={handleLogout} className="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.58L17 17L22 12M4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z" fill="#EF436B" />
+                            </svg>
+                        </span>
                     </div>
                 </div>
             </div>

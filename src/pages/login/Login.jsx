@@ -3,8 +3,11 @@ import { Form, Input, Button } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Tabs } from 'antd';
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
+
+import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
@@ -13,6 +16,9 @@ const Login = () => {
     const [clientForm] = Form.useForm(); // Form instance
     const [attorneyForm] = Form.useForm(); // Form instance
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
 
 
 
@@ -22,31 +28,44 @@ const Login = () => {
     };
 
     const onFinishClient = async (values) => {
-
         const clientInfo = {
-            role: 'user',
+            role: "user",
             email: values.email,
             password: values.password
         }
 
-        // try {
-        //     const response = await axiosPublic.post("/login", clientInfo);
-        //     console.log('response--------', response.data)
 
-        //     if (response.data.success) {
-        //         alert("login success")
-        //     }
-        //     else {
-        //         alert(response.data.message)
-        //     }
-        // }
-        // catch (error) {
-        //     alert("Login Error. plz try again!");
-        // }
+        try {
+            const response = await axiosPublic.post("/login", clientInfo);
+            console.log(response.data)
+
+            if (response.data.success) {
+                toast.success("login success")
+                Cookies.set('userToken', response?.data?.access_token, {
+                    expires: 7,
+                    secure: true,
+                    sameSite: 'Strict'
+                });
+                Cookies.remove("lawyerToken");
+                Cookies.remove("user_role");
+                navigate(from, { replace: true });
+            }
+            else {
+                toast.error('login failed')
+            }
+        }
+        catch (error) {
+            toast.error("Login Error. plz try again!");
+        }
 
         clientForm.resetFields();
-        setIsModalOpen(false);
     };
+
+
+
+
+
+
 
 
 
@@ -58,23 +77,28 @@ const Login = () => {
             password: values.password
         }
 
-
         try {
             const response = await axiosPublic.post("/login", attorneyInfo);
-            console.log(response.data)
             if (response.data.success) {
-                alert("login success")
+                toast.success("login success")
+                Cookies.set('lawyerToken', response?.data?.access_token, {
+                    expires: 7,
+                    secure: true,
+                    sameSite: 'Strict'
+                });
+                Cookies.remove('userToken');
+                Cookies.remove("lawyer_role");
+                
+                navigate(from, { replace: true });
             }
             else {
-                alert('login failedddd')
+                toast.error('login failedddd')
             }
         }
         catch (error) {
-            alert("Login Error. plz try again!");
+            toast.error("Login Error. plz try again!");
         }
-
         attorneyForm.resetFields();
-        setIsModalOpen(false);
     };
 
 
@@ -121,11 +145,9 @@ const Login = () => {
 
                     {/* Submit Button */}
                     <Form.Item>
-                        <Link to={'/'}>
                         <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                             Log in
                         </Button>
-                        </Link>
                     </Form.Item>
                 </Form>
             ),
@@ -173,11 +195,9 @@ const Login = () => {
 
                     {/* Submit Button */}
                     <Form.Item>
-                    <Link to={'/'}>
                         <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                             Log in
                         </Button>
-                        </Link>
                     </Form.Item>
                 </Form>
             ),

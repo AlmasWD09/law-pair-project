@@ -1,53 +1,79 @@
 
-import React, { useState } from "react";
-import { Table, Input, Button, Modal, Tag } from "antd";
+import React, { useEffect, useState } from "react";
+import { Table, Input, Button, Modal, Tag, Pagination } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const ManageUser = () => {
+  const axiosPublic = useAxiosPublic();
   const [searchText, setSearchText] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const perPage = 5;
 
-  const [data, setData] = useState([
-    { key: "1", name: "Almas Hossain", email: "almas@example.com", role: "Lawyer" },
-    { key: "2", name: "Rahim Uddin", email: "rahim@example.com", role: "Client" },
-    { key: "3", name: "Karim Mia", email: "karim@example.com", role: "Lawyer" },
-    { key: "4", name: "Jabed Islam", email: "jabed@example.com", role: "Client" },
-    { key: "5", name: "Tania Rahman", email: "tania@example.com", role: "Lawyer" },
-    { key: "6", name: "Sajid Khan", email: "sajid@example.com", role: "Client" },
-    { key: "7", name: "Farhana Akter", email: "farhana@example.com", role: "Lawyer" },
-    { key: "8", name: "Mehedi Hasan", email: "mehedi@example.com", role: "Client" },
-    { key: "9", name: "Sumon Ahmed", email: "sumon@example.com", role: "Lawyer" },
-    { key: "10", name: "Nafisa Jahan", email: "nafisa@example.com", role: "Client" },
-    { key: "11", name: "Hasan Mahmud", email: "hasan@example.com", role: "Lawyer" },
-    { key: "12", name: "Rafiq Ullah", email: "rafiq@example.com", role: "Client" },
-    { key: "13", name: "Shamima Nasrin", email: "shamima@example.com", role: "Lawyer" },
-    { key: "14", name: "Biplob Kumar", email: "biplob@example.com", role: "Client" },
-    { key: "15", name: "Mim Chowdhury", email: "mim@example.com", role: "Lawyer" },
-    { key: "16", name: "Sakib Al Hasan", email: "sakib@example.com", role: "Client" },
-    { key: "17", name: "Tarek Rahman", email: "tarek@example.com", role: "Lawyer" },
-    { key: "18", name: "Anika Sultana", email: "anika@example.com", role: "Client" },
-    { key: "19", name: "Jahid Hasan", email: "jahid@example.com", role: "Lawyer" },
-    { key: "20", name: "Ruma Akter", email: "ruma@example.com", role: "Client" },
-  ]);
+  const token = Cookies.get("adminToken");
 
-
+  useEffect(() => {
+    axiosPublic
+      .get(`/admin/users?per_page=${perPage}&page=${currentPage}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(response.data.users.total)
+        setData(response.data.users.data);
+        setTotalUsers(response.data.users.total);
+      })
+      .catch((error) => {
+        console.error("Error fetching dashboard users:", error);
+      });
+  }, [token, currentPage, searchText]);
 
   const filteredData = data.filter(
     (item) =>
-      item.name.toLowerCase().includes(searchText.toLowerCase()) ||
-      item.email.toLowerCase().includes(searchText.toLowerCase())
+      (item.first_name && item.first_name.toLowerCase().includes(searchText.toLowerCase())) ||
+      (item.email && item.email.toLowerCase().includes(searchText.toLowerCase())) ||
+      (item.role && item.role.toLowerCase().includes(searchText.toLowerCase()))
   );
-
 
   const showDeleteModal = (record) => {
     setSelectedRecord(record);
     setIsModalVisible(true);
   };
 
-  const handleDeleteUser = () => {
+  const handleDeleteUser = async () => {
     if (selectedRecord) {
-      setData((prev) => prev.filter((item) => item.key !== selectedRecord.key));
+
+      try {
+        const response = await axiosPublic.delete(`/admin/user/${selectedRecord.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        })
+
+        if (response.data.success) {
+          toast.success('User deleted successfully!')
+        }
+        else {
+          toast.error("Deleted Failed")
+        }
+
+      } catch (error) {
+        toast.error('Deleted Failed! please try again')
+      }
+
+
+      setData((prev) => prev.filter((item) => item.id !== selectedRecord.id));
+      setTotalUsers((prev) => prev - 1)
+
       setIsModalVisible(false);
       setSelectedRecord(null);
     }
@@ -57,19 +83,20 @@ const ManageUser = () => {
     setIsModalVisible(false);
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const columns = [
     {
       title: "Name",
-      dataIndex: "name",
+      dataIndex: "first_name",
       key: "name",
-      responsive: ["xs", "sm", "md", "lg", "xl"],
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      responsive: ["xs", "sm", "md", "lg", "xl"],
     },
     {
       title: "Role",
@@ -78,22 +105,22 @@ const ManageUser = () => {
       render: (role) => (
         <Tag
           style={{
-            borderRadius: "999px", // rounded-full effect
+            borderRadius: "999px",
             padding: "3px 15px",
             fontSize: "14px",
             fontWeight: "400",
             color: "white",
-            backgroundColor: role === "Lawyer" ? "#96DDCA" : "#EBD298",
-            border: "none",
+            border: "0px solid",
+            backgroundColor: role === "Lawyer" ? "#96ddca" : "#ebd298",
           }}
-        >{role}</Tag>
+        >
+          {role}
+        </Tag>
       ),
-      responsive: ["xs", "sm", "md", "lg", "xl"],
     },
     {
       title: "Action",
       key: "action",
-      responsive: ["xs", "sm", "md", "lg", "xl"],
       render: (_, record) => (
         <Button type="primary" danger onClick={() => showDeleteModal(record)}>
           <DeleteOutlined />
@@ -110,27 +137,30 @@ const ManageUser = () => {
       <p className="fontro text-[#B6B6BA] text-[12px] pb-3">
         Admins can manage users by promoting, demoting, or removing them.
       </p>
-
-      <div style={{ padding: "20px" }} className="">
-        <Input.Search
-          placeholder="Search by name or email"
-          onChange={(e) => setSearchText(e.target.value)}
-          style={{ marginBottom: 16, width:"100%",}}
-           size="large"
-           inputStyle={{
-            padding: "40px",
-            outline: "none",
-            border: "none", // Removes border
-            boxShadow: "none", // Removes Ant Design's default focus effect
-          }}
-        />
-
-        <div className="overflow-x-auto pt-3">
-          <Table columns={columns} dataSource={filteredData} pagination={{ pageSize: 8 }} />
-        </div>
+      <Input.Search
+        placeholder="Search by name or email"
+        onChange={(e) => setSearchText(e.target.value)}
+        style={{ marginBottom: 16, width: "100%" }}
+        size="large"
+      />
+      <div className="overflow-x-auto pt-3">
+        <Table columns={columns} dataSource={filteredData} pagination={false} rowKey="id" />
       </div>
 
-      {/* Delete Confirmation Modal */}
+
+      {/* pagination component */}
+      <Pagination
+        current={currentPage}
+        total={totalUsers}
+        pageSize={perPage}
+        onChange={handlePageChange}
+        showSizeChanger={false}
+        align="end"
+        className="my-4"
+      />
+
+
+
       <Modal
         title="Confirm Delete"
         open={isModalVisible}

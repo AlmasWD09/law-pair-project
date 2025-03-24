@@ -58,39 +58,36 @@ const OtpCode = () => {
     };
 
     const lawyerToken = Cookies.get("lawyerToken");
-    const userToken = Cookies.get("userToken");
-    const user_role = Cookies.get("user_role");
-    const lawyer_role = Cookies.get("lawyer_role");
 
-    // Otp code
+
     const onFinish = async (values) => {
         const otpCode = {
             otp: values.otp
-        };
+        }
 
         try {
             const response = await axiosPublic.post("/verify-email", otpCode);
-            if (response.data.success) {
-                toast.success("OTP send successfully");
-                if (user_role === 'user') {
-                    Cookies.set("userToken", response?.data?.access_token,
-                        { expires: 7, secure: true, sameSite: "Strict" });
-                    return navigate("/login");
-                } else if (lawyer_role === 'lawyer') {
-                    Cookies.set("lawyerToken", response?.data?.access_token,
-                        { expires: 7, secure: true, sameSite: "Strict" });
-                    setIsModalOpen(true);
-                }
+            if ((response.data.success) && (response.data.access_token)) {
 
+                Cookies.set("lawyerToken", response?.data?.access_token,
+                    { expires: 7, secure: true, sameSite: "Strict" });
+
+                toast.success("OTP send successfully.");
+                setIsModalOpen(true)
                 form.resetFields();
             } else {
-                toast.error("Otp send request failed");
+                toast.error("Failed to send OTP. Try again.");
             }
-        } catch (error) {
-            toast.error("Wrong otp! please try again");
         }
-    };
+        catch (error) {
+            toast.error("Wrong OTP. Please try again.");
+        }
+        form.resetFields();
 
+        setIsModalOpen(false);
+
+        setIsModalOpen(true)
+    };
 
     const handleResendOtp = async () => {
         setLoading(true);
@@ -221,9 +218,15 @@ const OtpCode = () => {
         formData.append('web_link', webLink)
         formData.append("schedule", JSON.stringify(formattedSchedule));
 
-        formData.forEach((value, key) => {
-            console.log(key, value);
-        });
+
+
+        // console.log(modalOneValue)
+        // console.log(modalTwoValue)
+
+
+        // formData.forEach((value, key) => {
+        //     console.log(key, value);
+        // });
 
 
 
@@ -240,7 +243,7 @@ const OtpCode = () => {
             console.log(response.data)
             if (response.data.success) {
                 toast.success('Profile create successfully')
-                navigate('/lawyer-profile')
+                // navigate('/lawyer-profile')
             } else {
                 toast.error("something is wrong! please try again.");
             }
@@ -251,8 +254,8 @@ const OtpCode = () => {
     }
 
     const handleCancelLowyerThree = () => {
-        setIsModalOpenThree(false)
-        setIsModalOpenTwo(true)
+        // setIsModalOpenThree(false)
+        // setIsModalOpenTwo(true)
     }
     // ===================== three modal end  ====================
 

@@ -2,24 +2,45 @@
 import React, { useState, useRef } from 'react';
 import JoditEditor from 'jodit-react';
 import { Button } from 'antd';
+import toast from 'react-hot-toast';
+import useAxiosPublic from '../../../../hooks/useAxiosPublic';
+import Cookies from "js-cookie";
 
 const DashboardDisclaimer = () => {
+  const axiosPublic = useAxiosPublic();
   const [content, setContent] = useState('');
-  const editor = useRef(null); // Correctly initialize ref
+  const editor = useRef(null);
 
 
+
+
+  const token = Cookies.get("adminToken");
   const handleUpdate = async () => {
-    console.log(content)
-    // try {
 
-    //   const response = await axios.post('url', { content });
-    //   console.log('Server Response:', response.data);
-    //   alert('Content updated successfully!');
+    const disclaimerInfo = {
+      disclaimer: content
+    }
 
-    // } catch (error) {
-    //   console.error('Error updating content:', error);
-    //   alert('Failed to update content');
-    // }
+    try {
+
+      const response = await axiosPublic.post('/admin/update-disclaimer', disclaimerInfo, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      console.log(response.data)
+      if (response.data.success) {
+        toast.success('Disclaimer Content updated successfully!');
+      }
+      else {
+        toast.error("Failed! please try again")
+      }
+
+    } catch (error) {
+      toast.error('Failed to update content');
+    }
   };
 
 

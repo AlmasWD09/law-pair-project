@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
 import Cookies from "js-cookie";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 
 export const CreateNewPassword = () => {
@@ -35,16 +36,16 @@ export const CreateNewPassword = () => {
             console.log('response----->', response.data)
 
             if (response.data.success) {
-                alert(response.data.message);
+                toast.success(response.data.message);
 
                 navigate('/password-successfull')
                 form.resetFields();
             } else {
-                alert("Failed-----");
+                toast.error("Failed-----");
             }
         }
         catch (error) {
-            alert("Something went wrong!. Please try again.");
+            toast.error("Something went wrong!. Please try again.");
         }
 
         form.resetFields();
@@ -97,11 +98,9 @@ export const CreateNewPassword = () => {
 
 
                         <Form.Item>
-                           <Link to={'/password-successfull'}>
                            <Button htmlType="submit" className="w-full " style={{ backgroundColor: "#1b69ad", color: "white", fontFamily: "Roboto", fontWeight: "bold", fontSize: "16px", padding: "24px" }}>
                                 Save password
                             </Button>
-                           </Link>
                         </Form.Item>
                     </Form>
                 </div>
