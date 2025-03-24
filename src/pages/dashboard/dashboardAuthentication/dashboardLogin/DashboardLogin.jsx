@@ -20,10 +20,10 @@ const DashboardLogin = () => {
 
 
         try {
-            const response = await axiosPublic.post("/login", loginInfo);
+            const response = await axiosPublic.post("/login", loginInfo,{ withCredentials: true });
             console.log(response.data)
             if (response.data.success) {
-                Cookies.set("adminToken", response?.data?.access_token, { expires: 7, secure: true });
+                Cookies.set("adminToken", response?.data?.access_token, { expires: 7, secure: true,  sameSite: "none", });
                 toast.success("login success")
                 navigate('/admin/dashboard')
             }

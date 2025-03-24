@@ -276,14 +276,14 @@ const UserProfile = () => {
                                                     <Upload
                                                         fileList={fileList}
                                                         onChange={handleChange}
-                                                        beforeUpload={() => false} // Prevent auto-upload
-                                                        style={{ width: '100%', height: '40px' }} // Force the Upload component to take full width
-                                                        className="upload-component" // Custom class to apply further styling
+                                                        beforeUpload={() => false}
+                                                        style={{ width: '100%', height: '40px' }} 
+                                                        className="upload-component" 
                                                     >
                                                         {fileList.length >= 1 ? null : (
                                                             <Button
                                                                 icon={<UploadOutlined />}
-                                                                style={{ width: '100%', height: '40px' }} // Ensure the button takes up full width
+                                                                style={{ width: '100%', height: '40px' }} 
                                                             >
                                                                 Upload Image
                                                             </Button>
