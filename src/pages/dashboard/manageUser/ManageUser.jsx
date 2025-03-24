@@ -14,7 +14,7 @@ const ManageUser = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
-  const perPage = 10;
+  const perPage = 5;
 
   const token = Cookies.get("adminToken");
 
@@ -34,7 +34,7 @@ const ManageUser = () => {
       .catch((error) => {
         console.error("Error fetching dashboard users:", error);
       });
-  }, [token, currentPage,searchText]);
+  }, [token, currentPage, searchText]);
 
   const filteredData = data.filter(
     (item) =>
@@ -50,7 +50,7 @@ const ManageUser = () => {
 
   const handleDeleteUser = async () => {
     if (selectedRecord) {
-    
+
       try {
         const response = await axiosPublic.delete(`/admin/user/${selectedRecord.id}`, {
           headers: {
@@ -72,7 +72,7 @@ const ManageUser = () => {
 
 
       setData((prev) => prev.filter((item) => item.id !== selectedRecord.id));
-      setTotalUsers((prev)=>prev - 1)
+      setTotalUsers((prev) => prev - 1)
 
       setIsModalVisible(false);
       setSelectedRecord(null);
@@ -81,6 +81,10 @@ const ManageUser = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   const columns = [
@@ -143,15 +147,20 @@ const ManageUser = () => {
         <Table columns={columns} dataSource={filteredData} pagination={false} rowKey="id" />
       </div>
 
+
       {/* pagination component */}
       <Pagination
         current={currentPage}
-        pageSize={perPage}
         total={totalUsers}
-        onChange={(page) => setCurrentPage(page)}
-        className="mt-4"
+        pageSize={perPage}
+        onChange={handlePageChange}
+        showSizeChanger={false}
         align="end"
+        className="my-4"
       />
+
+
+
       <Modal
         title="Confirm Delete"
         open={isModalVisible}

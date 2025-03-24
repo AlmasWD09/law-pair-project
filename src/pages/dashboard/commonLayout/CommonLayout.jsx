@@ -13,8 +13,7 @@ const CommonLayout = () => {
     const [chartValue, setChartValue] = useState([]);
     const [userType, setUserType] = useState('total_users')
     const [curdTitle, setCurdTitle] = useState('Total Users')
-    const [selectedYear, setSelectedYear] = useState("");
-
+    const [selectedYear, setSelectedYear] = useState(null);
 
     const dashboardAllData = [
         {
@@ -102,7 +101,7 @@ const CommonLayout = () => {
 
     const token = Cookies.get("adminToken")
     useEffect(() => {
-        axiosPublic.get(`/admin/dashboard?user_type=${userType}&year=2025`, {
+        axiosPublic.get(`/admin/dashboard?user_type=${userType}&year=2024`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Accept": "application/json"

@@ -196,7 +196,7 @@ const AddCategories = () => {
       </div>
 
       {/* Preview Section */}
-      <h1 className="font-roboto text-[20px] md:text-3xl font-bold text-[#10101E] pt-6">Preview Update Content: {totalCategories || 0}</h1>
+      <h1 className="font-roboto text-[20px] md:text-3xl font-bold text-[#10101E] pt-6">Preview Update Content: </h1>
 
       <div className="overflow-x-auto pt-3">
         <Table
