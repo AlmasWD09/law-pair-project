@@ -245,7 +245,7 @@ const Header = () => {
                                                     <button className="h-[48px] bg-primary rounded-[4px] text-[16px] 
                         text-[#FFFFFF] px-[24px] font-bold font-roboto flex items-center gap-2">
                                                         <span className="inline-flex items-center text-xs">{userData?.full_name}</span>
-                                                        <img src={userData?.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
+                                                        {userData?.avatar ? <img src={userData?.avatar} alt="" className="w-8 h-8 rounded-full object-cover" /> : <img src='/defaultImage.webp' alt="" className="w-8 h-8 rounded-full object-cover" />}
                                                     </button>
                                                 </Link>
                                             ) : (
@@ -306,7 +306,7 @@ const Header = () => {
                                             <button className="h-[48px] bg-primary rounded-[4px] text-[16px] 
                         text-[#FFFFFF] px-[24px] font-bold font-roboto flex items-center gap-2">
                                                 <span className="inline-flex items-center">{userData?.full_name}</span>
-                                                <img src={userData?.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
+                                                {userData?.avatar ? <img src={userData?.avatar} alt="" className="w-8 h-8 rounded-full object-cover" /> : <img src='/defaultImage.webp' alt="" className="w-8 h-8 rounded-full object-cover" />}
                                             </button>
                                         </Link>
                                     ) : (
