@@ -31,8 +31,8 @@ import DashboardOtpVerification from "../pages/dashboard/dashboardAuthentication
 import LawyerProfile from "../pages/profile/LawyerProfile";
 import PrivatRoutes from "./PrivatRoutes";
 import LegalResurcesDetails from "../pages/details/LegalResurcesDetails";
-import SearchAttorney from "../pages/searchAttorney/searchAttorney";
 import EditLawyerProfile from "../pages/profile/EditLawyerProfile";
+import SearchAttorney from "../pages/searchAttorney/SearchAttorney";
 
 
 const router = createBrowserRouter([
