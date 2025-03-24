@@ -14,6 +14,20 @@ const CommonLayout = () => {
     const [userType, setUserType] = useState('total_users')
     const [curdTitle, setCurdTitle] = useState('Total Users')
     const [selectedYear, setSelectedYear] = useState(null);
+    const [years, setYears] = useState([]);
+
+    useEffect(() => {
+        const currentYear = new Date().getFullYear();
+        const previousYear = currentYear - 1;
+        setYears([currentYear, previousYear]);
+        setSelectedYear(currentYear); // Default latest year
+    }, []);
+
+
+    const handleYearChange = (event) => {
+        setSelectedYear(Number(event.target.value));
+    };
+
 
     const dashboardAllData = [
         {
@@ -87,34 +101,25 @@ const CommonLayout = () => {
     }
 
 
-    // Function to handle year change
-    const handleYearChange = (year) => {
-        setSelectedYear(year);
-    };
-
-    // Fetch data and set chart data here (you may have logic for fetching data)
-    useEffect(() => {
-        // Logic to fetch chart data
-    }, [selectedYear]);
-
-
 
     const token = Cookies.get("adminToken")
     useEffect(() => {
-        axiosPublic.get(`/admin/dashboard?user_type=${userType}&year=2024`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Accept": "application/json"
-            },
-        })
-            .then(response => {
-                setCount(response.data?.usersCount);
-                setChartValue(response.data?.data);
+        if (selectedYear) {
+            axiosPublic.get(`/admin/dashboard?user_type=${userType}&year=${selectedYear}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Accept": "application/json"
+                },
             })
-            .catch(error => {
-                console.error('Error fetching dashboard data:', error);
-            });
-    }, [token, userType]);
+                .then(response => {
+                    setCount(response.data?.usersCount);
+                    setChartValue(response.data?.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching dashboard data:', error);
+                });
+        }
+    }, [token, selectedYear, userType]);
 
 
     return (
@@ -152,12 +157,22 @@ const CommonLayout = () => {
                 </div>
             </div>
 
+
+            <div className="flex justify-between items-center my-3">
+                <h2></h2>
+                {/* Year Select Dropdown */}
+                <select value={selectedYear} onChange={handleYearChange} className="bg-transparent outline-none border p-2">
+                    {years.map(year => (
+                        <option key={year} value={year}>{year}</option>
+                    ))}
+                </select>
+            </div>
+
+
             {/* dynamic chart */}
             <Chart
                 chartValue={chartValue}
                 curdTitle={curdTitle}
-                selectedYear={selectedYear}
-                handleYearChange={handleYearChange}
             />
         </div>
     )
