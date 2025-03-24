@@ -32,6 +32,7 @@ const OtpCode = () => {
         location: "",
         languages: "",
         address: "",
+        city: "",
         state: "",
         zipCode: "",
     });
@@ -216,6 +217,7 @@ const OtpCode = () => {
         }
         formData.append('state', modalTwoValue.state)
         formData.append('address', modalTwoValue.address)
+        formData.append('city', modalTwoValue.city)
         formData.append('phone', modalTwoValue.phone)
 
         formData.append('web_link', webLink)
@@ -351,15 +353,16 @@ const OtpCode = () => {
 
                 <div>
                     <div style={{ maxWidth: "90%", margin: "auto", textAlign: "center" }}>
-
-                        <svg
-                            className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
-                            width="100%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                        <svg  className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
+                            width="100%"height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="15" stroke="#1B69AD" stroke-width="2" />
                             <circle cx="20" cy="20" r="5" fill="#1B69AD" />
-                            <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
-                            <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
+                            <rect x="36" y="19" width="212" height="2" fill="#B6B6BA" />
+                            <circle cx="264" cy="20" r="15" stroke="#B6B6BA" stroke-width="2" />
+                            <rect x="280" y="19" width="212" height="2" fill="#B6B6BA" />
+                            <circle cx="508" cy="20" r="15" stroke="#B6B6BA" stroke-width="2" />
                         </svg>
+
 
 
                         <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
@@ -429,7 +432,6 @@ const OtpCode = () => {
                         <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
                     </svg>
 
-
                     <hr />
 
                     <div className='pt-4'>
@@ -491,6 +493,14 @@ const OtpCode = () => {
                             value={modalTwoValue.address}
                             onChange={handleInputChange}
                             placeholder='address' style={{ width: '100%', height: '40px' }} />
+                    </div>
+
+                    <div className='pb-4'>
+                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>City</p>
+                        <Input name='city'
+                            value={modalTwoValue.city}
+                            onChange={handleInputChange}
+                            placeholder='city' style={{ width: '100%', height: '40px' }} />
                     </div>
 
 

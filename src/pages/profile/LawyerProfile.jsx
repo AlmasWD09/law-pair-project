@@ -133,6 +133,9 @@ const LawyerProfile = () => {
     if (loading) {
         return <LoadindSpenier />
     }
+
+
+    console.log(lawyerAllData)
     return (
         <div className="bg-gray-100">
             <AccountCreate >
@@ -294,7 +297,11 @@ const LawyerProfile = () => {
 
 
                                 <div className="flex flex-wrap lg:flex-row items-center gap-3 pt-3">
-                                    <button className="border px-4 py-1 rounded-full font-roboto text-primary text-[16px]">Monday</button>
+                                    {lawyerAllData?.schedule.map((item) => {
+                                        return (
+                                            <button className="border px-4 py-2 rounded-full font-roboto text-primary text-[16px]">{item.day} {item.time}</button>
+                                        )
+                                    })}
 
                                 </div>
                             </div>

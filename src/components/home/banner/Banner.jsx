@@ -121,11 +121,11 @@ const Banner = () => {
             state: secondSelectValue.location,
             language: secondSelectValue.city
         };
-    
+
         try {
             const response = await axiosPublic.get(`/find-lawyers`, {
                 params: {
-                    service_ids: JSON.stringify(findLawyerInfo.service_ids), 
+                    service_ids: JSON.stringify(findLawyerInfo.service_ids),
                     state: findLawyerInfo.state,
                     language: findLawyerInfo.language
                 },
@@ -134,7 +134,7 @@ const Banner = () => {
                     Accept: "application/json",
                 }
             });
-    
+
             if (response.data.success) {
                 navigate('/attorney-tm', { state: { lawyers: response.data?.lawyers?.data } });
             } else {
@@ -146,7 +146,7 @@ const Banner = () => {
             setIsModalOpenTwo(false);
         }
     };
-    
+
 
     const handleCancelTwo = () => {
         setIsModalOpenTwo(false);
@@ -345,27 +345,17 @@ const Banner = () => {
                                 Continue
                             </button>
                         </div>
-                    }
-                // okText="Continue"
-                // cancelText="Back"
-                // okButtonProps={{
-                //     style: { width: "161px", height: "64px", backgroundColor: "#1b69ad", color: "#FFFFF", borderRadius: "5px", fontSize: "16px", fontWeight: "bold" }, // OK button style
-                // }}
-                // cancelButtonProps={{
-                //     style: { width: "161px", height: "64px", color: "#1b69ad", borderRadius: "5px", fontSize: "16px", fontWeight: "bold", },
-                // }}
-                >
+                    }>
 
 
                     <div>
-                        <svg className='mb-4' width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="20" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                            <circle cx="20" cy="20" r="5" fill="#1B69AD" />
-                            <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
-                            <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
+                        <svg width="90%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                            <path d="M14.167 20.832L17.5003 24.1654L25.8337 15.832" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
+                            <circle cx="508" cy="20" r="15" stroke="#1B69AD" stroke-width="2" />
+                            <circle cx="508" cy="20" r="5" fill="#1B69AD" />
                         </svg>
-
-                        <hr />
 
                         <div className='pt-4'>
                             <Title level={4} className='text-[14px] font-roboto font-bold text-[#001018]'>
@@ -391,7 +381,7 @@ const Banner = () => {
                         </div>
 
                         <div>
-                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>City</p>
+                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Language</p>
                             <Select
                                 showSearch
                                 placeholder="Select..."
@@ -469,7 +459,6 @@ const Banner = () => {
                                     <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
                                     <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
                                 </svg>
-
                                 <hr />
 
                                 <div className='pt-4'>
