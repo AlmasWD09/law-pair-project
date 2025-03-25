@@ -90,3 +90,19 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+
+
+/* jodit editor */
+.jodit,
+.jodit-container * {
+  /* background: #2e2d2d !important; */
+  /* color: wheat !important; */
+  border: none !important;
+
+}
+
+
+.jodit-react-container .jodit-wysiwyg{
+  min-height: 300px !important;
+}

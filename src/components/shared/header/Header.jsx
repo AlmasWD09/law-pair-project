@@ -143,8 +143,6 @@ const Header = () => {
         fetchUserData();
     }, [userToken]);
 
-
-
     return (
         <>
             {/* Navbar */}
@@ -232,7 +230,7 @@ const Header = () => {
                                     </div> */}
                                     <div className="flex items-center gap-4">
                                         {
-                                            lawyerToken ? (
+                                            lawyerToken && lawyerData ? (
                                                 <Link to="/lawyer-profile">
                                                     <button className="h-[48px] bg-primary rounded-[4px] text-[16px] 
                         text-[#FFFFFF] px-[24px] font-bold font-roboto flex items-center gap-2">
@@ -240,7 +238,7 @@ const Header = () => {
                                                         <img src={lawyerData?.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
                                                     </button>
                                                 </Link>
-                                            ) : userToken ? (
+                                            ) : userToken && userData ? (
                                                 <Link to="/user-profile">
                                                     <button className="h-[48px] bg-primary rounded-[4px] text-[16px] 
                         text-[#FFFFFF] px-[24px] font-bold font-roboto flex items-center gap-2">
@@ -293,7 +291,7 @@ const Header = () => {
                         <div className="hidden lg:flex lg:justify-end">
                             <div className="flex items-center gap-4">
                                 {
-                                    lawyerToken ? (
+                                     lawyerToken && Object.keys(lawyerData).length > 0 ? (
                                         <Link to="/lawyer-profile">
                                             <button className="h-[48px] bg-primary rounded-[4px] text-[16px] 
                         text-[#FFFFFF] px-[24px] font-bold font-roboto flex items-center gap-2">
@@ -301,7 +299,7 @@ const Header = () => {
                                                 <img src={lawyerData?.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
                                             </button>
                                         </Link>
-                                    ) : userToken ? (
+                                    ) : userToken && Object.keys(userData).length > 0 ? (
                                         <Link to="/user-profile">
                                             <button className="h-[48px] bg-primary rounded-[4px] text-[16px] 
                         text-[#FFFFFF] px-[24px] font-bold font-roboto flex items-center gap-2">

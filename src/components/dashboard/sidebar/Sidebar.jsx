@@ -1,21 +1,29 @@
 import { icons } from "antd/es/image/PreviewGroup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import Swal from 'sweetalert2';
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
+
+
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import { User2Icon } from "lucide-react";
+import useAdminProfileData from "../../../hooks/useAdminProfileData";
+import toast from "react-hot-toast";
 
 
 
 const Sidebar = () => {
+    const axiosPublic = useAxiosPublic();
     const [openDropdown, setOpenDropdown] = useState(null);
     const [settingIconColor, setSettingIconColor] = useState(false)
     const navigate = useNavigate()
+    const [adminData, refetch] = useAdminProfileData()
 
-
-
+      
+    const adminToken = Cookies.get("adminToken");
 
     // navigate founction
     const handleClick = () => {
@@ -123,21 +131,37 @@ const Sidebar = () => {
 
         const result = await Swal.fire({
             title: 'Are you sure?',
-            text: 'Deleted Your Role.',
+            text: 'You will be logged out of your account.',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonText: 'Yes, Logout!',
         });
 
         if (result.isConfirmed) {
-            Cookies.remove('adminToken');
-            navigate("/admin/dashboard/login")
-            Swal.fire('Deleted!', 'Sucessfully Deleted Your Role.', 'success');
+            try {
+                const response = await axiosPublic.get('/logout',{
+                    headers: {
+                        Authorization: `Bearer ${adminToken}`,
+                        "Accept": "application/json"
+                        // ✅ Send token in Authorization header
+                    }
+        
+                })
+                if (response.data.success) {
+                    Cookies.remove('adminToken');
+                    navigate("/admin/dashboard/login")
+                    Swal.fire('Deleted!', 'Sucessfully Deleted Your Role.', 'success');
+                }
+            } catch (error) {
+                toast.error(error.message, 'Logged out Failed');
+            }
         }
     };
 
 
+
+    
     return (
         <>
             <div className="h-full hidden lg:flex flex-col justify-between  mx-4">
@@ -200,19 +224,25 @@ const Sidebar = () => {
                     </ul>
                 </div>
 
-                <div className="flex items-center justify-between bg-[#b9d4eb] rounded-md py-2 px-2 mb-3">
-                    <div className="flex items-center gap-2">
-                        <img src="/legalImage/legal1.png" alt="" className="w-[30px] h-[30px] rounded-full object-cover" />
-                        <h1 className="text-xl font-roboto font-bold ">
-                            Papatundee
-                        </h1>
-                    </div>
-                    <span>
-                        <svg onClick={handleLogout} className="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.58L17 17L22 12M4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z" fill="#EF436B" />
-                        </svg>
-                    </span>
+
+                <div className="mb-3">
+                    <button className="bg-[#b9d4eb] rounded-md flex justify-between items-center w-full px-1 py-2">
+                        <div className="flex items-center gap-2">
+                            {
+                                adminData.avatar ? <img src={adminData?.avatar} alt="avater" className="w-8 h-8 rounded-full" /> : <span><User2Icon size={30} /></span>
+                            }
+                            <span className="font-roboto text-sm font-bold">
+                                {adminData?.full_name}
+                            </span>
+                        </div>
+                        <div>
+                            <svg onClick={handleLogout} className="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.58L17 17L22 12M4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z" fill="#EF436B" />
+                            </svg>
+                        </div>
+                    </button>
                 </div>
+
             </div>
 
 
@@ -279,20 +309,23 @@ const Sidebar = () => {
                 </div>
 
 
-                <div className="flex items-center justify-between bg-[#b9d4eb] rounded-md py-2 px-2 mx-2 mb-3">
-                    <div className="flex items-center gap-2">
-                        <img src="/legalImage/legal1.png" alt="" className="w-[30px] h-[30px] rounded-full object-cover" />
-                        <h1 className="text-[16px] font-roboto font-bold ">
-                            Papatundee
-                        </h1>
-                    </div>
-                    <div>
-                        <span>
+                <div className="mb-3">
+                    <button className="bg-[#b9d4eb] rounded-md flex justify-between items-center w-full px-1 py-2">
+                        <div className="flex items-center gap-2">
+                            {
+                                adminData.avatar ? <img src={adminData?.avatar} alt="avater" className="w-8 h-8 rounded-full" /> : <span><User2Icon size={30} /></span>
+                            
+                            }
+                            <span className="font-roboto text-sm font-bold">
+                                {adminData?.full_name}
+                            </span>
+                        </div>
+                        <div>
                             <svg onClick={handleLogout} className="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.58L17 17L22 12M4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z" fill="#EF436B" />
                             </svg>
-                        </span>
-                    </div>
+                        </div>
+                    </button>
                 </div>
             </div>
         </>

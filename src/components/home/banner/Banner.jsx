@@ -476,10 +476,10 @@ const Banner = () => {
                                         style={{ width: '100%', height: '40px' }}
                                         onChange={value => handleSeleCtcategorieValue("location", value)}
                                         options={[
-                                            { value: 'new jersey', label: 'new jersey' },
-                                            { value: 'new york', label: 'new york' },
-                                            { value: 'pennsylvania', label: 'pennsylvania' },
-                                            { value: 'washington, d.c', label: 'washington, d.c' },
+                                            { value: 'new jersey', label: 'New Jersey' },
+                                            { value: 'new york', label: 'New York' },
+                                            { value: 'pennsylvania', label: 'Pennsylvania' },
+                                            { value: 'washington, d.c', label: 'Washington, D.C' },
                                         ]}
                                     />
                                 </div>

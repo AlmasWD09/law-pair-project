@@ -8,7 +8,7 @@ const HomeLegalResources = () => {
     const navigate = useNavigate()
     const [resurcesData, setResurcesData] = useState([]);
 
-    const token = Cookies.get("adminToken");
+    const adminToken = Cookies.get("adminToken");
 
     // const resurcesData = [
     //     {
@@ -55,7 +55,7 @@ const HomeLegalResources = () => {
     useEffect(() => {
         axiosPublic.get('/admin/legal-resources/?per_page=10', {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${adminToken}`,
                 Accept: "application/json",
             },
         })
@@ -65,7 +65,7 @@ const HomeLegalResources = () => {
             .catch((error) => {
                 console.error("Error fetching dashboard users:", error);
             });
-    }, [token,]);
+    }, [adminToken,]);
 
 
     const handleClick = (id) => {

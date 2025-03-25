@@ -1,13 +1,18 @@
+import useAboutData from "../../hooks/useAboutData";
 
 const About = () => {
-    return (
-      <div className="flex justify-center items-center h-[calc(100vh-154px)]  md:h-[calc(100vh-454px)]">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold font-roboto">Data Not Found</h1>
-          <h2 className="text-xl font-semibold">About Page</h2>
-        </div>
+  const [aboutData, refetch] = useAboutData();
+
+  return (
+    <div className="flex items-center min-h-screen">
+      <div className="container mx-auto px-4 py-12">
+        <div 
+          dangerouslySetInnerHTML={{ __html: aboutData?.about }} 
+          className="w-full max-w-full sm:max-w-[500px] md:max-w-[700px] lg:max-w-[900px] break-words bg-gray-400 p-6 sm:p-8 text-center md:text-left rounded-lg shadow-md"
+        />
       </div>
-    )
-  }
-  
-  export default About
+    </div>
+  );
+};
+
+export default About;

@@ -376,7 +376,7 @@ const UserProfile = () => {
 
                             {/*  right side content   */}
                             {
-                                paginatedData.length > 0 && (
+                               Object.keys(paginatedData).length > 0 ? (
                                     <div className=" col-span-2 pt-8 md:pt-0">
                                         <h1 className="font-roboto text-[26px] font-bold text-[#000000] ">Your <span className="text-primary">LawPair</span> Suggested TM attorneys</h1>
 
@@ -412,6 +412,11 @@ const UserProfile = () => {
                                                 align="center" />
                                         </div>
                                     </div>)
+                                    :
+''
+                                    // <div className="border p-8 rounded-lg flex justify-center bg-[url('/userProfile.jpg')] bg-cover bg-center h-64 w-full" >
+                                    //     <p className="font-roboto text-2xl">First, you need to search for and favorite a lawyer. Your selected lawyers will be saved, allowing you to view them in this section later. Please proceed with finding and favoriting a lawyer.</p>
+                                    // </div>
 
                             }
                         </div>

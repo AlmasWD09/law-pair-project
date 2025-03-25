@@ -14,7 +14,7 @@ const ManageUser = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
-  const perPage = 5;
+  const perPage = 8;
 
   const token = Cookies.get("adminToken");
 

@@ -1,10 +1,12 @@
 import { EnvironmentOutlined, PhoneOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, Upload, } from "antd";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import useAdminProfileData from "../../../../hooks/useAdminProfile";
+import { UploadCloud } from "lucide-react";
 
 
 
@@ -14,7 +16,46 @@ const DashboardPersonalInformation = () => {
   const [form] = Form.useForm();
   const [passwordForm] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [fileList, setFileList] = useState([]);
+  const [ImageFileList, setImageFileList] = useState([]);
+  const [adminProfileData, refetch] = useAdminProfileData();
+  const { first_name, last_name, full_name, phone, email, avatar, address } = adminProfileData || {}
+
+
+  // console.log(adminProfileData)
+
+  useEffect(() => {
+    if (adminProfileData) {
+      form.setFieldsValue({
+        ...adminProfileData,
+        first_name: first_name,
+        last_name: last_name,
+        phone: phone,
+        address: address,
+      });
+      if (adminProfileData?.avatar) {
+        setImageFileList([
+          {
+            uid: "-1",
+            name: "Existing Image",
+            status: "done",
+            url: adminProfileData.avatar,
+          },
+        ]);
+      }
+    }
+  }, [adminProfileData, form]);
+
+
+
+
+
+
+
+
+
+
+
+
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -27,26 +68,25 @@ const DashboardPersonalInformation = () => {
     setIsModalOpen(false);
   };
 
-  const handleUpload = ({ fileList }) => {
-    if (fileList.length > 1) {
-      message.error("You can only upload one image!");
-      return;
-    }
-    setFileList(fileList);
-  };
-
   const token = Cookies.get("adminToken");
 
-  const handleSaveChange = async (values) => {
+  const onFinish = async (values) => {
+
     const formData = new FormData();
 
-    // Append image file
-    if (fileList && fileList.length > 0) {
-      formData.append("avatar", fileList[0].originFileObj);
+
+
+    if (ImageFileList.length > 0) {
+      const uploadedFile = ImageFileList.find(file => file.originFileObj);
+
+      if (uploadedFile) {
+        formData.append("avatar", uploadedFile.originFileObj);
+      }
     }
 
+
     formData.append("first_name", values["first_name"]);
-    formData.append("last_name", values["last_nam"]);
+    formData.append("last_name", values["last_name"]);
     formData.append("phone", values["phone"]);
     formData.append("address", values["address"]);
 
@@ -59,29 +99,26 @@ const DashboardPersonalInformation = () => {
     })
 
 
-    try {
-      const response = await axiosPublic.post('/update-profile', formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      });
+    // try {
+    //   const response = await axiosPublic.post('/update-profile', formData, {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       Accept: "application/json","Content-Type": "multipart/form-data",
+    //     },
+    //   });
+    //   if (response.data.success) {
+    //     toast.success('Profile updated successfully!')
+    //     form.resetFields();
+    //     setFileList([]);
 
-      if (response.data.success) {
-        toast.success('Profile updated successfully!')
-        form.resetFields();
-        setFileList([]);
+    //   } else {
+    //     toast.error('Failed! please try again');
+    //   }
 
-      } else {
-        toast.error('Failed! please try again');
-      }
-
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error('Error during password update:', error);
-      setIsModalOpen(false);
-    }
-    setIsModalOpen(false);
+    //   setIsModalOpen(false);
+    // } catch (error) {
+    //   console.error('Error during password update:', error);
+    // }
   };
 
 
@@ -129,37 +166,39 @@ const DashboardPersonalInformation = () => {
         <p className="fontro text-[#B6B6BA] text-[12px] pb-3">Admin can edit personal information</p>
       </div>
 
-      <Form form={form} onFinish={handleSaveChange}>
+      <Form form={form} layout="vertical" onFinish={onFinish}>
 
 
         {/* upload image */}
-        <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 pt-5">
-          <Form.Item
-            name="avatar"
-            valuePropName="fileList"
-            getValueFromEvent={(e) => e?.fileList || []}
-            rules={[
-              {
-                required: true,
-                message: "Please upload an image!",
-              },
-            ]}
-          >
-            <Upload
-              listType="picture-card"
-              beforeUpload={() => false}
-              onChange={handleUpload}
-              fileList={fileList}>
-
-              {fileList.length >= 1 ? null : (
-                <div style={{ textAlign: "center" }}>
-                  <UploadOutlined style={{ fontSize: 24, }} />
-                  <div>Upload photo</div>
+        <div className="pb-4 w-full">
+          <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
+          <div className="w-full ">
+            <Form.Item
+              className="md:col-span-2"
+              name="image"
+              rules={[
+                {
+                  required: ImageFileList?.length === 0,
+                  message: "Image required!",
+                },
+              ]}
+            >
+              <Upload
+                beforeUpload={() => false}
+                accept="image/*"
+                maxCount={1}
+                showUploadList={{ showPreviewIcon: true }}
+                fileList={ImageFileList}
+                onChange={({ fileList }) => setImageFileList(fileList)}
+                listType="picture-card"
+              >
+                <div className="flex flex-col items-center">
+                  <UploadCloud className="w-5 h-5 text-gray-400" />
+                  <span className="mt-2">Choose File</span>
                 </div>
-              )}
-
-            </Upload>
-          </Form.Item>
+              </Upload>
+            </Form.Item>
+          </div>
         </div>
 
 

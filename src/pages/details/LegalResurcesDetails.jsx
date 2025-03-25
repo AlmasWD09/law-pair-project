@@ -9,10 +9,11 @@ import LoadindSpenier from "../../components/shared/LoadindSpenier";
 const LegalResurcesDetails = () => {
   const { id } = useParams()
   const axiosPublic = useAxiosPublic();
-  const [legalDara, setLegalData] = useState({});
+  const [legalData, setLegalData] = useState({});
   const [loading, setLoading] = useState(true);
-  const { image, title, description } = legalDara || {}
+  const { image, title, description } = legalData || {}
 
+  console.log(description)
   const token = Cookies.get("adminToken");
   useEffect(() => {
     setLoading(true)
@@ -51,10 +52,7 @@ const LegalResurcesDetails = () => {
               <div>
                 <h1 className="block mt-2 text-xl font-bold text-gray-800 transition-colors duration-300 transform font-roboto">{title}</h1>
                 <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie
-                  parturient et sem ipsum volutpat vel. Natoque sem et aliquam mauris
-                  egestas quam volutpat viverra. In pretium nec senectus erat. Et
-                  malesuada lobortis.
+                 {description}
                 </p>
               </div>
 

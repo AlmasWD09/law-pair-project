@@ -24,29 +24,37 @@ const EditLawyerProfile = () => {
   const [ImageFileList, setImageFileList] = useState([]);
 
 
-
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState(null);
   const [allCategories, setAllCategories] = useState([]);
   const [scheduleData, setScheduleData] = useState([]);
 
 
+
   // Convert time string to dayjs format
   const parseTime = (timeString) => {
-    if (!timeString) return [null, null]; // Handle empty cases
-    const [start, end] = timeString.split(" - "); // Split into start & end time
-    return [dayjs(start, "hh:mm a"), dayjs(end, "hh:mm a")]; // Convert to dayjs
+    if (!timeString || typeof timeString !== "string" || !timeString.includes(" - ")) {
+      return [null, null]; 
+    }
+    const [start, end] = timeString.split(" - ").map((time) => time.trim()); 
+    const startTime = dayjs(start, "hh:mm a", true);
+    const endTime = dayjs(end, "hh:mm a", true);
+  
+    return startTime.isValid() && endTime.isValid() ? [startTime, endTime] : [null, null];
   };
+  
+  
 
   // Handle time change
   const handleTimeChange = (day, value) => {
     setScheduleData((prev) =>
       prev.map((item) =>
         item.day === day
-          ? { ...item, time: `${value[0].format("hh:mm a")} - ${value[1].format("hh:mm a")}` }
+          ? { ...item, time: value ? `${value[0]?.format("hh:mm a")} - ${value[1]?.format("hh:mm a")}` : "" }
           : item
       )
     );
   };
+  
 
 
   // lawyer token 
@@ -57,6 +65,7 @@ const EditLawyerProfile = () => {
     last_name,
     full_name,
     address,
+    city,
     avatar,
     categories,
     email,
@@ -78,6 +87,7 @@ const EditLawyerProfile = () => {
         last_name: last_name,
         full_name: full_name,
         address: address,
+        city: city,
         avatar: avatar,
         categories: categories,
         email: email,
@@ -145,12 +155,13 @@ const EditLawyerProfile = () => {
           }
 
         });
+
+        setSelectedOptions(response?.data?.lawyer?.categories || []);
         setScheduleData(response?.data?.lawyer?.schedule)
         setLawyerAllData(response?.data?.lawyer)
         setStartTime(dayjs(response?.data?.lawyer?.schedule?.time, "HH:mm:ss"));
         setEndTime(dayjs(response?.data?.lawyer?.schedule?.time, "HH:mm:ss"));
         setAllCategories(response?.data?.lawyer?.categories || []);
-        setSelectedOptions(response?.data?.lawyer?.categories || []);
         setScheduleData(response?.data?.lawyer?.schedule || [])
 
       } catch (error) {
@@ -202,15 +213,11 @@ const EditLawyerProfile = () => {
     }
     formData.append('state', values.state)
     formData.append('address', values.address)
+    formData.append('city', values.city)
     formData.append('phone', values.phone)
 
     formData.append('web_link', values.web_link)
     formData.append("schedule", JSON.stringify(formattedSchedule));
-
-
-    // formData.forEach((value, key) => {
-    //   console.log(key, value);
-    // });
 
 
 
@@ -218,7 +225,8 @@ const EditLawyerProfile = () => {
       const response = await axiosPublic.post('/lawyer/update-profile', formData, {
         headers: {
           Authorization: `Bearer ${lawyerToken}`,
-          "Accept": "application/json"
+          Accept: "application/json", "Content-Type": "multipart/form-data",
+          // "Accept": "application/json"
         }
 
       });
@@ -229,7 +237,7 @@ const EditLawyerProfile = () => {
       }
 
     } catch (error) {
-      toast.error('Something went wrong! please try again');
+      toast.error('Something went wrong! please try again', error);
     }
   }
 
@@ -355,7 +363,17 @@ const EditLawyerProfile = () => {
             <div className='pb-4 w-full'>
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>State</p>
               <Form.Item name='state'>
-                <Input style={{ width: '100%', height: '40px' }} />
+                <Select
+                  showSearch
+                  placeholder="Select..."
+                  style={{ width: '100%', height: '40px' }}
+                  options={[
+                    { value: 'new jersey', label: 'New Jersey' },
+                    { value: 'new york', label: 'New York' },
+                    { value: 'pennsylvania', label: 'Pennsylvania' },
+                    { value: 'washington, d.c', label: 'Washington, D.C' },
+                  ]}
+                />
               </Form.Item>
             </div>
 
@@ -364,6 +382,13 @@ const EditLawyerProfile = () => {
               <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
               <Form.Item name='address'>
                 <Input placeholder='address' style={{ width: '100%', height: '40px' }} />
+              </Form.Item>
+            </div>
+
+            <div className='pb-4'>
+              <p className='text-[14px] font-roboto font-bold text-[#001018]'>City</p>
+              <Form.Item name='city'>
+                <Input placeholder='city' style={{ width: '100%', height: '40px' }} />
               </Form.Item>
             </div>
 
@@ -385,7 +410,7 @@ const EditLawyerProfile = () => {
             <div className='pb-4'>
               <div className='flex flex-col justify-between items-center gap-6 pb-4'>
                 <div className="border p-4 w-full rounded-lg space-y-3">
-                  {scheduleData?.map((item) => (
+                  {scheduleData?.length > 0 && scheduleData.map((item) => (
                     <div key={item.day} className="flex items-center justify-between gap-3">
                       <div>
                         <p className="text-primary font-semibold">{item.day}</p>

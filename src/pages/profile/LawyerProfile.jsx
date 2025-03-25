@@ -105,7 +105,7 @@ const LawyerProfile = () => {
             }
         }
         catch (error) {
-            toast.error('Logout Failed')
+            toast.error('Logout Failed',error)
         }
 
     };
@@ -297,7 +297,7 @@ const LawyerProfile = () => {
 
 
                                 <div className="flex flex-wrap lg:flex-row items-center gap-3 pt-3">
-                                    {lawyerAllData?.schedule.map((item) => {
+                                    {lawyerAllData?.schedule?.map((item) => {
                                         return (
                                             <button className="border px-4 py-2 rounded-full font-roboto text-primary text-[16px]">{item.day} {item.time}</button>
                                         )

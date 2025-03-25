@@ -158,7 +158,7 @@ const CommonLayout = () => {
             </div>
 
 
-            <div className="flex justify-between items-center my-3">
+            <div className="flex justify-between items-center">
                 <h2></h2>
                 {/* Year Select Dropdown */}
                 <select value={selectedYear} onChange={handleYearChange} className="bg-transparent outline-none border p-2">

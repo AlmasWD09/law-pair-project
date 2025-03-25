@@ -14,7 +14,7 @@ const DashboardDisclaimer = () => {
 
 
 
-  const token = Cookies.get("adminToken");
+  const adminToken = Cookies.get("adminToken");
   const handleUpdate = async () => {
 
     const disclaimerInfo = {
@@ -25,21 +25,22 @@ const DashboardDisclaimer = () => {
 
       const response = await axiosPublic.post('/admin/update-disclaimer', disclaimerInfo, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${adminToken}`,
           Accept: "application/json",
         },
       });
 
-      console.log(response.data)
+  
       if (response.data.success) {
         toast.success('Disclaimer Content updated successfully!');
+        setContent('');
       }
       else {
         toast.error("Failed! please try again")
       }
 
     } catch (error) {
-      toast.error('Failed to update content');
+      toast.error('Failed to update content',error);
     }
   };
 
@@ -55,9 +56,6 @@ const DashboardDisclaimer = () => {
           <JoditEditor
             ref={editor}
             value={content}
-            // config={{
-            //   height: "400px", // Set your desired height
-            // }}
             onChange={(newContent) => {
               console.log("Editor Content:", newContent);
               setContent(newContent);

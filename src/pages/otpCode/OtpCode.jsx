@@ -145,6 +145,7 @@ const OtpCode = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
         setSelectedOptions("")
+        navigate('/create-account')
     };
 
     const handleSelect = (option) => {
@@ -507,10 +508,18 @@ const OtpCode = () => {
                     <div className='flex justify-between gap-2'>
                         <div className='pb-4 w-full'>
                             <p className='text-[14px] font-roboto font-bold text-[#001018]'>State</p>
-                            <Input name='state'
-                                value={modalTwoValue.state}
-                                onChange={handleInputChange}
-                                style={{ width: '100%', height: '40px' }} />
+                                <Select
+                            showSearch
+                            placeholder="Select..."
+                            style={{ width: '100%', height: '40px' }}
+                            onChange={(value) => handleSelectChange("state", value)}
+                            options={[
+                                { value: 'new jersey', label: 'New Jersey' },
+                                { value: 'new york', label: 'New York' },
+                                { value: 'pennsylvania', label: 'Pennsylvania' },
+                                { value: 'washington, d.c', label: 'Washington, D.C' },
+                            ]}
+                        />
                         </div>
 
                         <div className='pb-4 w-full'>

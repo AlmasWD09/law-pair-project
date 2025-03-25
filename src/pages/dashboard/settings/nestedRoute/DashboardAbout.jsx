@@ -14,15 +14,6 @@ const DashboardAbout = () => {
   const editor = useRef(null);
 
 
-  // const config = {
-  //   minHeight: 500, // Ensures minimum space
-  //   maxHeight: 500, // Expands but within limit
-  //   width: "100%",
-  //   autofocus: true, 
-  //   autoGrow: true, // Allows multiple text inputs
-  //   overflow: "scroll",
-  // };
-
   const token = Cookies.get("adminToken");
   const handleUpdate = async () => {
 
@@ -41,13 +32,14 @@ const DashboardAbout = () => {
 
       if (response.data.success) {
         toast.success('Content updated successfully!');
+        setContent('');
       }
       else {
         toast.error("Failed! please try again")
       }
 
     } catch (error) {
-      toast.error('Failed to update content');
+      toast.error('Failed to update content',error);
     }
   };
 
@@ -63,7 +55,6 @@ const DashboardAbout = () => {
           <JoditEditor
             ref={editor}
             value={content}
-            // config={config}
             onChange={(newContent) => {
               setContent(newContent);
             }}

@@ -50,9 +50,9 @@ const Chart = ({ chartValue, curdTitle,}) => {
             if (window.innerWidth < 640) {
                 setChartHeight(300);
             } else if (window.innerWidth < 1024) {
-                setChartHeight(420);
+                setChartHeight(396);
             } else {
-                setChartHeight(540);
+                setChartHeight(396);
             }
         };
 
