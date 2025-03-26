@@ -1,4 +1,4 @@
-import { Form, Input, Button, Modal, Space, Select, Upload, TimePicker } from "antd";
+import { Form, Input, Button, Modal, Space, Select, Upload, TimePicker, message } from "antd";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
@@ -12,12 +12,22 @@ import { UploadOutlined } from "@ant-design/icons";
 
 const OtpCode = () => {
     const axiosPublic = useAxiosPublic();
-    const [form] = Form.useForm(); // Form instance
+    const [form] = Form.useForm();
+    const [formTwo] = Form.useForm();
+    const [formThree] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const location = useLocation();
-    const email = location?.state?.email
+    const email = location?.state?.email;
+    const loginPage_forget = location?.state?.loginPage_forget;
+    const registerPage = location?.state?.registerPage;
+    const forget_user = location.state.user_role;
+    const forget_lawyer = location.state.lawyer_role;
     const navigate = useNavigate();
 
+
+
+console.log(forget_user)
+console.log(forget_lawyer)
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [issModalOpenTwo, setIsModalOpenTwo] = useState(false);
@@ -27,20 +37,11 @@ const OtpCode = () => {
     const [selectedOptions, setSelectedOptions] = useState([]);
 
     const [modalOneValue, setModalOneValue] = useState([])
-    const [modalTwoValue, setModalTwoValue] = useState({
-        practice: "",
-        location: "",
-        languages: "",
-        address: "",
-        city: "",
-        state: "",
-        zipCode: "",
-    });
+    const [modalTwoValue, setModalTwoValue] = useState({});
 
 
     // modal three
     const [fileList, setFileList] = useState([]);
-    const [webLink, setWebLink] = useState("");
     const [scheduleData, setScheduleData] = useState({
         saturday: '',
         sunday: '',
@@ -73,14 +74,26 @@ const OtpCode = () => {
             const response = await axiosPublic.post("/verify-email", otpCode);
             if (response.data.success) {
                 toast.success("OTP send successfully");
-                if (user_role === 'user') {
+                if (user_role === 'user' || forget_user) {
                     Cookies.set("userToken", response?.data?.access_token,
                         { expires: 7, secure: true, sameSite: "Strict" });
-                    return navigate("/login");
-                } else if (lawyer_role === 'lawyer') {
+                    if (loginPage_forget) {
+                        navigate("/create-new-password");
+                    }
+                    if (registerPage) {
+                        navigate("/login");
+                    }
+                }
+                else if (lawyer_role === 'lawyer' || forget_lawyer) {
+                    console.log('lawyer aca---------')
                     Cookies.set("lawyerToken", response?.data?.access_token,
                         { expires: 7, secure: true, sameSite: "Strict" });
-                    setIsModalOpen(true);
+                    if (loginPage_forget) {
+                        navigate("/create-new-password");
+                    }
+                    if (registerPage) {
+                        navigate("/login");
+                    }
                 }
 
                 form.resetFields();
@@ -169,23 +182,22 @@ const OtpCode = () => {
 
 
     //====================== second modal start =================
-    // Handle input change
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setModalTwoValue((prev) => ({ ...prev, [name]: value }));
-    };
-
-    // Handle select change
-    const handleSelectChange = (field, value) => {
-        setModalTwoValue((prev) => ({ ...prev, [field]: value }));
-    };
-
-
 
     const handleOkLowyerTwo = async () => {
+        formTwo.submit();
+        const isValid = await formTwo.validateFields();
 
-        setIsModalOpenThree(true)
-        setIsModalOpenTwo(false)
+        if (isValid) {
+            formTwo.submit();
+            setIsModalOpenThree(true);
+            setIsModalOpenTwo(false);
+        }
+        // setIsModalOpenThree(true)
+        // setIsModalOpenTwo(false)
+    }
+
+    const onFinishModalTwo = (values) => {
+        setModalTwoValue(values)
     }
 
 
@@ -200,8 +212,13 @@ const OtpCode = () => {
 
 
     // ===================== three modal start ===================
-    const handleOkLowyerThree = async () => {
+    const handleOkLowyerThree = () => {
+        formThree.submit();
 
+    }
+
+
+    const onFinishModalThree = async (values) => {
         const formattedSchedule = Object.keys(scheduleData).map((day) => ({
             day: day,
             time: scheduleData[day] ? `${scheduleData[day][0].format('hh:mm a')} - ${scheduleData[day][1].format('hh:mm a')}` : ''
@@ -221,12 +238,12 @@ const OtpCode = () => {
         formData.append('city', modalTwoValue.city)
         formData.append('phone', modalTwoValue.phone)
 
-        formData.append('web_link', webLink)
+        formData.append('web_link', values?.web_link)
         formData.append("schedule", JSON.stringify(formattedSchedule));
 
-        formData.forEach((value, key) => {
-            console.log(key, value);
-        });
+        // formData.forEach((value, key) => {
+        //     console.log(key, value);
+        // });
 
 
 
@@ -239,8 +256,6 @@ const OtpCode = () => {
 
             });
 
-
-            console.log(response.data)
             if (response.data.success) {
                 toast.success('Profile create successfully')
                 navigate('/lawyer-profile')
@@ -257,6 +272,7 @@ const OtpCode = () => {
         setIsModalOpenThree(false)
         setIsModalOpenTwo(true)
     }
+
     // ===================== three modal end  ====================
 
 
@@ -274,12 +290,6 @@ const OtpCode = () => {
         };
     }, [isModalOpen, issModalOpenTwo, issModalOpenThree]);
 
-
-
-
-
-    // console.log(modalOneValue)
-    // console.log(modalTwoValue)
 
     return (
         <AccountCreate>
@@ -317,7 +327,7 @@ const OtpCode = () => {
                     </Form>
                 </div>
                 <div className="text-center pt-8">
-                    <p className="text-[14px] font-roboto">Didn’t get OTP yet? <span onClick={handleResendOtp} className="text-primary font-bold font-roboto">Resend</span></p>
+                    <p className="text-[14px] font-roboto">Didn’t get OTP yet? <span onClick={handleResendOtp} className="text-primary font-bold font-roboto cursor-pointer">Resend</span></p>
                 </div>
             </div>
 
@@ -335,27 +345,22 @@ const OtpCode = () => {
                             Cancel
                         </button>
                         <button
-                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                            className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] rounded-[5px] text-[16px] font-bold ${selectedOptions.length > 0 ? "bg-[#1b69ad] text-white" : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                }`}
                             onClick={handleOk}
+                            disabled={selectedOptions.length === 0}
                         >
                             Continue
                         </button>
                     </div>
                 }
-            // okText="Continue"
-            // okButtonProps={{
-            //     className:"w-[50%] h-[50px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-            //   }}
-            //   cancelButtonProps={{
-            //     className:"w-[50%] h-[50px] md:w-[161px] md:h-[64px] border  text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-            //   }}
             >
 
 
                 <div>
                     <div style={{ maxWidth: "90%", margin: "auto", textAlign: "center" }}>
-                        <svg  className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
-                            width="100%"height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
+                            width="100%" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="20" cy="20" r="15" stroke="#1B69AD" stroke-width="2" />
                             <circle cx="20" cy="20" r="5" fill="#1B69AD" />
                             <rect x="36" y="19" width="212" height="2" fill="#B6B6BA" />
@@ -400,242 +405,318 @@ const OtpCode = () => {
             </Modal>
 
             {/* ========================= modal tow start ==================== */}
-            <Modal centered open={issModalOpenTwo} onOk={handleOkLowyerTwo} onCancel={handleCancelLowyerTwo}
-                width={600}
-                footer={
-                    <div className="flex justify-between items-center gap-x-4 pt-[24px]">
-                        <button
-                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                            onClick={handleCancelLowyerTwo}
-                        >
-                            Back
-                        </button>
-                        <button
-                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                            onClick={handleOkLowyerTwo}
-                        >
-                            Continue
-                        </button>
-                    </div>
-                }
-            >
-
-
-                <div>
-                    <svg
-                        className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]" width="40" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                        <path d="M14.167 20.8335L17.5003 24.1668L25.8337 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
-                        <circle cx="264" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                        <circle cx="264" cy="20" r="5" fill="#1B69AD" />
-                        <rect x="280" y="19" width="212" height="2" fill="#B6B6BA" />
-                        <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
-                    </svg>
-
-                    <hr />
-
-                    <div className='pt-4'>
-                        <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
-                            Add your professional details
-                        </Title>
-                    </div>
-                    <div className='pb-4'>
-                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Where do you practice</p>
-                        <Input name='practice'
-                            value={modalTwoValue.practice}
-                            onChange={handleInputChange}
-                            placeholder='e.g.: New Jersey, New York, EOIR (Immigration Court)' style={{ width: '100%', height: '40px' }} />
-                    </div>
-
-
-                    <div className='pb-4'>
-                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Experience</p>
-                        <Select
-                            showSearch
-                            placeholder="Select..."
-                            style={{ width: '100%', height: '40px' }}
-                            onChange={(value) => handleSelectChange("experience", value)}
-                            options={[
-                                { label: "1-3 Years", value: "1-3 Years" },
-                                { label: "4-7 Years", value: "4-7 Years" },
-                                { label: "8+ Years", value: "8+ Years" }
-                            ]}
-                        />
-                    </div>
-
-                    <div className='pb-4'>
-                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Select your language(s)</p>
-                        <Select
-                            showSearch
-                            placeholder="Select..."
-                            style={{ width: '100%', height: '40px' }}
-                            onChange={(value) => handleSelectChange("languages", value)}
-                            options={[
-                                { label: "English", value: "English" },
-                                { label: "Spanish", value: "Spanish" },
-                                { label: "German", value: "German" },
-                                { label: "Russian", value: "Russian" }
-                            ]}
-                        />
-                    </div>
-
-                    <div className='pb-4'>
-                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Phone</p>
-                        <Input name='phone'
-                            value={modalTwoValue.phone}
-                            onChange={handleInputChange}
-                            placeholder='phone' style={{ width: '100%', height: '40px' }} />
-                    </div>
-
-                    <div className='pb-4'>
-                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
-                        <Input name='address'
-                            value={modalTwoValue.address}
-                            onChange={handleInputChange}
-                            placeholder='address' style={{ width: '100%', height: '40px' }} />
-                    </div>
-
-                    <div className='pb-4'>
-                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>City</p>
-                        <Input name='city'
-                            value={modalTwoValue.city}
-                            onChange={handleInputChange}
-                            placeholder='city' style={{ width: '100%', height: '40px' }} />
-                    </div>
-
-
-                    <div className='flex justify-between gap-2'>
-                        <div className='pb-4 w-full'>
-                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>State</p>
-                                <Select
-                            showSearch
-                            placeholder="Select..."
-                            style={{ width: '100%', height: '40px' }}
-                            onChange={(value) => handleSelectChange("state", value)}
-                            options={[
-                                { value: 'new jersey', label: 'New Jersey' },
-                                { value: 'new york', label: 'New York' },
-                                { value: 'pennsylvania', label: 'Pennsylvania' },
-                                { value: 'washington, d.c', label: 'Washington, D.C' },
-                            ]}
-                        />
-                        </div>
-
-                        <div className='pb-4 w-full'>
-                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Zip code</p>
-                            <Input
-                                value={modalTwoValue.zipCode}
-                                onChange={handleInputChange}
-                                name='zipCode' style={{ width: '100%', height: '40px' }} />
-                        </div>
-                    </div>
-                </div>
-
-            </Modal>
-
-
-            {/* ======================= modal three start ===================== */}
-            <Modal centered open={issModalOpenThree} onOk={handleOkLowyerThree} onCancel={handleCancelLowyerThree}
-                width={600}
-                footer={
-                    <div className="flex justify-between items-center gap-x-4 pt-[24px]">
-                        <button
-                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                            onClick={handleCancelLowyerThree}
-                        >
-                            Back
-                        </button>
-                        <button
-                            className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                            onClick={handleOkLowyerThree}
-                        >
-                            Continue
-                        </button>
-                    </div>
-                }
-            >
-
-
-                <div>
-                    <svg
-                        className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
-                        width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                        <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
-                        <circle cx="264" cy="20" r="16" fill="#1B69AD" />
-                        <path d="M258.167 20.8335L261.5 24.1668L269.833 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <rect x="280" y="19" width="212" height="2" fill="#1B69AD" />
-                        <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
-                        <circle cx="508" cy="20" r="5" fill="#1B69AD" />
-                    </svg>
-
-
-
-                    <hr />
-
-                    <div className='pt-4'>
-                        <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
-                            Add your profile photo and availability
-                        </Title>
-                    </div>
-
-
-
-                    <div className="pb-4 w-full">
-                        <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
-                        <div className="w-full">
-                            <Upload
-                                fileList={fileList}
-                                onChange={handleChange}
-                                beforeUpload={() => false}
-                                style={{ width: '100%', height: '40px' }}
-                                className="upload-component"
+            <Form form={formTwo} onFinish={onFinishModalTwo}>
+                <Modal centered open={issModalOpenTwo} onOk={handleOkLowyerTwo} onCancel={handleCancelLowyerTwo}
+                    width={600}
+                    footer={
+                        <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                            <button
+                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                onClick={handleCancelLowyerTwo}
                             >
-                                {fileList.length >= 1 ? null : (
-                                    <Button
-                                        icon={<UploadOutlined />}
-                                        style={{ width: '100%', height: '40px' }}
-                                    >
-                                        Upload Image
-                                    </Button>
-                                )}
-                            </Upload>
+                                Back
+                            </button>
+                            <Button
+                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                htmlType="submit"
+                                onClick={handleOkLowyerTwo}
+                                style={{ backgroundColor: '#1b69ad', color: 'white' }}
+                                onMouseEnter={(e) => e.preventDefault()}
+                            >
+                                Continue
+                            </Button>
                         </div>
-                    </div>
+                    }
+                >
+
+
+                    <div>
+                        <svg
+                            className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]" width="40" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                            <path d="M14.167 20.8335L17.5003 24.1668L25.8337 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
+                            <circle cx="264" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                            <circle cx="264" cy="20" r="5" fill="#1B69AD" />
+                            <rect x="280" y="19" width="212" height="2" fill="#B6B6BA" />
+                            <circle cx="508" cy="20" r="15" stroke="#B6B6BA" strokeWidth="2" />
+                        </svg>
+
+                        <hr />
+
+                        <div className='pt-4'>
+                            <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                                Add your professional details
+                            </Title>
+                        </div>
+                        <div className='pb-4'>
+                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Where do you practice</p>
+                            <Form.Item name='practice_area' rules={[{
+                                required: true,
+                                message: 'Please input your practice!'
+                            }]}>
+                                <Input
+                                    placeholder='e.g.: New Jersey, New York, EOIR (Immigration Court)' style={{ width: '100%', height: '40px' }} />
+                            </Form.Item>
+                        </div>
+
+
+                        <div className='pb-4'>
+                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Experience</p>
+                            <Form.Item name='experience' rules={[
+                                {
+                                    required: true,
+                                    message: 'Please select your experience!'
+                                }
+                            ]}>
+                                <Select
+                                    showSearch
+                                    placeholder="Select..."
+                                    style={{ width: '100%', height: '40px' }}
+                                    options={[
+                                        { label: "1-3 Years", value: "1-3 Years" },
+                                        { label: "4-7 Years", value: "4-7 Years" },
+                                        { label: "8+ Years", value: "8+ Years" }
+                                    ]}
+                                />
+                            </Form.Item>
+                        </div>
+
+                        <div className='pb-4'>
+                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Select your language(s)</p>
+                            <Form.Item name='languages' rules={[
+                                {
+                                    required: true,
+                                    message: 'Please select your language!'
+                                }
+                            ]}>
+                                <Select
+                                    showSearch
+                                    placeholder="Select..."
+                                    style={{ width: '100%', height: '40px' }}
+                                    options={[
+                                        { label: "English", value: "English" },
+                                        { label: "Spanish", value: "Spanish" },
+                                        { label: "German", value: "German" },
+                                        { label: "Russian", value: "Russian" }
+                                    ]}
+                                />
+                            </Form.Item>
+                        </div>
+
+                        <div className='pb-4'>
+                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Phone</p>
+                            <Form.Item name='phone' rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your phone number!',
+                                },
+                                {
+                                    pattern: /^[0-9]{10}$/,
+                                    message: 'Phone number must be 10 digits long!',
+                                },
+                            ]}>
+                                <Input
+                                    maxLength={10}
+                                    onInput={(e) => {
+                                        // Only allow numeric input
+                                        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                                    }}
+                                    placeholder='phone' style={{ width: '100%', height: '40px' }} />
+                            </Form.Item>
+                        </div>
+
+
+
+                        <div className='pb-4'>
+                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Office address</p>
+                            <Form.Item name='address' rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your address!'
+                                }
+                            ]}>
+                                <Input
+                                    placeholder='address' style={{ width: '100%', height: '40px' }} />
+                            </Form.Item>
+                        </div>
+
+
+                        <div className='pb-4'>
+                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>City</p>
+                            <Form.Item name='city' rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your city!'
+                                }
+                            ]}>
+                                <Input
+                                    placeholder='city' style={{ width: '100%', height: '40px' }} />
+                            </Form.Item>
+                        </div>
 
 
 
 
-                    <div className='pb-4'>
-                        <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
-                        <Input
-                            onChange={(e) => setWebLink(e.target.value)}
-                            placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
-                    </div>
+                        <div className='flex justify-between gap-2'>
+                            <div className='pb-4 w-full'>
+                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>State</p>
+                                <Form.Item name='state' rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please select your state!'
+                                    }
+                                ]}>
+                                    <Select
+                                        showSearch
+                                        placeholder="Select..."
+                                        style={{ width: '100%', height: '40px' }}
+                                        options={[
+                                            { value: 'new jersey', label: 'New Jersey' },
+                                            { value: 'new york', label: 'New York' },
+                                            { value: 'pennsylvania', label: 'Pennsylvania' },
+                                            { value: 'washington, d.c', label: 'Washington, D.C' },
+                                        ]}
+                                    />
+                                </Form.Item>
+                            </div>
 
-
-                    <div className='pb-4'>
-                        <div className='flex flex-col justify-between items-center gap-6 pb-4'>
-                            <div className="border p-4 w-full rounded-lg space-y-3">
-                                {Object.keys(scheduleData).map((day) => (
-                                    <div key={day} className="flex items-center justify-between gap-3">
-                                        <div>
-                                            <p className="text-primary font-semibold">{day}</p>
-                                        </div>
-                                        <div>
-                                            <TimePicker.RangePicker v value={scheduleData[day] ? [scheduleData[day][0], scheduleData[day][1]] : []}
-                                                onChange={(value) => handleTimeChange(day, value)}
-                                                format="hh:mm A" />
-                                        </div>
-                                    </div>
-                                ))}
+                            <div className='pb-4 w-full'>
+                                <p className='text-[14px] font-roboto font-bold text-[#001018]'>Zip code</p>
+                                <Form.Item name='zipCode' rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please input your zip code!'
+                                    }
+                                ]}>
+                                    <Input
+                                        placeholder="zipCode"
+                                        style={{ width: '100%', height: '40px' }} />
+                                </Form.Item>
                             </div>
                         </div>
                     </div>
-                </div>
-            </Modal>
+
+                </Modal>
+            </Form>
+
+
+            {/* ======================= modal three start ===================== */}
+            <Form form={formThree} onFinish={onFinishModalThree}>
+                <Modal centered open={issModalOpenThree} onOk={handleOkLowyerThree} onCancel={handleCancelLowyerThree}
+                    width={600}
+                    footer={
+                        <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                            <button
+                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                                onClick={handleCancelLowyerThree}
+                            >
+                                Back
+                            </button>
+                            <Button
+                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                htmlType="submit"
+                                onClick={handleOkLowyerThree}
+                                style={{ backgroundColor: '#1b69ad', color: 'white' }}
+                            >
+                                Continue
+                            </Button>
+                        </div>
+                    }
+                >
+
+
+                    <div>
+                        <svg
+                            className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
+                            width="528" height="40" viewBox="0 0 528 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                            <path d="M14.1665 20.8335L17.4998 24.1668L25.8332 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <rect x="36" y="19" width="212" height="2" fill="#1B69AD" />
+                            <circle cx="264" cy="20" r="16" fill="#1B69AD" />
+                            <path d="M258.167 20.8335L261.5 24.1668L269.833 15.8335" stroke="white" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <rect x="280" y="19" width="212" height="2" fill="#1B69AD" />
+                            <circle cx="508" cy="20" r="15" stroke="#1B69AD" strokeWidth="2" />
+                            <circle cx="508" cy="20" r="5" fill="#1B69AD" />
+                        </svg>
+
+
+
+                        <hr />
+
+                        <div className='pt-4'>
+                            <Title level={4} className='text-[#000000] font-roboto text-start pb-[8px]'>
+                                Add your profile photo and availability
+                            </Title>
+                        </div>
+
+
+
+                        <div className="pb-4 w-full">
+                            <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
+                            <div className="w-full">
+                                <Form.Item
+                                    name="avatar"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please upload your  photo!',
+                                        },
+                                    ]}
+                                >
+                                    <Upload
+                                        fileList={fileList}
+                                        onChange={handleChange}
+                                        beforeUpload={() => false}
+                                        style={{ width: '100%', height: '40px' }}
+                                        className="upload-component"
+                                    >
+                                        {fileList.length >= 1 ? null : (
+                                            <Button
+                                                icon={<UploadOutlined />}
+                                                style={{ width: '100%', height: '40px' }}
+                                            >
+                                                Upload Image
+                                            </Button>
+                                        )}
+                                    </Upload>
+                                </Form.Item>
+                            </div>
+                        </div>
+
+
+
+
+                        <div className='pb-4'>
+                            <p className='text-[14px] font-roboto font-bold text-[#001018]'>Website link (optional)</p>
+                            <Form.Item name='web_link'>
+                                <Input
+                                    placeholder='Include a link to your website here' style={{ width: '100%', height: '40px' }} />
+                            </Form.Item>
+                        </div>
+
+
+                        <div className='pb-4'>
+                            <div className='flex flex-col justify-between items-center gap-6 pb-4'>
+                                <div className="border p-4 w-full rounded-lg space-y-3">
+                                    {Object.keys(scheduleData).map((day) => (
+                                        <div key={day} className="flex items-center justify-between gap-3">
+                                            <div>
+                                                <p className="text-primary font-semibold">{day}</p>
+                                            </div>
+                                            <div>
+                                                <TimePicker.RangePicker v value={scheduleData[day] ? [scheduleData[day][0], scheduleData[day][1]] : []}
+                                                    onChange={(value) => handleTimeChange(day, value)}
+                                                    format="hh:mm A" />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
+            </Form>
         </AccountCreate>
     )
 }

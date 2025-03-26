@@ -13,7 +13,8 @@ export const CreateNewPassword = () => {
     const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
 
-    const token = Cookies.get("otpToken");
+    const userToken = Cookies.get("userToken");
+    const lawyerToken = Cookies.get("lawyerToken");
 
     const onFinish = async (values) => {
         const CreateNewPasswordInfo = {
@@ -22,10 +23,11 @@ export const CreateNewPassword = () => {
         }
 
 
+     if(userToken){
         try {
             const response = await axiosPublic.post("/reset-password", CreateNewPasswordInfo, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${userToken}`,
                     "Accept": "application/json"
                     // ✅ Send token in Authorization header
                 }
@@ -33,15 +35,12 @@ export const CreateNewPassword = () => {
             }
             );
 
-            console.log('response----->', response.data)
-
+            console.log(response.data)
             if (response.data.success) {
-                toast.success(response.data.message);
+                toast.success('Password reset successfully!');
 
-                navigate('/password-successfull')
+                navigate('/login')
                 form.resetFields();
-            } else {
-                toast.error("Failed-----");
             }
         }
         catch (error) {
@@ -49,7 +48,34 @@ export const CreateNewPassword = () => {
         }
 
         form.resetFields();
-        setIsModalOpen(false);
+     }
+     else if(lawyerToken){
+           try {
+            const response = await axiosPublic.post("/reset-password", CreateNewPasswordInfo, {
+                headers: {
+                    Authorization: `Bearer ${lawyerToken}`,
+                    "Accept": "application/json"
+                    // ✅ Send token in Authorization header
+                }
+
+            }
+            );
+
+            console.log(response.data)
+            if (response.data.success) {
+                toast.success('Password reset successfully!');
+
+                navigate('/login')
+                form.resetFields();
+            }
+        }
+        catch (error) {
+            toast.error("Something went wrong!. Please try again.");
+        }
+
+        form.resetFields();
+     }
+
     };
     return (
         <AccountCreate>

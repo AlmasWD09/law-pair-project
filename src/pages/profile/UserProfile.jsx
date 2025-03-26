@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate"
 import { FaEdit } from "react-icons/fa";
-import { Button, Input, Modal, Pagination, Upload } from "antd";
+import { Button, Form, Input, Modal, Pagination, Upload } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Cookies from "js-cookie";
@@ -14,6 +14,7 @@ import LoadindSpenier from "../../components/shared/LoadindSpenier";
 const UserProfile = () => {
     const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
+    const [form] = Form.useForm();
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 4
     const [favoriteData, setFavoriteData] = useState([])
@@ -28,6 +29,33 @@ const UserProfile = () => {
     const [loading, setLoading] = useState(false)
     const [userData, setUserData] = useState({})
     const { address, avatar, email, first_name, last_name, full_name, phone, } = userData || {};
+
+    useEffect(() => {
+        if (userData) {
+            form.setFieldsValue({
+                ...userData,
+                first_name: userData.first_name,
+                last_name: userData.last_name,
+                full_name: userData.full_name,
+                phone: userData.phone,
+                email: userData.email,
+                address: userData.address,
+                avatar: userData.avatar,
+            });
+            if (userData.avatar) {
+                setFileList([
+                    {
+                        uid: "-1",
+                        name: "Existing Image",
+                        status: "done",
+                        url: userData.avatar,
+                    },
+                ]);
+            }
+        }
+    }, [])
+
+
 
     // token get in cookies
     const userToken = Cookies.get("userToken");
@@ -64,7 +92,7 @@ const UserProfile = () => {
     }, [userToken]);
 
 
-
+    console.log(userData)
 
     // first modal option get server
     useEffect(() => {
@@ -132,57 +160,63 @@ const UserProfile = () => {
 
 
     const handleOk = async () => {
-        setLoading(true);
-        const formData = new FormData();
+        form.submit();
+        // setLoading(true);
+        // const formData = new FormData();
 
-        if (fileList && fileList.length > 0) {
-            formData.append("avatar", fileList[0].originFileObj);
-        }
+        // if (fileList && fileList.length > 0) {
+        //     formData.append("avatar", fileList[0].originFileObj);
+        // }
 
-        formData.append("first_name", modalValues.first_name);
-        formData.append("last_name", modalValues.last_name);
-        formData.append("phone", modalValues.phone);
-        formData.append("address", modalValues.address);
+        // formData.append("first_name", modalValues.first_name);
+        // formData.append("last_name", modalValues.last_name);
+        // formData.append("phone", modalValues.phone);
+        // formData.append("address", modalValues.address);
 
         // formData.forEach((value, key) => {
         //     console.log(key, value);
         // });
 
 
-        try {
-            const response = await axiosPublic.post('/update-profile', formData, {
-                headers: {
-                    Authorization: `Bearer ${userToken}`,
-                    "Accept": "application/json"
-                }
+        // try {
+        //     const response = await axiosPublic.post('/update-profile', formData, {
+        //         headers: {
+        //             Authorization: `Bearer ${userToken}`,
+        //             "Accept": "application/json"
+        //         }
 
-            });
+        //     });
 
-            console.log("Server Response:", response.data);
-            if (response.data.success) {
-                toast.success('Profile updated successfully!');
-                setIsModalOpen(false)
-                // ✅ Fetch updated user data
-                fetchUserData();
-                setModalValues({
-                    first_name: "",
-                    last_name: "",
-                    phone: "",
-                    address: "",
-                });
-                setFileList([])
+        //     console.log("Server Response:", response.data);
+        //     if (response.data.success) {
+        //         toast.success('Profile updated successfully!');
+        //         setIsModalOpen(false)
+        //         // ✅ Fetch updated user data
+        //         fetchUserData();
+        //         setModalValues({
+        //             first_name: "",
+        //             last_name: "",
+        //             phone: "",
+        //             address: "",
+        //         });
+        //         setFileList([])
 
-            } else {
-                toast.error(response.data.message);
-            }
+        //     } else {
+        //         toast.error(response.data.message);
+        //     }
 
-        } catch (error) {
-            console.log(error.response)
-        } finally {
-            setLoading(false); // Stop loading
-        }
+        // } catch (error) {
+        //     console.log(error.response)
+        // } finally {
+        //     setLoading(false); // Stop loading
+        // }
 
     };
+
+    const onFinishUserProfile = (values) => {
+        console.log(values)
+    }
+
 
     const handleCancel = () => {
         setIsModalOpen(false)
@@ -250,86 +284,103 @@ const UserProfile = () => {
                                     <Modal centered open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                                         width={600}
                                         footer={
-                                            <div className="font-roboto flex justify-center md:justify-between items-center gap-x-4 md:px-7 pt-[24px]">
+                                            <div className="font-roboto flex justify-center md:justify-between items-center gap-x-4 md:px-7 pt-[7px]">
                                                 <button
                                                     className="w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
                                                     onClick={handleCancel}
                                                 >
                                                     Cancel
                                                 </button>
-                                                <button
+                                                <Button
                                                     className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                                    htmlType="submit"
                                                     onClick={handleOk}
-                                                    disabled={loading}
+                                                    style={{ backgroundColor: '#1b69ad', color: 'white' }}
+
                                                 >
-                                                    {loading ? <span className="loader text-xs p-2">Loading..</span> : "Continue"}
-                                                </button>
+                                                    Continue
+                                                </Button>
                                             </div>
                                         }
                                     >
 
 
-                                        <div className="py-8">
-                                            <div className="pb-4 w-full">
-                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
-                                                <div className="w-full">
-                                                    <Upload
-                                                        fileList={fileList}
-                                                        onChange={handleChange}
-                                                        beforeUpload={() => false}
-                                                        style={{ width: '100%', height: '40px' }} 
-                                                        className="upload-component" 
-                                                    >
-                                                        {fileList.length >= 1 ? null : (
-                                                            <Button
-                                                                icon={<UploadOutlined />}
-                                                                style={{ width: '100%', height: '40px' }} 
-                                                            >
-                                                                Upload Image
-                                                            </Button>
-                                                        )}
-                                                    </Upload>
+                                        <Form form={form} onFinish={onFinishUserProfile}>
+                                            <div className="py-8">
+                                                <div className="pb-4 w-full">
+                                                    <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
+                                                    <div className="w-full">
+                                                        <Upload
+                                                            fileList={fileList}
+                                                            onChange={handleChange}
+                                                            beforeUpload={() => false}
+                                                            style={{ width: '100%', height: '40px' }}
+                                                            className="upload-component"
+                                                        >
+                                                            {fileList.length >= 1 ? null : (
+                                                                <Button
+                                                                    icon={<UploadOutlined />}
+                                                                    style={{ width: '100%', height: '40px' }}
+                                                                >
+                                                                    Upload Image
+                                                                </Button>
+                                                            )}
+                                                        </Upload>
+                                                    </div>
+                                                </div>
+
+                                                <div className="pt-4">
+                                                    <p className="text-[14px] font-roboto font-bold text-[#001018]">First Name</p>
+                                                    <Form.Item name="first_name">
+                                                        <Input
+                                                            placeholder="Enter Your First Name"
+                                                            style={{ width: '100%', height: '40px' }}
+                                                        />
+                                                    </Form.Item>
+                                                </div>
+                                                <div className="pt-4">
+                                                    <p className="text-[14px] font-roboto font-bold text-[#001018]">Last Name</p>
+                                                    <Form.Item name="last_name">
+                                                        <Input
+                                                            placeholder="Enter Your Last Name"
+                                                            style={{ width: '100%', height: '40px' }}
+                                                        />
+                                                    </Form.Item>
+                                                </div>
+
+                                                <div className="pt-4">
+                                                    <p className="text-[14px] font-roboto font-bold text-[#001018]">Phone Number</p>
+                                                    <Form.Item name='phone' rules={[
+                                                        {
+                                                            required: true,
+                                                            message: 'Please input your phone number!',
+                                                        },
+                                                        {
+                                                            pattern: /^[0-9]{10}$/,
+                                                            message: 'Phone number must be 10 digits long!',
+                                                        },
+                                                    ]}>
+                                                        <Input
+                                                            maxLength={10}
+                                                            onInput={(e) => {
+                                                                // Only allow numeric input
+                                                                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                                                            }}
+                                                            placeholder='Enter Your Phone Number' style={{ width: '100%', height: '40px' }} />
+                                                    </Form.Item>
+                                                </div>
+
+                                                <div className="pt-4">
+                                                    <p className="text-[14px] font-roboto font-bold text-[#001018]">address</p>
+                                                    <Form.Item name="address">
+                                                        <Input
+                                                            placeholder="Enter Your Address"
+                                                            style={{ width: '100%', height: '40px' }}
+                                                        />
+                                                    </Form.Item>
                                                 </div>
                                             </div>
-
-                                            <div className="pt-4">
-                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">First Name</p>
-                                                <Input name="first_name"
-                                                    value={modalValues.first_name}
-                                                    onChange={handleInputChange}
-                                                    placeholder="Enter Your First Name"
-                                                    style={{ width: '100%', height: '40px' }}
-                                                />
-                                            </div>
-                                            <div className="pt-4">
-                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">Last Name</p>
-                                                <Input name="last_name"
-                                                    value={modalValues.last_name}
-                                                    onChange={handleInputChange}
-                                                    placeholder="Enter Your Last Name"
-                                                    style={{ width: '100%', height: '40px' }}
-                                                />
-                                            </div>
-                                            <div className="pt-4">
-                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">Phone Number</p>
-                                                <Input name="phone"
-                                                    value={modalValues.phone}
-                                                    onChange={handleInputChange}
-                                                    placeholder="Enter Your Phone Number"
-                                                    style={{ width: '100%', height: '40px' }}
-                                                />
-                                            </div>
-
-                                            <div className="pt-4">
-                                                <p className="text-[14px] font-roboto font-bold text-[#001018]">address</p>
-                                                <Input name="address"
-                                                    value={modalValues.address}
-                                                    onChange={handleInputChange}
-                                                    placeholder="Enter Your Address"
-                                                    style={{ width: '100%', height: '40px' }}
-                                                />
-                                            </div>
-                                        </div>
+                                        </Form>
                                     </Modal>
 
                                     <hr />
@@ -340,13 +391,13 @@ const UserProfile = () => {
                                             <p>{phone}</p>
                                         </div>
                                         <p className="pt-4 flex justify-between font-roboto text-[16px] text-[#10101E] text-wrap">
-                                          {
-                                            userData.address ?   <svg width="100" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fillRule="evenodd" clipRule="evenodd" d="M12 21.668C9.72 21.668 6 12.982 6 9.66797C6 8.07667 6.63214 6.55055 7.75736 5.42533C8.88258 4.30011 10.4087 3.66797 12 3.66797C13.5913 3.66797 15.1174 4.30011 16.2426 5.42533C17.3679 6.55055 18 8.07667 18 9.66797C18 12.982 14.28 21.668 12 21.668ZM12 12.668C12.3824 12.668 12.7611 12.5926 13.1144 12.4463C13.4677 12.3 13.7887 12.0855 14.0591 11.8151C14.3295 11.5447 14.544 11.2236 14.6903 10.8703C14.8367 10.517 14.912 10.1384 14.912 9.75597C14.912 9.37356 14.8367 8.99489 14.6903 8.64159C14.544 8.28829 14.3295 7.96728 14.0591 7.69687C13.7887 7.42647 13.4677 7.21197 13.1144 7.06563C12.7611 6.91929 12.3824 6.84397 12 6.84397C11.2277 6.84397 10.487 7.15077 9.9409 7.69687C9.3948 8.24298 9.088 8.98366 9.088 9.75597C9.088 10.5283 9.3948 11.269 9.9409 11.8151C10.487 12.3612 11.2277 12.668 12 12.668Z" fill="#10101E" />
-                                        </svg>
-                                        :
-                                        ''
-                                          }
+                                            {
+                                                userData.address ? <svg width="100" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fillRule="evenodd" clipRule="evenodd" d="M12 21.668C9.72 21.668 6 12.982 6 9.66797C6 8.07667 6.63214 6.55055 7.75736 5.42533C8.88258 4.30011 10.4087 3.66797 12 3.66797C13.5913 3.66797 15.1174 4.30011 16.2426 5.42533C17.3679 6.55055 18 8.07667 18 9.66797C18 12.982 14.28 21.668 12 21.668ZM12 12.668C12.3824 12.668 12.7611 12.5926 13.1144 12.4463C13.4677 12.3 13.7887 12.0855 14.0591 11.8151C14.3295 11.5447 14.544 11.2236 14.6903 10.8703C14.8367 10.517 14.912 10.1384 14.912 9.75597C14.912 9.37356 14.8367 8.99489 14.6903 8.64159C14.544 8.28829 14.3295 7.96728 14.0591 7.69687C13.7887 7.42647 13.4677 7.21197 13.1144 7.06563C12.7611 6.91929 12.3824 6.84397 12 6.84397C11.2277 6.84397 10.487 7.15077 9.9409 7.69687C9.3948 8.24298 9.088 8.98366 9.088 9.75597C9.088 10.5283 9.3948 11.269 9.9409 11.8151C10.487 12.3612 11.2277 12.668 12 12.668Z" fill="#10101E" />
+                                                </svg>
+                                                    :
+                                                    ''
+                                            }
                                             {address}
                                         </p>
                                     </div>
@@ -376,7 +427,7 @@ const UserProfile = () => {
 
                             {/*  right side content   */}
                             {
-                               Object.keys(paginatedData).length > 0 ? (
+                                Object.keys(paginatedData).length > 0 ? (
                                     <div className=" col-span-2 pt-8 md:pt-0">
                                         <h1 className="font-roboto text-[26px] font-bold text-[#000000] ">Your <span className="text-primary">LawPair</span> Suggested TM attorneys</h1>
 
@@ -413,10 +464,10 @@ const UserProfile = () => {
                                         </div>
                                     </div>)
                                     :
-''
-                                    // <div className="border p-8 rounded-lg flex justify-center bg-[url('/userProfile.jpg')] bg-cover bg-center h-64 w-full" >
-                                    //     <p className="font-roboto text-2xl">First, you need to search for and favorite a lawyer. Your selected lawyers will be saved, allowing you to view them in this section later. Please proceed with finding and favoriting a lawyer.</p>
-                                    // </div>
+                                    ''
+                                // <div className="border p-8 rounded-lg flex justify-center bg-[url('/userProfile.jpg')] bg-cover bg-center h-64 w-full" >
+                                //     <p className="font-roboto text-2xl">First, you need to search for and favorite a lawyer. Your selected lawyers will be saved, allowing you to view them in this section later. Please proceed with finding and favoriting a lawyer.</p>
+                                // </div>
 
                             }
                         </div>

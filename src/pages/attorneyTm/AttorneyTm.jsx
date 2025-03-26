@@ -1,7 +1,7 @@
 import { FaArrowLeft, FaHome } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaRegCheckCircle } from "react-icons/fa";
-import { Pagination } from "antd";
+import { Button, Pagination } from "antd";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
@@ -134,7 +134,11 @@ const AttorneyTm = () => {
                     :
                     <div className="flex flex-col justify-center items-center h-[400px]">
                         <h1 className="text-xl font-semibold uppercase text-center">data not found</h1>
-                        <p className="text-xl text-wrap text-center">Please Select Categorie and Go back Home</p>
+                        <div className="flex justify-center">
+                            <Button style={{ backgroundColor: "#1b69ad", color: "white", width: "115px", height: "48px", fontSize: "16px", fontFamily: "Roboto" }}>
+                                <Link to={'/'}>Go Back</Link>
+                            </Button>
+                        </div>
                     </div>
             }
         </div>

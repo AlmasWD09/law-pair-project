@@ -141,10 +141,10 @@ const Banner = () => {
             if (response.data.success && response.data?.lawyers?.data?.length > 0) {
                 navigate('/attorney-tm', { state: { lawyers: response.data.lawyers.data } });
             } else {
-                navigate('/error');
+                navigate('/attorney-tm');
             }
         } catch (error) {
-            navigate('/error');
+            navigate('/attorney-tm');
         } finally {
             setIsModalOpenTwo(false);
         }

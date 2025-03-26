@@ -48,7 +48,7 @@ const Login = () => {
                 });
                 Cookies.remove("lawyerToken");
                 Cookies.remove("user_role");
-                navigate(from, { replace: true });
+                navigate(from, { replace: true, });
             }
             else {
                 toast.error('login failed')
@@ -88,8 +88,8 @@ const Login = () => {
                 });
                 Cookies.remove('userToken');
                 Cookies.remove("lawyer_role");
-                
-                navigate(from, { replace: true });
+
+                navigate(from, { replace: true, });
             }
             else {
                 toast.error('login failedddd')
@@ -100,6 +100,18 @@ const Login = () => {
         }
         attorneyForm.resetFields();
     };
+
+
+
+    const handleNavigate = (role) => {
+        if (role === 'lawyer') {
+            navigate('/forget-password', { state: { lawyer_role: 'lawyer' } })
+        }
+        else if (role === 'user') {
+            navigate('/forget-password', { state: { user_role: 'user' } })
+        }
+    }
+
 
 
     const items = [
@@ -138,9 +150,7 @@ const Login = () => {
                     </div>
 
                     <div className="flex justify-end pb-2 pr-1">
-                        <Link to={'/forget-password'}>
-                            <h1 className="text-primary font-bold font-roboto">Forgot password?</h1>
-                        </Link>
+                        <h1 onClick={() => handleNavigate('user')} className="text-primary font-bold font-roboto cursor-pointer">Forgot password?</h1>
                     </div>
 
                     {/* Submit Button */}
@@ -188,9 +198,7 @@ const Login = () => {
                     </div>
 
                     <div className="flex justify-end pb-2 pr-1">
-                        <Link to={'/forget-password'}>
-                            <h1 className="text-primary font-bold font-roboto">Forgot password?</h1>
-                        </Link>
+                        <h1 onClick={() => handleNavigate('lawyer')} className="text-primary font-bold font-roboto cursor-pointer">Forgot password?</h1>
                     </div>
 
                     {/* Submit Button */}

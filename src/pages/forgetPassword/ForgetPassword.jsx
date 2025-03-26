@@ -1,6 +1,6 @@
 import { Form, Input, Button } from "antd";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AccountCreate from "../../layout/AccountCreate";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import toast from "react-hot-toast";
@@ -10,6 +10,10 @@ const ForgetPassword = () => {
     const [form] = Form.useForm(); // Form instance
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+    const user = location.state.user_role;
+    const lawyer = location.state.lawyer_role;
+
 
 
     const onFinish = async (values) => {
@@ -22,7 +26,12 @@ const ForgetPassword = () => {
             const response = await axiosPublic.post('/resent-otp', forgetInfo)
 
             if (response.data.success) {
-                navigate('/otp-code',{state:{email:forgetInfo.email}})
+                navigate('/otp-code',{state:{
+                    email:forgetInfo.email,
+                    loginPage_forget:true,
+                    user_role : user,
+                    lawyer_role : lawyer,
+                }})
 
                 toast.success(response.data.message)
             } else {

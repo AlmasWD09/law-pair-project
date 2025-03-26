@@ -282,7 +282,7 @@ const CreateAccount = () => {
     const onFinishOne = async (values) => {
 
         const createAccountUserInfo = {
-            role: "user", 
+            role: "user",
             first_name: values.first_name,
             last_name: values.last_name,
             location: values.location,
@@ -298,9 +298,14 @@ const CreateAccount = () => {
                 Cookies.set('user_role', createAccountUserInfo.role, { expires: 7 });
                 toast.success(res.data.message);
 
-                navigate('/otp-code', { state: { email: values.email } })
+                navigate('/otp-code', {
+                    state: {
+                        email: values.email,
+                        registerPage: true,
+                    }
+                })
                 formOne.resetFields()
-            } else{
+            } else {
                 toast.error('The email has already been taken.')
             }
 
@@ -339,7 +344,12 @@ const CreateAccount = () => {
             if (res.data.success) {
                 Cookies.set('lawyer_role', createAttorneyInfo.role, { expires: 7 });
                 toast.success('Attorney register successfully');
-                navigate('/otp-code', { state: { email: values.email } })
+                navigate('/otp-code', {
+                    state: {
+                        email: values.email,
+                        registerPage: true,
+                    }
+                })
                 formTwo.resetFields()
 
             }
