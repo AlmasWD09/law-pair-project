@@ -9,6 +9,8 @@ import Cookies from "js-cookie";
 
 
 const Banner = () => {
+    const [selectedLocation, setSelectedLocation] = useState(null);
+    const [selectedLanguage, setSelectedLanguage] = useState(null);
     const [categorieData, setCategorieData] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenTow, setIsModalOpenTwo] = useState(false);
@@ -106,20 +108,21 @@ const Banner = () => {
 
 
     // Select Value Change Function
-    const handleSelectModalTwoValue = (key, value) => {
-        setSecondSelecteValue(prev => ({
-            ...prev,
-            [key]: value
-        }))
-    }
+    const handleSelectModalTwoValue = (type, value) => {
+        if (type === "location") {
+            setSelectedLocation(value);
+        } else if (type === "language") {
+            setSelectedLanguage(value);
+        }
+    };
 
 
 
     const handleOkTwo = async () => {
         const findLawyerInfo = {
             service_ids: modalOneValue,
-            state: secondSelectValue.location,
-            language: secondSelectValue.city
+            state: selectedLocation,
+            language: selectedLanguage
         };
 
         try {
@@ -135,13 +138,13 @@ const Banner = () => {
                 }
             });
 
-            if (response.data.success) {
-                navigate('/attorney-tm', { state: { lawyers: response.data?.lawyers?.data } });
+            if (response.data.success && response.data?.lawyers?.data?.length > 0) {
+                navigate('/attorney-tm', { state: { lawyers: response.data.lawyers.data } });
             } else {
-                toast.error('No lawyer found!');
+                navigate('/error');
             }
         } catch (error) {
-            toast.error('No lawyer found!');
+            navigate('/error');
         } finally {
             setIsModalOpenTwo(false);
         }
@@ -267,8 +270,10 @@ const Banner = () => {
                                 Cancel
                             </button>
                             <button
-                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] rounded-[5px] text-[16px] font-bold ${selectedOptions.length > 0 ? "bg-[#1b69ad] text-white" : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                    }`}
                                 onClick={handleOk}
+                                disabled={selectedOptions.length === 0}
                             >
                                 Continue
                             </button>
@@ -339,8 +344,11 @@ const Banner = () => {
                                 Back
                             </button>
                             <button
-                                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                                 className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] 
+                                    ${selectedLocation && selectedLanguage ? "bg-[#1b69ad] text-white" : "bg-gray-200 text-gray-400 cursor-not-allowed"}
+                                    rounded-[5px] text-[16px] font-bold`}
                                 onClick={handleOkTwo}
+                                disabled={!selectedLocation || !selectedLanguage}
                             >
                                 Continue
                             </button>
@@ -386,7 +394,7 @@ const Banner = () => {
                                 showSearch
                                 placeholder="Select..."
                                 style={{ width: '100%', height: '40px' }}
-                                onChange={value => handleSelectModalTwoValue("city", value)}
+                                onChange={value => handleSelectModalTwoValue("language", value)}
                                 options={[
                                     { label: "English", value: "english" },
                                     { label: "Spanish", value: "spanish" },
@@ -443,8 +451,11 @@ const Banner = () => {
                                         Back
                                     </button>
                                     <button
-                                        className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
-                                        onClick={handleCategorieOk}
+                                        className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] 
+                                            ${selectedLocation && selectedLanguage ? "bg-[#1b69ad] text-white" : "bg-gray-200 text-gray-400 cursor-not-allowed"}
+                                            rounded-[5px] text-[16px] font-bold`}
+                                        onClick={handleOkTwo}
+                                        disabled={!selectedLocation || !selectedLanguage}
                                     >
                                         Continue
                                     </button>
@@ -474,7 +485,7 @@ const Banner = () => {
                                         showSearch
                                         placeholder="Select..."
                                         style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSeleCtcategorieValue("location", value)}
+                                        onChange={value => handleSelectModalTwoValue("location", value)}
                                         options={[
                                             { value: 'new jersey', label: 'New Jersey' },
                                             { value: 'new york', label: 'New York' },
@@ -490,7 +501,7 @@ const Banner = () => {
                                         showSearch
                                         placeholder="Select..."
                                         style={{ width: '100%', height: '40px' }}
-                                        onChange={value => handleSeleCtcategorieValue("city", value)}
+                                        onChange={value => handleSelectModalTwoValue("language", value)}
                                         options={[
                                             { label: "English", value: "english" },
                                             { label: "Spanish", value: "spanish" },
