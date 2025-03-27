@@ -248,7 +248,7 @@ const UserProfile = () => {
             <AccountCreate >
                 <section className="container mx-auto px-4 pt-4">
                     <div className="flex justify-center">
-                        <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 lg:gap-4  place-items-center">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-4  place-items-center">
 
                             {/* sidebar */}
                             <div className="md:w-[270px] lg:w-[309px] h-[calc(100vh-122px)] bg-[#FFFFFF] flex flex-col justify-between shadow-lg rounded-lg p-4">
@@ -464,11 +464,9 @@ const UserProfile = () => {
                                         </div>
                                     </div>)
                                     :
-                                    ''
-                                // <div className="border p-8 rounded-lg flex justify-center bg-[url('/userProfile.jpg')] bg-cover bg-center h-64 w-full" >
-                                //     <p className="font-roboto text-2xl">First, you need to search for and favorite a lawyer. Your selected lawyers will be saved, allowing you to view them in this section later. Please proceed with finding and favoriting a lawyer.</p>
-                                // </div>
-
+                                    <div className="col-span-2 flex justify-center ">
+                                        <img src="/user-profileImage.png" alt="noet found image" />
+                                    </div>
                             }
                         </div>
                     </div>
