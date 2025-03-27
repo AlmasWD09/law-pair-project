@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { UploadOutlined } from "@ant-design/icons";
 import defalutAvater from "/attorney1.png"
 import LoadindSpenier from "../../components/shared/LoadindSpenier";
+import { UploadCloud } from "lucide-react";
 
 
 const UserProfile = () => {
@@ -19,7 +20,7 @@ const UserProfile = () => {
     const itemsPerPage = 4
     const [favoriteData, setFavoriteData] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [fileList, setFileList] = useState([]);
+    const [ImageFileList, setImageFileList] = useState([]);
     const [modalValues, setModalValues] = useState({
         first_name: '',
         last_name: '',
@@ -30,6 +31,7 @@ const UserProfile = () => {
     const [userData, setUserData] = useState({})
     const { address, avatar, email, first_name, last_name, full_name, phone, } = userData || {};
 
+    console.log(userData)
     useEffect(() => {
         if (userData) {
             form.setFieldsValue({
@@ -43,7 +45,7 @@ const UserProfile = () => {
                 avatar: userData.avatar,
             });
             if (userData.avatar) {
-                setFileList([
+                setImageFileList([
                     {
                         uid: "-1",
                         name: "Existing Image",
@@ -53,7 +55,7 @@ const UserProfile = () => {
                 ]);
             }
         }
-    }, [])
+    }, [userData])
 
 
 
@@ -61,7 +63,7 @@ const UserProfile = () => {
     const userToken = Cookies.get("userToken");
 
     // Handle File Upload
-    const handleChange = ({ fileList }) => setFileList(fileList);
+    // const handleChange = ({ fileList }) => setFileList(fileList);
 
 
     // user profile get api
@@ -76,13 +78,12 @@ const UserProfile = () => {
 
             if (response.data.status) {
                 setUserData(response.data.data);
-                setLoading(false);
             }
         } catch (error) {
             toast.error('Failed to load data');
-            setLoading(false);
         }
     };
+
 
 
     useEffect(() => {
@@ -90,9 +91,6 @@ const UserProfile = () => {
             fetchUserData();
         }
     }, [userToken]);
-
-
-    console.log(userData)
 
     // first modal option get server
     useEffect(() => {
@@ -161,60 +159,58 @@ const UserProfile = () => {
 
     const handleOk = async () => {
         form.submit();
+    };
+
+    const onFinishUserProfile = async (values) => {
         // setLoading(true);
-        // const formData = new FormData();
+        const formData = new FormData();
 
-        // if (fileList && fileList.length > 0) {
-        //     formData.append("avatar", fileList[0].originFileObj);
-        // }
+        if (ImageFileList[0]?.originFileObj) {
+            formData.append("avatar", ImageFileList[0].originFileObj);
+        }
 
-        // formData.append("first_name", modalValues.first_name);
-        // formData.append("last_name", modalValues.last_name);
-        // formData.append("phone", modalValues.phone);
-        // formData.append("address", modalValues.address);
+        formData.append("first_name", values.first_name);
+        formData.append("last_name", values.last_name);
+        formData.append("phone", values.phone);
+        formData.append("address", values.address);
 
         // formData.forEach((value, key) => {
         //     console.log(key, value);
         // });
 
 
-        // try {
-        //     const response = await axiosPublic.post('/update-profile', formData, {
-        //         headers: {
-        //             Authorization: `Bearer ${userToken}`,
-        //             "Accept": "application/json"
-        //         }
+        try {
+            const response = await axiosPublic.post('/update-profile', formData, {
+                headers: {
+                    Authorization: `Bearer ${userToken}`,
+                    "Accept": "application/json"
+                }
 
-        //     });
+            });
 
-        //     console.log("Server Response:", response.data);
-        //     if (response.data.success) {
-        //         toast.success('Profile updated successfully!');
-        //         setIsModalOpen(false)
-        //         // ✅ Fetch updated user data
-        //         fetchUserData();
-        //         setModalValues({
-        //             first_name: "",
-        //             last_name: "",
-        //             phone: "",
-        //             address: "",
-        //         });
-        //         setFileList([])
+            console.log("Server Response:", response.data);
+            if (response.data.success) {
+                toast.success('Profile updated successfully!');
+                setIsModalOpen(false)
+                // ✅ Fetch updated user data
+                fetchUserData();
+                setModalValues({
+                    first_name: "",
+                    last_name: "",
+                    phone: "",
+                    address: "",
+                });
+                setFileList([])
 
-        //     } else {
-        //         toast.error(response.data.message);
-        //     }
+            } else {
+                toast.error(response.data.message);
+            }
 
-        // } catch (error) {
-        //     console.log(error.response)
-        // } finally {
-        //     setLoading(false); // Stop loading
-        // }
-
-    };
-
-    const onFinishUserProfile = (values) => {
-        console.log(values)
+        } catch (error) {
+            console.log(error.response)
+        } finally {
+            setLoading(false); // Stop loading
+        }
     }
 
 
@@ -310,22 +306,31 @@ const UserProfile = () => {
                                                 <div className="pb-4 w-full">
                                                     <p className="text-[14px] font-roboto font-bold text-[#001018]">Upload profile photo</p>
                                                     <div className="w-full">
-                                                        <Upload
-                                                            fileList={fileList}
-                                                            onChange={handleChange}
-                                                            beforeUpload={() => false}
-                                                            style={{ width: '100%', height: '40px' }}
-                                                            className="upload-component"
+                                                        <Form.Item
+                                                            className="md:col-span-2"
+                                                            name="image"
+                                                            rules={[
+                                                                {
+                                                                    required: ImageFileList?.length === 0,
+                                                                    message: "Image required!",
+                                                                },
+                                                            ]}
                                                         >
-                                                            {fileList.length >= 1 ? null : (
-                                                                <Button
-                                                                    icon={<UploadOutlined />}
-                                                                    style={{ width: '100%', height: '40px' }}
-                                                                >
-                                                                    Upload Image
-                                                                </Button>
-                                                            )}
-                                                        </Upload>
+                                                            <Upload
+                                                                beforeUpload={false}
+                                                                accept="image/*"
+                                                                maxCount={1}
+                                                                showUploadList={{ showPreviewIcon: true }}
+                                                                fileList={ImageFileList}
+                                                                onChange={({ fileList }) => setImageFileList(fileList)}
+                                                                listType="picture-card"
+                                                            >
+                                                                <div className="flex flex-col items-center">
+                                                                    <UploadCloud className="w-5 h-5 text-gray-400" />
+                                                                    <span className="mt-2">Choose File</span>
+                                                                </div>
+                                                            </Upload>
+                                                        </Form.Item>
                                                     </div>
                                                 </div>
 
