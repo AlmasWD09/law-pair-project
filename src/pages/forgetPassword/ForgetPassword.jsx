@@ -26,7 +26,7 @@ const ForgetPassword = () => {
             const response = await axiosPublic.post('/resent-otp', forgetInfo)
 
             if (response.data.success) {
-                navigate('/otp-code',{state:{
+                navigate('/otp-code?forgot=true',{state:{
                     email:forgetInfo.email,
                     loginPage_forget:true,
                     user_role : user,

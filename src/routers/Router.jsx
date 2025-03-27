@@ -34,7 +34,6 @@ import LegalResurcesDetails from "../pages/details/LegalResurcesDetails";
 import EditLawyerProfile from "../pages/profile/EditLawyerProfile";
 import SearchAttorney from "../pages/searchAttorney/SearchAttorney";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -74,99 +73,117 @@ const router = createBrowserRouter([
   // footer hidden page
   {
     path: "/create-account",
-    element: <CreateAccount />
+    element: <CreateAccount />,
   },
   {
     path: "/login",
-    element: <Login />
+    element: <Login />,
   },
   {
     path: "/forget-password",
-    element: <ForgetPassword />
+    element: <ForgetPassword />,
   },
   {
     path: "/otp-code",
-    element: <OtpCode />
+    element: <OtpCode />,
   },
   {
     path: "/create-new-password",
-    element: <CreateNewPassword />
+    element: <CreateNewPassword />,
   },
   {
     path: "/password-successfull",
-    element: <PasswordSuccessfull />
+    element: <PasswordSuccessfull />,
   },
   {
     path: "/user-profile",
-    element: <UserProfile />
+    element: <UserProfile />,
   },
   {
     path: "/lawyer-profile",
-    element: <LawyerProfile />
+    element: <LawyerProfile />,
   },
   {
     path: "/edit-lawyer-profile",
-    element: <EditLawyerProfile />
+    element: <EditLawyerProfile />,
   },
   {
     path: "/search-attorney",
-    element: <SearchAttorney />
+    element: <SearchAttorney />,
   },
   // dashboard layout
   {
-    path: '/admin/dashboard',
-    element: <PrivatRoutes>
-      <DashboardLayout />
-    </PrivatRoutes>,
+    path: "/admin/dashboard",
+    element: (
+      <PrivatRoutes>
+        <DashboardLayout />
+      </PrivatRoutes>
+    ),
     children: [
       {
-        path: '/admin/dashboard',
-        element: <PrivatRoutes>
-          <CommonLayout />
-        </PrivatRoutes>
+        path: "/admin/dashboard",
+        element: (
+          <PrivatRoutes>
+            <CommonLayout />
+          </PrivatRoutes>
+        ),
       },
       {
-        path: '/admin/dashboard/add-categories',
-        element: <PrivatRoutes>
-          <AddCategories />
-        </PrivatRoutes>
+        path: "/admin/dashboard/add-categories",
+        element: (
+          <PrivatRoutes>
+            <AddCategories />
+          </PrivatRoutes>
+        ),
       },
       {
-        path: '/admin/dashboard/manage-user',
-        element: <PrivatRoutes>
-          <ManageUser />
-        </PrivatRoutes>
+        path: "/admin/dashboard/manage-user",
+        element: (
+          <PrivatRoutes>
+            <ManageUser />
+          </PrivatRoutes>
+        ),
       },
 
       {
-        path: '/admin/dashboard/setting',
-        element: <PrivatRoutes>
-          <Seetings />
-        </PrivatRoutes>,
+        path: "/admin/dashboard/setting",
+        element: (
+          <PrivatRoutes>
+            <Seetings />
+          </PrivatRoutes>
+        ),
         children: [
           {
             path: "personal-information",
-            element: <PrivatRoutes>
-              <DashboardPersonalInformation />
-            </PrivatRoutes>
+            element: (
+              <PrivatRoutes>
+                <DashboardPersonalInformation />
+              </PrivatRoutes>
+            ),
           },
           {
             path: "about-us",
-            element: <PrivatRoutes>
-              <DashboardAbout />
-            </PrivatRoutes>
+            element: (
+              <PrivatRoutes>
+                <DashboardAbout />
+              </PrivatRoutes>
+            ),
           },
           {
             path: "disclai-mer",
-            element: <PrivatRoutes>
-              <DashboardDisclaimer />
-            </PrivatRoutes>
+            element: (
+              <PrivatRoutes>
+                <DashboardDisclaimer />
+              </PrivatRoutes>
+            ),
           },
           {
             path: "legal-re-sources",
-            element: <PrivatRoutes>
-              <DashboardLegalResources />
-            </PrivatRoutes>
+            element: (
+              <PrivatRoutes>
+                <DashboardLegalResources />
+              </PrivatRoutes>
+            ),
           },
         ],
       },
@@ -174,26 +191,25 @@ const router = createBrowserRouter([
   },
   //=================== Dashboard Authentication ================
   {
-    path: '/admin/dashboard/login',
-    element: <DashboardLogin />
+    path: "/admin/dashboard/login",
+    element: <DashboardLogin />,
   },
   {
-    path: '/admin/dashboard/forget-password',
-    element: <DashboardForgetPassword />
+    path: "/admin/dashboard/forget-password",
+    element: <DashboardForgetPassword />,
   },
   {
-    path: '/admin/dashboard/otp-verification',
-    element: <DashboardOtpVerification />
+    path: "/admin/dashboard/otp-verification",
+    element: <DashboardOtpVerification />,
   },
   {
-    path: '/admin/dashboard/create-new-password',
-    element: <DashboardCreateNewPassword />
+    path: "/admin/dashboard/create-new-password",
+    element: <DashboardCreateNewPassword />,
   },
   {
-    path: '/admin/dashboard/congratulation',
-    element: <DashboardCongratulation />
+    path: "/admin/dashboard/congratulation",
+    element: <DashboardCongratulation />,
   },
-
 ]);
 
 export default router;

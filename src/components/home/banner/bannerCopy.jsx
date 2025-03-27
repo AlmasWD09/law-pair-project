@@ -255,18 +255,16 @@ const Banner = () => {
         <Button
           onClick={showModal}
           style={{
-            width: "251px",
-            height: "64px",
-            backgroundColor: "#1b69ad",
-            color: "white",
+            width: "298px",
+            height: "55px",
+            backgroundColor: "#b9d4eb",
             fontFamily: "Roboto",
             fontSize: "20px",
             fontWeight: "bold",
-            borderRadius: "16px",
           }}
           className="no-hover"
         >
-          Find your lawyer
+          Click here to find your lawyer
         </Button>
 
         {/* modal one */}

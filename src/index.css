@@ -26,11 +26,11 @@
 
 /* banner button hover effect remove */
 .no-hover:hover {
-    background-color: #b9d4eb !important;
+    background-color: #1b69ad !important;
     border-color: transparent !important;
     box-shadow: none !important;
     outline: none !important;
-    color: inherit !important;
+    color: white !important;
 }
 
 
