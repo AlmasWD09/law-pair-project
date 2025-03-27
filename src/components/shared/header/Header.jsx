@@ -261,8 +261,8 @@ const Header = () => {
                     ) : (
                       <Link to="/create-account">
                         <button
-                          className="h-[48px] bg-primary rounded-[4px] text-[16px] 
-                            text-[#FFFFFF] px-[24px] font-bold font-roboto flex items-center gap-2"
+                          className="h-[48px] bg-primary rounded-2xl text-[16px] 
+                            text-[#FFFFFF] px-[24px] font-bold font-roboto flex items-center  gap-2"
                         >
                           <span className="inline-flex items-center">
                             Create an Account
@@ -367,7 +367,7 @@ const Header = () => {
                 ) : (
                   <Link to="/create-account">
                     <button
-                      className="h-[48px] bg-primary rounded-[4px] text-[16px] 
+                      className="h-[48px] bg-primary rounded-2xl text-[16px] 
                             text-[#FFFFFF] px-[24px] font-bold font-roboto flex items-center gap-2"
                     >
                       <span className="inline-flex items-center">
