@@ -248,7 +248,7 @@ const Banner = () => {
 
 
     return (
-        <div className="bg-[#F5F5F7] container mx-auto px-2 md:px-4 pb-6 md:pb-[36px] lg:pb-[64px]">
+        <div className="container mx-auto px-2 md:px-4 pb-6 md:pb-[36px] lg:pb-[64px]">
             <div className="text-center pt-[60px] lg:pt-[193px] pb-[60px] lg:pb-[297px]">
                 <div className='flex justify-center items-center pb-6 md:pb-10'>
                     <img src="/logo4.png" alt="logo" className='' />
@@ -408,33 +408,51 @@ const Banner = () => {
                 </Modal>
 
             </div>
-            <div>
+            <div className=''>
                 <div className="max-w-[695px] mx-auto text-center text-wrap pb-[36px]">
                     <h1 className="font-roboto font-bold text-[24px] md:text-[32px] textpri">Find the Legal Help You Need</h1>
                     <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px] leading-[35px]">Finding the right legal support has never been easier. Select up to 3 practice areas to find your LawPair Suggested <sup>(TM)</sup> attorney today</p>
                 </div>
-                <div className="flex justify-center items-center">
-                    <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-3">
+                <div className="flex justify-center items-center ">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-x-4 lg:gap-x-16 gap-y-5">
                         {
                             categorieData?.map((item, index) => {
                                 return (
                                     <div
                                         key={index}
-                                        className="relative cursor-pointer bg-[#FFFFFF] min-w-[280px] md:min-w-[300px] lg:min-w-[510px] min-h-[150px] md:min-h-[180px] lg:min-h-[204px] flex flex-col justify-center items-center p-3 rounded-[24px] hover:bg-primary hover:opacity-85 group overflow-hidden"
+                                        className="relative cursor-pointer bg-[#E7E7E9] min-w-[280px] md:min-w-[300px] lg:min-w-[502px] min-h-[150px] md:min-h-[180px] lg:min-h-[244px] flex flex-col justify-center items-center p-3 rounded-[24px] border border-[#B6B6BA]"
                                         onClick={() => (handleCateogrie(item.id), showModalCategorie())}
                                     >
 
-                                        <div className='flex flex-col justify-center items-center'>
+                                        <div className=''>
                                             <img
                                                 src={item.image_icon}
                                                 alt="default image"
                                                 className="pb-[8px] transition-opacity duration-300 ease-in-out"
                                             />
-                                            <h4 className="text-[18px] font-semibold md:font-bold font-roboto text-center">
+                                            <h4 className="text-[18px] font-semibold md:font-bold font-roboto">
                                                 {item.name}
                                             </h4>
+                                            <p>{item.description}</p>
                                         </div>
                                     </div>
+                                    // <div
+                                    //     key={index}
+                                    //     className="relative cursor-pointer bg-[#FFFFFF] min-w-[280px] md:min-w-[300px] lg:min-w-[510px] min-h-[150px] md:min-h-[180px] lg:min-h-[204px] flex flex-col justify-center items-center p-3 rounded-[24px] hover:bg-primary hover:opacity-85 group overflow-hidden"
+                                    //     onClick={() => (handleCateogrie(item.id), showModalCategorie())}
+                                    // >
+
+                                    //     <div className='flex flex-col justify-center items-center'>
+                                    //         <img
+                                    //             src={item.image_icon}
+                                    //             alt="default image"
+                                    //             className="pb-[8px] transition-opacity duration-300 ease-in-out"
+                                    //         />
+                                    //         <h4 className="text-[18px] font-semibold md:font-bold font-roboto text-center">
+                                    //             {item.name}
+                                    //         </h4>
+                                    //     </div>
+                                    // </div>
                                 )
                             })
                         }

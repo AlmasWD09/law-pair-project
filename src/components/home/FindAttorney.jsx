@@ -2,18 +2,16 @@
 
 const FindAttorney = () => {
     return (
-        <div className="bg-[#10101E] w-full bg-[url('/FindAttonery/background.png')] bg-cover bg-center bg-no-repeat">
+        <div className=" w-full bg-[url('/finding.png')] bg-cover bg-center bg-no-repeat">
             <div className="container mx-auto px-4 pt-[40px] md:pt-[83px]">
                 <div className="flex flex-col lg:flex-row justify-between">
                     {/* content */}
                     <div className="flex flex-col">
-                        <h1 className="font-roboto font-bold text-[32px] md:text-[48px] text-[#FFFFFF] max-w-[606px]">Finding a lawyer, made easy.</h1>
+                        <h1 className="font-roboto font-bold text-[32px] md:text-[48px]  max-w-[606px]">Finding a lawyer, made easy.</h1>
 
-                        <small className="font-roboto text-[14px] text-[#FFFFFF] md:pt-[24px] pb-[20px] md:pb-[48px]">The LawPair app is the fastest and easiest way to find the attorney you need.</small>
+                        <small className="font-roboto text-[14px]  md:pt-[24px] pb-[20px] md:pb-[48px]">The LawPair app is the fastest and easiest way to find the attorney you need.</small>
 
-                        <small className="font-roboto text-[18px] text-[#FFFFFF]">Available on</small>
-
-                        <p className="">Available on</p>
+                        <small className="font-roboto text-[18px] pb-4">Available on</small>
                         <div className="flex flex-col md:flex-row gap-2 md:gap-5">
                             <span>
                                 <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">

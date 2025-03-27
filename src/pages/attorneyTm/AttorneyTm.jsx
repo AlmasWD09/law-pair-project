@@ -6,6 +6,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import toast from "react-hot-toast";
+import CustomNotFound from "../../components/shared/CustomNotFound";
 
 
 const AttorneyTm = () => {
@@ -132,14 +133,7 @@ const AttorneyTm = () => {
                     </div>
                 </div>
                     :
-                    <div className="flex flex-col justify-center items-center h-[400px]">
-                        <h1 className="text-xl font-semibold uppercase text-center">data not found</h1>
-                        <div className="flex justify-center">
-                            <Button style={{ backgroundColor: "#1b69ad", color: "white", width: "115px", height: "48px", fontSize: "16px", fontFamily: "Roboto" }}>
-                                <Link to={'/'}>Go Back</Link>
-                            </Button>
-                        </div>
-                    </div>
+                    <CustomNotFound />
             }
         </div>
     )

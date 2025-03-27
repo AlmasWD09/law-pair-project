@@ -10,47 +10,6 @@ const HomeLegalResources = () => {
 
     const adminToken = Cookies.get("adminToken");
 
-    // const resurcesData = [
-    //     {
-    //         id: 1,
-    //         image: "/legalImage/legal1.png",
-    //         name: "Your Legal Compass",
-    //         description: "Navigate complex legal matters with clarity and confidence."
-    //     },
-    //     {
-    //         id: 2,
-    //         image: "/legalImage/legal2.png",
-    //         name: "Your Legal Compass",
-    //         description: "Navigate complex legal matters with clarity and confidence."
-    //     },
-    //     {
-    //         id: 3,
-    //         image: "/legalImage/legal3.png",
-    //         name: "Your Legal Compass",
-    //         description: "Navigate complex legal matters with clarity and confidence."
-    //     },
-
-    //     {
-    //         id: 4,
-    //         image: "/legalImage/legal4.png",
-    //         name: "Your Legal Compass",
-    //         description: "Navigate complex legal matters with clarity and confidence."
-    //     },
-    //     {
-    //         id: 5,
-    //         image: "/legalImage/legal5.png",
-    //         name: "Your Legal Compass",
-    //         description: "Navigate complex legal matters with clarity and confidence."
-    //     },
-    //     {
-    //         id: 6,
-    //         image: "/legalImage/legal6.png",
-    //         name: "Your Legal Compass",
-    //         description: "Navigate complex legal matters with clarity and confidence."
-    //     },
-
-    // ]
-
     // get request 
     useEffect(() => {
         axiosPublic.get('/admin/legal-resources/?per_page=10', {
@@ -79,7 +38,7 @@ const HomeLegalResources = () => {
             <div className="flex justify-center">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
                     {
-                        resurcesData.slice(-10).map((item, index) => {
+                        resurcesData.slice(-6).map((item, index) => {
                             return (
                                 <div key={index} className="relative w-full h-full lg:w-[329px] lg:h-[306px] rounded">
                                     <div className="w-full h-full lg:w-[329px] lg:h-[306px]">

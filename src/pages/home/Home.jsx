@@ -7,7 +7,10 @@ import HomeLegalResources from "../../components/home/HomeLegalResources"
 const Home = () => {
   return (
     <div className="">
-      <Banner />
+     <div >
+     <Banner />
+     </div>
+
       <FindAttorney />
       <HomeLegalResources />
     </div>

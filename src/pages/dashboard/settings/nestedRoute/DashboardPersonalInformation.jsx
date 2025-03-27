@@ -106,13 +106,14 @@ const DashboardPersonalInformation = () => {
           Accept: "application/json","Content-Type": "multipart/form-data",
         },
       });
+console.log(response.data)
       if (response.data.success) {
         toast.success('Profile updated successfully!')
         form.resetFields();
         setFileList([]);
 
       } else {
-        toast.error('Failed! please try again');
+        toast.error('The avatar must be less than 2MB.');
       }
 
       setIsModalOpen(false);

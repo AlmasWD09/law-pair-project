@@ -6,9 +6,9 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+/* body {
     background-color: #F5F5F7;
-}
+} */
 
 /* navbar active link style */
 #sidebar a.active {

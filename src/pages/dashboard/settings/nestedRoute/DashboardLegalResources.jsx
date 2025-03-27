@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 
 
 
-
 const DashboardLegalResources = () => {
   const axiosPublic = useAxiosPublic();
   const [form] = Form.useForm();
@@ -19,6 +18,8 @@ const DashboardLegalResources = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalLegalResurces, setTotalLegalResurces] = useState(0);
   const perPage = 3;
+
+console.log(data)
 
   const handleUpload = ({ fileList }) => {
     if (fileList.length > 1) {
@@ -152,6 +153,7 @@ const DashboardLegalResources = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
 
   const columns = [
     {

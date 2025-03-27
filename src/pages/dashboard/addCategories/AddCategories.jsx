@@ -13,20 +13,28 @@ const AddCategories = () => {
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [fileList, setFileList] = useState([]);
   const [categorieData, setCategorieData] = useState([]);
-  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCategories, setTotalCategories] = useState(0);
   const perPage = 4;
 
-  
+
   const token = Cookies.get("adminToken");
 
 
 
-
-
   const columns = [
-    { key: "1", title: "Image", dataIndex: "image_icon", responsive: ["xs", "sm", "md", "lg", "xl"], render: (image_icon) => <img src={image_icon} alt="Category" className="w-12 h-12 object-cover rounded-md max-w-full max-h-full" /> },
+    {
+      key: "1",
+      title: "Image",
+      dataIndex: "image_icon",
+      render: (image_icon, record) => (
+        <img
+          src={image_icon}
+          alt="Category"
+          className="w-12 h-12 object-cover rounded-md max-w-full max-h-full"
+        />
+      ), responsive: ["xs", "sm", "md", "lg", "xl"],
+    },
     { key: "2", title: "Name", dataIndex: "name", responsive: ["xs", "sm", "md", "lg", "xl"] },
     { key: "2", title: "Description", dataIndex: "description", responsive: ["xs", "sm", "md", "lg", "xl"] },
     {
@@ -133,6 +141,10 @@ const AddCategories = () => {
     }
   };
 
+
+
+
+  
   // get request
   useEffect(() => {
     axiosPublic
@@ -149,12 +161,11 @@ const AddCategories = () => {
       .catch((error) => {
         console.error("Error fetching categories:", error);
       });
-  }, [token, currentPage,]);
+  }, [token, currentPage,fileList]);
 
 
 
   const handlePageChange = (page) => {
-    console.log(page)
     setCurrentPage(page);
   };
 

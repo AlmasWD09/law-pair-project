@@ -23,10 +23,10 @@ const Header = () => {
 
 
 
-
     // token get in cookies
     const lawyerToken = Cookies.get("lawyerToken");
     const userToken = Cookies.get("userToken");
+
 
 
 
@@ -67,12 +67,19 @@ const Header = () => {
         }
 
         try {
-            const response = await axiosPublic.get(`/search-lawyer?name=${searchValue}`);
+            const response = await axiosPublic.get(`/search-lawyer?name=${searchValue}`,{
+                headers: {
+                    Authorization: `Bearer ${user}`,
+                    "Accept": "application/json"
+                    // ✅ Send token in Authorization header
+                }
+            });
+            console.log(response.data.lawyers?.data)
             if (response.data.success) {
                 navigate('/search-attorney', { state: { searchResults: response.data.lawyers.data } });
             }
         } catch (error) {
-            toast.error('No lawyer found!')
+            navigate('/search-attorney');
         }
     };
 
