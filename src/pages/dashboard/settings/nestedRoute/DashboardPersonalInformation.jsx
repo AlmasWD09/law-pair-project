@@ -94,31 +94,31 @@ const DashboardPersonalInformation = () => {
 
 
 
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
-    })
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}:`, value);
+    // })
 
 
-    // try {
-    //   const response = await axiosPublic.post('/update-profile', formData, {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //       Accept: "application/json","Content-Type": "multipart/form-data",
-    //     },
-    //   });
-    //   if (response.data.success) {
-    //     toast.success('Profile updated successfully!')
-    //     form.resetFields();
-    //     setFileList([]);
+    try {
+      const response = await axiosPublic.post('/update-profile', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json","Content-Type": "multipart/form-data",
+        },
+      });
+      if (response.data.success) {
+        toast.success('Profile updated successfully!')
+        form.resetFields();
+        setFileList([]);
 
-    //   } else {
-    //     toast.error('Failed! please try again');
-    //   }
+      } else {
+        toast.error('Failed! please try again');
+      }
 
-    //   setIsModalOpen(false);
-    // } catch (error) {
-    //   console.error('Error during password update:', error);
-    // }
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error during password update:', error);
+    }
   };
 
 
@@ -133,6 +133,8 @@ const DashboardPersonalInformation = () => {
       password_confirmation: values['password_confirmation'],
     };
 
+    console.log(passwordData)
+
     try {
       const response = await axiosPublic.post('/update-password', passwordData, {
         headers: {
@@ -142,6 +144,7 @@ const DashboardPersonalInformation = () => {
       });
 
 
+      console.log(response.data)
       if (response.data.success) {
         toast.success('Password updated successfully')
         passwordForm.resetFields()

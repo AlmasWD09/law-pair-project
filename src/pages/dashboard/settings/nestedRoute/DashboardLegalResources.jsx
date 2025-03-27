@@ -95,7 +95,6 @@ const DashboardLegalResources = () => {
       .then((response) => {
         setData(response.data.legal_resources.data);
         setTotalLegalResurces(response.data.legal_resources.total);
-        console.log(response.data.legal_resources.total)
       })
       .catch((error) => {
         console.error("Error fetching dashboard users:", error);

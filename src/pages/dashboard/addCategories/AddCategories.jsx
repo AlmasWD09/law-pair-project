@@ -13,14 +13,22 @@ const AddCategories = () => {
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [fileList, setFileList] = useState([]);
   const [categorieData, setCategorieData] = useState([]);
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCategories, setTotalCategories] = useState(0);
   const perPage = 4;
+
+  
   const token = Cookies.get("adminToken");
+
+
+
+
 
   const columns = [
     { key: "1", title: "Image", dataIndex: "image_icon", responsive: ["xs", "sm", "md", "lg", "xl"], render: (image_icon) => <img src={image_icon} alt="Category" className="w-12 h-12 object-cover rounded-md max-w-full max-h-full" /> },
     { key: "2", title: "Name", dataIndex: "name", responsive: ["xs", "sm", "md", "lg", "xl"] },
+    { key: "2", title: "Description", dataIndex: "description", responsive: ["xs", "sm", "md", "lg", "xl"] },
     {
       key: "4",
       title: "Action",
@@ -90,6 +98,7 @@ const AddCategories = () => {
     }
 
     formData.append("name", values.name);
+    formData.append("description", values.description);
 
     try {
       const response = await axiosPublic.post("/admin/store-category", formData, {
@@ -100,6 +109,7 @@ const AddCategories = () => {
         },
       });
 
+
       if (response.data.success) {
         toast.success(response.data.message);
         // Update the categorieData directly
@@ -109,6 +119,7 @@ const AddCategories = () => {
             id: response.data.category.id,
             image_icon: response.data.category.image_icon,
             name: response.data.category.name,
+            description: response.data.category.description,
           },
         ]);
         setTotalCategories((prev) => prev + 1);
@@ -118,7 +129,7 @@ const AddCategories = () => {
         toast.error('Category upload failed.');
       }
     } catch (error) {
-      toast.error('Error uploading category. Please try again.');
+      toast.error('Please upload an png or svg image!');
     }
   };
 
@@ -138,7 +149,14 @@ const AddCategories = () => {
       .catch((error) => {
         console.error("Error fetching categories:", error);
       });
-  }, [token, currentPage,categorieData]);
+  }, [token, currentPage,]);
+
+
+
+  const handlePageChange = (page) => {
+    console.log(page)
+    setCurrentPage(page);
+  };
 
   return (
     <div className="bg-white p-4 rounded-lg max-w-full">
@@ -156,7 +174,7 @@ const AddCategories = () => {
               name="upload"
               valuePropName="fileList"
               getValueFromEvent={(e) => e?.fileList || []}
-              rules={[{ required: true, message: "Please upload an image!" }]}
+              rules={[{ required: true, message: "Please upload an png or svg image!" }]}
             >
               <Upload
                 listType="picture-card"
@@ -185,6 +203,20 @@ const AddCategories = () => {
             </Form.Item>
           </div>
 
+          <div className="pt-4">
+            <p className="font-roboto text-[#41414D] text-[14px]">Description</p>
+            <Form.Item
+              name="description"
+              rules={[{ required: true, message: "Please enter your description" }]}
+            >
+              <Input.TextArea
+                rows={4}
+                placeholder="Enter description"
+                style={{ border: "1px solid #B6B6BA", padding: "10px" }}
+              />
+            </Form.Item>
+          </div>
+
           <Button
             htmlType="submit"
             block
@@ -205,13 +237,23 @@ const AddCategories = () => {
           pagination={false}
           className="w-full"
         />
-        <Pagination
+        {/* <Pagination
           current={currentPage}
           pageSize={perPage}
           total={totalCategories}
           onChange={(page) => setCurrentPage(page)}
           align="end"
           className="mt-4"
+        /> */}
+
+        <Pagination
+          current={currentPage}
+          total={totalCategories}
+          pageSize={perPage}
+          onChange={handlePageChange}
+          showSizeChanger={false}
+          align="end"
+          className="my-4"
         />
       </div>
 

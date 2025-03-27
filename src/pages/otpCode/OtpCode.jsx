@@ -64,6 +64,8 @@ console.log(forget_lawyer)
     const user_role = Cookies.get("user_role");
     const lawyer_role = Cookies.get("lawyer_role");
 
+    console.log(lawyer_role)
+
     // Otp code
     const onFinish = async (values) => {
         const otpCode = {
@@ -80,12 +82,11 @@ console.log(forget_lawyer)
                     if (loginPage_forget) {
                         navigate("/create-new-password");
                     }
-                    if (registerPage) {
+                    else if (registerPage) {
                         navigate("/login");
                     }
                 }
                 else if (lawyer_role === 'lawyer' || forget_lawyer) {
-                    console.log('lawyer aca---------')
                     Cookies.set("lawyerToken", response?.data?.access_token,
                         { expires: 7, secure: true, sameSite: "Strict" });
                     if (loginPage_forget) {
@@ -105,6 +106,8 @@ console.log(forget_lawyer)
         }
     };
 
+
+    
 
     const handleResendOtp = async () => {
         setLoading(true);

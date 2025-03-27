@@ -79,7 +79,7 @@ const HomeLegalResources = () => {
             <div className="flex justify-center">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
                     {
-                        resurcesData.slice(0,6).map((item, index) => {
+                        resurcesData.slice(-10).map((item, index) => {
                             return (
                                 <div key={index} className="relative w-full h-full lg:w-[329px] lg:h-[306px] rounded">
                                     <div className="w-full h-full lg:w-[329px] lg:h-[306px]">

@@ -64,6 +64,7 @@ const DashboardForgetPassword = () => {
 
         try {
             const response = await axiosPublic.post("/verify-email", { otp: parseInt(otpValue) });
+            console.log(response.data)
             if ((response.data.success) && (response.data.access_token)) {
 
                 Cookies.set("otpToken", response?.data?.access_token, { expires: 7, secure: true, sameSite: "Strict" });
@@ -100,7 +101,6 @@ const DashboardForgetPassword = () => {
                     </div>
 
                     {/* Submit Button */}
-                    {/* <Link to={'/admin/dashboard/create-new-password'}> */}
                     <Form.Item>
                         <Button
                             className="w-full"
@@ -109,7 +109,6 @@ const DashboardForgetPassword = () => {
                             Verify
                         </Button>
                     </Form.Item>
-                    {/* </Link> */}
                 </Form>
             </div>
         </div>

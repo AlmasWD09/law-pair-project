@@ -296,14 +296,14 @@ const LawyerProfile = () => {
                                 <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">Availability</h2>
 
 
-                                <div className="flex flex-wrap lg:flex-row items-center gap-3 pt-3">
+                                {/* <div className="flex flex-wrap lg:flex-row items-center gap-3 pt-3">
                                     {lawyerAllData?.schedule?.map((item) => {
                                         return (
                                             <button className="border px-4 py-2 rounded-full font-roboto text-primary text-[16px]">{item.day} {item.time}</button>
                                         )
                                     })}
 
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
