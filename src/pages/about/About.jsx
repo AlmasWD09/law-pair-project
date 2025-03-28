@@ -4,10 +4,10 @@ const About = () => {
   const [aboutData, refetch] = useAboutData();
 
   return (
-    <div className="py-10 min-h-[65vh]">
+    <div className="pt-40 pb-10 min-h-[65vh]">
       <div className="container mx-auto px-4">
-        <div 
-          dangerouslySetInnerHTML={{ __html: aboutData?.about }} 
+        <div
+          dangerouslySetInnerHTML={{ __html: aboutData?.about }}
           className=""
         />
       </div>

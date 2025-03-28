@@ -249,8 +249,12 @@ const Banner = () => {
     <>
       <div className="bg-[url('/bannerBg.png')] bg-cover bg-center bg-no-repeat ">
         <div className="text-center pt-[60px] lg:pt-[193px] ">
-          <div className="flex justify-center items-center pb-6 md:pb-10">
+          <div className="flex flex-col justify-center items-center pb-6 md:pb-10">
             <img src="/logo4.png" alt="logo" className="" />
+            {/* <img src="/banner/bannerImage1.png" alt="logo" className="" />
+            <img src="/banner/bannerImage2.png" alt="logo" className="" />
+            <img src="/banner/bannerImage3.png" alt="logo" className="" />
+            <img src="/banner/bannerImage4.png" alt="logo" className="" /> */}
           </div>
 
           <Button
@@ -518,7 +522,7 @@ const Banner = () => {
           </div>
           <div className="flex justify-center items-center ">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-x-4 lg:gap-x-16 gap-y-6">
-              {categorieData?.map((item, index) => {
+              {categorieData.slice(0, 9).map((item, index) => {
                 return (
                   <div
                     key={index}
