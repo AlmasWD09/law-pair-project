@@ -271,13 +271,13 @@ const Banner = () => {
             Find your lawyer
           </Button>
 
-          <div className="pt-[20px] md:pt-[41px]">
-            {/* small device image */}
+          <div className="pt-[20px] md:pt-[41px] ">
+            {/* large device image */}
             <div className="md:flex justify-center hidden">
               <img src="/bannerBg2.png" alt="logo" className="" />
             </div>
 
-            {/* large device image */}
+            {/* small device image */}
             <div className="flex justify-center md:hidden">
               <img src="/bannerBg3.png" alt="logo" className="" />
             </div>
