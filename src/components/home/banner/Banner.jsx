@@ -246,319 +246,79 @@ const Banner = () => {
   }, [categorieModalOpen, categorieSecondModalOpen]);
 
   return (
-    <div className="container mx-auto px-2 md:px-4 pb-6 md:pb-[36px] lg:pb-[64px]">
-      <div className="text-center pt-[60px] lg:pt-[193px] pb-[60px] lg:pb-[297px]">
-        <div className="flex justify-center items-center pb-6 md:pb-10">
-          <img src="/logo4.png" alt="logo" className="" />
-        </div>
+    <>
+      <div className="bg-[url('/bannerBg.png')] bg-cover bg-center bg-no-repeat ">
+        <div className="text-center pt-[60px] lg:pt-[193px] ">
+          <div className="flex justify-center items-center pb-6 md:pb-10">
+            <img src="/logo4.png" alt="logo" className="" />
+          </div>
 
-        <Button
-          onClick={showModal}
-          style={{
-            width: "251px",
-            height: "64px",
-            backgroundColor: "#1b69ad",
-            color: "white",
-            fontFamily: "Roboto",
-            fontSize: "20px",
-            fontWeight: "bold",
-            borderRadius: "16px",
-          }}
-          className="no-hover"
-        >
-          Find your lawyer
-        </Button>
+          <Button
+            onClick={showModal}
+            style={{
+              width: "251px",
+              height: "64px",
+              backgroundColor: "#1b69ad",
+              color: "white",
+              fontFamily: "Roboto",
+              fontSize: "20px",
+              fontWeight: "bold",
+              borderRadius: "16px",
+              border: "0px solid",
+            }}
+            className="no-hover small-button"
+          >
+            Find your lawyer
+          </Button>
 
-        {/* modal one */}
-        <Modal
-          centered
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          width={600}
-          footer={
-            <div className="font-roboto flex justify-center md:justify-between items-center gap-x-4 md:px-7 pt-[24px]">
-              <button
-                className="w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-              <button
-                className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] rounded-[5px] text-[16px] font-bold ${
-                  selectedOptions.length > 0
-                    ? "bg-[#1b69ad] text-white"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                }`}
-                onClick={handleOk}
-                disabled={selectedOptions.length === 0}
-              >
-                Continue
-              </button>
+          <div className="pt-[20px] md:pt-[41px]">
+            {/* small device image */}
+            <div className="md:flex justify-center hidden">
+              <img src="/bannerBg2.png" alt="logo" className="" />
             </div>
-          }
-        >
-          <div>
-            <div
-              style={{ maxWidth: "90%", margin: "auto", textAlign: "center" }}
-            >
-              <svg
-                className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
-                width="100%"
-                height="40"
-                viewBox="0 0 528 40"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="20"
-                  cy="20"
-                  r="15"
-                  stroke="#1B69AD"
-                  strokeWidth="2"
-                />
-                <circle cx="20" cy="20" r="5" fill="#1B69AD" />
-                <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
-                <circle
-                  cx="508"
-                  cy="20"
-                  r="15"
-                  stroke="#B6B6BA"
-                  strokeWidth="2"
-                />
-              </svg>
 
-              <Title
-                level={4}
-                className="text-[#000000] font-roboto text-start pb-[8px]"
-              >
-                Select the legal help you need
-              </Title>
-
-              <Space wrap>
-                {categorieData.map((option, index) => (
-                  <Button
-                    key={index}
-                    onClick={() => handleSelect(option)}
-                    disabled={
-                      selectedOptions.length === 3 &&
-                      !selectedOptions.includes(option.id)
-                    }
-                    style={{
-                      borderRadius: 20,
-                      backgroundColor: selectedOptions.includes(option.id)
-                        ? "#1b69ad"
-                        : "#FFFFFF",
-                      color: selectedOptions.includes(option.id)
-                        ? "#FFFFFF"
-                        : "#1b69ad",
-                      border: "1px solid #B6B6BA",
-                      fontWeight: "bold",
-                      fontSize: "16px",
-                      fontFamily: "Roboto",
-                      padding: "20px",
-                      cursor:
-                        selectedOptions.length === 3 &&
-                        !selectedOptions.includes(option.id)
-                          ? "not-allowed"
-                          : "pointer",
-                      opacity:
-                        selectedOptions.length === 3 &&
-                        !selectedOptions.includes(option.id)
-                          ? 0.5
-                          : 1,
-                    }}
-                  >
-                    {option.name}
-                  </Button>
-                ))}
-              </Space>
+            {/* large device image */}
+            <div className="flex justify-center md:hidden">
+              <img src="/bannerBg3.png" alt="logo" className="" />
             </div>
           </div>
-        </Modal>
 
-        {/* modal two */}
-
-        <Modal
-          centered
-          open={isModalOpenTow}
-          onOk={handleOkTwo}
-          onCancel={handleCancelTwo}
-          width={600}
-          footer={
-            <div className="flex justify-between items-center gap-x-4 pt-[24px]">
-              <button
-                className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                onClick={handleCancelTwo}
-              >
-                Back
-              </button>
-              <button
-                className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] 
-                                    ${
-                                      selectedLocation && selectedLanguage
-                                        ? "bg-[#1b69ad] text-white"
-                                        : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                    }
-                                    rounded-[5px] text-[16px] font-bold`}
-                onClick={handleOkTwo}
-                disabled={!selectedLocation || !selectedLanguage}
-              >
-                Continue
-              </button>
-            </div>
-          }
-        >
-          <div>
-            <svg
-              width="90%"
-              height="40"
-              viewBox="0 0 528 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-              <path
-                d="M14.167 20.832L17.5003 24.1654L25.8337 15.832"
-                stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
-              <circle
-                cx="508"
-                cy="20"
-                r="15"
-                stroke="#1B69AD"
-                stroke-width="2"
-              />
-              <circle cx="508" cy="20" r="5" fill="#1B69AD" />
-            </svg>
-
-            <div className="pt-4">
-              <Title
-                level={4}
-                className="text-[14px] font-roboto font-bold text-[#001018]"
-              >
-                Location
-              </Title>
-            </div>
-
-            <div className="pb-4">
-              <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                Select your location
-              </p>
-              <Select
-                showSearch
-                placeholder="Select..."
-                style={{ width: "100%", height: "40px" }}
-                onChange={(value) =>
-                  handleSelectModalTwoValue("location", value)
-                }
-                options={[
-                  { value: "new jersey", label: " New Jersey" },
-                  { value: "new york", label: "New York" },
-                  { value: "pennsylvania", label: "Pennsylvania" },
-                  { value: "washington, d.c", label: "Washington, D.C" },
-                ]}
-              />
-            </div>
-
-            <div>
-              <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                Language
-              </p>
-              <Select
-                showSearch
-                placeholder="Select..."
-                style={{ width: "100%", height: "40px" }}
-                onChange={(value) =>
-                  handleSelectModalTwoValue("language", value)
-                }
-                options={[
-                  { label: "English", value: "english" },
-                  { label: "Spanish", value: "spanish" },
-                  { label: "German", value: "german" },
-                  { label: "Russian", value: "russian" },
-                ]}
-              />
-            </div>
-          </div>
-        </Modal>
-      </div>
-      <div className="">
-        <div className="max-w-[580px] mx-auto text-center text-wrap pb-[36px]">
-          <h1 className="text-primary font-roboto font-bold text-[24px] md:text-[32px] textpri">
-            Find the Legal Help You Need
-          </h1>
-          <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px] leading-[35px]">
-            Finding the right legal support has never been easier. Select up to
-            3 practice areas to find your LawPair Suggested <sup>(TM)</sup>{" "}
-            attorney today
-          </p>
-        </div>
-        <div className="flex justify-center items-center ">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-x-4 lg:gap-x-16 gap-y-6">
-            {categorieData?.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className="relative cursor-pointer bg-[#E7E7E9] min-w-[280px] md:min-w-[300px] lg:min-w-[502px] min-h-[150px] md:min-h-[180px] lg:min-h-[244px] flex flex-col justify-center items-center p-3 rounded-[24px] border border-[#B6B6BA]"
-                  onClick={() => (
-                    handleCateogrie(item.id), showModalCategorie()
-                  )}
+          {/* modal one */}
+          <Modal
+            centered
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            width={600}
+            footer={
+              <div className="font-roboto flex justify-center md:justify-between items-center gap-x-4 md:px-7 pt-[24px]">
+                <button
+                  className="w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                  onClick={handleCancel}
                 >
-                  <div className="">
-                    <img
-                      src={item.image_icon}
-                      alt="default image"
-                      className="pb-[8px] transition-opacity duration-300 ease-in-out"
-                    />
-                    <h4 className="text-[18px] font-semibold md:font-bold font-roboto">
-                      {item.name}
-                    </h4>
-                    <p>{item.description}</p>
-                  </div>
-                </div>
-              );
-            })}
-
-            <Modal
-              centered
-              open={categorieModalOpen}
-              onOk={handleCategorieOk}
-              onCancel={handleCancelCategorie}
-              width={600}
-              footer={
-                <div className="flex justify-between items-center gap-x-4 pt-[24px]">
-                  <button
-                    className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
-                    onClick={handleCancelCategorie}
-                  >
-                    Back
-                  </button>
-                  <button
-                    className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] 
-                                            ${
-                                              selectedLocation &&
-                                              selectedLanguage
-                                                ? "bg-[#1b69ad] text-white"
-                                                : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                            }
-                                            rounded-[5px] text-[16px] font-bold`}
-                    onClick={handleOkTwo}
-                    disabled={!selectedLocation || !selectedLanguage}
-                  >
-                    Continue
-                  </button>
-                </div>
-              }
-            >
-              <div>
+                  Cancel
+                </button>
+                <button
+                  className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] rounded-[5px] text-[16px] font-bold ${
+                    selectedOptions.length > 0
+                      ? "bg-[#1b69ad] text-white"
+                      : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  }`}
+                  onClick={handleOk}
+                  disabled={selectedOptions.length === 0}
+                >
+                  Continue
+                </button>
+              </div>
+            }
+          >
+            <div>
+              <div
+                style={{ maxWidth: "90%", margin: "auto", textAlign: "center" }}
+              >
                 <svg
-                  className="mb-4"
-                  width="90%"
+                  className="mb-4 w-[90%] sm:w-[90%] md:w-[90%] lg:w-[90%]"
+                  width="100%"
                   height="40"
                   viewBox="0 0 528 40"
                   fill="none"
@@ -581,62 +341,321 @@ const Banner = () => {
                     strokeWidth="2"
                   />
                 </svg>
-                <hr />
 
-                <div className="pt-4">
-                  <Title
-                    level={4}
-                    className="text-[14px] font-roboto font-bold text-[#001018]"
-                  >
-                    Location
-                  </Title>
-                </div>
+                <Title
+                  level={4}
+                  className="text-[#000000] font-roboto text-start pb-[8px]"
+                >
+                  Select the legal help you need
+                </Title>
 
-                <div className="pb-4">
-                  <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                    Select your location
-                  </p>
-                  <Select
-                    showSearch
-                    placeholder="Select..."
-                    style={{ width: "100%", height: "40px" }}
-                    onChange={(value) =>
-                      handleSelectModalTwoValue("location", value)
-                    }
-                    options={[
-                      { value: "new jersey", label: "New Jersey" },
-                      { value: "new york", label: "New York" },
-                      { value: "pennsylvania", label: "Pennsylvania" },
-                      { value: "washington, d.c", label: "Washington, D.C" },
-                    ]}
-                  />
-                </div>
-
-                <div>
-                  <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                    City
-                  </p>
-                  <Select
-                    showSearch
-                    placeholder="Select..."
-                    style={{ width: "100%", height: "40px" }}
-                    onChange={(value) =>
-                      handleSelectModalTwoValue("language", value)
-                    }
-                    options={[
-                      { label: "English", value: "english" },
-                      { label: "Spanish", value: "spanish" },
-                      { label: "German", value: "german" },
-                      { label: "Russian", value: "russian" },
-                    ]}
-                  />
-                </div>
+                <Space wrap>
+                  {categorieData.map((option, index) => (
+                    <Button
+                      key={index}
+                      onClick={() => handleSelect(option)}
+                      disabled={
+                        selectedOptions.length === 3 &&
+                        !selectedOptions.includes(option.id)
+                      }
+                      style={{
+                        borderRadius: 20,
+                        backgroundColor: selectedOptions.includes(option.id)
+                          ? "#1b69ad"
+                          : "#FFFFFF",
+                        color: selectedOptions.includes(option.id)
+                          ? "#FFFFFF"
+                          : "#1b69ad",
+                        border: "1px solid #B6B6BA",
+                        fontWeight: "bold",
+                        fontSize: "16px",
+                        fontFamily: "Roboto",
+                        padding: "20px",
+                        cursor:
+                          selectedOptions.length === 3 &&
+                          !selectedOptions.includes(option.id)
+                            ? "not-allowed"
+                            : "pointer",
+                        opacity:
+                          selectedOptions.length === 3 &&
+                          !selectedOptions.includes(option.id)
+                            ? 0.5
+                            : 1,
+                      }}
+                    >
+                      {option.name}
+                    </Button>
+                  ))}
+                </Space>
               </div>
-            </Modal>
+            </div>
+          </Modal>
+
+          {/* modal two */}
+
+          <Modal
+            centered
+            open={isModalOpenTow}
+            onOk={handleOkTwo}
+            onCancel={handleCancelTwo}
+            width={600}
+            footer={
+              <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                <button
+                  className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                  onClick={handleCancelTwo}
+                >
+                  Back
+                </button>
+                <button
+                  className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] 
+                                    ${
+                                      selectedLocation && selectedLanguage
+                                        ? "bg-[#1b69ad] text-white"
+                                        : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                    }
+                                    rounded-[5px] text-[16px] font-bold`}
+                  onClick={handleOkTwo}
+                  disabled={!selectedLocation || !selectedLanguage}
+                >
+                  Continue
+                </button>
+              </div>
+            }
+          >
+            <div>
+              <svg
+                width="90%"
+                height="40"
+                viewBox="0 0 528 40"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                <path
+                  d="M14.167 20.832L17.5003 24.1654L25.8337 15.832"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
+                <circle
+                  cx="508"
+                  cy="20"
+                  r="15"
+                  stroke="#1B69AD"
+                  stroke-width="2"
+                />
+                <circle cx="508" cy="20" r="5" fill="#1B69AD" />
+              </svg>
+
+              <div className="pt-4">
+                <Title
+                  level={4}
+                  className="text-[14px] font-roboto font-bold text-[#001018]"
+                >
+                  Location
+                </Title>
+              </div>
+
+              <div className="pb-4">
+                <p className="text-[14px] font-roboto font-bold text-[#001018]">
+                  Select your location
+                </p>
+                <Select
+                  showSearch
+                  placeholder="Select..."
+                  style={{ width: "100%", height: "40px" }}
+                  onChange={(value) =>
+                    handleSelectModalTwoValue("location", value)
+                  }
+                  options={[
+                    { value: "new jersey", label: " New Jersey" },
+                    { value: "new york", label: "New York" },
+                    { value: "pennsylvania", label: "Pennsylvania" },
+                    { value: "washington, d.c", label: "Washington, D.C" },
+                  ]}
+                />
+              </div>
+
+              <div>
+                <p className="text-[14px] font-roboto font-bold text-[#001018]">
+                  Language
+                </p>
+                <Select
+                  showSearch
+                  placeholder="Select..."
+                  style={{ width: "100%", height: "40px" }}
+                  onChange={(value) =>
+                    handleSelectModalTwoValue("language", value)
+                  }
+                  options={[
+                    { label: "English", value: "english" },
+                    { label: "Spanish", value: "spanish" },
+                    { label: "German", value: "german" },
+                    { label: "Russian", value: "russian" },
+                  ]}
+                />
+              </div>
+            </div>
+          </Modal>
+        </div>
+      </div>
+
+      {/* second part */}
+      <div className="container mx-auto px-2 md:px-4 pb-6 md:pb-[36px] lg:pb-[64px]">
+        <div className="">
+          <div className="max-w-[580px] mx-auto text-center text-wrap pb-[36px] lg:pt-[96px] md:pt-[40px] pt-[30px]">
+            <h1 className="text-primary font-roboto font-bold text-[24px] md:text-[32px] textpri">
+              Find the Legal Help You Need
+            </h1>
+            <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px] leading-[35px]">
+              Finding the right legal support has never been easier. Select up
+              to 3 practice areas to find your LawPair Suggested <sup>(TM)</sup>{" "}
+              attorney today
+            </p>
+          </div>
+          <div className="flex justify-center items-center ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-x-4 lg:gap-x-16 gap-y-6">
+              {categorieData?.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="relative cursor-pointer bg-[#E7E7E9] min-w-[280px] md:min-w-[300px] lg:min-w-[502px] min-h-[150px] md:min-h-[180px] lg:min-h-[244px] flex flex-col justify-center items-center p-3 rounded-[24px] border border-[#B6B6BA]"
+                    onClick={() => (
+                      handleCateogrie(item.id), showModalCategorie()
+                    )}
+                  >
+                    <div className="">
+                      <img
+                        src={item.image_icon}
+                        alt="default image"
+                        className="pb-[8px] transition-opacity duration-300 ease-in-out"
+                      />
+                      <h4 className="text-[18px] font-semibold md:font-bold font-roboto">
+                        {item.name}
+                      </h4>
+                      <p>{item.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <Modal
+                centered
+                open={categorieModalOpen}
+                onOk={handleCategorieOk}
+                onCancel={handleCancelCategorie}
+                width={600}
+                footer={
+                  <div className="flex justify-between items-center gap-x-4 pt-[24px]">
+                    <button
+                      className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] border border-[#1b69ad] text-[#1b69ad] rounded-[5px] text-[16px] font-bold"
+                      onClick={handleCancelCategorie}
+                    >
+                      Back
+                    </button>
+                    <button
+                      className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] 
+                                            ${
+                                              selectedLocation &&
+                                              selectedLanguage
+                                                ? "bg-[#1b69ad] text-white"
+                                                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                            }
+                                            rounded-[5px] text-[16px] font-bold`}
+                      onClick={handleOkTwo}
+                      disabled={!selectedLocation || !selectedLanguage}
+                    >
+                      Continue
+                    </button>
+                  </div>
+                }
+              >
+                <div>
+                  <svg
+                    className="mb-4"
+                    width="90%"
+                    height="40"
+                    viewBox="0 0 528 40"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="20"
+                      cy="20"
+                      r="15"
+                      stroke="#1B69AD"
+                      strokeWidth="2"
+                    />
+                    <circle cx="20" cy="20" r="5" fill="#1B69AD" />
+                    <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
+                    <circle
+                      cx="508"
+                      cy="20"
+                      r="15"
+                      stroke="#B6B6BA"
+                      strokeWidth="2"
+                    />
+                  </svg>
+                  <hr />
+
+                  <div className="pt-4">
+                    <Title
+                      level={4}
+                      className="text-[14px] font-roboto font-bold text-[#001018]"
+                    >
+                      Location
+                    </Title>
+                  </div>
+
+                  <div className="pb-4">
+                    <p className="text-[14px] font-roboto font-bold text-[#001018]">
+                      Select your location
+                    </p>
+                    <Select
+                      showSearch
+                      placeholder="Select..."
+                      style={{ width: "100%", height: "40px" }}
+                      onChange={(value) =>
+                        handleSelectModalTwoValue("location", value)
+                      }
+                      options={[
+                        { value: "new jersey", label: "New Jersey" },
+                        { value: "new york", label: "New York" },
+                        { value: "pennsylvania", label: "Pennsylvania" },
+                        { value: "washington, d.c", label: "Washington, D.C" },
+                      ]}
+                    />
+                  </div>
+
+                  <div>
+                    <p className="text-[14px] font-roboto font-bold text-[#001018]">
+                      City
+                    </p>
+                    <Select
+                      showSearch
+                      placeholder="Select..."
+                      style={{ width: "100%", height: "40px" }}
+                      onChange={(value) =>
+                        handleSelectModalTwoValue("language", value)
+                      }
+                      options={[
+                        { label: "English", value: "english" },
+                        { label: "Spanish", value: "spanish" },
+                        { label: "German", value: "german" },
+                        { label: "Russian", value: "russian" },
+                      ]}
+                    />
+                  </div>
+                </div>
+              </Modal>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
