@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import { PlayCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Banner = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -265,11 +267,15 @@ const Banner = () => {
       <div className="bg-[url('/bannerBg.png')] bg-cover bg-center bg-no-repeat ">
         <div className="text-center pt-[60px] lg:pt-[193px] ">
           <div className="flex flex-col justify-center items-center pb-6 md:pb-10 pt-20 lg:pt-0">
-            <img src="/logo4.png" alt="logo" className="" />
-            {/* <img src="/banner/bannerImage1.png" alt="logo" className="" />
-            <img src="/banner/bannerImage2.png" alt="logo" className="" />
-            <img src="/banner/bannerImage3.png" alt="logo" className="" />
-            <img src="/banner/bannerImage4.png" alt="logo" className="" /> */}
+            {/* <img src="/logo4.png" alt="logo" className="" /> */}
+            {/* <img src="/banner/bannerImage1.png" alt="logo" className="lg:w-[70%]" /> */}
+            <img
+              src="/banner/bannerImage2.png"
+              alt="logo"
+              className="lg:w-[70%]"
+            />
+            {/* <img src="/banner/bannerImage3.png" alt="logo" className="lg:w-[70%]" /> */}
+            {/* <img src="/banner/bannerImage4.png" alt="logo" className="lg:w-[70%]" /> */}
           </div>
 
           <Button
@@ -289,18 +295,6 @@ const Banner = () => {
           >
             Find your lawyer
           </Button>
-
-          <div className="pt-[20px] md:pt-[41px] ">
-            {/* large device image */}
-            <div className="md:flex justify-center hidden">
-              <img src="/bannerBg2.png" alt="logo" className="" />
-            </div>
-
-            {/* small device image */}
-            <div className="flex justify-center md:hidden">
-              <img src="/bannerBg3.png" alt="logo" className="" />
-            </div>
-          </div>
 
           {/* modal one */}
           <Modal
@@ -410,8 +404,72 @@ const Banner = () => {
             </div>
           </Modal>
 
-          {/* modal two */}
+          {/* video start */}
+          {/* <div className="flex  justify-center py-[70px] rounded-2xl">
+            <div className="relative w-[710px] rounded-lg overflow-hidden">
+              {!isPlaying ? (
+                <div
+                  className="relative w-full h-full cursor-pointer rounded-2xl"
+                  onClick={() => setIsPlaying(true)}
+                >
+                  <img
+                    src="/video.png"
+                    alt="Video Thumbnail"
+                    className="w-full h-full object-cover rounded-2xl"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center  bg-opacity-50">
+                    <PlayCircle size={60} className="text-white" />
+                  </div>
+                </div>
+              ) : (
+                <video
+                  src="/video01.mp4"
+                  controls
+                  autoPlay
+                  className="w-full h-full object-cover"
+                />
+              )}
+            </div>
+          </div> */}
 
+          <div className="flex justify-center py-[20px] md:py-[70px] rounded-2xl">
+            <div className="relative w-[710px] rounded-lg overflow-hidden">
+              {!isPlaying ? (
+                <div
+                  className="relative w-full h-full cursor-pointer rounded-2xl"
+                  onClick={() => setIsPlaying(true)}
+                >
+                  <motion.img
+                    src="/video.png"
+                    alt="Video Thumbnail"
+                    className="w-full h-full object-cover rounded-2xl"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-opacity-50">
+                    <PlayCircle size={60} className="text-white" />
+                  </div>
+                </div>
+              ) : (
+                <motion.video
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{
+                    duration: 0.8,
+                    ease: [0.16, 1, 0.3, 1], // Smooth & bounce effect
+                  }}
+                  src="/video01.mp4"
+                  controls
+                  autoPlay
+                  className="w-full h-full object-cover rounded-2xl"
+                />
+              )}
+            </div>
+          </div>
+
+          {/* video end */}
+
+          {/* modal two */}
           <Modal
             centered
             open={isModalOpenTow}
@@ -674,54 +732,6 @@ const Banner = () => {
           </div>
         </div>
       </div>
-
-      {/* video start */}
-      {/* <div>
-        <div
-          className="bg-black bg-no-repeat bg-cover bg-center rounded h-[250px] md:h-[400px] lg:h-[900px] flex items-center justify-center"
-          style={{
-            backgroundImage: "url(/videoBg.png)",
-          }}
-        >
-          <div className=" relative w-full h-[180px] md:h-[300px]  lg:h-[600px]">
-            <video
-              style={{ width: "100%", height: "100%" }}
-              ref={videoRef}
-              src="/video01.mp4" // Correct path to the video
-              className="w-full h-56 object-contain rounded-md"
-              onClick={handlePlayPause}
-              onPlay={() => setIsPlaying(true)}
-              onPause={() => setIsPlaying(false)}
-              controls={false} // Hide default controls
-            />
-            {!isPlaying && (
-              <div className="container mx-auto absolute inset-0 flex items-center justify-center rounded bg-sky-200 md:w-[70%] lg:w-[57%]">
-                <button
-                  onClick={handlePlayPause}
-                  className="text-[#FFFFF0] text-4xl"
-                  aria-label="Play Video"
-                  role="button"
-                >
-                  <svg
-                    width="72"
-                    height="72"
-                    viewBox="0 0 72 72"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M36 6C30.0666 6 24.2664 7.75947 19.3329 11.0559C14.3994 14.3524 10.5543 19.0377 8.28363 24.5195C6.013 30.0013 5.4189 36.0333 6.57646 41.8527C7.73401 47.6721 10.5912 53.0176 14.7868 57.2132C18.9824 61.4088 24.3279 64.266 30.1473 65.4236C35.9667 66.5811 41.9987 65.987 47.4805 63.7164C52.9623 61.4458 57.6477 57.6006 60.9441 52.6671C64.2405 47.7336 66 41.9334 66 36C66 32.0603 65.224 28.1593 63.7164 24.5195C62.2088 20.8797 59.999 17.5726 57.2132 14.7868C54.4275 12.001 51.1203 9.79126 47.4805 8.28361C43.8408 6.77597 39.9397 6 36 6ZM30 49.5V22.5L48 36L30 49.5Z"
-                      fill="red"
-                      fillOpacity="0.5"
-                    />
-                  </svg>
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </div> */}
-      {/* video end */}
     </>
   );
 };

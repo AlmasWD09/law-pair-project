@@ -36,7 +36,7 @@ const LegalResources = () => {
   };
 
   return (
-    <div className="flex justify-center items-center pt-40 pb-10 min-h-[65vh]">
+    <div className="flex justify-center items-center pt-28 lg:pt-40 pb-16 min-h-[65vh] px-2">
       {loading ? (
         <div>
           <LoadindSpenier />

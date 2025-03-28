@@ -2,7 +2,7 @@ import { FaArrowLeft, FaHome } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { Button, Pagination } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import toast from "react-hot-toast";
@@ -62,6 +62,10 @@ const AttorneyTm = () => {
       navigate("/login", { state: { from: location } });
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-40">

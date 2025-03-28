@@ -258,15 +258,14 @@ const OtpCode = () => {
           },
         }
       );
+      console.log(response.data);
 
       if (response.data.success) {
         toast.success("Profile create successfully");
         navigate("/lawyer-profile");
-      } else {
-        toast.error("something is wrong! please try again.");
       }
     } catch (error) {
-      toast.error("something is wrong! please try again.");
+      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -717,14 +716,24 @@ const OtpCode = () => {
                 </p>
                 <Form.Item
                   name="zipCode"
+                  maxLength={5}
                   rules={[
                     {
                       required: true,
                       message: "Please input your zip code!",
                     },
+                    {
+                      pattern: /^[0-9]{5}$/,
+                      message: "Zip code must be 5 digits long!",
+                    },
                   ]}
                 >
                   <Input
+                    onInput={(e) => {
+                      e.target.value = e.target.value
+                        .replace(/[^0-9]/g, "")
+                        .slice(0, 5);
+                    }}
                     placeholder="zipCode"
                     style={{ width: "100%", height: "40px" }}
                   />
