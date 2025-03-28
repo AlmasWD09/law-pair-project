@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Typography, Space, Modal, Select } from "antd";
 const { Title } = Typography;
 import { useNavigate } from "react-router-dom";
@@ -245,11 +245,26 @@ const Banner = () => {
     };
   }, [categorieModalOpen, categorieSecondModalOpen]);
 
+  //=============== video start component  =========
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef(null);
+
+  const handlePlayPause = () => {
+    if (isPlaying) {
+      videoRef.current?.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current?.play();
+      setIsPlaying(true);
+    }
+  };
+  //=============== video start component  =========
+
   return (
     <>
       <div className="bg-[url('/bannerBg.png')] bg-cover bg-center bg-no-repeat ">
         <div className="text-center pt-[60px] lg:pt-[193px] ">
-          <div className="flex flex-col justify-center items-center pb-6 md:pb-10">
+          <div className="flex flex-col justify-center items-center pb-6 md:pb-10 pt-20 lg:pt-0">
             <img src="/logo4.png" alt="logo" className="" />
             {/* <img src="/banner/bannerImage1.png" alt="logo" className="" />
             <img src="/banner/bannerImage2.png" alt="logo" className="" />
@@ -659,6 +674,54 @@ const Banner = () => {
           </div>
         </div>
       </div>
+
+      {/* video start */}
+      {/* <div>
+        <div
+          className="bg-black bg-no-repeat bg-cover bg-center rounded h-[250px] md:h-[400px] lg:h-[900px] flex items-center justify-center"
+          style={{
+            backgroundImage: "url(/videoBg.png)",
+          }}
+        >
+          <div className=" relative w-full h-[180px] md:h-[300px]  lg:h-[600px]">
+            <video
+              style={{ width: "100%", height: "100%" }}
+              ref={videoRef}
+              src="/video01.mp4" // Correct path to the video
+              className="w-full h-56 object-contain rounded-md"
+              onClick={handlePlayPause}
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+              controls={false} // Hide default controls
+            />
+            {!isPlaying && (
+              <div className="container mx-auto absolute inset-0 flex items-center justify-center rounded bg-sky-200 md:w-[70%] lg:w-[57%]">
+                <button
+                  onClick={handlePlayPause}
+                  className="text-[#FFFFF0] text-4xl"
+                  aria-label="Play Video"
+                  role="button"
+                >
+                  <svg
+                    width="72"
+                    height="72"
+                    viewBox="0 0 72 72"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M36 6C30.0666 6 24.2664 7.75947 19.3329 11.0559C14.3994 14.3524 10.5543 19.0377 8.28363 24.5195C6.013 30.0013 5.4189 36.0333 6.57646 41.8527C7.73401 47.6721 10.5912 53.0176 14.7868 57.2132C18.9824 61.4088 24.3279 64.266 30.1473 65.4236C35.9667 66.5811 41.9987 65.987 47.4805 63.7164C52.9623 61.4458 57.6477 57.6006 60.9441 52.6671C64.2405 47.7336 66 41.9334 66 36C66 32.0603 65.224 28.1593 63.7164 24.5195C62.2088 20.8797 59.999 17.5726 57.2132 14.7868C54.4275 12.001 51.1203 9.79126 47.4805 8.28361C43.8408 6.77597 39.9397 6 36 6ZM30 49.5V22.5L48 36L30 49.5Z"
+                      fill="red"
+                      fillOpacity="0.5"
+                    />
+                  </svg>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div> */}
+      {/* video end */}
     </>
   );
 };

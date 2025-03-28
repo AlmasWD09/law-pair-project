@@ -869,7 +869,6 @@ const OtpCode = () => {
                       </div>
                       <div>
                         <TimePicker.RangePicker
-                          v
                           value={
                             scheduleData[day]
                               ? [scheduleData[day][0], scheduleData[day][1]]

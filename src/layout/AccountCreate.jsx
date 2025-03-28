@@ -1,12 +1,14 @@
-import Header from "../components/shared/header/Header"
+import Header from "../components/shared/header/Header";
 
 const AccountCreate = ({ children }) => {
   return (
     <div>
-      <Header />
-      <main className="min-h-screen">{children}</main>
+      <div>
+        <Header />
+      </div>
+      <main className="min-h-screen pt-32">{children}</main>
     </div>
-  )
-}
+  );
+};
 
-export default AccountCreate
+export default AccountCreate;

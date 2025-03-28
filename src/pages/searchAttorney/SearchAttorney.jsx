@@ -11,7 +11,7 @@ const SearchAttorney = () => {
 
   return (
     <AccountCreate>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 pt-16">
         {/* <h1>searchAttorney</h1> */}
 
         {searchResults?.length > 0 ? (
@@ -21,12 +21,12 @@ const SearchAttorney = () => {
                 return (
                   <div
                     key={index}
-                    className="w-[300px] h-[378px] p-4 shadow-lg rounded-md"
+                    className="w-[300px] h-[348px] p-4 shadow-lg rounded-md"
                   >
                     <img
-                      src="/attorney1.png"
+                      src={attorney?.avatar}
                       alt="attorney"
-                      className="w-full"
+                      className="w-full h-[200px]"
                     />
                     {/* <img src={attorney.avatar}  alt="attorney" className="w-full" /> */}
                     <div className="flex justify-between items-center">

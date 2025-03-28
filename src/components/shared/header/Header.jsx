@@ -139,7 +139,7 @@ const Header = () => {
       {/* Navbar */}
       <header
         className={`sticky -top-[3px] left-0 w-full  transition-all ease-in-out duration-300 ${
-          navbar ? "0 z-50 fixed " : " z-50"
+          navbar ? "0 z-50 fixed " : " z-50 "
         }`}
       >
         <div
