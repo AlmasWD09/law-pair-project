@@ -712,25 +712,25 @@ const OtpCode = () => {
                 </p>
                 <Form.Item
                   name="zipCode"
-                  maxLength={5}
                   rules={[
                     {
                       required: true,
                       message: "Please input your zip code!",
                     },
                     {
-                      pattern: /^[0-9]{5}$/,
-                      message: "Zip code must be 5 digits long!",
+                      pattern: /^[0-9]{4,5}$/,
+                      message: "Zip code must be 4 or 5 digits long!",
                     },
                   ]}
                 >
                   <Input
+                    maxLength={5}
                     onInput={(e) => {
                       e.target.value = e.target.value
                         .replace(/[^0-9]/g, "")
                         .slice(0, 5);
                     }}
-                    placeholder="zipCode"
+                    placeholder="Zip Code"
                     style={{ width: "100%", height: "40px" }}
                   />
                 </Form.Item>
