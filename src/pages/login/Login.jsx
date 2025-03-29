@@ -38,8 +38,6 @@ const Login = () => {
         toast.success("login success");
         Cookies.set("userToken", response?.data?.access_token, {
           expires: 7,
-          secure: true,
-          sameSite: "Strict",
         });
         Cookies.remove("lawyerToken");
         Cookies.remove("user_role");
@@ -67,9 +65,9 @@ const Login = () => {
         toast.success("login success");
         Cookies.set("lawyerToken", response?.data?.access_token, {
           expires: 7,
-          secure: true,
-          sameSite: "Strict",
         });
+
+        console.log(response);
         Cookies.remove("userToken");
         Cookies.remove("lawyer_role");
 

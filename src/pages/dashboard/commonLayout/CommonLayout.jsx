@@ -210,7 +210,7 @@ const CommonLayout = () => {
                   </h1>
                   {item.icon2}
                 </div>
-                <p className="font-roboto text[12px]">{item.title}</p>
+                {/* <p className="font-roboto text[12px]">{item.title}</p> */}
               </div>
             );
           })}

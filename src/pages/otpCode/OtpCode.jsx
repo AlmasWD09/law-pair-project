@@ -92,15 +92,11 @@ const OtpCode = () => {
           if (!lawyar) {
             Cookies.set("userToken", response?.data?.access_token, {
               expires: 7,
-              secure: true,
-              sameSite: "Strict",
             });
             navigate("/");
           } else if (lawyar) {
             Cookies.set("lawyerToken", response?.data?.access_token, {
               expires: 7,
-              secure: true,
-              sameSite: "Strict",
             });
             setIsModalOpen(true);
           }

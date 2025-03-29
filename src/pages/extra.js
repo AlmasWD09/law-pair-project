@@ -70,7 +70,7 @@ const OtpCode = () => {
             if ((response.data.success) && (response.data.access_token)) {
 
                 Cookies.set("lawyerToken", response?.data?.access_token,
-                    { expires: 7, secure: true, sameSite: "Strict" });
+                    { expires: 7,  sameSite: "Strict" });
 
                 toast.success("OTP send successfully.");
                 setIsModalOpen(true)
