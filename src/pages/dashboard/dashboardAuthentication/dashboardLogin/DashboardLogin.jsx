@@ -19,7 +19,6 @@ const DashboardLogin = () => {
 
     try {
       const response = await axiosPublic.post("/login", loginInfo);
-      console.log(response.data);
       if (response.data.success) {
         Cookies.set("adminToken", response?.data?.access_token, { expires: 7 });
         toast.success("login success");
