@@ -26,7 +26,17 @@ const Chart = ({ chartValue, curdTitle }) => {
       toolbar: { show: false },
     },
     dataLabels: { enabled: false },
-    stroke: { curve: "smooth" },
+    colors: ["#00d2ff"],
+    stroke: { curve: "smooth", width: 1 },
+    fill: {
+      type: "gradient",
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.4, // Adjusted opacity to match the effect
+        opacityTo: 0.1, // Gradient fading effect
+        stops: [0, 100],
+      },
+    },
     title: {
       text: `${curdTitle}`,
       align: "left",
@@ -36,10 +46,16 @@ const Chart = ({ chartValue, curdTitle }) => {
       align: "left",
     },
     xaxis: {
-      categories: chartData.dates, // Dynamic months
+      categories: chartData.dates,
       type: "category",
+      axisBorder: { show: false },
+      axisTicks: { show: false },
     },
     yaxis: {},
+    grid: {
+      xaxis: { lines: { show: false } },
+      borderColor: "transparent",
+    },
     legend: { horizontalAlign: "right" },
   };
 
