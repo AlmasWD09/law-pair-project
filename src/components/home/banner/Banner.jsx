@@ -405,33 +405,6 @@ const Banner = () => {
           </Modal>
 
           {/* video start */}
-          {/* <div className="flex  justify-center py-[70px] rounded-2xl">
-            <div className="relative w-[710px] rounded-lg overflow-hidden">
-              {!isPlaying ? (
-                <div
-                  className="relative w-full h-full cursor-pointer rounded-2xl"
-                  onClick={() => setIsPlaying(true)}
-                >
-                  <img
-                    src="/video.png"
-                    alt="Video Thumbnail"
-                    className="w-full h-full object-cover rounded-2xl"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center  bg-opacity-50">
-                    <PlayCircle size={60} className="text-white" />
-                  </div>
-                </div>
-              ) : (
-                <video
-                  src="/video01.mp4"
-                  controls
-                  autoPlay
-                  className="w-full h-full object-cover"
-                />
-              )}
-            </div>
-          </div> */}
-
           <div className="flex justify-center py-[20px] md:py-[70px] rounded-2xl">
             <div className="relative w-[710px] rounded-lg overflow-hidden">
               {!isPlaying ? (
@@ -440,14 +413,14 @@ const Banner = () => {
                   onClick={() => setIsPlaying(true)}
                 >
                   <motion.img
-                    src="/video.png"
+                    src="/video.jpg"
                     alt="Video Thumbnail"
                     className="w-full h-full object-cover rounded-2xl"
                     whileHover={{ scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 200 }}
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-opacity-50">
-                    <PlayCircle size={60} className="text-white" />
+                    <PlayCircle size={60} className="text-primary" />
                   </div>
                 </div>
               ) : (
@@ -589,9 +562,13 @@ const Banner = () => {
             </h1>
             <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px] leading-[35px]">
               Finding the right legal support has never been easier. Select up
+              to 3 practice areas to find your LawPair Suggested attorney today
+            </p>
+            {/* <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px] leading-[35px]">
+              Finding the right legal support has never been easier. Select up
               to 3 practice areas to find your LawPair Suggested <sup>(TM)</sup>{" "}
               attorney today
-            </p>
+            </p> */}
           </div>
           <div className="flex justify-center items-center ">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-x-4 lg:gap-x-16 gap-y-6">
@@ -709,7 +686,7 @@ const Banner = () => {
 
                   <div>
                     <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                      City
+                      Language
                     </p>
                     <Select
                       showSearch

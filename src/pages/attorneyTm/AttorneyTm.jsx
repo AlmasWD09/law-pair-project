@@ -70,14 +70,14 @@ const AttorneyTm = () => {
   return (
     <div className="container mx-auto px-4 py-8 md:py-40">
       <div>
-        <div className="max-w-[1037px] mx-auto">
+        <div className="max-w-[1037px] mx-auto px-10">
           <span>
             <FaArrowLeft
               onClick={handleNavigate}
               className="text-[20px] text-[#60606A] cursor-pointer"
             />
           </span>
-          <div className="flex items-center justify-center gap-3 pt-10">
+          {/* <div className="flex items-center justify-center gap-3 pt-10">
             <Link to={"/"}>
               <span className="flex items-center gap-1 font-roboto text-[14px] text-[#60606A]">
                 <svg
@@ -105,10 +105,13 @@ const AttorneyTm = () => {
             <span className="font-roboto text-[14px] text-[#10101E] font-bold">
               attorney
             </span>
-          </div>
+          </div> */}
           <h3 className="font-roboto text-[16px] text-[#121221] py-[26px]">
-            LawPair suggested attorneys TM
+            LawPair suggested attorneys
           </h3>
+          {/* <h3 className="font-roboto text-[16px] text-[#121221] py-[26px]">
+            LawPair suggested attorneys TM
+          </h3> */}
         </div>
 
         <div className="flex justify-center">
