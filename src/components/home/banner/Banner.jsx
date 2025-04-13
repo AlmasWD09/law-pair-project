@@ -7,6 +7,9 @@ import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { PlayCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { PlayCircleOutlined } from "@ant-design/icons";
+import { FaPlay } from "react-icons/fa";
+import { MdOutlinePlayCircleFilled } from "react-icons/md";
 
 const Banner = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -405,24 +408,22 @@ const Banner = () => {
           </Modal>
 
           {/* video start */}
-          <div className="flex justify-center py-[20px] md:py-[70px] rounded-2xl">
+          <div className="flex justify-center py-[20px] md:py-[70px] rounded-2xl px-2 md:px-0">
             <div className="relative w-[710px] rounded-lg overflow-hidden">
               {!isPlaying ? (
-                <div
-                  className="relative w-full h-full cursor-pointer rounded-2xl"
-                  onClick={() => setIsPlaying(true)}
-                >
+                <div className="relative w-full h-full cursor-pointer rounded-2xl">
                   <motion.img
-                    src="/video25.jpg"
+                    src="/thumbail.jpg"
                     alt="Video Thumbnail"
                     className="w-full h-full object-cover rounded-2xl"
                     whileHover={{ scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 200 }}
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-opacity-50">
-                    <PlayCircle
-                      size={100}
-                      className="text-primary opacity-50"
+                    {/* <PlayCircleOutlined className=" rounded-full text-primary opacity-50 text-[100px]" /> */}
+                    <MdOutlinePlayCircleFilled
+                      onClick={() => setIsPlaying(true)}
+                      className="md:text-[90px] text-[60px] text-gray-400 hover:text-red-600 opacity-60 cursor-pointer"
                     />
                   </div>
                 </div>
