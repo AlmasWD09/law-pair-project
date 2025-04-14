@@ -68,7 +68,7 @@ const AttorneyTm = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-40">
+    <div className="container mx-auto px-4 py-28 md:py-40">
       <div>
         <div className="max-w-[1037px] mx-auto px-10">
           <span>
