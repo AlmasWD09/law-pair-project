@@ -535,7 +535,7 @@ const Banner = () => {
 
               <div>
                 <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                  Language
+                  Town
                 </p>
                 <Select
                   showSearch
@@ -690,7 +690,7 @@ const Banner = () => {
 
                   <div>
                     <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                      Language
+                      Town
                     </p>
                     <Select
                       showSearch

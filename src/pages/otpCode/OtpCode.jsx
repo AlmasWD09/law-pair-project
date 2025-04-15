@@ -584,7 +584,7 @@ const OtpCode = () => {
 
             <div className="pb-4">
               <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                Select your language(s)
+                Town
               </p>
               <Form.Item
                 name="languages"
@@ -637,7 +637,6 @@ const OtpCode = () => {
                 />
               </Form.Item>
             </div>
-
             <div className="pb-4">
               <p className="text-[14px] font-roboto font-bold text-[#001018]">
                 Office address

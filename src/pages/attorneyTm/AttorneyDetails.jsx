@@ -76,7 +76,7 @@ const AttorneyDetails = () => {
                 />
               </svg>
               <svg
-                className="cursor-pointer"
+                className=""
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
