@@ -33,7 +33,6 @@ const UserProfile = () => {
   const { address, avatar, email, first_name, last_name, full_name, phone } =
     userData || {};
 
-  console.log(userData);
   useEffect(() => {
     if (userData) {
       form.setFieldsValue({
@@ -223,6 +222,7 @@ const UserProfile = () => {
     return <LoadindSpenier />;
   }
 
+  console.log(paginatedData);
   return (
     <div className="bg-gray-100">
       <AccountCreate>
