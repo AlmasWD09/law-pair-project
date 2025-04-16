@@ -160,7 +160,7 @@ const AttorneyDetails = () => {
                 </a>
 
                 {/* sms */}
-                {/* <a
+                <a
                   href={`sms:${lawyerData.phone}?&amp;body=Hello%2520I%252C%2520have%2527a%2520question%25`}
                   target="_blank"
                 >
@@ -181,10 +181,10 @@ const AttorneyDetails = () => {
                       fill="#44546F"
                     />
                   </svg>
-                </a> */}
+                </a>
 
                 {/* email */}
-                {/* <a href={`mailto:${lawyerData.email}`} target="_blank">
+                <a href={`mailto:${lawyerData.email}`} target="_blank">
                   <svg
                     className=""
                     width="24"
@@ -202,7 +202,7 @@ const AttorneyDetails = () => {
                       fill="#44546F"
                     />
                   </svg>
-                </a> */}
+                </a>
               </div>
             </div>
           </div>
