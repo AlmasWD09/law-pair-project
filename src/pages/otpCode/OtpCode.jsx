@@ -584,7 +584,7 @@ const OtpCode = () => {
 
             <div className="pb-4">
               <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                Town
+                Languages
               </p>
               <Form.Item
                 name="languages"
