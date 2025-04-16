@@ -85,6 +85,7 @@ const CreateAccount = () => {
         formTwo.resetFields();
       }
     } catch ({ response }) {
+      console.log(response.errors);
       if (response?.errors) {
         // If validation errors are returned from Laravel
         if (response.data.errors.email) {
@@ -371,7 +372,7 @@ const CreateAccount = () => {
   };
   return (
     <AccountCreate>
-      <div className="flex flex-col justify-center items-center  bg-gray-100 px-4 py-4 pt-[100px] md:pt-[120px]  min-h-[65vh]">
+      <div className="flex flex-col justify-center items-center  bg-gray-100 px-4 min-h-[65vh]">
         <div className="w-full md:max-w-4xl bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             Create Your Account
