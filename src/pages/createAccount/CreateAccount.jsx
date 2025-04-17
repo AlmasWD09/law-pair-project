@@ -30,6 +30,7 @@ const CreateAccount = () => {
 
     try {
       const res = await axiosPublic.post("/register", createAccountUserInfo);
+      console.log(res.data);
       if (res.data.success) {
         Cookies.set("user_role", createAccountUserInfo.role, { expires: 7 });
         toast.success(res.data.message);
@@ -42,22 +43,10 @@ const CreateAccount = () => {
         });
         formOne.resetFields();
       } else {
-        toast.error("The email has already been taken.");
+        toast.error(res.data.message);
       }
-    } catch ({ response }) {
-      console.log(response);
-      if (response?.errors) {
-        // If validation errors are returned from Laravel
-        if (response.data.errors.email) {
-          toast.error(response.data.errors.email[0]); // Show first email error
-        } else if (response.data.errors.password) {
-          toast.error(response.data.errors.password[0]); // Show first password error
-        } else {
-          toast.error("There was an error with your registration.");
-        }
-      } else {
-        toast.error(response?.data?.message || "Something went wrong.");
-      }
+    } catch (error) {
+      toast.error("Something is wrong! plz try again");
     }
   };
 
@@ -73,9 +62,10 @@ const CreateAccount = () => {
 
     try {
       const res = await axiosPublic.post("/register", createAttorneyInfo);
+
       if (res.data.success) {
         Cookies.set("lawyer_role", createAttorneyInfo.role, { expires: 7 });
-        toast.success("Attorney register successfully");
+        toast.success(res.data?.data?.message);
         navigate(`/otp-code?lawyer=true&verifaction=true`, {
           state: {
             email: values.email,
@@ -83,21 +73,11 @@ const CreateAccount = () => {
           },
         });
         formTwo.resetFields();
-      }
-    } catch ({ response }) {
-      console.log(response.errors);
-      if (response?.errors) {
-        // If validation errors are returned from Laravel
-        if (response.data.errors.email) {
-          toast.error(response.data.errors.email[0]); // Show first email error
-        } else if (response.data.errors.password) {
-          toast.error(response.data.errors.password[0]); // Show first password error
-        } else {
-          toast.error("There was an error with your registration.");
-        }
       } else {
-        toast.error(response?.data?.message || "Something went wrong.");
+        toast.error(res.data.message);
       }
+    } catch (error) {
+      toast.error("Something is wrong! plz try again");
     }
   };
 
@@ -316,7 +296,12 @@ const CreateAccount = () => {
                 name="password"
                 rules={[
                   { required: true, message: "Please input your password!" },
+                  {
+                    min: 8,
+                    message: "Password must be at least 8 characters!",
+                  },
                 ]}
+                hasFeedback
               >
                 <Input.Password
                   placeholder="Create your password"
@@ -334,7 +319,23 @@ const CreateAccount = () => {
                     required: true,
                     message: "Please input your confirm password!",
                   },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (value.length < 8) {
+                        return Promise.reject(
+                          new Error("Password must be at least 8 characters!")
+                        );
+                      }
+                      if (getFieldValue("password") !== value) {
+                        return Promise.reject(
+                          new Error("Password does not match")
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
                 ]}
+                hasFeedback
               >
                 <Input.Password
                   placeholder="Confirm your password"
