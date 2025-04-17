@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Typography, Space, Modal, Select } from "antd";
+import { Button, Typography, Space, Modal, Select, Form, Input } from "antd";
 const { Title } = Typography;
 import { useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
@@ -10,8 +10,10 @@ import { motion } from "framer-motion";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { FaPlay } from "react-icons/fa";
 import { MdOutlinePlayCircleFilled } from "react-icons/md";
+import { useForm } from "antd/es/form/Form";
 
 const Banner = () => {
+  const [categorieForm] = Form.useForm();
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [categorieData, setCategorieData] = useState([]);
@@ -150,7 +152,36 @@ const Banner = () => {
   };
   // ===== modal two end =====================
 
-  //=============== categorie first modal start ===============
+  //=============== categorie first modal start =================
+
+  const onFinishCategorie = async (values) => {
+    const findLawyerInfo = {
+      service_ids: [categorieName],
+      state: values.location,
+      city: values.city,
+    };
+
+    try {
+      const response = await axiosPublic.get(`/find-lawyers`, {
+        params: {
+          service_ids: JSON.stringify(findLawyerInfo.service_ids), // Ensure it's a JSON array
+          state: findLawyerInfo.state,
+          city: findLawyerInfo.city,
+        },
+      });
+      console.log(response.data);
+      if (response.data.success) {
+        navigate("/attorney-tm", {
+          state: { lawyers: response.data?.lawyers?.data },
+        });
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      setCategorieModalOpen(false);
+      categorieForm.resetFields("");
+    }
+  };
+
   const showModalCategorie = () => {
     setCategorieModalOpen(true);
   };
@@ -164,40 +195,12 @@ const Banner = () => {
   };
 
   const handleCategorieOk = async () => {
-    const findLawyerInfo = {
-      service_ids: [categorieName], // Ensure it's an array
-      state: categorieSelectValue.location,
-      language: categorieSelectValue.city,
-    };
-
-    try {
-      const response = await axiosPublic.get(`/find-lawyers`, {
-        params: {
-          service_ids: JSON.stringify(findLawyerInfo.service_ids), // Ensure it's a JSON array
-          state: findLawyerInfo.state,
-          language: findLawyerInfo.language,
-        },
-      });
-
-      console.log(response.data?.lawyers?.data);
-
-      if (response.data.success) {
-        navigate("/attorney-tm", {
-          state: { lawyers: response.data?.lawyers?.data },
-        });
-      } else {
-        toast.error("No lawyer found!");
-      }
-    } catch (error) {
-      setCategorieModalOpen(false);
-      toast.error("No lawyer found!");
-    } finally {
-      setCategorieModalOpen(false);
-    }
+    categorieForm.submit();
   };
 
   const handleCancelCategorie = () => {
     setCategorieModalOpen(false);
+    categorieForm.resetFields("");
   };
 
   //=============== categorie first modal end =================
@@ -614,7 +617,7 @@ const Banner = () => {
                     >
                       Back
                     </button>
-                    <button
+                    {/* <button
                       className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] 
                                             ${
                                               selectedLocation &&
@@ -627,87 +630,113 @@ const Banner = () => {
                       disabled={!selectedLocation || !selectedLanguage}
                     >
                       Continue
-                    </button>
+                    </button> */}
+                    <Button
+                      className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                      htmlType="submit"
+                      onClick={handleCategorieOk}
+                      style={{ backgroundColor: "#1b69ad", color: "white" }}
+                    >
+                      Continue
+                    </Button>
                   </div>
                 }
               >
-                <div>
-                  <svg
-                    className="mb-4"
-                    width="90%"
-                    height="40"
-                    viewBox="0 0 528 40"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="20"
-                      cy="20"
-                      r="15"
-                      stroke="#1B69AD"
-                      strokeWidth="2"
-                    />
-                    <circle cx="20" cy="20" r="5" fill="#1B69AD" />
-                    <rect x="36" y="19" width="456" height="2" fill="#B6B6BA" />
-                    <circle
-                      cx="508"
-                      cy="20"
-                      r="15"
-                      stroke="#B6B6BA"
-                      strokeWidth="2"
-                    />
-                  </svg>
-                  <hr />
-
-                  <div className="pt-4">
-                    <Title
-                      level={4}
-                      className="text-[14px] font-roboto font-bold text-[#001018]"
-                    >
-                      Location
-                    </Title>
-                  </div>
-
-                  <div className="pb-4">
-                    <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                      Select your location
-                    </p>
-                    <Select
-                      showSearch
-                      placeholder="Select..."
-                      style={{ width: "100%", height: "40px" }}
-                      onChange={(value) =>
-                        handleSelectModalTwoValue("location", value)
-                      }
-                      options={[
-                        { value: "new jersey", label: "New Jersey" },
-                        { value: "new york", label: "New York" },
-                        { value: "pennsylvania", label: "Pennsylvania" },
-                        { value: "washington, d.c", label: "Washington, D.C" },
-                      ]}
-                    />
-                  </div>
-
+                <Form form={categorieForm} onFinish={onFinishCategorie}>
                   <div>
-                    <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                      Town
-                    </p>
-                    <Select
-                      showSearch
-                      placeholder="Select..."
-                      style={{ width: "100%", height: "40px" }}
-                      onChange={(value) =>
-                        handleSelectModalTwoValue("language", value)
-                      }
-                      options={[
-                        { label: "English", value: "english" },
-                        { label: "Spanish", value: "spanish" },
-                        { label: "German", value: "german" },
-                        { label: "Russian", value: "russian" },
-                      ]}
-                    />
+                    <svg
+                      className="mb-4"
+                      width="90%"
+                      height="40"
+                      viewBox="0 0 528 40"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="20"
+                        cy="20"
+                        r="15"
+                        stroke="#1B69AD"
+                        strokeWidth="2"
+                      />
+                      <circle cx="20" cy="20" r="5" fill="#1B69AD" />
+                      <rect
+                        x="36"
+                        y="19"
+                        width="456"
+                        height="2"
+                        fill="#B6B6BA"
+                      />
+                      <circle
+                        cx="508"
+                        cy="20"
+                        r="15"
+                        stroke="#B6B6BA"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                    <hr />
+
+                    <div className="pt-4">
+                      <Title
+                        level={4}
+                        className="text-[14px] font-roboto font-bold text-[#001018]"
+                      >
+                        Location
+                      </Title>
+                    </div>
+
+                    <div className="pb-4">
+                      <p className="text-[14px] font-roboto font-bold text-[#001018]">
+                        Select your location
+                      </p>
+                      <Form.Item
+                        name="location"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please select your location!",
+                          },
+                        ]}
+                      >
+                        <Select
+                          showSearch
+                          placeholder="Select..."
+                          style={{ width: "100%", height: "40px" }}
+                          options={[
+                            { value: "new jersey", label: "New Jersey" },
+                            { value: "new york", label: "New York" },
+                            { value: "pennsylvania", label: "Pennsylvania" },
+                            {
+                              value: "washington, d.c",
+                              label: "Washington, D.C",
+                            },
+                          ]}
+                        />
+                      </Form.Item>
+                    </div>
+
+                    <div>
+                      <p className="text-[14px] font-roboto font-bold text-[#001018]">
+                        City/Town
+                      </p>
+                      <Form.Item
+                        name="city"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please Enter city or town!",
+                          },
+                        ]}
+                      >
+                        <Input
+                          placeholder="Enter city or town"
+                          style={{ width: "100%", height: "40px" }}
+                        />
+                      </Form.Item>
+                    </div>
                   </div>
-                </div>
+                </Form>
               </Modal>
             </div>
           </div>
