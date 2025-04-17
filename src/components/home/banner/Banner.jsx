@@ -13,6 +13,7 @@ import { MdOutlinePlayCircleFilled } from "react-icons/md";
 import { useForm } from "antd/es/form/Form";
 
 const Banner = () => {
+  const [FindLawyerForm] = Form.useForm();
   const [categorieForm] = Form.useForm();
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
@@ -101,20 +102,11 @@ const Banner = () => {
   // ===== user modal two start ===============
   useEffect(() => {}, [selectedOptions]);
 
-  // Select Value Change Function
-  const handleSelectModalTwoValue = (type, value) => {
-    if (type === "location") {
-      setSelectedLocation(value);
-    } else if (type === "language") {
-      setSelectedLanguage(value);
-    }
-  };
-
-  const handleOkTwo = async () => {
+  const onFinishFindLawyer = async (values) => {
     const findLawyerInfo = {
       service_ids: modalOneValue,
-      state: selectedLocation,
-      language: selectedLanguage,
+      state: values.location,
+      city: values.city,
     };
 
     try {
@@ -122,7 +114,7 @@ const Banner = () => {
         params: {
           service_ids: JSON.stringify(findLawyerInfo.service_ids),
           state: findLawyerInfo.state,
-          language: findLawyerInfo.language,
+          city: findLawyerInfo.city,
         },
         headers: {
           // Move headers inside the same object
@@ -140,10 +132,13 @@ const Banner = () => {
         navigate("/attorney-tm");
       }
     } catch (error) {
-      navigate("/attorney-tm");
-    } finally {
       setIsModalOpenTwo(false);
+      FindLawyerForm.resetFields("");
+      navigate("/attorney-tm");
     }
+  };
+  const handleOkTwo = async () => {
+    FindLawyerForm.submit();
   };
 
   const handleCancelTwo = () => {
@@ -176,22 +171,14 @@ const Banner = () => {
         });
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message);
       setCategorieModalOpen(false);
       categorieForm.resetFields("");
+      navigate("/attorney-tm");
     }
   };
 
   const showModalCategorie = () => {
     setCategorieModalOpen(true);
-  };
-
-  // categorie select value
-  const handleSeleCtcategorieValue = (key, value) => {
-    setCategorieSelecteValue((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
   };
 
   const handleCategorieOk = async () => {
@@ -464,7 +451,7 @@ const Banner = () => {
                 >
                   Back
                 </button>
-                <button
+                {/* <button
                   className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] 
                                     ${
                                       selectedLocation && selectedLanguage
@@ -476,86 +463,107 @@ const Banner = () => {
                   disabled={!selectedLocation || !selectedLanguage}
                 >
                   Continue
-                </button>
+                </button> */}
+                <Button
+                  className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
+                  htmlType="submit"
+                  onClick={handleOkTwo}
+                  style={{ backgroundColor: "#1b69ad", color: "white" }}
+                >
+                  Continue
+                </Button>
               </div>
             }
           >
-            <div>
-              <svg
-                width="90%"
-                height="40"
-                viewBox="0 0 528 40"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="20" cy="20" r="16" fill="#1B69AD" />
-                <path
-                  d="M14.167 20.832L17.5003 24.1654L25.8337 15.832"
-                  stroke="white"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
-                <circle
-                  cx="508"
-                  cy="20"
-                  r="15"
-                  stroke="#1B69AD"
-                  stroke-width="2"
-                />
-                <circle cx="508" cy="20" r="5" fill="#1B69AD" />
-              </svg>
-
-              <div className="pt-4">
-                <Title
-                  level={4}
-                  className="text-[14px] font-roboto font-bold text-[#001018]"
-                >
-                  Location
-                </Title>
-              </div>
-
-              <div className="pb-4">
-                <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                  Select your location
-                </p>
-                <Select
-                  showSearch
-                  placeholder="Select..."
-                  style={{ width: "100%", height: "40px" }}
-                  onChange={(value) =>
-                    handleSelectModalTwoValue("location", value)
-                  }
-                  options={[
-                    { value: "new jersey", label: " New Jersey" },
-                    { value: "new york", label: "New York" },
-                    { value: "pennsylvania", label: "Pennsylvania" },
-                    { value: "washington, d.c", label: "Washington, D.C" },
-                  ]}
-                />
-              </div>
-
+            <Form form={FindLawyerForm} onFinish={onFinishFindLawyer}>
               <div>
-                <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                  City/Town
-                </p>
-                <Select
-                  showSearch
-                  placeholder="Select..."
-                  style={{ width: "100%", height: "40px" }}
-                  onChange={(value) =>
-                    handleSelectModalTwoValue("language", value)
-                  }
-                  options={[
-                    { label: "English", value: "english" },
-                    { label: "Spanish", value: "spanish" },
-                    { label: "German", value: "german" },
-                    { label: "Russian", value: "russian" },
-                  ]}
-                />
+                <svg
+                  width="90%"
+                  height="40"
+                  viewBox="0 0 528 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="20" cy="20" r="16" fill="#1B69AD" />
+                  <path
+                    d="M14.167 20.832L17.5003 24.1654L25.8337 15.832"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <rect x="36" y="19" width="456" height="2" fill="#1B69AD" />
+                  <circle
+                    cx="508"
+                    cy="20"
+                    r="15"
+                    stroke="#1B69AD"
+                    stroke-width="2"
+                  />
+                  <circle cx="508" cy="20" r="5" fill="#1B69AD" />
+                </svg>
+                <hr />
+
+                <div className="pt-4">
+                  <Title
+                    level={4}
+                    className="text-[14px] font-roboto font-bold text-[#001018]"
+                  >
+                    Location
+                  </Title>
+                </div>
+
+                <div className="pb-4">
+                  <p className="text-[14px] font-roboto font-bold text-[#001018]">
+                    Select your location
+                  </p>
+                  <Form.Item
+                    name="location"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please select location!",
+                      },
+                    ]}
+                  >
+                    <Select
+                      showSearch
+                      placeholder="Select..."
+                      style={{ width: "100%", height: "40px" }}
+                      options={[
+                        { value: "new jersey", label: "New Jersey" },
+                        { value: "new york", label: "New York" },
+                        { value: "pennsylvania", label: "Pennsylvania" },
+                        {
+                          value: "washington, d.c",
+                          label: "Washington, D.C",
+                        },
+                      ]}
+                    />
+                  </Form.Item>
+                </div>
+
+                <div>
+                  <p className="text-[14px] font-roboto font-bold text-[#001018]">
+                    City/Town
+                  </p>
+                  <Form.Item
+                    name="city"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please Enter city or town!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      placeholder="Enter city or town"
+                      style={{ width: "100%", height: "40px" }}
+                    />
+                  </Form.Item>
+                </div>
               </div>
-            </div>
+            </Form>
           </Modal>
         </div>
       </div>
@@ -695,7 +703,7 @@ const Banner = () => {
                         rules={[
                           {
                             required: true,
-                            message: "Please select your location!",
+                            message: "Please select location!",
                           },
                         ]}
                       >
