@@ -1,4 +1,8 @@
-import { DeleteOutlined, EditOutlined, UploadOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import { Button, Form, Input, Table, Modal, Pagination, message } from "antd";
 import Upload from "antd/es/upload/Upload";
 import { useEffect, useState } from "react";
@@ -17,10 +21,7 @@ const AddCategories = () => {
   const [totalCategories, setTotalCategories] = useState(0);
   const perPage = 4;
 
-
   const token = Cookies.get("adminToken");
-
-
 
   const columns = [
     {
@@ -33,10 +34,27 @@ const AddCategories = () => {
           alt="Category"
           className="w-12 h-12 object-cover rounded-md max-w-full max-h-full"
         />
-      ), responsive: ["xs", "sm", "md", "lg", "xl"],
+      ),
+      responsive: ["xs", "sm", "md", "lg", "xl"],
     },
-    { key: "2", title: "Name", dataIndex: "name", responsive: ["xs", "sm", "md", "lg", "xl"] },
-    { key: "2", title: "Description", dataIndex: "description", responsive: ["xs", "sm", "md", "lg", "xl"] },
+    {
+      key: "2",
+      title: "Name",
+      dataIndex: "name",
+      responsive: ["xs", "sm", "md", "lg", "xl"],
+      render: (name) => (
+        <span>{name.length > 20 ? `${name.slice(0, 20)}...` : name}</span>
+      ),
+    },
+    {
+      key: "2",
+      title: "Description",
+      dataIndex: "description",
+      responsive: ["xs", "sm", "md", "lg", "xl"],
+      render: (text) => (
+        <span>{text.length > 20 ? `${text.slice(0, 20)}...` : text}</span>
+      ),
+    },
     {
       key: "4",
       title: "Action",
@@ -60,22 +78,27 @@ const AddCategories = () => {
   const handleDeleteCategorie = async () => {
     if (selectedRecord) {
       try {
-        const response = await axiosPublic.delete(`/admin/delete-category/${selectedRecord.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-          },
-        });
+        const response = await axiosPublic.delete(
+          `/admin/delete-category/${selectedRecord.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          }
+        );
 
         if (response.data.success) {
-          toast.success('Category deleted successfully!');
-          setCategorieData((prev) => prev.filter((item) => item.id !== selectedRecord.id));
+          toast.success("Category deleted successfully!");
+          setCategorieData((prev) =>
+            prev.filter((item) => item.id !== selectedRecord.id)
+          );
           setTotalCategories((prev) => prev - 1);
         } else {
           toast.error("Failed to delete category.");
         }
       } catch (error) {
-        toast.error('Error deleting category. Please try again.');
+        toast.error("Error deleting category. Please try again.");
       }
 
       setIsModalVisible(false);
@@ -95,8 +118,6 @@ const AddCategories = () => {
     setFileList(fileList);
   };
 
-
-
   // post request
   const handleCategorie = async (values) => {
     const formData = new FormData();
@@ -109,14 +130,17 @@ const AddCategories = () => {
     formData.append("description", values.description);
 
     try {
-      const response = await axiosPublic.post("/admin/store-category", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      });
-
+      const response = await axiosPublic.post(
+        "/admin/store-category",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        }
+      );
 
       if (response.data.success) {
         toast.success(response.data.message);
@@ -134,17 +158,13 @@ const AddCategories = () => {
         form.resetFields();
         setFileList([]);
       } else {
-        toast.error('Category upload failed.');
+        toast.error("Category upload failed.");
       }
     } catch (error) {
-      toast.error('Please upload an png or svg image!');
+      toast.error("Please upload an png or svg image!");
     }
   };
 
-
-
-
-  
   // get request
   useEffect(() => {
     axiosPublic
@@ -161,9 +181,7 @@ const AddCategories = () => {
       .catch((error) => {
         console.error("Error fetching categories:", error);
       });
-  }, [token, currentPage,fileList]);
-
-
+  }, [token, currentPage, fileList]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -172,8 +190,12 @@ const AddCategories = () => {
   return (
     <div className="bg-white p-4 rounded-lg max-w-full">
       <div>
-        <h1 className="font-roboto text-[20px] md:text-[40px] font-bold text-[#10101E]">Add Categories</h1>
-        <p className="fontro text-[#B6B6BA] text-[12px] pb-3">Admin can add categories</p>
+        <h1 className="font-roboto text-[20px] md:text-[40px] font-bold text-[#10101E]">
+          Add Categories
+        </h1>
+        <p className="fontro text-[#B6B6BA] text-[12px] pb-3">
+          Admin can add categories
+        </p>
       </div>
 
       {/* Form */}
@@ -185,7 +207,12 @@ const AddCategories = () => {
               name="upload"
               valuePropName="fileList"
               getValueFromEvent={(e) => e?.fileList || []}
-              rules={[{ required: true, message: "Please upload an png or svg image!" }]}
+              rules={[
+                {
+                  required: true,
+                  message: "Please upload an png or svg image!",
+                },
+              ]}
             >
               <Upload
                 listType="picture-card"
@@ -205,20 +232,32 @@ const AddCategories = () => {
 
           {/* Category Name */}
           <div className="pt-4">
-            <p className="font-roboto text-[#41414D] text-[14px]">Category Name</p>
+            <p className="font-roboto text-[#41414D] text-[14px]">
+              Category Name
+            </p>
             <Form.Item
               name="name"
-              rules={[{ required: true, message: "Please enter your category name" }]}
+              rules={[
+                { required: true, message: "Please enter your category name" },
+              ]}
             >
-              <Input type="text" placeholder="Enter title" className="border border-[#b6b6ba83] px-3 py-2 w-full" />
+              <Input
+                type="text"
+                placeholder="Enter title"
+                className="border border-[#b6b6ba83] px-3 py-2 w-full"
+              />
             </Form.Item>
           </div>
 
           <div className="pt-4">
-            <p className="font-roboto text-[#41414D] text-[14px]">Description</p>
+            <p className="font-roboto text-[#41414D] text-[14px]">
+              Description
+            </p>
             <Form.Item
               name="description"
-              rules={[{ required: true, message: "Please enter your description" }]}
+              rules={[
+                { required: true, message: "Please enter your description" },
+              ]}
             >
               <Input.TextArea
                 rows={4}
@@ -231,7 +270,14 @@ const AddCategories = () => {
           <Button
             htmlType="submit"
             block
-            style={{ backgroundColor: "#1E73BE", color: "white", fontFamily: "Roboto", padding: "24px", fontSize: "16px", fontWeight: "bold" }}
+            style={{
+              backgroundColor: "#1E73BE",
+              color: "white",
+              fontFamily: "Roboto",
+              padding: "24px",
+              fontSize: "16px",
+              fontWeight: "bold",
+            }}
           >
             Add
           </Button>
@@ -239,7 +285,9 @@ const AddCategories = () => {
       </div>
 
       {/* Preview Section */}
-      <h1 className="font-roboto text-[20px] md:text-3xl font-bold text-[#10101E] pt-6">Preview Update Content: </h1>
+      <h1 className="font-roboto text-[20px] md:text-3xl font-bold text-[#10101E] pt-6">
+        Preview Update Content:{" "}
+      </h1>
 
       <div className="overflow-x-auto pt-3">
         <Table
@@ -277,11 +325,12 @@ const AddCategories = () => {
         okText="Delete"
         cancelText="Cancel"
       >
-        <p className="text-lg text-gray-800">Are you sure you want to delete this category?</p>
+        <p className="text-lg text-gray-800">
+          Are you sure you want to delete this category?
+        </p>
       </Modal>
     </div>
   );
 };
 
 export default AddCategories;
-

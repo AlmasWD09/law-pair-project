@@ -5,7 +5,7 @@ const FindAttorney = () => {
         <div className="flex flex-col lg:flex-row justify-between items-center">
           {/* content */}
           <div className="flex flex-col">
-            <h1 className="font-roboto font-bold text-[32px] md:text-[48px]  max-w-[606px]">
+            <h1 className="font-poppins font-bold text-[32px] md:text-[48px]  max-w-[606px]">
               Finding a lawyer, made easy.
             </h1>
 

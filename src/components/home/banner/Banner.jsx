@@ -579,19 +579,14 @@ const Banner = () => {
               Finding the right legal support has never been easier. Select up
               to 3 practice areas to find your LawPair Suggested attorney today
             </p>
-            {/* <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px] leading-[35px]">
-              Finding the right legal support has never been easier. Select up
-              to 3 practice areas to find your LawPair Suggested <sup>(TM)</sup>{" "}
-              attorney today
-            </p> */}
           </div>
-          <div className="flex justify-center items-center ">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-x-4 lg:gap-x-16 gap-y-6">
+          <div className="flex justify-center items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-6">
               {categorieData.slice(0, 9).map((item, index) => {
                 return (
                   <div
                     key={index}
-                    className="relative cursor-pointer bg-[#E7E7E9] min-w-[280px] md:min-w-[300px] lg:min-w-[502px] min-h-[150px] md:min-h-[180px] lg:min-h-[244px] flex flex-col justify-center items-center p-3 rounded-[24px] border border-[#B6B6BA]"
+                    className="relative cursor-pointer bg-[#E7E7E9] h-full w-full flex flex-col justify-center p-3 rounded-[24px] border border-[#B6B6BA]"
                     onClick={() => (
                       handleCateogrie(item.id), showModalCategorie()
                     )}
@@ -600,12 +595,19 @@ const Banner = () => {
                       <img
                         src={item.image_icon}
                         alt="default image"
-                        className="pb-[8px] transition-opacity duration-300 ease-in-out"
+                        className="pb-[8px] transition-opacity duration-300 ease-in-out h-[50px] aspect-square"
                       />
-                      <h4 className="text-[18px] font-semibold md:font-bold font-roboto">
-                        {item.name}
+                      <h4 className="text-[18px] font-semibold md:font-bold font-roboto line-clamp-3 break-words">
+                        {item.name.length > 30
+                          ? `${item.name.slice(0, 30)}...`
+                          : item.name}
                       </h4>
-                      <p>{item.description}</p>
+
+                      <p className="line-clamp-3 break-words">
+                        {item.description?.length > 143
+                          ? `${item.description.slice(0, 143)}...`
+                          : item.description}
+                      </p>
                     </div>
                   </div>
                 );

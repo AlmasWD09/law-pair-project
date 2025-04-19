@@ -12,6 +12,7 @@ export default {
       fontFamily: {
         'roboto': ["Roboto", "serif"],
         'crimson': ["Crimson Pro", "serif"],
+        'poppins': ["Poppins", "serif"],
       },
     },
   },
