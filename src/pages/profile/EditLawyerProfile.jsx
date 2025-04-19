@@ -134,11 +134,12 @@ const EditLawyerProfile = () => {
 
   // Handle select change
   const handleSelect = (value) => {
-    if (value.length <= 3) {
-      setSelectedOptions(value); // update selected values if it's 3 or fewer
-    } else {
-      toast.error("You can select a maximum of 3 options");
-    }
+    // if (value.length <= 3) {
+    //   setSelectedOptions(value); // update selected values if it's 3 or fewer
+    // } else {
+    //   toast.error("You can select a maximum of 3 options");
+    // }
+    setSelectedOptions(value);
   };
 
   // lawyer all value get
