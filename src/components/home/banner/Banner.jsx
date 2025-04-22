@@ -106,7 +106,7 @@ const Banner = () => {
     const findLawyerInfo = {
       service_ids: modalOneValue,
       state: values.location,
-      city: values.city,
+      // city: values.city, remove this line
     };
 
     try {
@@ -114,7 +114,7 @@ const Banner = () => {
         params: {
           service_ids: JSON.stringify(findLawyerInfo.service_ids),
           state: findLawyerInfo.state,
-          city: findLawyerInfo.city,
+          // city: findLawyerInfo.city, remove this line
         },
         headers: {
           // Move headers inside the same object
@@ -153,7 +153,7 @@ const Banner = () => {
     const findLawyerInfo = {
       service_ids: [categorieName],
       state: values.location,
-      city: values.city,
+      // city: values.city, remove this line
     };
 
     try {
@@ -161,10 +161,9 @@ const Banner = () => {
         params: {
           service_ids: JSON.stringify(findLawyerInfo.service_ids), // Ensure it's a JSON array
           state: findLawyerInfo.state,
-          city: findLawyerInfo.city,
+          // city: findLawyerInfo.city, remove this line
         },
       });
-      console.log(response.data);
       if (response.data.success) {
         navigate("/attorney-tm", {
           state: { lawyers: response.data?.lawyers?.data },
@@ -451,19 +450,6 @@ const Banner = () => {
                 >
                   Back
                 </button>
-                {/* <button
-                  className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] 
-                                    ${
-                                      selectedLocation && selectedLanguage
-                                        ? "bg-[#1b69ad] text-white"
-                                        : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                    }
-                                    rounded-[5px] text-[16px] font-bold`}
-                  onClick={handleOkTwo}
-                  disabled={!selectedLocation || !selectedLanguage}
-                >
-                  Continue
-                </button> */}
                 <Button
                   className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
                   htmlType="submit"
@@ -543,6 +529,8 @@ const Banner = () => {
                   </Form.Item>
                 </div>
 
+                {/* remove this component */}
+                {/* 
                 <div>
                   <p className="text-[14px] font-roboto font-bold text-[#001018]">
                     City/Town
@@ -561,7 +549,7 @@ const Banner = () => {
                       style={{ width: "100%", height: "40px" }}
                     />
                   </Form.Item>
-                </div>
+                </div> */}
               </div>
             </Form>
           </Modal>
@@ -627,20 +615,6 @@ const Banner = () => {
                     >
                       Back
                     </button>
-                    {/* <button
-                      className={`font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] 
-                                            ${
-                                              selectedLocation &&
-                                              selectedLanguage
-                                                ? "bg-[#1b69ad] text-white"
-                                                : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                            }
-                                            rounded-[5px] text-[16px] font-bold`}
-                      onClick={handleOkTwo}
-                      disabled={!selectedLocation || !selectedLanguage}
-                    >
-                      Continue
-                    </button> */}
                     <Button
                       className="font-roboto w-[40%] h-[40px] md:w-[161px] md:h-[64px] bg-[#1b69ad] text-white rounded-[5px] text-[16px] font-bold"
                       htmlType="submit"
@@ -726,7 +700,8 @@ const Banner = () => {
                       </Form.Item>
                     </div>
 
-                    <div>
+                    {/* remove this component */}
+                    {/* <div>
                       <p className="text-[14px] font-roboto font-bold text-[#001018]">
                         City/Town
                       </p>
@@ -744,7 +719,7 @@ const Banner = () => {
                           style={{ width: "100%", height: "40px" }}
                         />
                       </Form.Item>
-                    </div>
+                    </div> */}
                   </div>
                 </Form>
               </Modal>
