@@ -413,7 +413,7 @@ const FindAttorney = () => {
 
           {/* image */}
           <div>
-            <img src="/FindAttonery/group01.png" alt="group image" />
+            <img src="/FindAttonery/group02.png" alt="group image" />
           </div>
         </div>
       </div>
