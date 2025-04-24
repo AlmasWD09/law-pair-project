@@ -9,19 +9,17 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import toast from "react-hot-toast";
-// import useCategorieData from "../../../hooks/useCategorieData";
+
 
 const AddCategories = () => {
-  // const [updateCategorieId, setUpdateCategorieId] = useState(null);
-  // const {singleCategorieData} = useCategorieData(updateCategorieId);
-
-  
+  const [updateCategorieId, setUpdateCategorieId] = useState(null);
   const axiosPublic = useAxiosPublic();
   const [form] = Form.useForm();
   const [updateForm] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [updatModalOpen, setUpdateModalOpen] = useState(false)
   const [selectedRecord, setSelectedRecord] = useState(null);
+  const [updateData, setUpdateData] = useState({})
 
   const [fileList, setFileList] = useState([]);
   const [categorieData, setCategorieData] = useState([]);
@@ -31,10 +29,25 @@ const AddCategories = () => {
 
 
 
-
-
-
   const token = Cookies.get("adminToken");
+
+
+  // single categorie data get
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axiosPublic.get(`/admin/categories/${updateCategorieId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Accept": "application/json"
+          // ✅ Send token in Authorization header
+        }
+      })
+      setUpdateData(res.data?.category)
+    }
+    fetchData()
+  }, [updateCategorieId])
+
+
 
   const columns = [
     {
@@ -77,9 +90,9 @@ const AddCategories = () => {
           <Button type="primary" danger onClick={() => showDeleteModal(record)}>
             <DeleteOutlined />
           </Button>
-          {/* <Button type="primary" onClick={() => showUpdateModal(record)}>
+          <Button type="primary" onClick={() => showUpdateModal(record)} className="hidden">
             <EditOutlined />
-          </Button> */}
+          </Button>
         </div>
       ),
     },
@@ -91,21 +104,21 @@ const AddCategories = () => {
   };
 
   // update modal 
-  // const categorieUpdateForm = (values) => {
-  //   console.log(updateCategorieId)
-  //  console.log(values)
-  // }
-  // const showUpdateModal = (record) => {
-  //   setUpdateCategorieId(record?.id)
-  //   setUpdateModalOpen(true)
-  // }
+  const categorieUpdateForm = (values) => {
+    console.log(updateCategorieId)
+    console.log(values)
+  }
+  const showUpdateModal = (record) => {
+    setUpdateCategorieId(record?.id)
+    setUpdateModalOpen(true)
+  }
 
-  // const handleOkUpdateModal = () => {
-  //   updateForm.submit()
-  // }
-  // const handleCancelUpdateModal = () => {
-  //   setUpdateModalOpen(false)
-  // }
+  const handleOkUpdateModal = () => {
+    updateForm.submit()
+  }
+  const handleCancelUpdateModal = () => {
+    setUpdateModalOpen(false)
+  }
 
   // delete request
   const handleDeleteCategorie = async () => {
@@ -362,7 +375,7 @@ const AddCategories = () => {
       </Modal>
 
       {/* update Modal */}
-      {/* <Modal
+      <Modal
         open={updatModalOpen}
         onOk={handleOkUpdateModal}
         onCancel={handleCancelUpdateModal}
@@ -439,7 +452,7 @@ const AddCategories = () => {
             </div>
           </Form>
         </div>
-      </Modal> */}
+      </Modal>
     </div>
   );
 };
