@@ -9,17 +9,30 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import toast from "react-hot-toast";
+// import useCategorieData from "../../../hooks/useCategorieData";
 
 const AddCategories = () => {
+  // const [updateCategorieId, setUpdateCategorieId] = useState(null);
+  // const {singleCategorieData} = useCategorieData(updateCategorieId);
+
+  
   const axiosPublic = useAxiosPublic();
   const [form] = Form.useForm();
+  const [updateForm] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [updatModalOpen, setUpdateModalOpen] = useState(false)
   const [selectedRecord, setSelectedRecord] = useState(null);
+
   const [fileList, setFileList] = useState([]);
   const [categorieData, setCategorieData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCategories, setTotalCategories] = useState(0);
   const perPage = 4;
+
+
+
+
+
 
   const token = Cookies.get("adminToken");
 
@@ -64,6 +77,9 @@ const AddCategories = () => {
           <Button type="primary" danger onClick={() => showDeleteModal(record)}>
             <DeleteOutlined />
           </Button>
+          {/* <Button type="primary" onClick={() => showUpdateModal(record)}>
+            <EditOutlined />
+          </Button> */}
         </div>
       ),
     },
@@ -73,6 +89,23 @@ const AddCategories = () => {
     setSelectedRecord(record);
     setIsModalVisible(true);
   };
+
+  // update modal 
+  // const categorieUpdateForm = (values) => {
+  //   console.log(updateCategorieId)
+  //  console.log(values)
+  // }
+  // const showUpdateModal = (record) => {
+  //   setUpdateCategorieId(record?.id)
+  //   setUpdateModalOpen(true)
+  // }
+
+  // const handleOkUpdateModal = () => {
+  //   updateForm.submit()
+  // }
+  // const handleCancelUpdateModal = () => {
+  //   setUpdateModalOpen(false)
+  // }
 
   // delete request
   const handleDeleteCategorie = async () => {
@@ -182,6 +215,12 @@ const AddCategories = () => {
         console.error("Error fetching categories:", error);
       });
   }, [token, currentPage, fileList]);
+
+
+
+
+
+
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -296,14 +335,6 @@ const AddCategories = () => {
           pagination={false}
           className="w-full"
         />
-        {/* <Pagination
-          current={currentPage}
-          pageSize={perPage}
-          total={totalCategories}
-          onChange={(page) => setCurrentPage(page)}
-          align="end"
-          className="mt-4"
-        /> */}
 
         <Pagination
           current={currentPage}
@@ -329,6 +360,86 @@ const AddCategories = () => {
           Are you sure you want to delete this category?
         </p>
       </Modal>
+
+      {/* update Modal */}
+      {/* <Modal
+        open={updatModalOpen}
+        onOk={handleOkUpdateModal}
+        onCancel={handleCancelUpdateModal}
+        footer={
+          <div className="font-roboto  pt-[24px]">
+            <Button
+              className=""
+              htmlType="submit"
+              onClick={handleOkUpdateModal}
+              style={{ backgroundColor: "#1b69ad", color: "white", padding: "25px" }}
+            >
+              Update Categorie
+            </Button>
+          </div>
+        }
+      >
+        <div className="pt-20">
+          <Form form={updateForm} onFinish={categorieUpdateForm}>
+            <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 pt-5">
+              <Form.Item
+                name="upload"
+                valuePropName="fileList"
+                getValueFromEvent={(e) => e?.fileList || []}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please upload an png or svg image!",
+                  },
+                ]}
+              >
+                <Upload
+                  listType="picture-card"
+                  beforeUpload={() => false}
+                  onChange={handleUpload}
+                  fileList={fileList}
+                >
+                  {fileList.length >= 1 ? null : (
+                    <div style={{ textAlign: "center" }}>
+                      <UploadOutlined style={{ fontSize: 24 }} />
+                      <div>Upload photo</div>
+                    </div>
+                  )}
+                </Upload>
+              </Form.Item>
+            </div>
+
+            <div className="pt-6">
+              <Form.Item
+                name="name"
+                rules={[
+                  { required: true, message: "Please enter your category name" },
+                ]}
+              >
+                <Input
+                  type="Updatetext"
+                  placeholder="Enter title"
+                  className="border border-[#b6b6ba83] px-3 py-2 w-full"
+                />
+              </Form.Item>
+            </div>
+            <div>
+              <Form.Item
+                name="description"
+                rules={[
+                  { required: true, message: "Please enter your description" },
+                ]}
+              >
+                <Input.TextArea
+                  rows={4}
+                  placeholder="Enter description"
+                  style={{ border: "1px solid #B6B6BA", padding: "10px" }}
+                />
+              </Form.Item>
+            </div>
+          </Form>
+        </div>
+      </Modal> */}
     </div>
   );
 };
