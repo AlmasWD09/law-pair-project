@@ -563,7 +563,7 @@ const Banner = () => {
             <h1 className="text-primary font-roboto font-bold text-[24px] md:text-[32px] textpri">
               Find the Legal Help You Need
             </h1>
-            <p className="text-[#60606A] font-roboto font-normal text-[20px] md:text-[24px] pt-[12px] leading-[35px]">
+            <p className="text-[#60606A] font-poppins font-normal text-[20px] md:text-[24px] pt-[12px] leading-[35px]">
               Finding the right legal support has never been easier. Select up
               to 3 practice areas to find your LawPair Suggested attorney today
             </p>
