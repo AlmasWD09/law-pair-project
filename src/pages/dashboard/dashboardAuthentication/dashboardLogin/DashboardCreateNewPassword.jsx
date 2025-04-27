@@ -31,7 +31,7 @@ const DashboardCreateNewPassword = () => {
         navigate('/admin/dashboard/congratulation')
         form.resetFields();
       } else {
-        toast.error('Failed!! please try again')
+        toast.error('Failed. please try again')
       }
     }
     catch (error) {
@@ -56,8 +56,8 @@ const DashboardCreateNewPassword = () => {
           <div>
             <p className="font-roboto">New Password</p>
             <Form.Item name="password" rules={[
-              { required: true, message: "Please input your password!" },
-              { min: 8, message: "Password must be at least 8 characters!" }
+              { required: true, message: "Please input your password" },
+              { min: 8, message: "Password must be at least 8 characters" }
             ]}
               hasFeedback
             >
@@ -70,11 +70,11 @@ const DashboardCreateNewPassword = () => {
             <Form.Item name="password_confirmation"
               dependencies={["password"]}
               rules={[
-                { required: true, message: "Please input your confirm password!" },
+                { required: true, message: "Please input your confirm password" },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
                     if (value.length < 8) {
-                      return Promise.reject(new Error("Password must be at least 8 characters!"));
+                      return Promise.reject(new Error("Password must be at least 8 characters"));
                     }
                     if (getFieldValue("password") !== value) {
                       return Promise.reject(new Error("Password does not match"));

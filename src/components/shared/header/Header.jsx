@@ -22,14 +22,6 @@ const Header = () => {
   const lawyerToken = Cookies.get("lawyerToken");
   const userToken = Cookies.get("userToken");
 
-  // if (lawyerToken) {
-  //     console.log('lawyerToken')
-  // } else if (userToken) {
-  //     console.log('userToken')
-  // } else {
-  //     console.log('not logged in')
-  // }
-
   const handleNavigate = () => {
     navigate("/");
   };
@@ -50,7 +42,7 @@ const Header = () => {
 
   const handleSearch = async () => {
     if (!searchValue.trim()) {
-      return alert("Please enter a search term!");
+      return alert("Please enter a search term");
     }
 
     try {

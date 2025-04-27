@@ -7,7 +7,6 @@ const SearchAttorney = () => {
   const location = useLocation();
   const searchResults = location.state?.searchResults;
 
-  console.log(searchResults);
 
   return (
     <AccountCreate>

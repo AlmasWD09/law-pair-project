@@ -213,7 +213,7 @@ const Sidebar = () => {
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#DD6B55",
-      confirmButtonText: "Yes, Logout!",
+      confirmButtonText: "Yes, Logout",
     });
 
     if (result.isConfirmed) {
@@ -228,7 +228,7 @@ const Sidebar = () => {
         if (response.data.success) {
           Cookies.remove("adminToken");
           navigate("/admin/dashboard/login");
-          Swal.fire("Deleted!", "Sucessfully Deleted Your Account.", "success");
+          Swal.fire("Deleted", "Sucessfully Deleted Your Account.", "success");
         }
       } catch (error) {
         toast.error(error.message, "Logged out Failed");

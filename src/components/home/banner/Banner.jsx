@@ -508,7 +508,7 @@ const Banner = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Please select location!",
+                        message: "Please select location",
                       },
                     ]}
                   >
@@ -528,28 +528,6 @@ const Banner = () => {
                     />
                   </Form.Item>
                 </div>
-
-                {/* remove this component */}
-                {/* 
-                <div>
-                  <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                    City/Town
-                  </p>
-                  <Form.Item
-                    name="city"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please Enter city or town!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      placeholder="Enter city or town"
-                      style={{ width: "100%", height: "40px" }}
-                    />
-                  </Form.Item>
-                </div> */}
               </div>
             </Form>
           </Modal>
@@ -679,7 +657,7 @@ const Banner = () => {
                         rules={[
                           {
                             required: true,
-                            message: "Please select location!",
+                            message: "Please select location",
                           },
                         ]}
                       >
@@ -699,27 +677,6 @@ const Banner = () => {
                         />
                       </Form.Item>
                     </div>
-
-                    {/* remove this component */}
-                    {/* <div>
-                      <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                        City/Town
-                      </p>
-                      <Form.Item
-                        name="city"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please Enter city or town!",
-                          },
-                        ]}
-                      >
-                        <Input
-                          placeholder="Enter city or town"
-                          style={{ width: "100%", height: "40px" }}
-                        />
-                      </Form.Item>
-                    </div> */}
                   </div>
                 </Form>
               </Modal>

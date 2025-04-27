@@ -46,7 +46,7 @@ const Login = () => {
         toast.error("login failed");
       }
     } catch (error) {
-      toast.error("Login Error. plz try again!");
+      toast.error("Login Error. plz try again");
     }
 
     clientForm.resetFields();
@@ -76,7 +76,7 @@ const Login = () => {
         toast.error("login failed");
       }
     } catch (error) {
-      toast.error("Login Error. plz try again!");
+      toast.error("Login Error. plz try again");
     }
     attorneyForm.resetFields();
   };
@@ -100,8 +100,8 @@ const Login = () => {
             <Form.Item
               name="email"
               rules={[
-                { required: true, message: "Please enter your email!" },
-                { type: "email", message: "Invalid email address!" },
+                { required: true, message: "Please enter your email" },
+                { type: "email", message: "Invalid email address" },
               ]}
             >
               <Input
@@ -119,7 +119,7 @@ const Login = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your password!",
+                  message: "Please input your password",
                 },
               ]}
             >
@@ -171,8 +171,8 @@ const Login = () => {
             <Form.Item
               name="email"
               rules={[
-                { required: true, message: "Please enter your email!" },
-                { type: "email", message: "Invalid email address!" },
+                { required: true, message: "Please enter your email" },
+                { type: "email", message: "Invalid email address" },
               ]}
             >
               <Input
@@ -190,7 +190,7 @@ const Login = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your password!",
+                  message: "Please input your password",
                 },
               ]}
             >

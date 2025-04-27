@@ -46,7 +46,7 @@ const CreateAccount = () => {
         toast.error(res.data.message);
       }
     } catch (error) {
-      toast.error("Something is wrong! plz try again");
+      toast.error("Something is wrong. plz try again");
     }
   };
 
@@ -77,7 +77,7 @@ const CreateAccount = () => {
         toast.error(res.data.message);
       }
     } catch (error) {
-      toast.error("Something is wrong! plz try again");
+      toast.error("Something is wrong plz try again");
     }
   };
 
@@ -128,8 +128,8 @@ const CreateAccount = () => {
               <Form.Item
                 name="email"
                 rules={[
-                  { required: true, message: "Please enter your email!" },
-                  { type: "email", message: "Invalid email address!" },
+                  { required: true, message: "Please enter your email" },
+                  { type: "email", message: "Invalid email address" },
                 ]}
               >
                 <Input
@@ -160,10 +160,10 @@ const CreateAccount = () => {
               <Form.Item
                 name="password"
                 rules={[
-                  { required: true, message: "Please input your password!" },
+                  { required: true, message: "Please input your password" },
                   {
                     min: 8,
-                    message: "Password must be at least 8 characters!",
+                    message: "Password must be at least 8 characters",
                   },
                 ]}
                 hasFeedback
@@ -183,13 +183,13 @@ const CreateAccount = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your confirm password!",
+                    message: "Please input your confirm password",
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
                       if (value.length < 8) {
                         return Promise.reject(
-                          new Error("Password must be at least 8 characters!")
+                          new Error("Password must be at least 8 characters")
                         );
                       }
                       if (getFieldValue("password") !== value) {
@@ -278,8 +278,8 @@ const CreateAccount = () => {
               <Form.Item
                 name="email"
                 rules={[
-                  { required: true, message: "Please enter your email!" },
-                  { type: "email", message: "Invalid email address!" },
+                  { required: true, message: "Please enter your email" },
+                  { type: "email", message: "Invalid email address" },
                 ]}
               >
                 <Input
@@ -295,10 +295,10 @@ const CreateAccount = () => {
               <Form.Item
                 name="password"
                 rules={[
-                  { required: true, message: "Please input your password!" },
+                  { required: true, message: "Please input your password" },
                   {
                     min: 8,
-                    message: "Password must be at least 8 characters!",
+                    message: "Password must be at least 8 characters",
                   },
                 ]}
                 hasFeedback
@@ -317,13 +317,13 @@ const CreateAccount = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your confirm password!",
+                    message: "Please input your confirm password",
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
                       if (value.length < 8) {
                         return Promise.reject(
-                          new Error("Password must be at least 8 characters!")
+                          new Error("Password must be at least 8 characters")
                         );
                       }
                       if (getFieldValue("password") !== value) {

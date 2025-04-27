@@ -21,8 +21,6 @@ const DashboardPersonalInformation = () => {
   const { first_name, last_name, full_name, phone, email, avatar, address } = adminProfileData || {}
 
 
-  // console.log(adminProfileData)
-
   useEffect(() => {
     if (adminProfileData) {
       form.setFieldsValue({
@@ -108,7 +106,7 @@ const DashboardPersonalInformation = () => {
       });
 console.log(response.data)
       if (response.data.success) {
-        toast.success('Profile updated successfully!')
+        toast.success('Profile updated successfully')
         form.resetFields();
         setFileList([]);
 
@@ -150,7 +148,7 @@ console.log(response.data)
         toast.success('Password updated successfully')
         passwordForm.resetFields()
       } else {
-        toast.error('Failled! please try again')
+        toast.error('Failled. please try again')
       }
 
       setIsModalOpen(false);
@@ -183,7 +181,7 @@ console.log(response.data)
               rules={[
                 {
                   required: ImageFileList?.length === 0,
-                  message: "Image required!",
+                  message: "Image required",
                 },
               ]}
             >
@@ -331,7 +329,7 @@ console.log(response.data)
               rules={[
                 {
                   required: true,
-                  message: 'Please input your new password!',
+                  message: 'Please input your new password',
                 },
               ]}
             >
@@ -347,7 +345,7 @@ console.log(response.data)
               rules={[
                 {
                   required: true,
-                  message: 'Please input your confirm password!',
+                  message: 'Please input your confirm password',
                 },
               ]}
             >

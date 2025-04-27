@@ -51,7 +51,7 @@ const DashboardForgetPassword = () => {
                 <Form form={form} layout="vertical" onFinish={onFinish} className="">
                     <div>
                         <p className="font-roboto font-bold text-[#121221] text-[16px]">Submit your mail*</p>
-                        <Form.Item name="email" rules={[{ required: true, message: "Please enter your email!" }, { type: "email", message: "Invalid email address!" }]}>
+                        <Form.Item name="email" rules={[{ required: true, message: "Please enter your email" }, { type: "email", message: "Invalid email address" }]}>
                             <Input placeholder="Enter your email" className="w-full border border-gray-400 p-2 rounded-md" />
                         </Form.Item>
                     </div>

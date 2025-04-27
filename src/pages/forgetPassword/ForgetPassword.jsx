@@ -60,8 +60,8 @@ const ForgetPassword = () => {
                             <Form.Item
                                 name="email"
                                 rules={[
-                                    { required: true, message: "Please enter your email!" },
-                                    { type: "email", message: "Invalid email address!" },
+                                    { required: true, message: "Please enter your email" },
+                                    { type: "email", message: "Invalid email address" },
                                 ]}
                             >
                                 <Input type="email" placeholder="Enter your email address" style={{ border: "1px solid #B6B6BA", padding: "10px" }} />

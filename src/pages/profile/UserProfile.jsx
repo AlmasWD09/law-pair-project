@@ -132,7 +132,7 @@ const UserProfile = () => {
       });
       console.log(response.data);
       if (response.data.success) {
-        toast.success("User logged out successfully!");
+        toast.success("User logged out successfully");
         Cookies.remove("userToken");
         navigate("/login");
       }
@@ -181,7 +181,7 @@ const UserProfile = () => {
 
       console.log("Server Response:", response.data);
       if (response.data.success) {
-        toast.success("Profile updated successfully!");
+        toast.success("Profile updated successfully");
         setIsModalOpen(false);
         // ✅ Fetch updated user data
         fetchUserData();
@@ -319,7 +319,7 @@ const UserProfile = () => {
                               rules={[
                                 {
                                   required: ImageFileList?.length === 0,
-                                  message: "Image required!",
+                                  message: "Image required",
                                 },
                               ]}
                             >
@@ -375,11 +375,11 @@ const UserProfile = () => {
                             rules={[
                               {
                                 required: true,
-                                message: "Please input your phone number!",
+                                message: "Please input your phone number",
                               },
                               {
                                 pattern: /^[0-9]{10}$/,
-                                message: "Phone number must be 10 digits long!",
+                                message: "Phone number must be 10 digits long",
                               },
                             ]}
                           >
@@ -530,7 +530,7 @@ const UserProfile = () => {
                 <div className=" col-span-2 pt-8 md:pt-0">
                   <h1 className="font-roboto lg:text-[26px] font-bold text-[#000000] md:pb-2">
                     Your <span className="text-primary">LawPair</span> Suggested
-                    TM attorneys
+                    attorneys
                   </h1>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 place-items-center gap-6 md:gap-2 lg:gap-6">
@@ -548,7 +548,7 @@ const UserProfile = () => {
                           />
 
                           <div className="flex justify-between items-center">
-                            <h2 className="text-[20px] font-bold font-roboto text-[#001018] pb-2 pt-[16px]">
+                            <h2 className="text-[20px] font-bold font-roboto text-[#001018] pb-2 pt-[16px] capitalize">
                               {attorney.state}
                             </h2>
 

@@ -109,7 +109,7 @@ const OtpCode = () => {
         toast.error("Otp send request failed");
       }
     } catch (error) {
-      toast.error("Wrong otp! please try again");
+      toast.error("Wrong otp. please try again");
     }
   };
 
@@ -302,8 +302,8 @@ const OtpCode = () => {
               <Form.Item
                 name="otp"
                 rules={[
-                  { required: true, message: "Please Enter your OTP!" },
-                  { pattern: /^[0-9]{4,6}$/, message: "Invalid OTP format!" }, // ✅ Ensures 4-6 digit number
+                  { required: true, message: "Please Enter your OTP" },
+                  { pattern: /^[0-9]{4,6}$/, message: "Invalid OTP format" }, // ✅ Ensures 4-6 digit number
                 ]}
               >
                 <Input
@@ -545,7 +545,26 @@ const OtpCode = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your practice!",
+                    message: "Please input your practice",
+                  },
+                ]}
+              >
+                <Input
+                  placeholder="e.g.: New Jersey, New York, EOIR (Immigration Court)"
+                  style={{ width: "100%", height: "40px" }}
+                />
+              </Form.Item>
+            </div>
+            <div className="pb-4">
+              <p className="text-[14px] font-roboto font-bold text-[#001018]">
+                Where do you practice
+              </p>
+              <Form.Item
+                name="practice_area"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your practice",
                   },
                 ]}
               >
@@ -565,7 +584,7 @@ const OtpCode = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please select your experience!",
+                    message: "Please select your experience",
                   },
                 ]}
               >
@@ -591,7 +610,7 @@ const OtpCode = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please select your language!",
+                    message: "Please select your language",
                   },
                 ]}
               >
@@ -618,11 +637,11 @@ const OtpCode = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your phone number!",
+                    message: "Please input your phone number",
                   },
                   {
                     pattern: /^[0-9]{10}$/,
-                    message: "Phone number must be 10 digits long!",
+                    message: "Phone number must be 10 digits long",
                   },
                 ]}
               >
@@ -646,7 +665,7 @@ const OtpCode = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your address!",
+                    message: "Please input your address",
                   },
                 ]}
               >
@@ -666,7 +685,7 @@ const OtpCode = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your city!",
+                    message: "Please input your city",
                   },
                 ]}
               >
@@ -687,7 +706,7 @@ const OtpCode = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Please select your state!",
+                      message: "Please select your state",
                     },
                   ]}
                 >
@@ -714,11 +733,11 @@ const OtpCode = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your zip code!",
+                      message: "Please input your zip code",
                     },
                     {
                       pattern: /^[0-9]{4,5}$/,
-                      message: "Zip code must be 4 or 5 digits long!",
+                      message: "Zip code must be 4 or 5 digits long",
                     },
                   ]}
                 >
@@ -824,7 +843,7 @@ const OtpCode = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Please upload your  photo!",
+                      message: "Please upload your  photo",
                     },
                   ]}
                 >

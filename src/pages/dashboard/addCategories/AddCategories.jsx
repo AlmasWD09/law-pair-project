@@ -135,7 +135,7 @@ const AddCategories = () => {
         );
 
         if (response.data.success) {
-          toast.success("Category deleted successfully!");
+          toast.success("Category deleted successfully");
           setCategorieData((prev) =>
             prev.filter((item) => item.id !== selectedRecord.id)
           );
@@ -158,7 +158,7 @@ const AddCategories = () => {
 
   const handleUpload = ({ fileList }) => {
     if (fileList.length > 1) {
-      message.error("You can only upload one image!");
+      message.error("You can only upload one image");
       return;
     }
     setFileList(fileList);
@@ -207,7 +207,7 @@ const AddCategories = () => {
         toast.error("Category upload failed.");
       }
     } catch (error) {
-      toast.error("Please upload an png or svg image!");
+      toast.error("Please upload an png or svg image");
     }
   };
 
@@ -262,7 +262,7 @@ const AddCategories = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please upload an png or svg image!",
+                  message: "Please upload an png or svg image",
                 },
               ]}
             >
@@ -402,7 +402,7 @@ const AddCategories = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please upload an png or svg image!",
+                    message: "Please upload an png or svg image",
                   },
                 ]}
               >

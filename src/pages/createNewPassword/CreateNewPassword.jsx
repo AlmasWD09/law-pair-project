@@ -30,13 +30,13 @@ export const CreateNewPassword = () => {
 
       console.log(response.data);
       if (response.data.success) {
-        toast.success("Password reset successfully!");
+        toast.success("Password reset successfully");
 
         navigate("/login");
         form.resetFields();
       }
     } catch (error) {
-      toast.error("Something went wrong!. Please try again.");
+      toast.error("Something went wrong. Please try again.");
     }
 
     form.resetFields();
@@ -56,10 +56,10 @@ export const CreateNewPassword = () => {
               <Form.Item
                 name="password"
                 rules={[
-                  { required: true, message: "Please input your password!" },
+                  { required: true, message: "Please input your password" },
                   {
                     min: 8,
-                    message: "Password must be at least 8 characters!",
+                    message: "Password must be at least 8 characters",
                   },
                 ]}
                 hasFeedback
@@ -79,13 +79,13 @@ export const CreateNewPassword = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your confirm password!",
+                    message: "Please input your confirm password",
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
                       if (value.length < 8) {
                         return Promise.reject(
-                          new Error("Password must be at least 8 characters!")
+                          new Error("Password must be at least 8 characters")
                         );
                       }
                       if (getFieldValue("password") !== value) {

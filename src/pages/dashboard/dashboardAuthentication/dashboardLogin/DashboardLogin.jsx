@@ -27,7 +27,7 @@ const DashboardLogin = () => {
         toast.error("login failed");
       }
     } catch (error) {
-      toast.error("Login Error. plz try again!");
+      toast.error("Login Error. plz try again");
     }
   };
 
@@ -59,8 +59,8 @@ const DashboardLogin = () => {
             <Form.Item
               name="email"
               rules={[
-                { required: true, message: "Please enter your email!" },
-                { type: "email", message: "Invalid email address!" },
+                { required: true, message: "Please enter your email" },
+                { type: "email", message: "Invalid email address" },
               ]}
             >
               <Input
@@ -79,7 +79,7 @@ const DashboardLogin = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your password!",
+                  message: "Please input your password",
                 },
               ]}
             >

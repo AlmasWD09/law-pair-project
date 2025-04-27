@@ -23,7 +23,7 @@ console.log(data)
 
   const handleUpload = ({ fileList }) => {
     if (fileList.length > 1) {
-      message.error("You can only upload one image!");
+      message.error("You can only upload one image");
       return;
     }
     setFileList(fileList);
@@ -59,7 +59,7 @@ console.log(data)
       });
 
       if (response.data.success) {
-        toast.success('Legal resource created successfully!')
+        toast.success('Legal resource created successfully')
         setData((prev) => [
           ...prev,
           {
@@ -73,7 +73,7 @@ console.log(data)
         form.resetFields();
       }
       else {
-        toast.error('Failed! please try again')
+        toast.error('Failed. please try again')
       }
 
 
@@ -123,14 +123,14 @@ console.log(data)
         })
 
         if (response.data.success) {
-          toast.success('User deleted successfully!')
+          toast.success('User deleted successfully')
         }
         else {
           toast.error("Deleted Failed")
         }
 
       } catch (error) {
-        toast.error('Deleted Failed! please try again')
+        toast.error('Deleted Failed. please try again')
       }
 
 
@@ -204,7 +204,7 @@ console.log(data)
             rules={[
               {
                 required: true,
-                message: "Please upload an image!",
+                message: "Please upload an image",
               },
             ]}
           >

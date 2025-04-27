@@ -22,6 +22,7 @@ import { UploadCloud } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { label } from "framer-motion/client";
 dayjs.extend(customParseFormat);
 
 const EditLawyerProfile = () => {
@@ -35,6 +36,9 @@ const EditLawyerProfile = () => {
   const [selectedOptions, setSelectedOptions] = useState(null);
   const [allCategories, setAllCategories] = useState([]);
   const [scheduleData, setScheduleData] = useState([]);
+
+console.log(selectedOptions)
+
 
   // Convert time string to dayjs format
   const parseTime = (timeString) => {
@@ -60,13 +64,13 @@ const EditLawyerProfile = () => {
       prev.map((item) =>
         item.day === day
           ? {
-              ...item,
-              time: value
-                ? `${value[0]?.format("hh:mm a")} - ${value[1]?.format(
-                    "hh:mm a"
-                  )}`
-                : "",
-            }
+            ...item,
+            time: value
+              ? `${value[0]?.format("hh:mm a")} - ${value[1]?.format(
+                "hh:mm a"
+              )}`
+              : "",
+          }
           : item
       )
     );
@@ -132,6 +136,8 @@ const EditLawyerProfile = () => {
     categories?.includes(category.name)
   );
 
+
+  
   // Handle select change
   const handleSelect = (value) => {
     // if (value.length <= 3) {
@@ -154,6 +160,7 @@ const EditLawyerProfile = () => {
           },
         });
 
+        // console.log('line----> 162',response?.data?.lawyer)
         setSelectedOptions(response?.data?.lawyer?.categories || []);
         setScheduleData(response?.data?.lawyer?.schedule);
         setLawyerAllData(response?.data?.lawyer);
@@ -183,7 +190,7 @@ const EditLawyerProfile = () => {
     fetchData();
   }, []);
 
-  // filteredCategories.map(category =>console.log(category.name))
+
 
   const onFinish = async (values) => {
     const service_ids = selectedOptions;
@@ -207,6 +214,9 @@ const EditLawyerProfile = () => {
 
     formData.append("web_link", values.web_link);
     formData.append("schedule", JSON.stringify(formattedSchedule));
+    console.log(formData.forEach(item => {
+      console.log(item)
+    }))
 
     try {
       const response = await axiosPublic.post(
@@ -232,6 +242,8 @@ const EditLawyerProfile = () => {
     }
   };
 
+
+
   return (
     <div className="">
       <AccountCreate>
@@ -251,27 +263,16 @@ const EditLawyerProfile = () => {
                   mode="multiple"
                   allowClear
                   placeholder="Please select"
-                  maxTagCount={3}
+                  maxTagCount={9}
                   value={selectedOptions}
                   onChange={handleSelect}
-                >
-                  {categorieData.map((option, index) => {
-                    const isOptionDisabled =
-                      allCategories.includes(option.id) &&
-                      !selectedOptions.includes(option.id);
-
-                    return (
-                      <Select.Option
-                        style={{ width: "100%", height: "40px" }}
-                        key={index}
-                        value={option.id}
-                        disabled={isOptionDisabled} // Disable options that are fetched and not selected
-                      >
-                        {option.name}
-                      </Select.Option>
-                    );
+                  options={categorieData?.map(item=>{
+                    return {
+                      label : item?.name,
+                      value : item?.id
+                    }
                   })}
-                </Select>
+                />
               </Space>
             </div>
 
@@ -336,7 +337,7 @@ const EditLawyerProfile = () => {
                     rules={[
                       {
                         required: ImageFileList?.length === 0,
-                        message: "Image required!",
+                        message: "Image required",
                       },
                     ]}
                   >

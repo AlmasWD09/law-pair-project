@@ -60,14 +60,14 @@ const ManageUser = () => {
         })
 
         if (response.data.success) {
-          toast.success('User deleted successfully!')
+          toast.success('User deleted successfully')
         }
         else {
           toast.error("Deleted Failed")
         }
 
       } catch (error) {
-        toast.error('Deleted Failed! please try again')
+        toast.error('Deleted Failed. please try again')
       }
 
 

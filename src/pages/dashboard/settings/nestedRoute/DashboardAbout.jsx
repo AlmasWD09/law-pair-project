@@ -31,9 +31,9 @@ const DashboardAbout = () => {
       );
 
       if (response.data.success) {
-        toast.success("Content updated successfully!");
+        toast.success("Content updated successfully");
       } else {
-        toast.error("Failed! please try again");
+        toast.error("Failed. please try again");
       }
     } catch (error) {
       toast.error("Failed to update content", error);
