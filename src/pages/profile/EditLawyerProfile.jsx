@@ -37,8 +37,6 @@ const EditLawyerProfile = () => {
   const [allCategories, setAllCategories] = useState([]);
   const [scheduleData, setScheduleData] = useState([]);
 
-console.log(selectedOptions)
-
 
   // Convert time string to dayjs format
   const parseTime = (timeString) => {
@@ -75,6 +73,7 @@ console.log(selectedOptions)
       )
     );
   };
+ 
 
   // lawyer token
   const lawyerToken = Cookies.get("lawyerToken");
@@ -160,14 +159,13 @@ console.log(selectedOptions)
           },
         });
 
-        // console.log('line----> 162',response?.data?.lawyer)
-        setSelectedOptions(response?.data?.lawyer?.categories || []);
+        setSelectedOptions(JSON.parse(response?.data?.lawyer?.category_ids));
         setScheduleData(response?.data?.lawyer?.schedule);
         setLawyerAllData(response?.data?.lawyer);
-        setStartTime(dayjs(response?.data?.lawyer?.schedule?.time, "HH:mm:ss"));
-        setEndTime(dayjs(response?.data?.lawyer?.schedule?.time, "HH:mm:ss"));
         setAllCategories(response?.data?.lawyer?.categories || []);
-        setScheduleData(response?.data?.lawyer?.schedule || []);
+        // setStartTime(dayjs(response?.data?.lawyer?.schedule?.time, "HH:mm:ss"));
+        // setEndTime(dayjs(response?.data?.lawyer?.schedule?.time, "HH:mm:ss"));
+        // setScheduleData(response?.data?.lawyer?.schedule || []);
       } catch (error) {
         console.error("Failed to load data:");
       }
@@ -194,15 +192,15 @@ console.log(selectedOptions)
 
   const onFinish = async (values) => {
     const service_ids = selectedOptions;
-    const formattedSchedule = scheduleData.map((item) => ({
-      day: item.day,
-      time: item.time ? item.time : "",
-    }));
+    // const formattedSchedule = scheduleData?.map((item) => ({
+    //   day: item.day,
+    //   time: item.time ? item.time : "",
+    // }));
 
     const formData = new FormData();
     formData.append("service_ids", JSON.stringify(service_ids));
     formData.append("practice_area", values.practice_area);
-    formData.append("experience", values.experience);
+    formData.append("id_number", values.id_number);
     formData.append("languages", values.languages);
     if (ImageFileList[0]?.originFileObj) {
       formData.append("avatar", ImageFileList[0].originFileObj);
@@ -213,7 +211,7 @@ console.log(selectedOptions)
     formData.append("phone", values.phone);
 
     formData.append("web_link", values.web_link);
-    formData.append("schedule", JSON.stringify(formattedSchedule));
+    // formData.append("schedule", JSON.stringify(formattedSchedule));
     console.log(formData.forEach(item => {
       console.log(item)
     }))
@@ -288,7 +286,18 @@ console.log(selectedOptions)
                   />
                 </Form.Item>
               </div>
-
+              <div className="pb-4">
+                <p className="text-[14px] font-roboto font-bold text-[#001018]">
+                  ID Number
+                </p>
+                <Form.Item name="id_number">
+                  <Input
+                    placeholder="Enter your Id number"
+                    style={{ width: "100%", height: "40px" }}
+                  />
+                </Form.Item>
+              </div>
+{/* 
               <div className="pb-4">
                 <p className="text-[14px] font-roboto font-bold text-[#001018]">
                   Experience
@@ -305,7 +314,7 @@ console.log(selectedOptions)
                     ]}
                   />
                 </Form.Item>
-              </div>
+              </div> */}
 
               <div className="pb-4 w-full">
                 <p className="text-[14px] font-roboto font-bold text-[#001018]">
@@ -426,7 +435,7 @@ console.log(selectedOptions)
                 </Form.Item>
               </div>
 
-              <div className="pb-4">
+              {/* <div className="pb-4">
                 <div className="flex flex-col justify-between items-center gap-6 pb-4">
                   <div className="border p-4 w-full rounded-lg space-y-3">
                     {scheduleData?.length > 0 &&
@@ -452,7 +461,7 @@ console.log(selectedOptions)
                       ))}
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <Button

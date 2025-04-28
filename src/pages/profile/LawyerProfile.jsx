@@ -6,7 +6,8 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import LoadindSpenier from "../../components/shared/LoadindSpenier";
-import { h3 } from "framer-motion/client";
+import { MdFormatListNumberedRtl } from "react-icons/md";
+
 
 const LawyerProfile = () => {
   const axiosPublic = useAxiosPublic();
@@ -24,6 +25,7 @@ const LawyerProfile = () => {
     avatar,
     categories,
     email,
+    id_number,
     experience,
     languages,
     phone,
@@ -127,7 +129,7 @@ const LawyerProfile = () => {
       <AccountCreate>
         <div className="container mx-auto px-4 pb-4 ">
           <div>
-            <div className="max-w-[1037px] lg:h-[989px] mx-auto overflow-hidden bg-white rounded-lg shadow-md p-4">
+            <div className="max-w-[1037px] lg:h-[789px] mx-auto overflow-hidden bg-white rounded-lg shadow-md p-4">
               <div className="flex justify-between pb-[12px]">
                 <div className="relative">
                   <img
@@ -282,8 +284,9 @@ const LawyerProfile = () => {
                 <div className="text-[14px] font-roboto text-[#001018] flex items-center flex-wrap gap-2 md:gap-3">
                   {
                     categories?.map((item, index) => {
+                      console.log(item)
                       return (
-                        <h3 key={index}>{index +1}.{item}</h3>
+                        <h3 key={index}>{index + 1}.{item}</h3>
                       )
                     })
                   }
@@ -313,6 +316,7 @@ const LawyerProfile = () => {
                     </svg>
                     {phone}
                   </p>
+
                   <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
                     <svg
                       width="24"
@@ -336,6 +340,11 @@ const LawyerProfile = () => {
                   </p>
 
                   <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
+                    <MdFormatListNumberedRtl className="text-2xl"/>
+                    {id_number || "Not a number"}
+                  </p>
+
+                  <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
                     <svg
                       width="24"
                       height="25"
@@ -353,23 +362,7 @@ const LawyerProfile = () => {
 
                     {practice_area}
                   </p>
-                  <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M11.998 4C11.2103 3.99987 10.4303 4.15492 9.70251 4.4563C8.97474 4.75768 8.31347 5.19949 7.75648 5.75648C7.19949 6.31347 6.75768 6.97474 6.4563 7.70251C6.15492 8.43028 5.99987 9.21029 6 9.998C6 12.216 8.288 14.482 8.288 14.482C8.678 14.869 8.998 15.594 8.998 16.093C8.998 16.592 9.448 17 9.998 17H13.998C14.548 17 14.998 16.592 14.998 16.093C14.998 15.594 15.318 14.869 15.708 14.482C15.708 14.482 17.996 12.216 17.996 9.998C17.9961 9.21029 17.8411 8.43028 17.5397 7.70251C17.2383 6.97474 16.7965 6.31347 16.2395 5.75648C15.6825 5.19949 15.0213 4.75768 14.2935 4.4563C13.5657 4.15492 12.7857 3.99987 11.998 4ZM11.998 6C13.0579 6.00132 14.0741 6.42296 14.8236 7.17245C15.573 7.92193 15.9947 8.93807 15.996 9.998C15.996 11.027 14.851 12.509 14.301 13.062C13.794 13.563 13.389 14.278 13.171 15H10.825C10.608 14.278 10.203 13.565 9.7 13.066C9.145 12.509 8 11.027 8 9.998C8.00132 8.93807 8.42296 7.92193 9.17245 7.17245C9.92193 6.42296 10.9381 6.00132 11.998 6ZM14.963 19C14.963 18.45 14.513 18 13.963 18H9.963C9.413 18 8.963 18.45 8.963 19V19.003C8.963 19.553 9.413 20.003 9.963 20.003H13.963C14.513 20.003 14.963 19.553 14.963 19.003V19Z"
-                        fill="#121221"
-                      />
-                    </svg>
-                    {experience}
-                  </p>
+                
                   <p className="font-roboto text-[16px] text-[#10101E] flex gap-3">
                     <svg
                       width="24"
@@ -414,7 +407,7 @@ const LawyerProfile = () => {
                     </Link>
                   </p>
                 </div>
-                <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">
+                {/* <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">
                   Availability
                 </h2>
 
@@ -429,7 +422,7 @@ const LawyerProfile = () => {
                       </button>
                     );
                   })}
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

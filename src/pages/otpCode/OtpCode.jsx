@@ -214,19 +214,20 @@ const OtpCode = () => {
   };
 
   const onFinishModalThree = async (values) => {
-    const formattedSchedule = Object.keys(scheduleData).map((day) => ({
-      day: day,
-      time: scheduleData[day]
-        ? `${scheduleData[day][0].format("hh:mm a")} - ${scheduleData[
-            day
-          ][1].format("hh:mm a")}`
-        : "",
-    }));
+    // const formattedSchedule = Object.keys(scheduleData).map((day) => ({
+    //   day: day,
+    //   time: scheduleData[day]
+    //     ? `${scheduleData[day][0].format("hh:mm a")} - ${scheduleData[
+    //         day
+    //       ][1].format("hh:mm a")}`
+    //     : "",
+    // }));
 
     const formData = new FormData();
     formData.append("service_ids", JSON.stringify(modalOneValue));
     formData.append("practice_area", modalTwoValue.practice_area);
-    formData.append("experience", modalTwoValue.experience);
+    formData.append("id_number", modalTwoValue.id_number);
+    // formData.append("experience", modalTwoValue.experience);
     formData.append("languages", modalTwoValue.languages);
     if (fileList && fileList.length > 0) {
       formData.append("avatar", fileList[0].originFileObj);
@@ -237,11 +238,11 @@ const OtpCode = () => {
     formData.append("phone", modalTwoValue.phone);
 
     formData.append("web_link", values?.web_link);
-    formData.append("schedule", JSON.stringify(formattedSchedule));
+    // formData.append("schedule", JSON.stringify(formattedSchedule));
 
-    // formData.forEach((value, key) => {
-    //     console.log(key, value);
-    // });
+    formData.forEach((value, key) => {
+        console.log(key, value);
+    });
 
     try {
       const response = await axiosPublic.post(
@@ -557,25 +558,25 @@ const OtpCode = () => {
             </div>
             <div className="pb-4">
               <p className="text-[14px] font-roboto font-bold text-[#001018]">
-                Where do you practice
+                Id Number
               </p>
               <Form.Item
-                name="practice_area"
+                name="id_number"
                 rules={[
                   {
                     required: true,
-                    message: "Please input your practice",
+                    message: "Please input your id_number",
                   },
                 ]}
               >
                 <Input
-                  placeholder="e.g.: New Jersey, New York, EOIR (Immigration Court)"
+                  placeholder="Enter your id number"
                   style={{ width: "100%", height: "40px" }}
                 />
               </Form.Item>
             </div>
 
-            <div className="pb-4">
+            {/* <div className="pb-4">
               <p className="text-[14px] font-roboto font-bold text-[#001018]">
                 Experience
               </p>
@@ -599,7 +600,7 @@ const OtpCode = () => {
                   ]}
                 />
               </Form.Item>
-            </div>
+            </div> */}
 
             <div className="pb-4">
               <p className="text-[14px] font-roboto font-bold text-[#001018]">
@@ -879,7 +880,7 @@ const OtpCode = () => {
               </Form.Item>
             </div>
 
-            <div className="pb-4">
+            {/* <div className="pb-4">
               <div className="flex flex-col justify-between items-center gap-6 pb-4">
                 <div className="border p-4 w-full rounded-lg space-y-3">
                   {Object.keys(scheduleData).map((day) => (
@@ -905,7 +906,7 @@ const OtpCode = () => {
                   ))}
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </Modal>
       </Form>
