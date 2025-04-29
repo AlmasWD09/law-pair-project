@@ -19,12 +19,12 @@ const SearchAttorney = () => {
                 return (
                   <Link key={index} to={`/attorney-tm-details/${attorney.id}`}>
                     <div
-                      className="w-[300px]  p-4 shadow-lg rounded-md"
+                      className="w-[300px]  p-4 shadow-lg rounded-md "
                     >
                       <img
                         src={attorney?.avatar}
                         alt="attorney"
-                        className="w-full h-[200px]"
+                        className="w-full h-[250px] object-cover"
                       />
                       {/* <img src={attorney.avatar}  alt="attorney" className="w-full" /> */}
                       <div className="flex justify-between items-center">

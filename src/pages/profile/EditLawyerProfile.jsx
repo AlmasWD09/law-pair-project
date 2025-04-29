@@ -73,7 +73,7 @@ const EditLawyerProfile = () => {
       )
     );
   };
- 
+
 
   // lawyer token
   const lawyerToken = Cookies.get("lawyerToken");
@@ -92,6 +92,7 @@ const EditLawyerProfile = () => {
     phone,
     practice_area,
     state,
+    zipcode,
     web_link,
     schedule,
   } = lawyerAllData || {};
@@ -113,6 +114,7 @@ const EditLawyerProfile = () => {
         phone: phone,
         practice_area: practice_area,
         state: state,
+        zipcode: zipcode,
         web_link: web_link,
         day: lawyerAllData.schedule?.day,
         startTime: lawyerAllData.schedule?.startTime,
@@ -136,7 +138,7 @@ const EditLawyerProfile = () => {
   );
 
 
-  
+
   // Handle select change
   const handleSelect = (value) => {
     // if (value.length <= 3) {
@@ -206,6 +208,7 @@ const EditLawyerProfile = () => {
       formData.append("avatar", ImageFileList[0].originFileObj);
     }
     formData.append("state", values.state);
+    formData.append("zipcode", values.zipcode);
     formData.append("address", values.address);
     formData.append("city", values.city);
     formData.append("phone", values.phone);
@@ -264,10 +267,10 @@ const EditLawyerProfile = () => {
                   maxTagCount={9}
                   value={selectedOptions}
                   onChange={handleSelect}
-                  options={categorieData?.map(item=>{
+                  options={categorieData?.map(item => {
                     return {
-                      label : item?.name,
-                      value : item?.id
+                      label: item?.name,
+                      value: item?.id
                     }
                   })}
                 />
@@ -297,7 +300,7 @@ const EditLawyerProfile = () => {
                   />
                 </Form.Item>
               </div>
-{/* 
+              {/* 
               <div className="pb-4">
                 <p className="text-[14px] font-roboto font-bold text-[#001018]">
                   Experience
@@ -383,6 +386,36 @@ const EditLawyerProfile = () => {
                       { value: "pennsylvania", label: "Pennsylvania" },
                       { value: "washington, d.c", label: "Washington, D.C" },
                     ]}
+                  />
+                </Form.Item>
+              </div>
+
+              <div className="pb-4 w-full">
+                <p className="text-[14px] font-roboto font-bold text-[#001018]">
+                  Zip code
+                </p>
+                <Form.Item
+                  name="zipcode"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your zip code",
+                    },
+                    {
+                      pattern: /^[0-9]{4,5}$/,
+                      message: "Zip code must be 4 or 5 digits long",
+                    },
+                  ]}
+                >
+                  <Input
+                    maxLength={5}
+                    onInput={(e) => {
+                      e.target.value = e.target.value
+                        .replace(/[^0-9]/g, "")
+                        .slice(0, 5);
+                    }}
+                    placeholder="Zip Code"
+                    style={{ width: "100%", height: "40px" }}
                   />
                 </Form.Item>
               </div>

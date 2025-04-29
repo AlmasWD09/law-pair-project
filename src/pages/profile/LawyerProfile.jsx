@@ -7,6 +7,9 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import LoadindSpenier from "../../components/shared/LoadindSpenier";
 import { MdFormatListNumberedRtl } from "react-icons/md";
+import { MdOutlineLocationCity } from "react-icons/md";
+import { TbBuildingEstate } from "react-icons/tb";
+import { TbFileTypeZip } from "react-icons/tb";
 
 
 const LawyerProfile = () => {
@@ -22,6 +25,7 @@ const LawyerProfile = () => {
     last_name,
     full_name,
     address,
+    city,
     avatar,
     categories,
     email,
@@ -31,6 +35,7 @@ const LawyerProfile = () => {
     phone,
     practice_area,
     state,
+    zipcode,
     web_link,
     schedule,
   } = lawyerAllData || {};
@@ -383,6 +388,19 @@ const LawyerProfile = () => {
                       />
                     </svg>
                     {address}
+                  </p>}
+
+                  {city && <p className="font-roboto text-[16px] text-[#10101E] flex gap-3">
+                    <MdOutlineLocationCity className="text-2xl"/>
+                    {city}
+                  </p>}
+                  {state && <p className="font-roboto text-[16px] text-[#10101E] flex gap-3">
+                    <TbBuildingEstate className="text-2xl"/>
+                    {state}
+                  </p>}
+                  {zipcode && <p className="font-roboto text-[16px] text-[#10101E] flex gap-3">
+                    <TbFileTypeZip className="text-2xl"/>
+                    {zipcode}
                   </p>}
 
 

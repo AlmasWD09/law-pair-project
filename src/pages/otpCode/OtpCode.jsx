@@ -233,6 +233,7 @@ const OtpCode = () => {
       formData.append("avatar", fileList[0].originFileObj);
     }
     formData.append("state", modalTwoValue.state);
+    formData.append("zipcode", modalTwoValue.zipcode);
     formData.append("address", modalTwoValue.address);
     formData.append("city", modalTwoValue.city);
     formData.append("phone", modalTwoValue.phone);
@@ -730,7 +731,7 @@ const OtpCode = () => {
                   Zip code
                 </p>
                 <Form.Item
-                  name="zipCode"
+                  name="zipcode"
                   rules={[
                     {
                       required: true,

@@ -73,16 +73,13 @@ const AttorneyTm = () => {
                     >
                       <div
                         key={index}
-                        className="w-[300px]  p-4 shadow-lg rounded-md"
+                        className="w-[300px] p-4 shadow-lg rounded-md"
                       >
                         <img
                           src={attorney?.avatar}
                           alt="attorney"
-                          className="w-full h-[200px]"
+                          className="w-full h-[250px] object-cover"
                         />
-                        {/* <Link to={`/attorney-tm-details/${attorney.id}`} key={index}>
-                                                            <img src={attorney.avatar} alt="attorney" className="w-full" />
-                                                        </Link> */}
                         <div className="flex justify-between items-center">
                           <h2 className="text-[20px] font-bold font-roboto text-[#001018] pb-2 pt-[16px] capitalize">
                             {attorney.full_name}
