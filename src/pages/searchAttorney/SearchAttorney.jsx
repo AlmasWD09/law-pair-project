@@ -6,8 +6,7 @@ import CustomNotFound from "../../components/shared/CustomNotFound";
 const SearchAttorney = () => {
   const location = useLocation();
   const searchResults = location.state?.searchResults;
-
-
+  console.log(searchResults)
   return (
     <AccountCreate>
       <div className="container mx-auto px-4 pt-16">
@@ -17,11 +16,10 @@ const SearchAttorney = () => {
           <div className="container mx-auto px-4 py-10">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 place-items-center gap-6 md:gap-2 lg:gap-6">
               {searchResults?.map((attorney, index) => {
-                console.log(attorney)
                 return (
                   <Link key={index} to={`/attorney-tm-details/${attorney.id}`}>
                     <div
-                      className="w-[300px] h-[348px] p-4 shadow-lg rounded-md"
+                      className="w-[300px]  p-4 shadow-lg rounded-md"
                     >
                       <img
                         src={attorney?.avatar}
@@ -30,7 +28,7 @@ const SearchAttorney = () => {
                       />
                       {/* <img src={attorney.avatar}  alt="attorney" className="w-full" /> */}
                       <div className="flex justify-between items-center">
-                        <h2 className="text-[20px] font-bold font-roboto text-[#001018] pb-2 pt-[16px]">
+                        <h2 className="text-[20px] font-bold font-roboto text-[#001018] pb-2 pt-[16px] capitalize">
                           {attorney.full_name}
                         </h2>
                         {attorney.is_favorite === false ? (
@@ -63,9 +61,18 @@ const SearchAttorney = () => {
                         )}
                       </div>
 
-                      <h3 className="text-[14px] font-roboto text-[#001018]">
+                      <h3 className="font-bold font-roboto text-[#001018] capitalize">
                         {attorney.state}
                       </h3>
+                      <div className="text-[14px] font-roboto text-[#001018]">
+                        {attorney?.categories?.map((categorie, index) => {
+                          return (
+                            <div key={index}>
+                              <h1>{index + 1}. {categorie}</h1>
+                            </div>
+                          )
+                        })}
+                      </div>
                     </div>
                   </Link>
                 );

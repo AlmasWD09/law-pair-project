@@ -56,6 +56,7 @@ const Header = () => {
           },
         }
       );
+      console.log(response)
       if (response.data.success) {
         navigate("/search-attorney", {
           state: { searchResults: response.data.lawyers.data },
