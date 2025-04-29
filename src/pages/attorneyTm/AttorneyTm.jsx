@@ -65,7 +65,6 @@ const AttorneyTm = () => {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-6">
                 {paginatedData?.map((attorney, index) => {
-                  console.log(attorney)
                   return (
                     <Link
                       key={index}
@@ -73,8 +72,9 @@ const AttorneyTm = () => {
                     >
                       <div
                         key={index}
-                        className="w-[300px] p-4 shadow-lg rounded-md"
+                        className="w-[300px] min-h-[430px] p-4 shadow-lg rounded-md"
                       >
+                        
                         <img
                           src={attorney?.avatar}
                           alt="attorney"
