@@ -13,6 +13,7 @@ import { MdOutlineLocationCity } from "react-icons/md";
 import { TbBuildingEstate } from "react-icons/tb";
 import { PiFileZipBold } from "react-icons/pi";
 import { LinkedinOutlined } from "@ant-design/icons";
+import { Helmet } from "react-helmet-async";
 
 
 
@@ -93,26 +94,26 @@ const AttorneyDetails = () => {
   //   window.open(linkedinUrl, "_blank");
   // };
 
-
+console.log(lawyerData)
 
   const handleShareProfile = () => {
     try {
       const profileUrl = `http://137.59.180.219:3005/attorney-tm-details/${id}?is_favorite=false`;
       const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&shareUrl=${profileUrl}`;
+      window.open(linkedinUrl, "_blank");
 
       // Try to use Web Share API if supported
-      if (navigator.share) {
-        navigator
-          .share({
-            title: "Check out this profile",
-            text: `Check out ${lawyerData?.first_name} ${lawyerData?.last_name}'s profile on LinkedIn.`,
-            url: profileUrl,
-          })
-          .catch((error) => console.error("Error sharing via Web Share API:", error));
-      } else {
-        // Fallback: Open LinkedIn share in new tab
-        window.open(linkedinUrl, "_blank");
-      }
+      // if (navigator.share) {
+      //   navigator
+      //     .share({
+      //       title: "Check out this profile",
+      //       text: `Check out ${lawyerData?.first_name} ${lawyerData?.last_name}'s profile on LinkedIn.`,
+      //       url: profileUrl,
+      //     })
+      //     .catch((error) => console.error("Error sharing via Web Share API:", error));
+      // } else {
+      //   window.open(linkedinUrl, "_blank");
+      // }
     } catch (error) {
       console.error("Error sharing profile:", error);
       window.open(linkedinUrl, "_blank");
@@ -120,6 +121,26 @@ const AttorneyDetails = () => {
   };
   return (
     <div className="container mx-auto px-4 py-8 md:py-20">
+      <Helmet>
+        <title>{lawyerData?.full_name}</title>
+        <meta property="og:title" content="Your Website Title Here" />
+        <meta property="og:description" content="A short description of your website or page." />
+        <meta property="og:image" content={lawyerData?.avatar} />
+        <meta property="og:url" content="https://yourwebsite.com" />
+        <meta property="og:type" content={lawyerData?.web_link} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Your Website Title Here" />
+        <meta name="twitter:description" content="A short description of your website or page." />
+        <meta name="twitter:image" content="https://yourwebsite.com/images/preview.jpg" />
+
+        <meta name="full_name" content={lawyerData?.full_name} />
+        <meta name="email" content={lawyerData?.email} />
+        <meta name="phone" content={lawyerData?.phone_number} />
+        <meta name="address" content={lawyerData?.address} />
+        <meta name="language" content={lawyerData?.language} />
+        <meta name="website" content={lawyerData?.web_link} />
+        <meta name="linkedin" content={lawyerData?.linkedin_url} />
+      </Helmet>
       {
         loading ? <p><LoadindSpenier /></p>
           :
@@ -255,7 +276,7 @@ const AttorneyDetails = () => {
                       />
                     </svg> */}
                     <p className="text-md font-semibold">Email address:</p>
-                  <p>  {lawyerData.email}</p>
+                    <p>  {lawyerData.email}</p>
                   </div>}
 
 
@@ -275,7 +296,7 @@ const AttorneyDetails = () => {
                       />
                     </svg> */}
                     <p className="text-md font-semibold">Law firm name:</p>
-                   <p> {lawyerData.practice_area}</p>
+                    <p> {lawyerData.practice_area}</p>
                   </div>}
 
 
