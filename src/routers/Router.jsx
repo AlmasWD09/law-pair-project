@@ -70,7 +70,7 @@ const router = createBrowserRouter([
       },
     ],
   },
-  // footer hidden page
+  // footer hidden page  
   {
     path: "/create-account",
     element: <CreateAccount />,

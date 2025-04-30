@@ -28,6 +28,8 @@ const OtpCode = () => {
   const [form] = Form.useForm();
   const [formTwo] = Form.useForm();
   const [formThree] = Form.useForm();
+
+  console.log('form three',formThree)
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const email = location?.state?.email;
@@ -213,6 +215,8 @@ const OtpCode = () => {
     formThree.submit();
   };
 
+  // formThree.forEach(i=>console.log(i))
+
   const onFinishModalThree = async (values) => {
     // const formattedSchedule = Object.keys(scheduleData).map((day) => ({
     //   day: day,
@@ -239,6 +243,7 @@ const OtpCode = () => {
     formData.append("phone", modalTwoValue.phone);
 
     formData.append("web_link", values?.web_link);
+    formData.append("linkedin_url", values?.linkedin_url);
     // formData.append("schedule", JSON.stringify(formattedSchedule));
 
     formData.forEach((value, key) => {
@@ -876,6 +881,18 @@ const OtpCode = () => {
               <Form.Item name="web_link">
                 <Input
                   placeholder="Include a link to your website here"
+                  style={{ width: "100%", height: "40px" }}
+                />
+              </Form.Item>
+            </div>
+
+            <div className="pb-4">
+              <p className="text-[14px] font-roboto font-bold text-[#001018]">
+               Linkedin Profile link
+              </p>
+              <Form.Item name="linkedin_url">
+                <Input
+                  placeholder="Enter your linkedin Profile link"
                   style={{ width: "100%", height: "40px" }}
                 />
               </Form.Item>

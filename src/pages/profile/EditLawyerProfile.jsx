@@ -95,6 +95,7 @@ const EditLawyerProfile = () => {
     zipcode,
     web_link,
     schedule,
+    linkedin_url
   } = lawyerAllData || {};
 
   useEffect(() => {
@@ -116,6 +117,7 @@ const EditLawyerProfile = () => {
         state: state,
         zipcode: zipcode,
         web_link: web_link,
+        linkedin_url: linkedin_url,
         day: lawyerAllData.schedule?.day,
         startTime: lawyerAllData.schedule?.startTime,
         endTime: lawyerAllData.schedule?.endTime,
@@ -214,6 +216,7 @@ const EditLawyerProfile = () => {
     formData.append("phone", values.phone);
 
     formData.append("web_link", values.web_link);
+    formData.append("linkedin_url", values.linkedin_url);
     // formData.append("schedule", JSON.stringify(formattedSchedule));
     console.log(formData.forEach(item => {
       console.log(item)
@@ -467,6 +470,18 @@ const EditLawyerProfile = () => {
                   />
                 </Form.Item>
               </div>
+              <div className="pb-4">
+              <p className="text-[14px] font-roboto font-bold text-[#001018]">
+               Linkedin Profile link
+              </p>
+              <Form.Item name="linkedin_url">
+                <Input
+                  placeholder="Enter your linkedin Profile link"
+                  style={{ width: "100%", height: "40px" }}
+                />
+              </Form.Item>
+            </div>
+
 
               {/* <div className="pb-4">
                 <div className="flex flex-col justify-between items-center gap-6 pb-4">

@@ -179,7 +179,7 @@ const AttorneyDetails = () => {
                 </h2>
                 <div className="space-y-3 pt-[8px">
                   {lawyerData.phone && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3 pt-[8px]">
-                    <svg
+                    {/* <svg
                       width="24"
                       height="25"
                       viewBox="0 0 12 16"
@@ -192,13 +192,14 @@ const AttorneyDetails = () => {
                         d="M1.79399 1.36425C0.0679901 3.49725 1.18299 6.32125 2.05999 8.45325C2.47599 9.46525 3.13299 10.4783 3.68899 11.2933C4.66199 12.7172 6.87799 15.4232 9.58999 15.0152C10.758 14.8392 12.117 13.4602 11.187 12.5793L9.31799 10.6392C9.31799 10.6392 8.79499 10.2032 8.14699 10.5592L7.09899 11.1722C7.09899 11.1722 6.67099 11.3743 6.29999 10.8973C5.13699 9.52625 4.30499 8.10025 3.72199 6.40125C3.49499 5.73825 3.88999 5.57325 3.88999 5.57325L4.65699 5.12325C5.29399 4.74525 5.18099 4.07225 5.18099 4.07225L4.74299 1.33425C4.61099 0.76625 4.14199 0.53125 3.59799 0.53125C2.94999 0.53125 2.19799 0.86525 1.79399 1.36425Z"
                         fill="#10101E"
                       />
-                    </svg>
+                    </svg> */}
+                    <strong>Phone :</strong>
                     {lawyerData.phone}
                   </p>
                   }
 
                   {lawyerData.email && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
-                    <svg
+                    {/* <svg
                       width="24"
                       height="25"
                       viewBox="0 0 24 25"
@@ -215,13 +216,14 @@ const AttorneyDetails = () => {
                         d="M5.498 7.16797H3.124C3.273 7.60797 3.523 8.02197 3.874 8.37297L9.756 14.254C10.0455 14.5437 10.3892 14.7735 10.7676 14.9303C11.1459 15.0872 11.5514 15.1679 11.961 15.1679C12.3706 15.1679 12.7761 15.0872 13.1544 14.9303C13.5328 14.7735 13.8765 14.5437 14.166 14.254L20.048 8.37297C20.398 8.02197 20.648 7.60797 20.797 7.16797H18.424L12.752 12.84C12.6481 12.944 12.5247 13.0264 12.3889 13.0827C12.2531 13.139 12.1075 13.168 11.9605 13.168C11.8135 13.168 11.6679 13.139 11.5321 13.0827C11.3963 13.0264 11.2729 12.944 11.169 12.84L5.498 7.16797Z"
                         fill="#10101E"
                       />
-                    </svg>
+                    </svg> */}
+                    <strong>Email address :</strong>
                     {lawyerData.email}
                   </p>}
 
 
                   {lawyerData.practice_area && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
-                    <svg
+                    {/* <svg
                       width="24"
                       height="25"
                       viewBox="0 0 24 25"
@@ -234,19 +236,17 @@ const AttorneyDetails = () => {
                         d="M17 14.332H19V9.33203H5V14.332H7V13.332C7 13.0668 7.10536 12.8125 7.29289 12.6249C7.48043 12.4374 7.73478 12.332 8 12.332C8.26522 12.332 8.51957 12.4374 8.70711 12.6249C8.89464 12.8125 9 13.0668 9 13.332V14.332H15V13.332C15 13.0668 15.1054 12.8125 15.2929 12.6249C15.4804 12.4374 15.7348 12.332 16 12.332C16.2652 12.332 16.5196 12.4374 16.7071 12.6249C16.8946 12.8125 17 13.0668 17 13.332V14.332ZM17 16.332V17.332C17 17.5972 16.8946 17.8516 16.7071 18.0391C16.5196 18.2267 16.2652 18.332 16 18.332C15.7348 18.332 15.4804 18.2267 15.2929 18.0391C15.1054 17.8516 15 17.5972 15 17.332V16.332H9V17.332C9 17.5972 8.89464 17.8516 8.70711 18.0391C8.51957 18.2267 8.26522 18.332 8 18.332C7.73478 18.332 7.48043 18.2267 7.29289 18.0391C7.10536 17.8516 7 17.5972 7 17.332V16.332H5V19.332H19V16.332H17ZM9 7.33203H15V6.33203H9V7.33203ZM7 7.33203V5.33203C7 5.06681 7.10536 4.81246 7.29289 4.62492C7.48043 4.43739 7.73478 4.33203 8 4.33203H16C16.2652 4.33203 16.5196 4.43739 16.7071 4.62492C16.8946 4.81246 17 5.06681 17 5.33203V7.33203H19C19.5304 7.33203 20.0391 7.54274 20.4142 7.91782C20.7893 8.29289 21 8.8016 21 9.33203V19.332C21 19.8625 20.7893 20.3712 20.4142 20.7462C20.0391 21.1213 19.5304 21.332 19 21.332H5C4.46957 21.332 3.96086 21.1213 3.58579 20.7462C3.21071 20.3712 3 19.8625 3 19.332V9.33203C3 8.8016 3.21071 8.29289 3.58579 7.91782C3.96086 7.54274 4.46957 7.33203 5 7.33203H7Z"
                         fill="#10101E"
                       />
-                    </svg>
+                    </svg> */}
+                       <strong>Law firm name :</strong>
                     {lawyerData.practice_area}
                   </p>}
 
 
-                  {
-                    lawyerData?.id_number && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
-                      <img alt="Certificate diploma - Free social icons" id="dimg_fucQaK-NMMa8seMP0pv-wAM_14" src="data:image/png;base64,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" data-csiid="fucQaK-NMMa8seMP0pv-wAM_20" data-atf="1" className="w-[24px]"/>
-                      {lawyerData?.id_number}
-                    </p>
-                  }
-                  {lawyerData?.address && <p className="font-roboto text-[16px] text-[#10101E] flex gap-3">
-                    <svg
+                  <div>
+                    
+                    <strong className=" flex flex-row items-center gap-2 "> 
+                      
+                      {/* <svg
                       width="24"
                       height="25"
                       viewBox="0 0 24 25"
@@ -259,31 +259,27 @@ const AttorneyDetails = () => {
                         d="M12 21.668C9.72 21.668 6 12.982 6 9.66797C6 8.07667 6.63214 6.55055 7.75736 5.42533C8.88258 4.30011 10.4087 3.66797 12 3.66797C13.5913 3.66797 15.1174 4.30011 16.2426 5.42533C17.3679 6.55055 18 8.07667 18 9.66797C18 12.982 14.28 21.668 12 21.668ZM12 12.668C12.3824 12.668 12.7611 12.5926 13.1144 12.4463C13.4677 12.3 13.7887 12.0855 14.0591 11.8151C14.3295 11.5447 14.544 11.2236 14.6903 10.8703C14.8367 10.517 14.912 10.1384 14.912 9.75597C14.912 9.37356 14.8367 8.99489 14.6903 8.64159C14.544 8.28829 14.3295 7.96728 14.0591 7.69687C13.7887 7.42647 13.4677 7.21197 13.1144 7.06563C12.7611 6.91929 12.3824 6.84397 12 6.84397C11.2277 6.84397 10.487 7.15077 9.9409 7.69687C9.3948 8.24298 9.088 8.98366 9.088 9.75597C9.088 10.5283 9.3948 11.269 9.9409 11.8151C10.487 12.3612 11.2277 12.668 12 12.668Z"
                         fill="#10101E"
                       />
-                    </svg>
-                    {lawyerData?.address}
-                  </p>}
-                  {
-                    lawyerData?.city && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
-                      <MdOutlineLocationCity className="text-2xl" />
-                      {lawyerData?.city}
-                    </p>
-                  }
-                  {
-                    lawyerData?.state && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
-                      <TbBuildingEstate className="text-2xl" />
-                      {lawyerData?.state}
-                    </p>
-                  }
-                  {
-                    lawyerData?.zipcode && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
-                      <PiFileZipBold className="text-2xl" />
-                      {lawyerData?.zipcode}
-                    </p>
-                  }
+                    </svg> */}
+                    
+                      Address :</strong>
+                    <div className=" pt-1 ">
+                    <div className="pt-1">
+                      <span>{lawyerData.address}</span>
+                      <span>{lawyerData.city}</span>
+                    </div>
+                    <div className="flex flex-row items-center gap-2"> 
+
+                    <p className="font-roboto text-[16px] text-[#10101E] pt-2">{lawyerData.state},</p>
+                    <p className="font-roboto text-[16px] text-[#10101E] pt-2">{lawyerData.zipcode}</p>
+                    </div>
+
+                    </div>
+
+                  </div>
 
 
                   {lawyerData.languages && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3 ">
-                    <svg
+                    {/* <svg
                       width="24"
                       height="25"
                       viewBox="0 0 24 25"
@@ -296,13 +292,14 @@ const AttorneyDetails = () => {
                         d="M12 21.332C13.1819 21.332 14.3522 21.0992 15.4442 20.6469C16.5361 20.1947 17.5282 19.5317 18.364 18.696C19.1997 17.8603 19.8626 16.8681 20.3149 15.7762C20.7672 14.6843 21 13.5139 21 12.332C21 11.1501 20.7672 9.97981 20.3149 8.88788C19.8626 7.79595 19.1997 6.8038 18.364 5.96807C17.5282 5.13234 16.5361 4.46941 15.4442 4.01712C14.3522 3.56482 13.1819 3.33203 12 3.33203C9.61305 3.33203 7.32387 4.28024 5.63604 5.96807C3.94821 7.6559 3 9.94508 3 12.332C3 14.719 3.94821 17.0082 5.63604 18.696C7.32387 20.3838 9.61305 21.332 12 21.332ZM11.1 19.469C9.36032 19.252 7.75986 18.4069 6.59966 17.0925C5.43945 15.7782 4.79944 14.0852 4.8 12.332C4.8 11.774 4.872 11.243 4.989 10.721L9.3 15.032V15.932C9.3 16.922 10.11 17.732 11.1 17.732V19.469ZM17.31 17.183C17.1958 16.8193 16.9682 16.5017 16.6605 16.2766C16.3529 16.0515 15.9812 15.9307 15.6 15.932H14.7V13.232C14.7 12.737 14.295 12.332 13.8 12.332H8.4V10.532H10.2C10.695 10.532 11.1 10.127 11.1 9.63203V7.83203H12.9C13.89 7.83203 14.7 7.02203 14.7 6.03203V5.66303C17.337 6.73403 19.2 9.31703 19.2 12.332C19.2 14.204 18.48 15.905 17.31 17.183Z"
                         fill="#121221"
                       />
-                    </svg>
+                    </svg> */}
+                      <strong>Languages :</strong>
                     {lawyerData.languages}
                   </p>}
 
                   {
                     lawyerData?.web_link && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3 ">
-                      <svg
+                      {/* <svg
                         width="24"
                         height="24"
                         viewBox="0 0 24 24"
@@ -321,7 +318,8 @@ const AttorneyDetails = () => {
                           d="M11.144 19.5427L12.081 18.6227C12.1771 18.5293 12.2534 18.4176 12.3056 18.2942C12.3577 18.1708 12.3846 18.0382 12.3846 17.9042C12.3846 17.7702 12.3577 17.6376 12.3056 17.5142C12.2534 17.3908 12.1771 17.2791 12.081 17.1857C11.8855 16.995 11.6231 16.8883 11.35 16.8883C11.0769 16.8883 10.8145 16.995 10.619 17.1857L9.63401 18.1517C8.66701 19.1017 7.09201 19.2867 6.03201 18.4397C5.74853 18.2161 5.51599 17.9346 5.34988 17.614C5.18378 17.2935 5.08792 16.9411 5.06871 16.5806C5.0495 16.2201 5.10738 15.8596 5.23848 15.5232C5.36958 15.1868 5.5709 14.8822 5.82901 14.6297L8.73201 11.7777C9.22624 11.2954 9.88944 11.0254 10.58 11.0254C11.2706 11.0254 11.9338 11.2954 12.428 11.7777L13.538 12.8677L15 11.4297L13.892 10.3407C12.07 8.55269 9.09001 8.55269 7.27001 10.3407L4.36501 13.1927C3.9043 13.6451 3.54497 14.1902 3.31081 14.792C3.07666 15.3937 2.97303 16.0383 3.00678 16.6831C3.04053 17.3279 3.2109 17.9582 3.5066 18.5322C3.8023 19.1062 4.21658 19.6109 4.72201 20.0127C6.61501 21.5297 9.417 21.2387 11.144 19.5427Z"
                           fill="#10101E"
                         />
-                      </svg>
+                      </svg> */}
+                          <strong>Law firm website link : </strong>
                       <Link
                         to={`${lawyerData.web_link}`}
                         className="text-primary underline"
