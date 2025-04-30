@@ -96,43 +96,52 @@ const AttorneyDetails = () => {
 
 console.log(lawyerData)
 
-  const handleShareProfile = () => {
-    try {
-      const profileUrl = `http://137.59.180.219:3005/attorney-tm-details/${id}?is_favorite=false`;
-      const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&shareUrl=${profileUrl}`;
-      window.open(linkedinUrl, "_blank");
+const handleShareProfile = () => {
+  try {
+    const profileUrl = `${window.location.href}`;
+    const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&shareUrl=${profileUrl}`;
+    window.open(linkedinUrl, "_blank");
 
-      // Try to use Web Share API if supported
-      // if (navigator.share) {
-      //   navigator
-      //     .share({
-      //       title: "Check out this profile",
-      //       text: `Check out ${lawyerData?.first_name} ${lawyerData?.last_name}'s profile on LinkedIn.`,
-      //       url: profileUrl,
-      //     })
-      //     .catch((error) => console.error("Error sharing via Web Share API:", error));
-      // } else {
-      //   window.open(linkedinUrl, "_blank");
-      // }
-    } catch (error) {
-      console.error("Error sharing profile:", error);
-      window.open(linkedinUrl, "_blank");
-    }
-  };
+    // Try to use Web Share API if supported
+    // if (navigator.share) {
+    //   navigator
+    //     .share({
+    //       title: "Check out this profile",
+    //       text: `Check out ${lawyerData?.first_name} ${lawyerData?.last_name}'s profile on LinkedIn.`,
+    //       url: profileUrl,
+    //     })
+    //     .catch((error) => console.error("Error sharing via Web Share API:", error));
+    // } else {
+    //   window.open(linkedinUrl, "_blank");
+    // }
+  } catch (error) {
+    console.error("Error sharing profile:", error);
+    window.open(linkedinUrl, "_blank");
+  }
+};
   return (
     <div className="container mx-auto px-4 py-8 md:py-20">
       <Helmet>
         <title>{lawyerData?.full_name}</title>
         <meta property="og:title" content="Your Website Title Here" />
-        <meta property="og:description" content="A short description of your website or page." />
+        <meta
+          property="og:description"
+          content="A short description of your website or page."
+        />
         <meta property="og:image" content={lawyerData?.avatar} />
-        <meta property="og:url" content="https://yourwebsite.com" />
+        <meta property="og:url" content="http://137.59.180.219:3005" />
         <meta property="og:type" content={lawyerData?.web_link} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Your Website Title Here" />
-        <meta name="twitter:description" content="A short description of your website or page." />
-        <meta name="twitter:image" content="https://yourwebsite.com/images/preview.jpg" />
-
+        <meta
+          name="twitter:description"
+          content="A short description of your website or page."
+        />
+        <meta
+          name="twitter:image"
+          content="http://137.59.180.219:3005/images/preview.jpg"
+        />
+ 
         <meta name="full_name" content={lawyerData?.full_name} />
         <meta name="email" content={lawyerData?.email} />
         <meta name="phone" content={lawyerData?.phone_number} />

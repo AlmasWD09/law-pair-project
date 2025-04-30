@@ -131,14 +131,12 @@ const Header = () => {
     <>
       {/* Navbar */}
       <header
-        className={`sticky -top-[3px] left-0 w-full  transition-all ease-in-out duration-300 ${
-          navbar ? "0 z-50 fixed " : " z-50 "
-        }`}
+        className={`sticky -top-[3px] left-0 w-full  transition-all ease-in-out duration-300 ${navbar ? "0 z-50 fixed " : " z-50 "
+          }`}
       >
         <div
-          className={`absolute w-full ${
-            navbar ? "bg-[#FFFFFF] lg:py-2" : "lg:my-2"
-          }`}
+          className={`absolute w-full ${navbar ? "bg-[#FFFFFF] lg:py-2" : "lg:my-2"
+            }`}
         >
           <div className="container mx-auto px-[27px] flex items-center bg-[#FFFFFF] lg:rounded-full py-[16px]">
             <nav className="relative container flex justify-between items-center w-full">
@@ -170,12 +168,14 @@ const Header = () => {
                     />
                   </span>
                 </div>
+
+
               </div>
 
               {/* Mobile Menu Button */}
               <div className="flex lg:hidden">
                 <button
-                  onClick={() => setMenuOpen(!menuOpen)}
+                  onClick={() => setMenuOpen(!menuOpen) && setMenuOpen(false)}
                   className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg px-3 py-[6px] focus:ring-2 ring-primary"
                 >
                   {menuOpen ? (
@@ -188,9 +188,8 @@ const Header = () => {
 
               {/* Sidebar (Mobile Menu) */}
               <div
-                className={`fixed top-0 right-0 h-full w-2/3 p-4 bg-gray-100 shadow-lg z-[200] transition-transform overflow-y-auto ${
-                  menuOpen ? "translate-x-0" : "translate-x-full"
-                }`}
+                className={`fixed top-0 right-0 h-full w-2/3 p-4 bg-gray-100 shadow-lg z-[200] transition-transform overflow-y-auto ${menuOpen ? "translate-x-0" : "translate-x-full"
+                  }`}
               >
                 <button
                   onClick={() => setMenuOpen(false)}
@@ -214,6 +213,25 @@ const Header = () => {
                   >
                     <Button text={"Legal Resources"} />
                   </NavLink>
+
+                  {/* ============= Search Bar ================ */}
+                  <div className="relative md:hidden">
+                    <input
+                      type="text"
+                      maxLength={18}
+                      className="py-3 md:py-4 pl-2 pr-4 w-[180px] md:w-[190px]  bg-[#E7E7E999] text-gray-700 rounded  outline-none "
+                      placeholder="Search attorney..."
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                    />
+                    <span className="absolute inset-y-0 right-0 flex items-center pl-3">
+                      <RiSearchLine
+                        onClick={handleSearch}
+                        className="w-10 h-8 pr-3 text-primary"
+                      />
+                    </span>
+                  </div>
                   {/* Signup Button */}
                   <div className="bg-secondery/50 rounded-md py-3">
                     <div className="flex items-center gap-4">
