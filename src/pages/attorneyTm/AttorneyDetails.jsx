@@ -167,14 +167,14 @@ const handleShareProfile = () => {
                   <div className="flex items-center gap-2">
 
                     <button onClick={handleShareProfile}>
-                      <LinkedinOutlined className="text-xl mt-1" />
+                      <LinkedinOutlined className="text-md mt-1" />
                     </button>
                     <span>
                       {is_favoriteValue === "true" ? (
                         <svg
                           className="cursor-not-allowed "
                           width="24"
-                          height="24"
+                          height="20"
                           viewBox="0 0 24 24"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
@@ -188,10 +188,10 @@ const handleShareProfile = () => {
                         </svg>
                       ) : (
                         <svg
-                          className="cursor-pointer"
+                          className="cursor-pointer "
                           onClick={() => handleFavoriteList(parseInt(id))}
-                          width="25"
-                          height="24"
+                          width="24"
+                          height="20"
                           viewBox="0 0 25 24"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
