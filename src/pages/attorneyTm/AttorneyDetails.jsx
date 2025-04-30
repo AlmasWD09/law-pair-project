@@ -12,6 +12,7 @@ import LoadindSpenier from "../../components/shared/LoadindSpenier";
 import { MdOutlineLocationCity } from "react-icons/md";
 import { TbBuildingEstate } from "react-icons/tb";
 import { PiFileZipBold } from "react-icons/pi";
+import { LinkedinOutlined } from "@ant-design/icons";
 
 
 
@@ -84,7 +85,39 @@ const AttorneyDetails = () => {
 
   const locationLink = window.location.href
 
-  console.log(lawyerData)
+  // const handleShareProfile = () => {
+  //   const profileUrl = `https://your-domain.com/attorney-tm-details/${id}`;
+  //   const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(profileUrl)}`;
+
+  //   // Open LinkedIn post composer in a new tab
+  //   window.open(linkedinUrl, "_blank");
+  // };
+
+
+
+  const handleShareProfile = () => {
+    try {
+      const profileUrl = `http://localhost:5173/attorney-tm-details/${id}?is_favorite=false`;
+      const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(profileUrl)}`;
+
+      // Try to use Web Share API if supported
+      if (navigator.share) {
+        navigator
+          .share({
+            title: "Check out this profile",
+            text: `Check out ${lawyerData?.first_name} ${lawyerData?.last_name}'s profile on LinkedIn.`,
+            url: profileUrl,
+          })
+          .catch((error) => console.error("Error sharing via Web Share API:", error));
+      } else {
+        // Fallback: Open LinkedIn share in new tab
+        window.open(linkedinUrl, "_blank");
+      }
+    } catch (error) {
+      console.error("Error sharing profile:", error);
+      window.open(linkedinUrl, "_blank");
+    }
+  };
   return (
     <div className="container mx-auto px-4 py-8 md:py-20">
       {
@@ -102,6 +135,10 @@ const AttorneyDetails = () => {
                 <div className="flex flex-col md:flex-row items-center justify-between md:gap-10">
                   <p className="text-[14px] md:text-lg font-semibold font-poppins pt-4 text-end">Share this profile</p>
                   <div className="flex items-center gap-2">
+
+                    <button onClick={handleShareProfile}>
+                      <LinkedinOutlined className="text-xl mt-1" />
+                    </button>
                     <span>
                       {is_favoriteValue === "true" ? (
                         <svg
@@ -177,8 +214,8 @@ const AttorneyDetails = () => {
                 <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">
                   Contact details
                 </h2>
-                <div className="space-y-3 pt-[8px">
-                  {lawyerData.phone && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3 pt-[8px]">
+                <div className=" pt-[8px]">
+                  {lawyerData.phone && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
                     {/* <svg
                       width="24"
                       height="25"
@@ -193,12 +230,12 @@ const AttorneyDetails = () => {
                         fill="#10101E"
                       />
                     </svg> */}
-                    <strong>Phone :</strong>
-                    {lawyerData.phone}
-                  </p>
+                    <p className="text-md font-semibold">Phone:</p>
+                    <p>{lawyerData.phone}</p>
+                  </div>
                   }
 
-                  {lawyerData.email && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
+                  {lawyerData.email && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
                     {/* <svg
                       width="24"
                       height="25"
@@ -217,12 +254,12 @@ const AttorneyDetails = () => {
                         fill="#10101E"
                       />
                     </svg> */}
-                    <strong>Email address :</strong>
-                    {lawyerData.email}
-                  </p>}
+                    <p className="text-md font-semibold">Email address:</p>
+                  <p>  {lawyerData.email}</p>
+                  </div>}
 
 
-                  {lawyerData.practice_area && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3">
+                  {lawyerData.practice_area && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
                     {/* <svg
                       width="24"
                       height="25"
@@ -237,15 +274,15 @@ const AttorneyDetails = () => {
                         fill="#10101E"
                       />
                     </svg> */}
-                       <strong>Law firm name :</strong>
-                    {lawyerData.practice_area}
-                  </p>}
+                    <p className="text-md font-semibold">Law firm name:</p>
+                   <p> {lawyerData.practice_area}</p>
+                  </div>}
 
 
                   <div>
-                    
-                    <strong className=" flex flex-row items-center gap-2 "> 
-                      
+
+                    <strong className=" flex flex-row items-center gap-2 ">
+
                       {/* <svg
                       width="24"
                       height="25"
@@ -260,25 +297,25 @@ const AttorneyDetails = () => {
                         fill="#10101E"
                       />
                     </svg> */}
-                    
-                      Address :</strong>
-                    <div className=" pt-1 ">
-                    <div className="pt-1">
-                      <span>{lawyerData.address}</span>
-                      <span>{lawyerData.city}</span>
-                    </div>
-                    <div className="flex flex-row items-center gap-2"> 
 
-                    <p className="font-roboto text-[16px] text-[#10101E] pt-2">{lawyerData.state},</p>
-                    <p className="font-roboto text-[16px] text-[#10101E] pt-2">{lawyerData.zipcode}</p>
-                    </div>
+                      Address:</strong>
+                    <div className=" pt-1 ">
+                      <div className="pt-1">
+                        <span>{lawyerData.address}</span>
+                        <span>{lawyerData.city}</span>
+                      </div>
+                      <div className="flex flex-row items-center gap-2">
+
+                        <p className="font-roboto text-[16px] text-[#10101E] pt-2">{lawyerData.state},</p>
+                        <p className="font-roboto text-[16px] text-[#10101E] pt-2">{lawyerData.zipcode}</p>
+                      </div>
 
                     </div>
 
                   </div>
 
 
-                  {lawyerData.languages && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3 ">
+                  {lawyerData.languages && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
                     {/* <svg
                       width="24"
                       height="25"
@@ -293,12 +330,12 @@ const AttorneyDetails = () => {
                         fill="#121221"
                       />
                     </svg> */}
-                      <strong>Languages :</strong>
-                    {lawyerData.languages}
-                  </p>}
+                    <p className="text-md font-semibold">Languages:</p>
+                    <p>{lawyerData.languages}</p>
+                  </div>}
 
                   {
-                    lawyerData?.web_link && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3 ">
+                    lawyerData?.web_link && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
                       {/* <svg
                         width="24"
                         height="24"
@@ -319,17 +356,20 @@ const AttorneyDetails = () => {
                           fill="#10101E"
                         />
                       </svg> */}
-                          <strong>Law firm website link : </strong>
-                      <Link
-                        to={`${lawyerData.web_link}`}
-                        className="text-primary underline"
-                      >
-                        {lawyerData.web_link}
-                      </Link>
-                    </p>
+                      <p className="text-md font-semibold">Law firm website link: </p>
+                      <p>
+
+                        <Link
+                          to={`${lawyerData.web_link}`}
+                          className="text-primary underline"
+                        >
+                          {lawyerData.web_link}
+                        </Link>
+                      </p>
+                    </div>
                   }
                   {
-                    lawyerData?.linkedin_url && <p className="font-roboto text-[16px] text-[#10101E] flex items-center gap-3 ">
+                    lawyerData?.linkedin_url && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
                       {/* <svg
                         width="24"
                         height="24"
@@ -350,14 +390,17 @@ const AttorneyDetails = () => {
                           fill="#10101E"
                         />
                       </svg> */}
-                          <strong>LinkedIn : </strong>
-                      <Link
-                        to={`${lawyerData?.linkedin_url}`}
-                        className="text-primary underline"
-                      >
-                        {lawyerData?.linkedin_url}
-                      </Link>
-                    </p>
+                      <p className="text-md font-semibold">LinkedIn: </p>
+                      <p>
+
+                        <Link
+                          to={`${lawyerData?.linkedin_url}`}
+                          className="text-primary underline"
+                        >
+                          {lawyerData?.linkedin_url}
+                        </Link>
+                      </p>
+                    </div>
                   }
                 </div>
                 {/* <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">
