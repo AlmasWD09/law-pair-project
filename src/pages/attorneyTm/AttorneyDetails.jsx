@@ -97,8 +97,8 @@ const AttorneyDetails = () => {
 
   const handleShareProfile = () => {
     try {
-      const profileUrl = `http://localhost:5173/attorney-tm-details/${id}?is_favorite=false`;
-      const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(profileUrl)}`;
+      const profileUrl = `http://137.59.180.219:3005/attorney-tm-details/${id}?is_favorite=false`;
+      const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&shareUrl=${profileUrl}`;
 
       // Try to use Web Share API if supported
       if (navigator.share) {
