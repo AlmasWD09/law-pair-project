@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaHome } from "react-icons/fa";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
@@ -119,20 +120,6 @@ const AttorneyDetails = () => {
       window.open(linkedinUrl, "_blank");
     }
   };
-
-  const handleShared = () =>{
-    console.log('click')
-    const shareUrl = `${window.location.origin}/attorney-tm-details/${id}`;
-
-    navigator.clipboard.writeText(shareUrl)
-      .then(() => {
-        toast.success("Link copied to clipboard!");
-      })
-      .catch(() => {
-        toast.error("Failed to copy link.");
-      });
-  
-  }
   return (
     <div className="container mx-auto px-4 py-8 md:py-20">
       <Helmet>
@@ -177,10 +164,7 @@ const AttorneyDetails = () => {
                 />
 
                 <div className="flex flex-col md:flex-row items-center justify-between md:gap-10">
-                  <button 
-                  onClick={()=>handleShared()}
-                  className=" text-[14px] md:text-lg font-semibold font-poppins pt-4 text-end">Share this profile</button>
-
+                  <p className="text-[14px] md:text-lg font-semibold font-poppins pt-4 text-end">Share this profile</p>
                   <div className="flex items-center gap-2">
 
                     <button onClick={handleShareProfile}>
