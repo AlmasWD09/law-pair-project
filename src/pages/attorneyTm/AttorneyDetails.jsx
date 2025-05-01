@@ -94,31 +94,31 @@ const AttorneyDetails = () => {
   //   window.open(linkedinUrl, "_blank");
   // };
 
-console.log(lawyerData)
+  console.log(lawyerData)
 
-const handleShareProfile = () => {
-  try {
-    const profileUrl = `${window.location.href}`;
-    const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&shareUrl=${profileUrl}`;
-    window.open(linkedinUrl, "_blank");
+  const handleShareProfile = () => {
+    try {
+      const profileUrl = `${window.location.href}`;
+      const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&shareUrl=${profileUrl}`;
+      window.open(linkedinUrl, "_blank");
 
-    // Try to use Web Share API if supported
-    // if (navigator.share) {
-    //   navigator
-    //     .share({
-    //       title: "Check out this profile",
-    //       text: `Check out ${lawyerData?.first_name} ${lawyerData?.last_name}'s profile on LinkedIn.`,
-    //       url: profileUrl,
-    //     })
-    //     .catch((error) => console.error("Error sharing via Web Share API:", error));
-    // } else {
-    //   window.open(linkedinUrl, "_blank");
-    // }
-  } catch (error) {
-    console.error("Error sharing profile:", error);
-    window.open(linkedinUrl, "_blank");
-  }
-};
+      // Try to use Web Share API if supported
+      // if (navigator.share) {
+      //   navigator
+      //     .share({
+      //       title: "Check out this profile",
+      //       text: `Check out ${lawyerData?.first_name} ${lawyerData?.last_name}'s profile on LinkedIn.`,
+      //       url: profileUrl,
+      //     })
+      //     .catch((error) => console.error("Error sharing via Web Share API:", error));
+      // } else {
+      //   window.open(linkedinUrl, "_blank");
+      // }
+    } catch (error) {
+      console.error("Error sharing profile:", error);
+      window.open(linkedinUrl, "_blank");
+    }
+  };
   return (
     <div className="container mx-auto px-4 py-8 md:py-20">
       <Helmet>
@@ -141,7 +141,7 @@ const handleShareProfile = () => {
           name="twitter:image"
           content="http://137.59.180.219:3005/images/preview.jpg"
         />
- 
+
         <meta name="full_name" content={lawyerData?.full_name} />
         <meta name="email" content={lawyerData?.email} />
         <meta name="phone" content={lawyerData?.phone_number} />
@@ -260,7 +260,7 @@ const handleShareProfile = () => {
                         fill="#10101E"
                       />
                     </svg> */}
-                    <p className="text-md font-semibold">Phone:</p>
+                    {/* <p className="text-md font-semibold">Phone:</p> */}
                     <p>{lawyerData.phone}</p>
                   </div>
                   }
@@ -284,7 +284,7 @@ const handleShareProfile = () => {
                         fill="#10101E"
                       />
                     </svg> */}
-                    <p className="text-md font-semibold">Email address:</p>
+                    {/* <p className="text-md font-semibold">Email address:</p> */}
                     <p>  {lawyerData.email}</p>
                   </div>}
 
@@ -304,16 +304,16 @@ const handleShareProfile = () => {
                         fill="#10101E"
                       />
                     </svg> */}
-                    <p className="text-md font-semibold">Law firm name:</p>
+                    {/* <p className="text-md font-semibold">Law firm name:</p> */}
                     <p> {lawyerData.practice_area}</p>
                   </div>}
 
 
                   <div>
 
-                    <strong className=" flex flex-row items-center gap-2 ">
+                    {/* <strong className=" flex flex-row items-center gap-2 ">
 
-                      {/* <svg
+                      <svg
                       width="24"
                       height="25"
                       viewBox="0 0 24 25"
@@ -326,9 +326,9 @@ const handleShareProfile = () => {
                         d="M12 21.668C9.72 21.668 6 12.982 6 9.66797C6 8.07667 6.63214 6.55055 7.75736 5.42533C8.88258 4.30011 10.4087 3.66797 12 3.66797C13.5913 3.66797 15.1174 4.30011 16.2426 5.42533C17.3679 6.55055 18 8.07667 18 9.66797C18 12.982 14.28 21.668 12 21.668ZM12 12.668C12.3824 12.668 12.7611 12.5926 13.1144 12.4463C13.4677 12.3 13.7887 12.0855 14.0591 11.8151C14.3295 11.5447 14.544 11.2236 14.6903 10.8703C14.8367 10.517 14.912 10.1384 14.912 9.75597C14.912 9.37356 14.8367 8.99489 14.6903 8.64159C14.544 8.28829 14.3295 7.96728 14.0591 7.69687C13.7887 7.42647 13.4677 7.21197 13.1144 7.06563C12.7611 6.91929 12.3824 6.84397 12 6.84397C11.2277 6.84397 10.487 7.15077 9.9409 7.69687C9.3948 8.24298 9.088 8.98366 9.088 9.75597C9.088 10.5283 9.3948 11.269 9.9409 11.8151C10.487 12.3612 11.2277 12.668 12 12.668Z"
                         fill="#10101E"
                       />
-                    </svg> */}
+                    </svg>
 
-                      Address:</strong>
+                      Address:</strong> */}
                     <div className=" pt-1 ">
                       <div className="pt-1">
                         <span>{lawyerData.address}</span>
@@ -360,35 +360,13 @@ const handleShareProfile = () => {
                         fill="#121221"
                       />
                     </svg> */}
-                    <p className="text-md font-semibold">Languages:</p>
+                    {/* <p className="text-md font-semibold">Languages:</p> */}
                     <p>{lawyerData.languages}</p>
                   </div>}
 
                   {
                     lawyerData?.web_link && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
-                      {/* <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M12.856 5.45669L11.919 6.37669C11.8229 6.47007 11.7466 6.58177 11.6944 6.70518C11.6423 6.8286 11.6154 6.96121 11.6154 7.09519C11.6154 7.22917 11.6423 7.36178 11.6944 7.4852C11.7466 7.60861 11.8229 7.72031 11.919 7.81369C12.1146 8.00469 12.3771 8.11161 12.6505 8.11161C12.9239 8.11161 13.1864 8.00469 13.382 7.81369L14.366 6.84769C15.333 5.89769 16.908 5.71269 17.968 6.55969C18.2515 6.7833 18.484 7.06478 18.6501 7.38535C18.8162 7.70593 18.9121 8.05823 18.9313 8.41877C18.9505 8.77931 18.8926 9.13981 18.7615 9.47622C18.6304 9.81263 18.4291 10.1172 18.171 10.3697L15.268 13.2217C14.7738 13.704 14.1106 13.974 13.42 13.974C12.7294 13.974 12.0662 13.704 11.572 13.2217L10.462 12.1317L9.00001 13.5697L10.108 14.6587C11.93 16.4467 14.91 16.4467 16.73 14.6587L19.635 11.8067C20.0957 11.3543 20.455 10.8092 20.6892 10.2074C20.9234 9.60568 21.027 8.96106 20.9932 8.31625C20.9595 7.67144 20.7891 7.04116 20.4934 6.46715C20.1977 5.89315 19.7834 5.38852 19.278 4.98669C17.385 3.46969 14.583 3.76069 12.856 5.45669Z"
-                          fill="#10101E"
-                        />
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M11.144 19.5427L12.081 18.6227C12.1771 18.5293 12.2534 18.4176 12.3056 18.2942C12.3577 18.1708 12.3846 18.0382 12.3846 17.9042C12.3846 17.7702 12.3577 17.6376 12.3056 17.5142C12.2534 17.3908 12.1771 17.2791 12.081 17.1857C11.8855 16.995 11.6231 16.8883 11.35 16.8883C11.0769 16.8883 10.8145 16.995 10.619 17.1857L9.63401 18.1517C8.66701 19.1017 7.09201 19.2867 6.03201 18.4397C5.74853 18.2161 5.51599 17.9346 5.34988 17.614C5.18378 17.2935 5.08792 16.9411 5.06871 16.5806C5.0495 16.2201 5.10738 15.8596 5.23848 15.5232C5.36958 15.1868 5.5709 14.8822 5.82901 14.6297L8.73201 11.7777C9.22624 11.2954 9.88944 11.0254 10.58 11.0254C11.2706 11.0254 11.9338 11.2954 12.428 11.7777L13.538 12.8677L15 11.4297L13.892 10.3407C12.07 8.55269 9.09001 8.55269 7.27001 10.3407L4.36501 13.1927C3.9043 13.6451 3.54497 14.1902 3.31081 14.792C3.07666 15.3937 2.97303 16.0383 3.00678 16.6831C3.04053 17.3279 3.2109 17.9582 3.5066 18.5322C3.8023 19.1062 4.21658 19.6109 4.72201 20.0127C6.61501 21.5297 9.417 21.2387 11.144 19.5427Z"
-                          fill="#10101E"
-                        />
-                      </svg> */}
-                      <p className="text-md font-semibold">Law firm website link: </p>
                       <p>
-
                         <Link
                           to={`${lawyerData.web_link}`}
                           className="text-primary underline"
@@ -400,29 +378,9 @@ const handleShareProfile = () => {
                   }
                   {
                     lawyerData?.linkedin_url && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
-                      {/* <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M12.856 5.45669L11.919 6.37669C11.8229 6.47007 11.7466 6.58177 11.6944 6.70518C11.6423 6.8286 11.6154 6.96121 11.6154 7.09519C11.6154 7.22917 11.6423 7.36178 11.6944 7.4852C11.7466 7.60861 11.8229 7.72031 11.919 7.81369C12.1146 8.00469 12.3771 8.11161 12.6505 8.11161C12.9239 8.11161 13.1864 8.00469 13.382 7.81369L14.366 6.84769C15.333 5.89769 16.908 5.71269 17.968 6.55969C18.2515 6.7833 18.484 7.06478 18.6501 7.38535C18.8162 7.70593 18.9121 8.05823 18.9313 8.41877C18.9505 8.77931 18.8926 9.13981 18.7615 9.47622C18.6304 9.81263 18.4291 10.1172 18.171 10.3697L15.268 13.2217C14.7738 13.704 14.1106 13.974 13.42 13.974C12.7294 13.974 12.0662 13.704 11.572 13.2217L10.462 12.1317L9.00001 13.5697L10.108 14.6587C11.93 16.4467 14.91 16.4467 16.73 14.6587L19.635 11.8067C20.0957 11.3543 20.455 10.8092 20.6892 10.2074C20.9234 9.60568 21.027 8.96106 20.9932 8.31625C20.9595 7.67144 20.7891 7.04116 20.4934 6.46715C20.1977 5.89315 19.7834 5.38852 19.278 4.98669C17.385 3.46969 14.583 3.76069 12.856 5.45669Z"
-                          fill="#10101E"
-                        />
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M11.144 19.5427L12.081 18.6227C12.1771 18.5293 12.2534 18.4176 12.3056 18.2942C12.3577 18.1708 12.3846 18.0382 12.3846 17.9042C12.3846 17.7702 12.3577 17.6376 12.3056 17.5142C12.2534 17.3908 12.1771 17.2791 12.081 17.1857C11.8855 16.995 11.6231 16.8883 11.35 16.8883C11.0769 16.8883 10.8145 16.995 10.619 17.1857L9.63401 18.1517C8.66701 19.1017 7.09201 19.2867 6.03201 18.4397C5.74853 18.2161 5.51599 17.9346 5.34988 17.614C5.18378 17.2935 5.08792 16.9411 5.06871 16.5806C5.0495 16.2201 5.10738 15.8596 5.23848 15.5232C5.36958 15.1868 5.5709 14.8822 5.82901 14.6297L8.73201 11.7777C9.22624 11.2954 9.88944 11.0254 10.58 11.0254C11.2706 11.0254 11.9338 11.2954 12.428 11.7777L13.538 12.8677L15 11.4297L13.892 10.3407C12.07 8.55269 9.09001 8.55269 7.27001 10.3407L4.36501 13.1927C3.9043 13.6451 3.54497 14.1902 3.31081 14.792C3.07666 15.3937 2.97303 16.0383 3.00678 16.6831C3.04053 17.3279 3.2109 17.9582 3.5066 18.5322C3.8023 19.1062 4.21658 19.6109 4.72201 20.0127C6.61501 21.5297 9.417 21.2387 11.144 19.5427Z"
-                          fill="#10101E"
-                        />
-                      </svg> */}
-                      <p className="text-md font-semibold">LinkedIn: </p>
-                      <p>
 
+
+                      <p>
                         <Link
                           to={`${lawyerData?.linkedin_url}`}
                           className="text-primary underline"
@@ -433,21 +391,6 @@ const handleShareProfile = () => {
                     </div>
                   }
                 </div>
-                {/* <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">
-                  Availability
-                </h2>
-                <div className="flex flex-wrap lg:flex-row items-center gap-3 pt-3">
-                  {lawyerData?.schedule?.map((avilityDay, index) => {
-                    return (
-                      <button
-                        key={index}
-                        className="border px-4 py-1 rounded-full font-roboto text-primary text-[16px]"
-                      >
-                        {avilityDay.day}
-                      </button>
-                    );
-                  })}
-                </div> */}
               </div>
             </div>
           </div>
