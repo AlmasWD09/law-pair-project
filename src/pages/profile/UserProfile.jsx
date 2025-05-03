@@ -31,9 +31,10 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState({});
   console.log(userData)
+
+
   const { address, avatar, email, first_name, last_name, full_name, phone } =
     userData || {};
-
 
   useEffect(() => {
     if (userData) {
@@ -223,6 +224,54 @@ const UserProfile = () => {
     };
   }, [isModalOpen]);
   // ========== user profile update modal end  =================
+
+
+  console.log('fevorite list ', favoriteData)
+  console.log('paginatedata', paginatedData)
+
+
+
+
+
+
+
+  // favorit list add
+  const handleunfevorite = async (id) => {
+ 
+
+    if (userToken) {
+      try {
+        const response = await axiosPublic.delete(
+          `/user/unmark-as-favorite/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userToken}`,
+              Accept: "application/json",
+            },
+          }
+        );
+        console.log(response.data);
+        if (response.data.success) {
+          toast.success("Favorite list deleted successfully");
+          
+          // Update local state
+          setFavoriteData(prev => prev.filter(item => item.id !== id));
+        }
+        
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      navigate("/login", { state: { from: location } });
+    }
+  };
+
+
+
+
+ 
+
+
 
 
   return (
@@ -541,27 +590,33 @@ const UserProfile = () => {
                         {paginatedData.map((attorney, index) => {
                           console.log(attorney)
                           return (
-                            <Link key={index} to={`/attorney-tm-details/${attorney.lawyer_id}`}>
-                              <div
-                                className="lg:first-letter  lg:h-auto lg:w-[300px] p-4 shadow-lg rounded-md "
-                              >
-                                <img
-                                  src={attorney.avatar}
-                                  alt="Profile"
-                                  onError={(e) => (e.target.src = "/attorney1.png")}
-                                  className="object-cover rounded-md w-[250px] h-[280px]"
-                                />
+                            // <Link key={index} to={`/attorney-tm-details/${attorney.lawyer_id}`}>
+                            <div
+                              className="lg:first-letter  lg:h-auto lg:w-[300px] p-4 shadow-lg rounded-md "
+                            >
+                            <Link key={attorney.id} to={`/attorney-tm-details/${attorney.lawyer_id}?is_favorite=${attorney.is_favorite}`}>
+                            <img
+                                src={attorney.avatar}
+                                alt="Profile"
+                                onError={(e) => (e.target.src = "/attorney1.png")}
+                                className="object-cover rounded-md w-[250px] h-[280px]"
+                              />
 
-                                <div className="flex justify-between items-center">
-                                  <div className="w-full">
-                                    <div className="flex justify-between items-center">
-                                      <h2 className="text-[20px] font-bold font-roboto text-[#001018] pb-2 pt-[16px] capitalize">
-                                        {attorney.first_name} {attorney.last_name}
-                                      </h2>
-                                      <span>
-                                        <svg
-                                          width="24"
-                                          height="24"
+                            </Link>
+                              <div className="flex justify-between items-center">
+                                <div className="w-full">
+                                  <div className="flex justify-between items-center">
+                                    <h2 className="text-[20px] font-bold font-roboto text-[#001018] pb-2 pt-[16px] capitalize">
+                                      {attorney.first_name} {attorney.last_name}
+                                    </h2>
+
+                                    <span>
+                                      {attorney?.is_favorite ? (
+                                       <button onClick={() => handleunfevorite(parseInt(attorney?.id))}>
+                                         <svg
+                                          className="cursor-pointer "
+                                          width="30"
+                                          height="25"
                                           viewBox="0 0 24 24"
                                           fill="none"
                                           xmlns="http://www.w3.org/2000/svg"
@@ -573,31 +628,58 @@ const UserProfile = () => {
                                             fill="#05C793"
                                           />
                                         </svg>
-                                      </span>
-                                    </div>
-                                    <h2 className="font-bold font-roboto text-[#001018] capitalize">
-                                      {attorney.state}
-                                    </h2>
+                                       </button>
+                                      ) : (
+                                        <button>
+                                        <svg
+                                          className="cursor-pointer "
+                                        
+                                          width="30"
+                                          height="24"
+                                          viewBox="0 0 25 24"
+                                          fill="none"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path
+                                            d="M12.5 20C14.6217 20 16.6566 19.1571 18.1569 17.6569C19.6571 16.1566 20.5 14.1217 20.5 12C20.5 9.87827 19.6571 7.84344 18.1569 6.34315C16.6566 4.84285 14.6217 4 12.5 4C10.3783 4 8.34344 4.84285 6.84315 6.34315C5.34285 7.84344 4.5 9.87827 4.5 12C4.5 14.1217 5.34285 16.1566 6.84315 17.6569C8.34344 19.1571 10.3783 20 12.5 20ZM12.5 22C6.977 22 2.5 17.523 2.5 12C2.5 6.477 6.977 2 12.5 2C18.023 2 22.5 6.477 22.5 12C22.5 17.523 18.023 22 12.5 22Z"
+                                            fill="#44546F"
+                                          />
+                                          <path
+                                            fill-rule="evenodd"
+                                            clip-rule="evenodd"
+                                            d="M10.207 11.293C10.1148 11.1975 10.0044 11.1213 9.8824 11.0689C9.7604 11.0165 9.62918 10.9889 9.4964 10.9877C9.36362 10.9866 9.23194 11.0119 9.10905 11.0622C8.98615 11.1125 8.8745 11.1867 8.78061 11.2806C8.68671 11.3745 8.61246 11.4861 8.56218 11.609C8.5119 11.7319 8.4866 11.8636 8.48775 11.9964C8.4889 12.1292 8.51649 12.2604 8.5689 12.3824C8.62131 12.5044 8.69749 12.6148 8.793 12.707L10.793 14.707C10.9805 14.8945 11.2348 14.9998 11.5 14.9998C11.7652 14.9998 12.0195 14.8945 12.207 14.707L16.207 10.707C16.3025 10.6148 16.3787 10.5044 16.4311 10.3824C16.4835 10.2604 16.5111 10.1292 16.5123 9.9964C16.5134 9.86362 16.4881 9.73194 16.4378 9.60905C16.3875 9.48615 16.3133 9.3745 16.2194 9.2806C16.1255 9.18671 16.0139 9.11246 15.891 9.06218C15.7681 9.0119 15.6364 8.98659 15.5036 8.98775C15.3708 8.9889 15.2396 9.01649 15.1176 9.0689C14.9956 9.12131 14.8852 9.19749 14.793 9.293L11.5 12.586L10.207 11.293Z"
+                                            fill="#44546F"
+                                          />
+                                        </svg>
+
+                                        </button>
+                                      )}
+                                    </span>
                                   </div>
+                                  <h2 className="font-bold font-roboto text-[#001018] capitalize">
+                                    {attorney.state}
+                                  </h2>
+                                </div>
 
 
-                                </div>
-                                <div className="text-[14px] font-roboto text-[#001018]">
-                                  {attorney?.categories?.map((categorie, index) => {
-                                    return (
-                                      <div key={index}>
-                                        <h1>{index + 1}. {categorie}</h1>
-                                      </div>
-                                    )
-                                  })}
-                                </div>
                               </div>
-                            </Link>
+                              <div className="text-[14px] font-roboto text-[#001018]">
+                                {attorney?.categories?.map((categorie, index) => {
+                                  return (
+                                    <div key={index}>
+                                      <h1>{index + 1}. {categorie}</h1>
+                                    </div>
+                                  )
+                                })}
+                              </div>
+                            </div>
+                            // </Link>
                           );
                         })}
                       </div>
                       <div className="py-4">
                         <Pagination
+
                           current={currentPage}
                           total={favoriteData.length}
                           pageSize={itemsPerPage}

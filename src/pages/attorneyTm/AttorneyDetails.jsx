@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { FaArrowLeft, FaHome } from "react-icons/fa";
+import { FaArrowLeft, FaHome, FaLinkedin } from "react-icons/fa";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import photo from "/attorney1.png";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { IoLogoWhatsapp } from "react-icons/io";
-import { MdFormatListNumberedRtl, MdTextsms } from "react-icons/md";
+import { MdCorporateFare, MdFormatListNumberedRtl, MdTextsms } from "react-icons/md";
 import { CgMail } from "react-icons/cg";
 import LoadindSpenier from "../../components/shared/LoadindSpenier";
 import { MdOutlineLocationCity } from "react-icons/md";
@@ -14,6 +14,10 @@ import { TbBuildingEstate } from "react-icons/tb";
 import { PiFileZipBold } from "react-icons/pi";
 import { LinkedinOutlined } from "@ant-design/icons";
 import { Helmet } from "react-helmet-async";
+import { LanguagesIcon, LocateIcon, MailIcon, PhoneIcon, Share, ShareIcon } from "lucide-react";
+import { BsBackpackFill } from "react-icons/bs";
+import { CiLocationOn } from "react-icons/ci";
+import { FaShareFromSquare } from "react-icons/fa6";
 
 
 
@@ -94,45 +98,67 @@ const AttorneyDetails = () => {
   //   window.open(linkedinUrl, "_blank");
   // };
 
-  console.log(lawyerData)
+  console.log('lawyerdata',lawyerData)
 
+  // const handleShareProfile = () => {
+  //   try {
+  //     const profileUrl = `${window.location.href}`;
+  //     const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&shareUrl=${profileUrl}`;
+  //     window.open(linkedinUrl, "_blank");
+
+  //     // Try to use Web Share API if supported
+  //     if (navigator.share) {
+  //       navigator
+  //         .share({
+  //           title: "Check out this profile",
+  //           text: `Check out ${lawyerData?.first_name} ${lawyerData?.last_name}'s profile on LinkedIn.`,
+  //           url: profileUrl,
+  //         })
+  //         .catch((error) => console.error("Error sharing via Web Share API:", error));
+  //     } else {
+  //       window.open(linkedinUrl, "_blank");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error sharing profile:", error);
+  //     window.open(linkedinUrl, "_blank");
+  //   }
+  // };
   const handleShareProfile = () => {
     try {
-      const profileUrl = `${window.location.href}`;
-      const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&shareUrl=${profileUrl}`;
-      window.open(linkedinUrl, "_blank");
+      const profileUrl = `http://localhost:5173/attorney-tm-details/${id}?is_favorite=false`;
+      const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(profileUrl)}`;
 
       // Try to use Web Share API if supported
-      // if (navigator.share) {
-      //   navigator
-      //     .share({
-      //       title: "Check out this profile",
-      //       text: `Check out ${lawyerData?.first_name} ${lawyerData?.last_name}'s profile on LinkedIn.`,
-      //       url: profileUrl,
-      //     })
-      //     .catch((error) => console.error("Error sharing via Web Share API:", error));
-      // } else {
-      //   window.open(linkedinUrl, "_blank");
-      // }
+      if (navigator.share) {
+        navigator
+          .share({
+            title: "Check out this profile",
+            text: `Check out ${lawyerData?.first_name} ${lawyerData?.last_name}'s profile on LinkedIn.`,
+            url: profileUrl,
+          })
+          .catch((error) => console.error("Error sharing via Web Share API:", error));
+      } else {
+        // Fallback: Open LinkedIn share in new tab
+        window.open(linkedinUrl, "_blank");
+      }
     } catch (error) {
       console.error("Error sharing profile:", error);
       window.open(linkedinUrl, "_blank");
     }
   };
+  // const handleShared = () => {
+  //   console.log('click')
+  //   const shareUrl = `${window.location.origin}/attorney-tm-details/${id}`;
 
-  const handleShared = () =>{
-    console.log('click')
-    const shareUrl = `${window.location.origin}/attorney-tm-details/${id}`;
+  //   navigator.clipboard.writeText(shareUrl)
+  //     .then(() => {
+  //       toast.success("Link copied to clipboard!");
+  //     })
+  //     .catch(() => {
+  //       toast.error("Failed to copy link.");
+  //     });
 
-    navigator.clipboard.writeText(shareUrl)
-      .then(() => {
-        toast.success("Link copied to clipboard!");
-      })
-      .catch(() => {
-        toast.error("Failed to copy link.");
-      });
-  
-  }
+  // }
   return (
     <div className="container mx-auto px-4 py-8 md:py-20">
       <Helmet>
@@ -177,216 +203,157 @@ const AttorneyDetails = () => {
                 />
 
                 <div className="flex flex-col md:flex-row items-center justify-between md:gap-10">
-                  <button 
-                  onClick={()=>handleShared()}
-                  className=" text-[14px] md:text-lg font-semibold font-poppins pt-4 text-end">Share this profile</button>
-
+                  {/* <button
+                    onClick={() => handleShared()}
+                    className=" text-[14px] md:text-lg font-semibold font-poppins pt-4 text-end">Share this profile</button> */}
+                  {/* 
                   <div className="flex items-center gap-2">
 
-                    <button onClick={handleShareProfile}>
-                      <LinkedinOutlined className="text-md mt-1" />
-                    </button>
-                    <span>
-                      {is_favoriteValue === "true" ? (
-                        <svg
-                          className="cursor-not-allowed "
-                          width="24"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM9.3824 11.0689C9.50441 11.1213 9.61475 11.1975 9.707 11.293L11 12.586L14.293 9.29302C14.3852 9.19751 14.4956 9.12133 14.6176 9.06892C14.7396 9.01651 14.8708 8.98892 15.0036 8.98777C15.1364 8.98662 15.2681 9.01192 15.391 9.0622C15.5138 9.11248 15.6255 9.18673 15.7194 9.28063C15.8133 9.37452 15.8875 9.48617 15.9378 9.60907C15.9881 9.73196 16.0134 9.86364 16.0122 9.99642C16.0111 10.1292 15.9835 10.2604 15.9311 10.3824C15.8787 10.5044 15.8025 10.6148 15.707 10.707L11.707 14.707C11.5195 14.8945 11.2652 14.9998 11 14.9998C10.7348 14.9998 10.4805 14.8945 10.293 14.707L8.293 12.707C8.19749 12.6148 8.1213 12.5044 8.0689 12.3824C8.01649 12.2604 7.9889 12.1292 7.98775 11.9964C7.98659 11.8636 8.0119 11.732 8.06218 11.6091C8.11246 11.4862 8.18671 11.3745 8.2806 11.2806C8.3745 11.1867 8.48615 11.1125 8.60904 11.0622C8.73194 11.0119 8.86362 10.9866 8.9964 10.9878C9.12918 10.9889 9.2604 11.0165 9.3824 11.0689Z"
-                            fill="#05C793"
-                          />
-                        </svg>
-                      ) : (
-                        <svg
-                          className="cursor-pointer "
-                          onClick={() => handleFavoriteList(parseInt(id))}
-                          width="24"
-                          height="20"
-                          viewBox="0 0 25 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M12.5 20C14.6217 20 16.6566 19.1571 18.1569 17.6569C19.6571 16.1566 20.5 14.1217 20.5 12C20.5 9.87827 19.6571 7.84344 18.1569 6.34315C16.6566 4.84285 14.6217 4 12.5 4C10.3783 4 8.34344 4.84285 6.84315 6.34315C5.34285 7.84344 4.5 9.87827 4.5 12C4.5 14.1217 5.34285 16.1566 6.84315 17.6569C8.34344 19.1571 10.3783 20 12.5 20ZM12.5 22C6.977 22 2.5 17.523 2.5 12C2.5 6.477 6.977 2 12.5 2C18.023 2 22.5 6.477 22.5 12C22.5 17.523 18.023 22 12.5 22Z"
-                            fill="#44546F"
-                          />
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M10.207 11.293C10.1148 11.1975 10.0044 11.1213 9.8824 11.0689C9.7604 11.0165 9.62918 10.9889 9.4964 10.9877C9.36362 10.9866 9.23194 11.0119 9.10905 11.0622C8.98615 11.1125 8.8745 11.1867 8.78061 11.2806C8.68671 11.3745 8.61246 11.4861 8.56218 11.609C8.5119 11.7319 8.4866 11.8636 8.48775 11.9964C8.4889 12.1292 8.51649 12.2604 8.5689 12.3824C8.62131 12.5044 8.69749 12.6148 8.793 12.707L10.793 14.707C10.9805 14.8945 11.2348 14.9998 11.5 14.9998C11.7652 14.9998 12.0195 14.8945 12.207 14.707L16.207 10.707C16.3025 10.6148 16.3787 10.5044 16.4311 10.3824C16.4835 10.2604 16.5111 10.1292 16.5123 9.9964C16.5134 9.86362 16.4881 9.73194 16.4378 9.60905C16.3875 9.48615 16.3133 9.3745 16.2194 9.2806C16.1255 9.18671 16.0139 9.11246 15.891 9.06218C15.7681 9.0119 15.6364 8.98659 15.5036 8.98775C15.3708 8.9889 15.2396 9.01649 15.1176 9.0689C14.9956 9.12131 14.8852 9.19749 14.793 9.293L11.5 12.586L10.207 11.293Z"
-                            fill="#44546F"
-                          />
-                        </svg>
-                      )}
-                    </span>
+                
 
-                    {/* email */}
-                    <a href={`mailto:${lawyerData.email}?subject=Service Inquiry&body=${locationLink}`} target="_blank">
-                      <CgMail className="text-2xl " />
+                 
+                    <a
+                      href={`mailto:${lawyerData.email}?subject=${encodeURIComponent('Service Inquiry')}&body=${encodeURIComponent(locationLink)}`}
+                    >
+                      <CgMail className="text-2xl" />
                     </a>
 
-                    {/* whats'app */}
+
+                   
                     <a href={`https://wa.me/${lawyerData.phone}?text=${locationLink}`} target="_blank">
                       <IoLogoWhatsapp className="text-xl text-[#25d366]" />
                     </a>
 
-                    {/* sms */}
+                 
                     <a
                       href={`sms:${lawyerData.phone}?&body=${locationLink}`}
                       target="_blank"
                     >
                       <MdTextsms className="text-xl text-[#04b5f7]" />
                     </a>
-                  </div>
+                  </div> */}
+
+
+
+                  <button onClick={handleShareProfile}>
+                  <FaShareFromSquare className="text-[#0072B1]" size={36} />
+
+                  </button>
                 </div>
               </div>
 
-              <div className="pb-[24px]">
-                {lawyerData.full_name && <h1 className="text-[20px] font-bold font-roboto text-[#001018]">
+              <div className="pb-[8px] border-b-2 border-gray-300 border-opacity-30 flex flex-row  gap-2">
+                {lawyerData.full_name && <h1 className="text-[20px] font-bold font-roboto text-[#001018a1]">
                   {lawyerData.full_name}
                 </h1>
                 }
-
-              </div>
-              <hr />
-
-              <div>
-                <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">
-                  Contact details
-                </h2>
-                <div className=" pt-[8px]">
-                  {lawyerData.phone && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
-                    {/* <svg
-                      width="24"
+                <span>
+                  {is_favoriteValue === "true" ? (
+                    <svg
+                      className="cursor-not-allowed "
+                      width="30"
                       height="25"
-                      viewBox="0 0 12 16"
+                      viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M1.79399 1.36425C0.0679901 3.49725 1.18299 6.32125 2.05999 8.45325C2.47599 9.46525 3.13299 10.4783 3.68899 11.2933C4.66199 12.7172 6.87799 15.4232 9.58999 15.0152C10.758 14.8392 12.117 13.4602 11.187 12.5793L9.31799 10.6392C9.31799 10.6392 8.79499 10.2032 8.14699 10.5592L7.09899 11.1722C7.09899 11.1722 6.67099 11.3743 6.29999 10.8973C5.13699 9.52625 4.30499 8.10025 3.72199 6.40125C3.49499 5.73825 3.88999 5.57325 3.88999 5.57325L4.65699 5.12325C5.29399 4.74525 5.18099 4.07225 5.18099 4.07225L4.74299 1.33425C4.61099 0.76625 4.14199 0.53125 3.59799 0.53125C2.94999 0.53125 2.19799 0.86525 1.79399 1.36425Z"
-                        fill="#10101E"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM9.3824 11.0689C9.50441 11.1213 9.61475 11.1975 9.707 11.293L11 12.586L14.293 9.29302C14.3852 9.19751 14.4956 9.12133 14.6176 9.06892C14.7396 9.01651 14.8708 8.98892 15.0036 8.98777C15.1364 8.98662 15.2681 9.01192 15.391 9.0622C15.5138 9.11248 15.6255 9.18673 15.7194 9.28063C15.8133 9.37452 15.8875 9.48617 15.9378 9.60907C15.9881 9.73196 16.0134 9.86364 16.0122 9.99642C16.0111 10.1292 15.9835 10.2604 15.9311 10.3824C15.8787 10.5044 15.8025 10.6148 15.707 10.707L11.707 14.707C11.5195 14.8945 11.2652 14.9998 11 14.9998C10.7348 14.9998 10.4805 14.8945 10.293 14.707L8.293 12.707C8.19749 12.6148 8.1213 12.5044 8.0689 12.3824C8.01649 12.2604 7.9889 12.1292 7.98775 11.9964C7.98659 11.8636 8.0119 11.732 8.06218 11.6091C8.11246 11.4862 8.18671 11.3745 8.2806 11.2806C8.3745 11.1867 8.48615 11.1125 8.60904 11.0622C8.73194 11.0119 8.86362 10.9866 8.9964 10.9878C9.12918 10.9889 9.2604 11.0165 9.3824 11.0689Z"
+                        fill="#05C793"
                       />
-                    </svg> */}
+                    </svg>
+                  ) : (
+                    <svg
+                      className="cursor-pointer "
+                      onClick={() => handleFavoriteList(parseInt(id))}
+                      width="30"
+                      height="24"
+                      viewBox="0 0 25 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12.5 20C14.6217 20 16.6566 19.1571 18.1569 17.6569C19.6571 16.1566 20.5 14.1217 20.5 12C20.5 9.87827 19.6571 7.84344 18.1569 6.34315C16.6566 4.84285 14.6217 4 12.5 4C10.3783 4 8.34344 4.84285 6.84315 6.34315C5.34285 7.84344 4.5 9.87827 4.5 12C4.5 14.1217 5.34285 16.1566 6.84315 17.6569C8.34344 19.1571 10.3783 20 12.5 20ZM12.5 22C6.977 22 2.5 17.523 2.5 12C2.5 6.477 6.977 2 12.5 2C18.023 2 22.5 6.477 22.5 12C22.5 17.523 18.023 22 12.5 22Z"
+                        fill="#44546F"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M10.207 11.293C10.1148 11.1975 10.0044 11.1213 9.8824 11.0689C9.7604 11.0165 9.62918 10.9889 9.4964 10.9877C9.36362 10.9866 9.23194 11.0119 9.10905 11.0622C8.98615 11.1125 8.8745 11.1867 8.78061 11.2806C8.68671 11.3745 8.61246 11.4861 8.56218 11.609C8.5119 11.7319 8.4866 11.8636 8.48775 11.9964C8.4889 12.1292 8.51649 12.2604 8.5689 12.3824C8.62131 12.5044 8.69749 12.6148 8.793 12.707L10.793 14.707C10.9805 14.8945 11.2348 14.9998 11.5 14.9998C11.7652 14.9998 12.0195 14.8945 12.207 14.707L16.207 10.707C16.3025 10.6148 16.3787 10.5044 16.4311 10.3824C16.4835 10.2604 16.5111 10.1292 16.5123 9.9964C16.5134 9.86362 16.4881 9.73194 16.4378 9.60905C16.3875 9.48615 16.3133 9.3745 16.2194 9.2806C16.1255 9.18671 16.0139 9.11246 15.891 9.06218C15.7681 9.0119 15.6364 8.98659 15.5036 8.98775C15.3708 8.9889 15.2396 9.01649 15.1176 9.0689C14.9956 9.12131 14.8852 9.19749 14.793 9.293L11.5 12.586L10.207 11.293Z"
+                        fill="#44546F"
+                      />
+                    </svg>
+                  )}
+                </span>
+
+              </div>
+
+
+              <div className="pt-2">
+                {/* <h2 className="font-roboto text-[16px] font-bold text-[#000000] pt-[24px]">
+                  Contact details
+                </h2> */}
+                <div className=" pt-[8px]">
+                  {lawyerData.phone && <div className="text-[16px] text-[#10101E] flex flex-row items-center gap-1 ">
+                    <p><PhoneIcon size={20} /></p>
                     {/* <p className="text-md font-semibold">Phone:</p> */}
-                    <p>{lawyerData.phone}</p>
+                    <p className="text-[#001018c4]">{lawyerData.phone}</p>
                   </div>
                   }
 
-                  {lawyerData.email && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
-                    {/* <svg
-                      width="24"
-                      height="25"
-                      viewBox="0 0 24 25"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M5 7.66797V17.668H19V7.66797H5ZM19 5.66797C20.1 5.66797 21 6.56797 21 7.66797V17.668C21 18.768 20.1 19.668 19 19.668H5C3.9 19.668 3 18.768 3 17.668V7.66797C3 6.56797 3.9 5.66797 5 5.66797H19Z"
-                        fill="#10101E"
-                      />
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M5.498 7.16797H3.124C3.273 7.60797 3.523 8.02197 3.874 8.37297L9.756 14.254C10.0455 14.5437 10.3892 14.7735 10.7676 14.9303C11.1459 15.0872 11.5514 15.1679 11.961 15.1679C12.3706 15.1679 12.7761 15.0872 13.1544 14.9303C13.5328 14.7735 13.8765 14.5437 14.166 14.254L20.048 8.37297C20.398 8.02197 20.648 7.60797 20.797 7.16797H18.424L12.752 12.84C12.6481 12.944 12.5247 13.0264 12.3889 13.0827C12.2531 13.139 12.1075 13.168 11.9605 13.168C11.8135 13.168 11.6679 13.139 11.5321 13.0827C11.3963 13.0264 11.2729 12.944 11.169 12.84L5.498 7.16797Z"
-                        fill="#10101E"
-                      />
-                    </svg> */}
+                  {lawyerData.email && <div className="text-[16px] text-[#10101E] flex flex-row items-center gap-1 ">
+                    <p>  <MailIcon size={20} /> </p>
                     {/* <p className="text-md font-semibold">Email address:</p> */}
-                    <p>  {lawyerData.email}</p>
+                    <p className="text-[#001018c4]">  {lawyerData.email}</p>
                   </div>}
 
 
-                  {lawyerData.practice_area && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
-                    {/* <svg
-                      width="24"
-                      height="25"
-                      viewBox="0 0 24 25"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M17 14.332H19V9.33203H5V14.332H7V13.332C7 13.0668 7.10536 12.8125 7.29289 12.6249C7.48043 12.4374 7.73478 12.332 8 12.332C8.26522 12.332 8.51957 12.4374 8.70711 12.6249C8.89464 12.8125 9 13.0668 9 13.332V14.332H15V13.332C15 13.0668 15.1054 12.8125 15.2929 12.6249C15.4804 12.4374 15.7348 12.332 16 12.332C16.2652 12.332 16.5196 12.4374 16.7071 12.6249C16.8946 12.8125 17 13.0668 17 13.332V14.332ZM17 16.332V17.332C17 17.5972 16.8946 17.8516 16.7071 18.0391C16.5196 18.2267 16.2652 18.332 16 18.332C15.7348 18.332 15.4804 18.2267 15.2929 18.0391C15.1054 17.8516 15 17.5972 15 17.332V16.332H9V17.332C9 17.5972 8.89464 17.8516 8.70711 18.0391C8.51957 18.2267 8.26522 18.332 8 18.332C7.73478 18.332 7.48043 18.2267 7.29289 18.0391C7.10536 17.8516 7 17.5972 7 17.332V16.332H5V19.332H19V16.332H17ZM9 7.33203H15V6.33203H9V7.33203ZM7 7.33203V5.33203C7 5.06681 7.10536 4.81246 7.29289 4.62492C7.48043 4.43739 7.73478 4.33203 8 4.33203H16C16.2652 4.33203 16.5196 4.43739 16.7071 4.62492C16.8946 4.81246 17 5.06681 17 5.33203V7.33203H19C19.5304 7.33203 20.0391 7.54274 20.4142 7.91782C20.7893 8.29289 21 8.8016 21 9.33203V19.332C21 19.8625 20.7893 20.3712 20.4142 20.7462C20.0391 21.1213 19.5304 21.332 19 21.332H5C4.46957 21.332 3.96086 21.1213 3.58579 20.7462C3.21071 20.3712 3 19.8625 3 19.332V9.33203C3 8.8016 3.21071 8.29289 3.58579 7.91782C3.96086 7.54274 4.46957 7.33203 5 7.33203H7Z"
-                        fill="#10101E"
-                      />
-                    </svg> */}
+                  {lawyerData.practice_area && <div className="text-[16px] text-[#10101E] flex flex-row items-center gap-1 ">
+                    <p> <MdCorporateFare size={20} /> </p>
                     {/* <p className="text-md font-semibold">Law firm name:</p> */}
-                    <p> {lawyerData.practice_area}</p>
+                    <p className="text-[#001018c4]"> {lawyerData.practice_area}</p>
                   </div>}
 
 
-                  <div>
+                  {
+                    lawyerData && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-1 ">
+                      <p> <CiLocationOn size={25} /> </p>
 
-                    {/* <strong className=" flex flex-row items-center gap-2 ">
 
-                      <svg
-                      width="24"
-                      height="25"
-                      viewBox="0 0 24 25"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M12 21.668C9.72 21.668 6 12.982 6 9.66797C6 8.07667 6.63214 6.55055 7.75736 5.42533C8.88258 4.30011 10.4087 3.66797 12 3.66797C13.5913 3.66797 15.1174 4.30011 16.2426 5.42533C17.3679 6.55055 18 8.07667 18 9.66797C18 12.982 14.28 21.668 12 21.668ZM12 12.668C12.3824 12.668 12.7611 12.5926 13.1144 12.4463C13.4677 12.3 13.7887 12.0855 14.0591 11.8151C14.3295 11.5447 14.544 11.2236 14.6903 10.8703C14.8367 10.517 14.912 10.1384 14.912 9.75597C14.912 9.37356 14.8367 8.99489 14.6903 8.64159C14.544 8.28829 14.3295 7.96728 14.0591 7.69687C13.7887 7.42647 13.4677 7.21197 13.1144 7.06563C12.7611 6.91929 12.3824 6.84397 12 6.84397C11.2277 6.84397 10.487 7.15077 9.9409 7.69687C9.3948 8.24298 9.088 8.98366 9.088 9.75597C9.088 10.5283 9.3948 11.269 9.9409 11.8151C10.487 12.3612 11.2277 12.668 12 12.668Z"
-                        fill="#10101E"
-                      />
-                    </svg>
-
-                      Address:</strong> */}
-                    <div className=" pt-1 ">
-                      <div className="pt-1">
-                        <span>{lawyerData.address}</span>
-                        <span>{lawyerData.city}</span>
-                      </div>
-                      <div className="flex flex-row items-center gap-2">
-
-                        <p className="font-roboto text-[16px] text-[#10101E] pt-2">{lawyerData.state},</p>
-                        <p className="font-roboto text-[16px] text-[#10101E] pt-2">{lawyerData.zipcode}</p>
-                      </div>
+                      <p className="text-[#001018c4]">{lawyerData.address},{lawyerData.city},{lawyerData.state},{lawyerData.zipcode}</p>
 
                     </div>
+                  }
 
-                  </div>
 
 
-                  {lawyerData.languages && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
-                    {/* <svg
-                      width="24"
-                      height="25"
-                      viewBox="0 0 24 25"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M12 21.332C13.1819 21.332 14.3522 21.0992 15.4442 20.6469C16.5361 20.1947 17.5282 19.5317 18.364 18.696C19.1997 17.8603 19.8626 16.8681 20.3149 15.7762C20.7672 14.6843 21 13.5139 21 12.332C21 11.1501 20.7672 9.97981 20.3149 8.88788C19.8626 7.79595 19.1997 6.8038 18.364 5.96807C17.5282 5.13234 16.5361 4.46941 15.4442 4.01712C14.3522 3.56482 13.1819 3.33203 12 3.33203C9.61305 3.33203 7.32387 4.28024 5.63604 5.96807C3.94821 7.6559 3 9.94508 3 12.332C3 14.719 3.94821 17.0082 5.63604 18.696C7.32387 20.3838 9.61305 21.332 12 21.332ZM11.1 19.469C9.36032 19.252 7.75986 18.4069 6.59966 17.0925C5.43945 15.7782 4.79944 14.0852 4.8 12.332C4.8 11.774 4.872 11.243 4.989 10.721L9.3 15.032V15.932C9.3 16.922 10.11 17.732 11.1 17.732V19.469ZM17.31 17.183C17.1958 16.8193 16.9682 16.5017 16.6605 16.2766C16.3529 16.0515 15.9812 15.9307 15.6 15.932H14.7V13.232C14.7 12.737 14.295 12.332 13.8 12.332H8.4V10.532H10.2C10.695 10.532 11.1 10.127 11.1 9.63203V7.83203H12.9C13.89 7.83203 14.7 7.02203 14.7 6.03203V5.66303C17.337 6.73403 19.2 9.31703 19.2 12.332C19.2 14.204 18.48 15.905 17.31 17.183Z"
-                        fill="#121221"
-                      />
-                    </svg> */}
+
+
+                  {lawyerData.languages && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-1 ">
+                    <p>
+                      <LanguagesIcon className="text-[16px]" />
+                    </p>
                     {/* <p className="text-md font-semibold">Languages:</p> */}
-                    <p>{lawyerData.languages}</p>
+                    <p className="text-[#001018c4]">{lawyerData.languages}</p>
                   </div>}
 
                   {
-                    lawyerData?.web_link && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
+                    lawyerData?.web_link && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-1 ">
+
+                      <p>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M12.856 5.45669L11.919 6.37669C11.8229 6.47007 11.7466 6.58177 11.6944 6.70518C11.6423 6.8286 11.6154 6.96121 11.6154 7.09519C11.6154 7.22917 11.6423 7.36178 11.6944 7.4852C11.7466 7.60861 11.8229 7.72031 11.919 7.81369C12.1146 8.00469 12.3771 8.11161 12.6505 8.11161C12.9239 8.11161 13.1864 8.00469 13.382 7.81369L14.366 6.84769C15.333 5.89769 16.908 5.71269 17.968 6.55969C18.2515 6.7833 18.484 7.06478 18.6501 7.38535C18.8162 7.70593 18.9121 8.05823 18.9313 8.41877C18.9505 8.77931 18.8926 9.13981 18.7615 9.47622C18.6304 9.81263 18.4291 10.1172 18.171 10.3697L15.268 13.2217C14.7738 13.704 14.1106 13.974 13.42 13.974C12.7294 13.974 12.0662 13.704 11.572 13.2217L10.462 12.1317L9.00001 13.5697L10.108 14.6587C11.93 16.4467 14.91 16.4467 16.73 14.6587L19.635 11.8067C20.0957 11.3543 20.455 10.8092 20.6892 10.2074C20.9234 9.60568 21.027 8.96106 20.9932 8.31625C20.9595 7.67144 20.7891 7.04116 20.4934 6.46715C20.1977 5.89315 19.7834 5.38852 19.278 4.98669C17.385 3.46969 14.583 3.76069 12.856 5.45669Z" fill="#10101E" />
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M11.144 19.5427L12.081 18.6227C12.1771 18.5293 12.2534 18.4176 12.3056 18.2942C12.3577 18.1708 12.3846 18.0382 12.3846 17.9042C12.3846 17.7702 12.3577 17.6376 12.3056 17.5142C12.2534 17.3908 12.1771 17.2791 12.081 17.1857C11.8855 16.995 11.6231 16.8883 11.35 16.8883C11.0769 16.8883 10.8145 16.995 10.619 17.1857L9.63401 18.1517C8.66701 19.1017 7.09201 19.2867 6.03201 18.4397C5.74853 18.2161 5.51599 17.9346 5.34988 17.614C5.18378 17.2935 5.08792 16.9411 5.06871 16.5806C5.0495 16.2201 5.10738 15.8596 5.23848 15.5232C5.36958 15.1868 5.5709 14.8822 5.82901 14.6297L8.73201 11.7777C9.22624 11.2954 9.88944 11.0254 10.58 11.0254C11.2706 11.0254 11.9338 11.2954 12.428 11.7777L13.538 12.8677L15 11.4297L13.892 10.3407C12.07 8.55269 9.09001 8.55269 7.27001 10.3407L4.36501 13.1927C3.9043 13.6451 3.54497 14.1902 3.31081 14.792C3.07666 15.3937 2.97303 16.0383 3.00678 16.6831C3.04053 17.3279 3.2109 17.9582 3.5066 18.5322C3.8023 19.1062 4.21658 19.6109 4.72201 20.0127C6.61501 21.5297 9.417 21.2387 11.144 19.5427Z" fill="#10101E" />
+                        </svg>
+
+                      </p>
                       <p>
                         <Link
+                          target="_blank"
                           to={`${lawyerData.web_link}`}
-                          className="text-primary underline"
+                          className="text-[#001018c4] font-medium"
                         >
                           {lawyerData.web_link}
                         </Link>
@@ -396,11 +363,13 @@ const AttorneyDetails = () => {
                   {
                     lawyerData?.linkedin_url && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-3 ">
 
-
+                      <p><FaLinkedin className="text-[#0072B1]" size={20} />
+                      </p>
                       <p>
                         <Link
+                          target="_blank"
                           to={`${lawyerData?.linkedin_url}`}
-                          className="text-primary underline"
+                          className="text-[#001018c4] font-medium"
                         >
                           {lawyerData?.linkedin_url}
                         </Link>
