@@ -98,7 +98,7 @@ const AttorneyDetails = () => {
   //   window.open(linkedinUrl, "_blank");
   // };
 
-  console.log('lawyerdata',lawyerData)
+  console.log('lawyerdata', lawyerData)
 
   // const handleShareProfile = () => {
   //   try {
@@ -125,7 +125,8 @@ const AttorneyDetails = () => {
   // };
   const handleShareProfile = () => {
     try {
-      const profileUrl = `http://localhost:5173/attorney-tm-details/${id}?is_favorite=false`;
+      const profileUrl = `https://yourdomain.com/attorney-tm-details/${id}?is_favorite=false`;
+
       const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(profileUrl)}`;
 
       // Try to use Web Share API if supported
@@ -163,33 +164,29 @@ const AttorneyDetails = () => {
     <div className="container mx-auto px-4 py-8 md:py-20">
       <Helmet>
         <title>{lawyerData?.full_name}</title>
-        <meta property="og:title" content="Your Website Title Here" />
+
+        <meta property="og:title" content={lawyerData?.full_name || "Attorney Profile"} />
         <meta
           property="og:description"
-          content="A short description of your website or page."
+          content={`Explore the professional background of ${lawyerData?.full_name || "this attorney"}.`}
         />
-        <meta property="og:image" content={lawyerData?.avatar} />
-        <meta property="og:url" content="http://137.59.180.219:3005" />
-        <meta property="og:type" content={lawyerData?.web_link} />
+        <meta property="og:image" content={lawyerData?.avatar || "fallback-image.jpg"} />
+        <meta
+          property="og:url"
+          content={`http://137.59.180.219:3005/attorney-tm-details/${id}?is_favorite=false`}
+        />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter cards (optional but helpful) */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Your Website Title Here" />
+        <meta name="twitter:title" content={lawyerData?.full_name || "Attorney Profile"} />
         <meta
           name="twitter:description"
-          content="A short description of your website or page."
+          content={`Explore the professional background of ${lawyerData?.full_name || "this attorney"}.`}
         />
-        <meta
-          name="twitter:image"
-          content="http://137.59.180.219:3005/images/preview.jpg"
-        />
-
-        <meta name="full_name" content={lawyerData?.full_name} />
-        <meta name="email" content={lawyerData?.email} />
-        <meta name="phone" content={lawyerData?.phone_number} />
-        <meta name="address" content={lawyerData?.address} />
-        <meta name="language" content={lawyerData?.language} />
-        <meta name="website" content={lawyerData?.web_link} />
-        <meta name="linkedin" content={lawyerData?.linkedin_url} />
+        <meta name="twitter:image" content={lawyerData?.avatar || "fallback-image.jpg"} />
       </Helmet>
+
       {
         loading ? <p><LoadindSpenier /></p>
           :
@@ -236,7 +233,7 @@ const AttorneyDetails = () => {
 
 
                   <button onClick={handleShareProfile}>
-                  <FaShareFromSquare className="text-[#0072B1]" size={36} />
+                    <FaShareFromSquare className="text-[#0072B1]" size={36} />
 
                   </button>
                 </div>
