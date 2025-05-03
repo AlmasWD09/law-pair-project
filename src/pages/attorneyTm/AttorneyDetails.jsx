@@ -177,7 +177,7 @@ const AttorneyDetails = () => {
         />
         <meta property="og:type" content="website" />
 
-        {/* Twitter cards (optional but helpful) */}
+        
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={lawyerData?.full_name || "Attorney Profile"} />
         <meta
@@ -293,7 +293,7 @@ const AttorneyDetails = () => {
                   Contact details
                 </h2> */}
                 <div className=" pt-[8px]">
-                  {lawyerData.phone && <div className="text-[16px] text-[#10101E] flex flex-row items-center gap-1 ">
+                  {lawyerData.phone && <div className="text-[16px] text-[#10101E] flex flex-row items-center gap-0 ">
                     <p><PhoneIcon size={20} /></p>
                     {/* <p className="text-md font-semibold">Phone:</p> */}
                     <p className="text-[#001018c4]">{lawyerData.phone}</p>
@@ -315,7 +315,7 @@ const AttorneyDetails = () => {
 
 
                   {
-                    lawyerData && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-1 ">
+                    lawyerData && <div className="text-[16px] text-[#10101E] lg:flex md:flex sm:flex flex-row items-center gap-0 ">
                       <p> <CiLocationOn size={25} /> </p>
 
 
