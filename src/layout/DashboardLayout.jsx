@@ -12,6 +12,7 @@ const DashboardLayout = () => {
     const handleClick = () => {
         navigate("/")
     }
+    
     return (
         <div className="relative flex h-screen">
             {/* Sidebar component */}
